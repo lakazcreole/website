@@ -10,8 +10,10 @@
         <title>La Kaz Créole</title>
     </head>
     <body>
-        <img src="img/LaKazCréole-Logotype_Vector.svg" alt="La Kaz Créole - Logotype" id="logotype">
-        <h1>Site en construction</h1>
-        <div class="gradiant"></div>
+        <div class="text-center">
+            <img src="{{ asset('img/logo.svg') }}" alt="La Kaz Créole - Logotype" id="logotype">
+            <h1 class="title">Site en construction</h1>
+        </div>
+        <div class="gradiant-background"></div>
     </body>
 </html>
