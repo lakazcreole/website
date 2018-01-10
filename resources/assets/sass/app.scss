@@ -120,91 +120,20 @@ h1.title
 //     color: maroon;
 // }
 
-// p
-// {
-//     font-family: "Lato", "Time new roman", "Arial", "sans-serif";
-//     color: #582404;
-// }
+p
+{
+    font-family: "Lato", "Time new roman", "Arial", "sans-serif";
+    color: $text-color;
+}
 
-// .content
-// {
-//     max-width: 800px;
-//     margin: auto;
-// }
-
-
+.link
+{
+    color: black;
+}
 
 // ul
 // {
 //     color: #582404;
-// }
-
-
-
-
-
-// .contact
-// {
-//     clear: both;
-//     margin-top: 15px;
-//     text-align: center;
-// }
-
-// .container
-// {
-//     display: flex;
-//     align-items: center;
-// }
-
-
-
-
-
-// .link
-// {
-//     color: black;
-// }
-
-// .flexbox-container
-// {
-//     display: -ms-flex;
-//     display: -webkit-flex;
-//     display: flex;
-// }
-
-// .flexbox-container > div
-// {
-//     flex: 1;
-
-// }
-
-// form
-// {
-//     /* Pour le centrer dans la page
-//     margin: 0 auto;
-//     width: 500px;
-//     /* Pour voir les limites du formulaire */
-//     padding: 1em;
-//     border: 1px solid #FF4C37;
-//     border-radius: 1em;
-// }
-
-// label
-// {
-//     /* Afin de s'assurer que toutes les étiquettes aient la même dimension et soient alignées correctement */
-//     display: inline-block;
-//     width: 90px;
-//     text-align: right;
-//     padding: 2px;
-//     margin-left: 80px;
-// }
-
-// button
-// {
-//     width: 90px;
-//     text-align: center;
-//     padding: 2px;
-//     margin-top: 2px;
 // }
 
 // div.gallery
