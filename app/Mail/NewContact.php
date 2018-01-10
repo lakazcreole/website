@@ -36,7 +36,8 @@ class NewContact extends Mailable
      */
     public function build()
     {
-        return $this->from('noreply@lakazcreole.fr')
+        return $this->subject($this->contact->subject)
+            ->from('noreply@lakazcreole.fr')
             ->markdown('emails.new_contact')
             ->with([
                 'name' => $this->contact->name,

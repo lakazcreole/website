@@ -6,7 +6,7 @@ $factory->define(App\Contact::class, function (Faker $faker) {
     return [
         'name' => $faker->name,
         'email' => $faker->unique()->safeEmail,
-        'object' => $faker->sentence,
+        'subject' => $faker->sentence,
         'message' => $faker->realText
     ];
 });

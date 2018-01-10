@@ -15,10 +15,22 @@ class ContactControllerTest extends TestCase
         $data = [
             'name' => 'Sally',
             'email' => 'sally@email.com',
-            'object' => 'Hello',
+            'subject' => 'Hello',
             'message' => 'Hey I just wanted to say hi'
         ];
         $this->json('POST', '/api/contact', $data)->assertStatus(201);
         $this->assertDatabaseHas('contacts', $data);
+    }
+
+    public function testStoreValidatesData()
+    {
+        $data = [
+            'name' => '',
+            'email' => '',
+            'subject' => '',
+            'message' => ''
+        ];
+        $this->json('POST', '/api/contact', $data)->assertStatus(422);
+        $this->json('POST', '/api/contact', [])->assertStatus(422);
     }
 }

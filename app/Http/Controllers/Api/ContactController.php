@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Contact;
 use Illuminate\Http\Request;
 use App\Events\ContactCreated;
+use App\Http\Requests\StoreContact;
 use App\Http\Resources\ContactResource;
 
 class ContactController extends Controller
@@ -25,9 +26,9 @@ class ContactController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreContact $request)
     {
-        $contact = Contact::create($request->only(['name', 'email', 'object', 'message']));
+        $contact = Contact::create($request->only(['name', 'email', 'subject', 'message']));
         return new ContactResource($contact);
     }
 

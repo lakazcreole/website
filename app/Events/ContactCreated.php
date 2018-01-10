@@ -3,6 +3,7 @@
 namespace App\Events;
 
 use App\Contact;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Broadcasting\PrivateChannel;
@@ -30,6 +31,7 @@ class ContactCreated
     public function __construct(Contact $contact)
     {
         $this->contact = $contact;
+        Log::info('New contact created: ' . $this->contact->email);
     }
 
     /**
