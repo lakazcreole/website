@@ -17,8 +17,8 @@
 
     <body>
         <div id="app">
+            @yield('modals')
             @yield('content')
-            <div class="gradiant-background"></div>
         </div>
         <script src="{{ mix('js/app.js') }}"></script>
     </body>

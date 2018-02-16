@@ -12,4 +12,3 @@
 */
 
 Route::get('/', 'FrontEndController@index');
-Route::get('/about', 'FrontEndController@about');

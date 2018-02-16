@@ -8,7 +8,6 @@
 require('./bootstrap');
 
 window.Vue = require('vue');
-window.Vue.use(require('vue-resource'))
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -16,8 +15,12 @@ window.Vue.use(require('vue-resource'))
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-Vue.component('contact-form', require('./components/ContactForm.vue'));
-
 const app = new Vue({
-    el: '#app'
+  el: '#app',
+  components: {
+    'contact-modal': require('./components/ContactModal.vue')
+  },
+  data: {
+    showContactModal: false
+  }
 });

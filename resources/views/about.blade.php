@@ -10,6 +10,14 @@
         <div class="logo-wrapper">
             <img class="logo" src="{{ asset('img/logo.svg') }}" alt="logo La Kaz Creole">
         </div>
+        <div class="d-flex flex-row">
+            <img class="img-fluid portrait" src="{{ asset('images/laurane.jpg') }}">
+            <div class="container-fluid">
+                <p class="text-justify">
+                    Je suis Laurane Boullay, fondatrice de La Kaz Créole. Depuis 2017, ma mission est de vous faire découvrir à <strong>Paris</strong> les secrets de l'<strong>Ile de la Réunion</strong>, à travers une gastronomie exotique et savoureuse, faite maison. En attendant le <strong>food-truck</strong>, je vous propose déjà mes services de <strong>traiteur et livraison</strong> pour vos déjeuners, dîners et apéros.
+                </p>
+            </div>
+        </div>
          <div class="row">
             <div class="col-sm-2 col-xs-12 text-center">
                 <img class="portrait" src="{{ asset('images/laurane.jpg') }}">
