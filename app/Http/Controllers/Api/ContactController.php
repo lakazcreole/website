@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
 use App\Contact;
 use Illuminate\Http\Request;
 use App\Events\ContactCreated;
 use App\Http\Requests\StoreContact;
+use App\Http\Controllers\Controller;
 use App\Http\Resources\ContactResource;
 
 class ContactController extends Controller
@@ -23,7 +24,7 @@ class ContactController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  StoreContact  $request
      * @return \Illuminate\Http\Response
      */
     public function store(StoreContact $request)
