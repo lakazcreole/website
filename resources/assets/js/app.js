@@ -5,9 +5,11 @@
  * building robust, powerful web applications using Vue and Laravel.
  */
 
-require('./bootstrap');
+require('./bootstrap')
 
-window.Vue = require('vue');
+window.Vue = require('vue')
+
+const VueScrollTo = require('vue-scrollto')
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -16,11 +18,38 @@ window.Vue = require('vue');
  */
 
 const app = new Vue({
-  el: '#app',
-  components: {
-    'contact-modal': require('./components/ContactModal.vue')
-  },
-  data: {
-    showContactModal: false
-  }
+    el: '#app',
+    components: {
+        'contact-modal': require('./components/ContactModal.vue'),
+        'newsletter-form': require('./components/NewsletterForm.vue')
+    },
+    data: {
+        showContactModal: false,
+        subject: '',
+        message: ''
+    },
+    methods: {
+        openOrder: function() {
+            this.subject = 'Commande'
+            this.message = 'Cela a l\'air délicieux, je souhaiterais commander toute la carte !'
+            this.showContactModal = true
+        },
+        scrollToMenu: function(e) {
+            const options = {
+                container: 'body',
+                easing: 'ease-in',
+                offset: -100,
+                cancelable: true,
+                onDone: function() {
+                  // scrolling is done
+                },
+                onCancel: function() {
+                  // scrolling has been interrupted
+                },
+                x: false,
+                y: true
+            }
+            this.$scrollTo('#la-carte', 500, options)
+        }
+    }
 });

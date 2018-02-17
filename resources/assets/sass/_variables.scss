@@ -3,10 +3,9 @@
 $body-bg: #f5f8fa;
 
 // Typography
-$font-family-sans-serif: "Raleway", sans-serif;
+$font-family-sans-serif: "Open Sans", sans-serif;
 $font-size-base: 0.9rem;
 $line-height-base: 1.6;
-$text-color: #582404;
 
 $title-font-family: "Kaushan Script";
 
@@ -17,5 +16,20 @@ $navbar-default-bg: #fff;
 $panel-default-heading-bg: #fff;
 
 // Buttons
-$btn-default-color: $text-color;
-$btn-primary-bg: #FFB85C;
+// $btn-default-color: $text-color;
+
+// Colors
+$orange50: #FFF3E0;
+$orange100: #FFE0B2;
+$orange200: #FFCC80;
+$orange300: #FFB74D;
+$orange400: #FFA726;
+$orange500: #FF9800;
+$orange600: #FB8C00;
+$orange700: #F57C00;
+$orange800: #EF6C00;
+$orange900: #E65100;
+
+
+// $text-color-old: #582404;
+$text-color: #866b5b;

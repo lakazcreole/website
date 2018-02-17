@@ -1,4 +1,4 @@
-@import url(https://fonts.googleapis.com/css?family=Kaushan+Script);/*!
+@import url(https://fonts.googleapis.com/css?family=Kaushan+Script);@import url(https://fonts.googleapis.com/css?family=Open+Sans:400,600);/*!
  * Bootstrap v4.0.0 (https://getbootstrap.com)
  * Copyright 2011-2018 The Bootstrap Authors
  * Copyright 2011-2018 Twitter, Inc.
@@ -32,7 +32,7 @@
   --breakpoint-md: 768px;
   --breakpoint-lg: 992px;
   --breakpoint-xl: 1200px;
-  --font-family-sans-serif: "Raleway", sans-serif;
+  --font-family-sans-serif: "Open Sans", sans-serif;
   --font-family-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 }
 
@@ -72,7 +72,7 @@ section {
 
 body {
   margin: 0;
-  font-family: "Raleway", sans-serif;
+  font-family: "Open Sans", sans-serif;
   font-size: 0.9rem;
   font-weight: 400;
   line-height: 1.6;
@@ -6092,7 +6092,7 @@ button.close {
   z-index: 1070;
   display: block;
   margin: 0;
-  font-family: "Raleway", sans-serif;
+  font-family: "Open Sans", sans-serif;
   font-style: normal;
   font-weight: 400;
   line-height: 1.6;
@@ -6217,7 +6217,7 @@ button.close {
   z-index: 1060;
   display: block;
   max-width: 276px;
-  font-family: "Raleway", sans-serif;
+  font-family: "Open Sans", sans-serif;
   font-style: normal;
   font-weight: 400;
   line-height: 1.6;
@@ -9994,18 +9994,78 @@ a.text-dark:focus {
   }
 }
 
+@media (max-width: 991.98px) {
+  .navbar-expand-lg > .container {
+    padding-left: 15px !important;
+    padding-right: 15px !important;
+    padding-bottom: 15px !important;
+  }
+}
+
 .btn-primary {
-  background-color: #FFB85C;
-  border-color: #FFB85C;
+  background-color: #FF9800;
+  border-color: #FF9800;
 }
 
 .btn-primary:hover {
-  background-color: #ffa229;
-  border-color: #ffa229;
+  background-color: #FFB74D;
+  border-color: #FFB74D;
 }
 
-p {
-  color: #582404;
+.btn-primary:not(:disabled):not(.disabled):active {
+  background-color: #F57C00;
+  border-color: #F57C00;
+}
+
+.btn-primary:not(:disabled):not(.disabled):active:focus {
+  -webkit-box-shadow: none;
+          box-shadow: none;
+}
+
+.btn-primary:focus {
+  -webkit-box-shadow: none;
+          box-shadow: none;
+}
+
+.btn-outline-primary {
+  border-color: #FF9800;
+  color: white;
+}
+
+.btn-outline-primary:hover {
+  background: #FFB74D;
+  border-color: #FFB74D;
+}
+
+.btn-outline-primary:not(:disabled):not(.disabled):active {
+  background-color: #F57C00;
+  border-color: #F57C00;
+}
+
+.btn-outline-primary:not(:disabled):not(.disabled):active:focus {
+  -webkit-box-shadow: none;
+          box-shadow: none;
+}
+
+.btn-outline-primary:focus {
+  -webkit-box-shadow: none;
+          box-shadow: none;
+}
+
+nav.navbar {
+  padding: 0;
+  -webkit-box-shadow: 0px 2px 3px #ab5c0c;
+          box-shadow: 0px 2px 3px #ab5c0c;
+  font-size: 1.125rem;
+}
+
+nav.navbar .navbar-brand {
+  padding: 0;
+}
+
+p,
+ul li {
+  color: #866b5b;
 }
 
 img.logo {
@@ -10026,30 +10086,144 @@ img.portrait {
   border-radius: 50%;
 }
 
-.promo {
-  background-image: url("/images/header.jpg");
-  background-size: cover;
+@media (max-width: 576px) {
+  section.promo h1 {
+    font-size: 3.25rem;
+  }
+}
+
+@media (min-width: 577px) {
+  section.promo h1 {
+    font-size: 5.5rem;
+  }
+}
+
+section.promo {
   height: 50vh;
 }
 
-.promo h1 {
+section.promo .background {
+  background-image: url("/images/header.jpg");
+  background-size: cover;
+}
+
+section.promo .overlay {
+  background-color: rgba(0, 0, 0, 0.2);
+  top: 0;
+}
+
+section.promo h1 {
   font-family: "Kaushan Script";
-  font-size: 5.5rem;
+  text-shadow: 2px 2px 3px black;
   color: white;
 }
 
-section {
-  margin-top: 3rem;
-  margin-bottom: 3rem;
+section.promo p {
+  font-size: 1.2rem;
+  text-shadow: 1px 1px 2px black;
+  color: white;
+}
+
+@media (max-width: 576px) {
+  section.intro div.intro-text {
+    margin-top: 2rem;
+    margin-left: 0;
+  }
+
+  section.intro div.intro-text::before {
+    content: none;
+  }
+}
+
+@media (min-width: 769px) {
+  section.intro div.intro-text {
+    margin-left: 3.5rem;
+  }
+}
+
+section.intro .intro-text {
+  background: #ffffff;
+  padding: 1.5rem;
+  border-radius: 1rem;
+  -webkit-box-shadow: 2px 2px 5px #ffa500b3;
+          box-shadow: 2px 2px 5px #ffa500b3;
+  position: relative;
+}
+
+section.intro .intro-text::before {
+  content: "\A";
+  position: absolute;
+  background-color: white;
+  width: 30px;
+  height: 30px;
+  left: -15px;
+  top: 38px;
+  -webkit-box-shadow: 2px 2px 6px #ffa500b3;
+          box-shadow: 2px 2px 6px #ffa500b3;
+  -webkit-transform: rotate(45deg);
+          transform: rotate(45deg);
+  z-index: -1;
 }
 
 section.intro h2 {
   font-family: "Kaushan Script";
+  margin-bottom: 1rem;
+  color: #FF9800;
+}
+
+section.intro p {
+  margin-bottom: 0;
+}
+
+section.menu h2 {
+  font-family: "Kaushan Script";
+  font-size: 3rem;
+  color: #FF9800;
+}
+
+section.menu h3 {
+  color: #FF9800;
 }
 
 section.menu .card {
   border: none;
   -webkit-box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.05), 0 6px 20px 0 rgba(0, 0, 0, 0.05);
           box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.05), 0 6px 20px 0 rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+}
+
+section.menu .card .tag {
+  background-color: #FFA726;
+  color: white;
+  font-weight: 600;
+  width: 190px;
+  position: absolute;
+  -webkit-transform: rotate(45deg);
+          transform: rotate(45deg);
+  right: -37px;
+  top: 43px;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  font-size: 1rem;
+}
+
+section.menu .btn-big {
+  width: 260px;
+}
+
+footer .newsletter p {
+  font-size: 1rem;
+}
+
+footer span.color {
+  color: #FF9800;
+}
+
+footer ul li a img {
+  width: 2.5rem;
+}
+
+footer a {
+  color: inherit !important;
 }
 
