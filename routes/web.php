@@ -12,3 +12,9 @@
 */
 
 Route::get('/', 'FrontEndController@index');
+
+if (App::environment('local')) {
+    Route::get('/commande', function() {
+        return view('orders.create');
+    });
+}
