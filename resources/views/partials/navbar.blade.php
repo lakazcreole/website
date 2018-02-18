@@ -9,9 +9,9 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <div class="ml-auto">
                 <ul class="navbar-nav mx-2">
-                    <li class="nav-item active">
+{{--                     <li class="nav-item active">
                         <a class="nav-link" href="#">À propos <span class="sr-only">(current)</span></a>
-                    </li>
+                    </li> --}}
                     <li class="nav-item">
                         <a class="nav-link" href="#" @click.prevent="scrollToMenu">La carte</a>
                     </li>
