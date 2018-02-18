@@ -34,16 +34,6 @@ host('lakazcreole.fr')
 
 // Tasks
 
-desc('Install npm packages');
-task('npm:install', function () {
-    if (has('previous_release')) {
-        if (test('[ -d {{previous_release}}/node_modules ]')) {
-            run('cp -R {{previous_release}}/node_modules {{release_path}}');
-        }
-    }
-    run('cd {{release_path}} && {{bin/npm}} install');
-});
-
 desc('Restart PHP-FPM service');
 task('php-fpm:restart', function () {
     // The user must have rights for restart service
