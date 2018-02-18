@@ -44,11 +44,6 @@ task('npm:install', function () {
     run('cd {{release_path}} && {{bin/npm}} install');
 });
 
-desc('Optimize composer autoloader');
-task('composer:optimize-autoloader', function () {
-    run('cd {{release_path}} && {{bin/composer}} install --optimize-autoloader');
-});
-
 desc('Restart PHP-FPM service');
 task('php-fpm:restart', function () {
     // The user must have rights for restart service
@@ -58,9 +53,6 @@ task('php-fpm:restart', function () {
 
 // [Optional] if deploy fails automatically unlock.
 after('deploy:failed', 'deploy:unlock');
-
-// Optimize composer autoloader
-after('artisan:optimize', 'composer:optimize-autoloader');
 
 // Migrate database before symlink new release.
 before('deploy:symlink', 'artisan:migrate');
