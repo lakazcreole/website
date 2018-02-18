@@ -16,6 +16,10 @@ set('git_tty', true);
 add('shared_files', ['database/database.sqlite']);
 add('shared_dirs', []);
 
+// Writable
+set('writable_mode', 'chown');
+set('writable_use_sudo', true);
+
 // Writable dirs by web server
 add('writable_dirs', []);
 
@@ -24,6 +28,7 @@ add('writable_dirs', []);
 host('lakazcreole.fr')
     ->user('strift')
     ->port(22)
+    ->set('http_group', 'www-data')
     ->identityFile('~/.ssh/id_rsa')
     ->forwardAgent(true)
     ->multiplexing(true)
