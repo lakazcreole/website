@@ -11,6 +11,8 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class SubscriptionTest extends TestCase
 {
+    use RefreshDatabase;
+
     public function testCreationFiresEvent()
     {
         Event::fake();

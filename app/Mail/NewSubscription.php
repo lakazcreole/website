@@ -36,8 +36,7 @@ class NewSubscription extends Mailable
      */
     public function build()
     {
-        return $this->subject("Nouvel inscrit à la newsletter")
-            ->from('noreply@lakazcreole.fr')
+        return $this->subject('Nouvel inscrit à la newsletter')
             ->markdown('emails.new_subscription')
             ->with([
                 'email' => $this->subscription->email,

@@ -19,6 +19,15 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\SubscriptionCreated' => [
             'App\Listeners\SendNewSubscriptionMail',
         ],
+        'App\Events\OrderCreated' => [
+            'App\Listeners\SendNewOrderMail',
+        ],
+        'App\Events\OrderAccepted' => [
+            'App\Listeners\SendOrderAcceptedMail',
+        ],
+        'App\Events\OrderDeclined' => [
+            'App\Listeners\SendOrderDeclinedMail',
+        ],
     ];
 
     /**
