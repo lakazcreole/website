@@ -1,10 +1,7 @@
 @component('mail::message')
 # Commande annulée
 
-Bonjour,
+{!! $message !!}
 
-{{ $message }}
-
-Bonne journée,
 {{ config('app.name') }}
 @endcomponent

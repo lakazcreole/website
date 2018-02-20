@@ -22,7 +22,7 @@ class CreateOrdersTable extends Migration
             $table->foreign('customer_id')->references('id')->on('customers')->onDelete('cascade');
             $table->dateTime('accepted_at')->nullable();
             $table->dateTime('declined_at')->nullable();
-            $table->string('declineMessage')->nullable();
+            $table->text('declineMessage')->nullable();
             $table->timestamps();
         });
     }

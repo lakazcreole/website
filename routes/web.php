@@ -35,11 +35,12 @@ if (App::environment('local')) {
         $order = factory(App\Order::class)->create([
             'customer_id' => factory(App\Customer::class)->create()->id
         ]);
+        $product = factory(App\Product::class)->create();
         $order->lines()->save(App\OrderLine::create([
             'order_id' => $order->id,
-            'product_id' => factory(App\Product::class)->create()->id,
+            'product_id' => $product->id,
             'quantity' => 2,
-            'totalPrice' => 69,
+            'totalPrice' => 2 * $product->price,
         ]));
         return new App\Mail\NewOrder($order);
     });

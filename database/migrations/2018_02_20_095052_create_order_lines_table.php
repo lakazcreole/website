@@ -16,7 +16,7 @@ class CreateOrderLinesTable extends Migration
         Schema::create('order_lines', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('quantity');
-            $table->integer('totalPrice')->unsigned();
+            $table->float('totalPrice', 8, 2)->unsigned();
             $table->integer('product_id')->unsigned();
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
             $table->integer('order_id')->unsigned();

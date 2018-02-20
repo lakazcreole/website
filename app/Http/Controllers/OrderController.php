@@ -16,17 +16,49 @@ class OrderController extends Controller
     public function accept(Order $order)
     {
         $order->accept();
-        return view('orders.accepted');
+        return view('orders.accepted')->with([
+            'id' => $order->id,
+            'customerName' => $order->customer->firstName,
+            'customerEmail' => $order->customer->email,
+            'customerPhone' => $order->customer->phone,
+            'lines' => $order->lines,
+            'address' => $order->address,
+            'date' => $order->date,
+            'time' => $order->time,
+            'totalPrice' => $order->totalPrice,
+        ]);
     }
 
     public function getDeclineForm(Order $order)
     {
-        return view('orders.decline_form');
+        return view('orders.decline_form')->with([
+            'id' => $order->id,
+            'customerName' => $order->customer->firstName,
+            'customerEmail' => $order->customer->email,
+            'customerPhone' => $order->customer->phone,
+            'lines' => $order->lines,
+            'address' => $order->address,
+            'date' => $order->date,
+            'time' => $order->time,
+            'totalPrice' => $order->totalPrice,
+            'postUrl' => action('OrderController@decline', [$order->id]),
+        ]);
     }
 
     public function decline(Order $order, DeclineOrder $request)
     {
-        $order->decline($request->input('message'));
-        return view('orders.declined');
+        $order->decline(nl2br($request->input('message')));
+        return view('orders.declined')->with([
+            'id' => $order->id,
+            'customerName' => $order->customer->firstName,
+            'customerEmail' => $order->customer->email,
+            'customerPhone' => $order->customer->phone,
+            'lines' => $order->lines,
+            'address' => $order->address,
+            'date' => $order->date,
+            'time' => $order->time,
+            'totalPrice' => $order->totalPrice,
+            'declineMessage' => $order->declineMessage,
+        ]);
     }
 }
