@@ -1,4 +1,4 @@
-<footer class="bg-dark pt-5 pb-3">
+<footer class="bg-dark mt-5 pt-5 pb-3">
     <div class="container">
         <newsletter-form></newsletter-form>
         <div class="text-center mt-5">

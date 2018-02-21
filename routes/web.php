@@ -13,7 +13,7 @@
 
 // Website
 Route::get('/', 'WebsiteController')->name('home');
-Route::get('/commande', 'OrderController@create');
+Route::get('/commande', 'OrderController@create')->name('order');
 
 // Authentication
 Auth::routes();

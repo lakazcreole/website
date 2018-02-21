@@ -18,7 +18,11 @@
     <body>
         <div id="app">
             @yield('modals')
+            <header v-sticky="{ zIndex: 1020, stickyTop: 0 }">
+                @include('partials.navbar')
+            </header>
             @yield('content')
+            @include('partials.footer')
         </div>
         <script src="{{ mix('js/app.js') }}"></script>
         <script async src="https://www.googletagmanager.com/gtag/js?id=UA-114349707-1"></script>

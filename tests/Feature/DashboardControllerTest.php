@@ -17,7 +17,7 @@ class DashboardController extends TestCase
         $this->actingAs($user)
             ->get('/dashboard')
             ->assertStatus(200)
-            ->assertViewIs('dashboard');
+            ->assertViewIs('dashboard.home');
     }
 
     public function testStandardUserCannotDashboard()

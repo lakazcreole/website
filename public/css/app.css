@@ -1,4 +1,4 @@
-@import url(https://fonts.googleapis.com/css?family=Kaushan+Script);@import url(https://fonts.googleapis.com/css?family=Open+Sans:400,600);/*!
+@import url(https://fonts.googleapis.com/css?family=Kaushan+Script);@import url(https://fonts.googleapis.com/css?family=Open+Sans:400,600);@import url(https://fonts.googleapis.com/icon?family=Material+Icons);/*!
  * Bootstrap v4.0.0 (https://getbootstrap.com)
  * Copyright 2011-2018 The Bootstrap Authors
  * Copyright 2011-2018 Twitter, Inc.
@@ -10027,6 +10027,16 @@ a.text-dark:focus {
           box-shadow: none;
 }
 
+.btn-primary.disabled {
+  background-color: #FFF3E0;
+  border-color: #FFF3E0;
+}
+
+.btn-primary:disabled {
+  background-color: #FFCC80;
+  border-color: #FFCC80;
+}
+
 .btn-outline-primary {
   border-color: #FF9800;
   color: white;
@@ -10209,6 +10219,60 @@ section.menu .card .tag {
 
 section.menu .btn-big {
   width: 260px;
+}
+
+section.order .order-header {
+  background-image: -webkit-gradient(linear, left bottom, left top, from(rgba(255, 33, 82, 0.7)), to(rgba(255, 167, 0, 0.7)));
+  background-image: linear-gradient(0deg, rgba(255, 33, 82, 0.7), rgba(255, 167, 0, 0.7));
+  background-size: cover;
+}
+
+section.order .order-header h1 {
+  font-family: "Kaushan Script";
+  font-size: 3.25rem;
+}
+
+section.order .order-header p {
+  font-size: 1rem;
+}
+
+section.order .order-nav {
+  font-size: 1rem;
+  margin-top: 0.5rem;
+}
+
+section.order .order-nav ul li a.nav-link {
+  color: black;
+}
+
+section.order .order-nav ul li a.nav-link:hover {
+  background-color: #FFB74D;
+  color: white;
+}
+
+section.order .order-cart .card-footer {
+  font-weight: 600;
+}
+
+section.order .order-menu button i.material-icons {
+  color: #FF9800;
+}
+
+section.order .order-menu button:hover i.material-icons {
+  color: white;
+}
+
+section.order h2 {
+  font-family: "Kaushan Script";
+  font-size: 2.5rem;
+}
+
+section.order h3 {
+  color: #FF9800;
+}
+
+section.order h3 small {
+  font-size: 60%;
 }
 
 footer .newsletter p {

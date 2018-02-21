@@ -8,6 +8,8 @@ class WebsiteController extends Controller
 {
     public function __invoke()
     {
-        return view('home');
+        return view('home')->with([
+            'orderUrl' => route('order')
+        ]);
     }
 }

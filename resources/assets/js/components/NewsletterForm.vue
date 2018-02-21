@@ -23,7 +23,6 @@
                 }).catch(error => {
                     if (error.response && error.response.status === 422) {
                         this.errors = error.response.data
-                        console.log(error.response.data.errors)
                     } else {
                         this.serverError = true
                     }

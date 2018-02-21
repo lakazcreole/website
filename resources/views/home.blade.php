@@ -6,9 +6,6 @@
 @endsection
 
 @section('content')
-    <header class="">
-        @include('partials.navbar')
-    </header>
     <section class="promo position-relative">
         <div class="background position-absolute h-100 w-100"></div>
         <div class="overlay position-absolute h-100 w-100"></div>
@@ -39,5 +36,4 @@
         </div>
     </section>
     @include('partials.menu')
-    @include('partials.footer')
 @endsection

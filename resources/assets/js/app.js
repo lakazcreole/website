@@ -9,6 +9,12 @@ require('./bootstrap')
 
 window.Vue = require('vue')
 
+/*
+ * My imports
+ */
+
+import VueSticky from 'vue-sticky'
+
 const VueScrollTo = require('vue-scrollto')
 
 /**
@@ -21,7 +27,11 @@ const app = new Vue({
     el: '#app',
     components: {
         'contact-modal': require('./components/ContactModal.vue'),
-        'newsletter-form': require('./components/NewsletterForm.vue')
+        'newsletter-form': require('./components/NewsletterForm.vue'),
+        'order-manager': require('./components/OrderManager.vue')
+    },
+    directives: {
+        'sticky': VueSticky
     },
     data: {
         showContactModal: false,

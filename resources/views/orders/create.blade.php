@@ -1,32 +1,21 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container">
-        <h1>Panier</h1>
-        <div class="card">
-{{--             <div class="card-header">
-                Panier
-            </div> --}}
-            <ul class="list-group list-group-flush">
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                    Samoussas
-                    <span>3,5 €</span>
-                </li>
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                    Samoussas
-                    <span>3,5 €</span>
-                </li>
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                    Samoussas
-                    <span>3,5 €</span>
-                </li>
-            </ul>
-            <div class="card-footer d-flex justify-content-between">
-                <strong>Total</strong>
-                <strong>
-                    20 €
-                </strong>
+    <section class="order">
+        <div class="order-header py-4">
+            <div class="container">
+                <h1 class="text-light mb-3">Commande</h1>
+                <div class="d-flex flex-row align-items-center mb-2">
+                    <p class="text-dark mb-0 mr-4">
+                        Je prépare chaque commande toute seule, il faut que toute commande doit être passée 24h à l'avance. Merci de votre compréhension.<br>
+                        Pour toute demande particulière, contactez-moi directement !
+                    </p>
+                    <button class="btn btn-lg btn-outline-light ml-auto">Contact</button>
+                </div>
             </div>
         </div>
-    </div>
+        <div class="order-manager container">
+            <order-manager></order-manager>
+        </div>
+    </section>
 @endsection
