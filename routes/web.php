@@ -12,15 +12,15 @@
 */
 
 // Website
-Route::get('/', 'FrontEndController@index')->name('home');
+Route::get('/', 'WebsiteController')->name('home');
 Route::get('/commande', 'OrderController@create');
 
 // Authentication
 Auth::routes();
 
 // Dashboard
-Route::prefix('/dashboard')->group(function () {
-    Route::get('/', 'FrontEndController@dashboard')->name('dashboard');
+Route::prefix('/dashboard')->middleware('can:access-dashboard')->group(function () {
+    Route::get('/', 'DashboardController')->name('dashboard');
 
     //Orders
     Route::get('/orders/{order}/accept', 'OrderController@accept')->middleware('can:accept,order');
