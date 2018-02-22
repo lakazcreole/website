@@ -18,7 +18,7 @@ class SubscriptionController extends Controller
      */
     public function store(StoreSubscription $request)
     {
-        $contact = Subscription::create($request->only(['email']));
+        $contact = Subscription::updateOrCreate($request->only(['email']));
         return new SubscriptionResource($contact);
     }
 }

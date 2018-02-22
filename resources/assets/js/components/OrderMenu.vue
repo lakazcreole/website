@@ -1,5 +1,6 @@
 <script>
 import VueSticky from 'vue-sticky'
+const VueScrollTo = require('vue-scrollto')
 
 export default {
     directives: {
@@ -38,6 +39,23 @@ export default {
         handleAddWithOption(product, optionId) {
             this.handleAdd(product, this.products.find(product => product.id === optionId))
             this.expandedProductId = null
+        },
+        scrollToTag: function(tag) {
+            const options = {
+                container: 'body',
+                easing: 'ease-in',
+                offset: -100,
+                cancelable: true,
+                onDone: function() {
+                  // scrolling is done
+                },
+                onCancel: function() {
+                  // scrolling has been interrupted
+                },
+                x: false,
+                y: true
+            }
+            this.$scrollTo(`#${tag}`, 500, options)
         }
     }
 }

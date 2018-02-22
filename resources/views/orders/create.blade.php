@@ -14,7 +14,7 @@
                 </div>
             </div>
         </div>
-        <div class="order-manager container">
+        <div class="order-manager container-fluid px-0 pt-3">
             <order-manager></order-manager>
         </div>
     </section>

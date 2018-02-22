@@ -3,6 +3,6 @@
 
     Laurane, une personne s'est inscrite à votre newsletter : {{ $email }}
 
-    Bonne journée,<br>
+    Bonne journée,
     {{ config('app.name') }}
 @endcomponent

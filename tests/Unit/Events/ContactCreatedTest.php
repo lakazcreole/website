@@ -26,7 +26,7 @@ class ContactCreatedTest extends TestCase
         $contact = factory(Contact::class)->make();
         $listener = new SendNewContactMail();
         $listener->handle(new ContactCreated($contact));
-        Mail::assertSent(NewContact::class, function ($mail) use ($contact) {
+        Mail::assertQueued(NewContact::class, function ($mail) use ($contact) {
             $mail->build();
             return $mail->hasTo('laurane@lakazcreole.fr') &&
                 $mail->subject === $contact->subject;

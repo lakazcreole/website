@@ -16,6 +16,8 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class OrderCreatedTest extends TestCase
 {
+    use RefreshDatabase;
+
     public function testHasListeners()
     {
         $this->assertTrue(Event::hasListeners(OrderCreated::class));
@@ -29,7 +31,7 @@ class OrderCreatedTest extends TestCase
         ]);
         $listener = new SendNewOrderMail();
         $listener->handle(new OrderCreated($order));
-        Mail::assertSent(NewOrder::class, function ($mail) use ($order) {
+        Mail::assertQueued(NewOrder::class, function ($mail) use ($order) {
             $mail->build();
             return $mail->hasTo('laurane@lakazcreole.fr') &&
                 $mail->subject === "Commande de {$order->customer->firstName} - {$order->date} {$order->date}";

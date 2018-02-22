@@ -15,6 +15,8 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class SubscriptionCreatedTest extends TestCase
 {
+    use RefreshDatabase;
+
     public function testHasListeners()
     {
         $this->assertTrue(Event::hasListeners(SubscriptionCreated::class));
@@ -26,7 +28,7 @@ class SubscriptionCreatedTest extends TestCase
         $sub = factory(Subscription::class)->make();
         $listener = new SendNewSubscriptionMail();
         $listener->handle(new SubscriptionCreated($sub));
-        Mail::assertSent(NewSubscription::class, function ($mail) use ($sub) {
+        Mail::assertQueued(NewSubscription::class, function ($mail) use ($sub) {
             $mail->build();
             return $mail->hasTo('laurane@lakazcreole.fr') &&
                 $mail->subject === 'Nouvel inscrit à la newsletter';

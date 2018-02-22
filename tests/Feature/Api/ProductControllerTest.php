@@ -8,6 +8,8 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ProductControllerTest extends TestCase
 {
+    use RefreshDatabase;
+
     public function testIndex()
     {
         $resp = $this->json('GET', '/api/products')

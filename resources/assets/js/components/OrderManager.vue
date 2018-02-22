@@ -1,6 +1,5 @@
 <script>
 import VueSticky from 'vue-sticky'
-const VueScrollTo = require('vue-scrollto')
 
 export default {
     components: {
@@ -67,23 +66,6 @@ export default {
         },
         removeOrderLine(line) {
             this.orderLines.splice(this.orderLines.indexOf(line), 1)
-        },
-        scrollToTag: function(tag) {
-            const options = {
-                container: 'body',
-                easing: 'ease-in',
-                offset: -100,
-                cancelable: true,
-                onDone: function() {
-                  // scrolling is done
-                },
-                onCancel: function() {
-                  // scrolling has been interrupted
-                },
-                x: false,
-                y: true
-            }
-            this.$scrollTo(`#${tag}`, 500, options)
         }
     }
 }
@@ -93,15 +75,17 @@ export default {
     <div v-if="error" class="text-center">
         <p>Le service de commande est indisponible. Veuillez réessayer plus tard.</p>
     </div>
-    <div v-else-if="loaded" class="row my-3">
-        <div class="col-md-8">
-            <order-menu :products="products" :handle-add="addOrderLine"></order-menu>
-        </div>
-        <div class="col-md-4">
-            <div v-sticky="{ zIndex: 1020, stickyTop: 115 }">
-                <h2>Panier</h2>
-                <cart :order-lines="orderLines" :handle-remove="removeOrderLine">
-                </cart>
+    <div v-else-if="loaded" class="container">
+        <div class="row">
+            <div class="col-md-8">
+                <order-menu :products="products" :handle-add="addOrderLine"></order-menu>
+            </div>
+            <div class="col-md-4">
+                <div v-sticky="{ zIndex: 1020, stickyTop: 115 }">
+                    <h2>Panier</h2>
+                    <cart :order-lines="orderLines" :handle-remove="removeOrderLine">
+                    </cart>
+                </div>
             </div>
         </div>
     </div>
