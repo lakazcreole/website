@@ -7,7 +7,12 @@ export default {
         },
         handleRemove: {
             type: Function,
-            require: true
+            required: true
+        }
+    },
+    data() {
+        return {
+            complete: false
         }
     },
     computed: {
@@ -22,12 +27,26 @@ export default {
         fullPrice() {
             return this.totalPrice + this.deliveryCost
         }
+    },
+    methods: {
+        handleOrder() {
+            this.complete = true
+            this.$emit('complete')
+        },
+        handleEdit() {
+            this.complete = false
+            this.$emit('edit')
+        }
     }
 }
 </script>
 
 <template>
     <div class="order-cart">
+        <div class="d-flex justify-content-between align-items-center">
+            <h2>Panier</h2>
+            <button v-if="complete" class="btn btn-link" @click="handleEdit()">Modifier</button>
+        </div>
         <div class="card">
             <div v-if="orderLines.length === 0" class="card-header">
                 Votre panier est vide.
@@ -40,7 +59,7 @@ export default {
                             {{ line.productName }}
                             <span v-if="line.productPrice != 0" class="ml-auto">{{ (line.quantity * line.productPrice).toString().replace('.', ',') }} €</span>
                             <small v-else class="ml-auto">Offert</small>
-                            <button type="button" class="text-danger close ml-3" @click="handleRemove(line)">&times;</button>
+                            <button v-if="!complete" type="button" class="text-danger close ml-3" @click="handleRemove(line)">&times;</button>
                         </div>
                     </li>
                     <li class="list-group-item">
@@ -60,9 +79,9 @@ export default {
                 Total : <span class="ml-auto">{{ fullPrice.toString().replace('.', ',') }} €</span>
             </div>
         </div>
-        <div class="mt-3">
+        <div v-if="!complete" class="mt-3">
             <button v-if="orderLines.length === 0" class="btn btn-lg btn-block btn-primary" aria-disabled="true" disabled>Commander</button>
-            <button v-else class="btn btn-lg btn-block btn-primary">Commander</button>
+            <button v-else class="btn btn-lg btn-block btn-primary" @click="handleOrder()">Commander</button>
         </div>
     </div>
 </template>

@@ -4,7 +4,8 @@ import VueSticky from 'vue-sticky'
 export default {
     components: {
         'cart': require('./Cart'),
-        'order-menu': require('./OrderMenu')
+        'order-menu': require('./OrderMenu'),
+        'delivery-form': require('./DeliveryForm')
     },
     directives: {
         'sticky': VueSticky
@@ -14,7 +15,8 @@ export default {
             loaded: false,
             error: false,
             products: null,
-            orderLines: []
+            orderLines: [],
+            showMenu: true
         }
     },
     mounted() {
@@ -66,6 +68,12 @@ export default {
         },
         removeOrderLine(line) {
             this.orderLines.splice(this.orderLines.indexOf(line), 1)
+        },
+        handleCartComplete() {
+            this.showMenu = false
+        },
+        handleCartEdit() {
+            this.showMenu = true
         }
     }
 }
@@ -78,13 +86,17 @@ export default {
     <div v-else-if="loaded" class="container">
         <div class="row">
             <div class="col-md-8">
-                <order-menu :products="products" :handle-add="addOrderLine"></order-menu>
+                <order-menu v-if="showMenu" :products="products" :handle-add="addOrderLine"></order-menu>
+                <delivery-form v-else></delivery-form>
             </div>
             <div class="col-md-4">
                 <div v-sticky="{ zIndex: 1020, stickyTop: 115 }">
-                    <h2>Panier</h2>
-                    <cart :order-lines="orderLines" :handle-remove="removeOrderLine">
+                    <cart :order-lines="orderLines" :handle-remove="removeOrderLine" v-on:complete="handleCartComplete()" v-on:edit="handleCartEdit()">
                     </cart>
+                    <div v-if="!showMenu" class="mt-3">
+                        <button class="btn btn-lg btn-block btn-primary" aria-disabled="true" disabled>Commander</button>
+                        <button class="btn btn-lg btn-block btn-primary" @click="handleOrder()">Commander</button>
+                    </div>
                 </div>
             </div>
         </div>

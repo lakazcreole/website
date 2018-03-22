@@ -264,6 +264,12 @@ section.order {
         }
     }
     .order-cart {
+        .btn-link {
+            color: $orange500;
+            &:hover {
+                color: $orange300;
+            }
+        }
         .card-footer {
             font-weight: 600;
         }

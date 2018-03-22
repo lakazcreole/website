@@ -10263,6 +10263,14 @@ section.order .order-manager .order-menu button:hover i.material-icons {
   color: white;
 }
 
+section.order .order-cart .btn-link {
+  color: #FF9800;
+}
+
+section.order .order-cart .btn-link:hover {
+  color: #FFB74D;
+}
+
 section.order .order-cart .card-footer {
   font-weight: 600;
 }
