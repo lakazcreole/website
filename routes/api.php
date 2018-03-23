@@ -17,7 +17,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('/contact', 'Api\ContactController@store');
+Route::post('/contacts', 'Api\ContactController@store');
 Route::post('/subscriptions', 'Api\SubscriptionController@store');
 
 Route::get('/products', 'Api\ProductController@index');
