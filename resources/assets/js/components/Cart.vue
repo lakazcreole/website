@@ -79,6 +79,7 @@ export default {
                 Total : <span class="ml-auto">{{ fullPrice.toString().replace('.', ',') }} €</span>
             </div>
         </div>
+        <slot name="info"></slot>
         <div v-if="!complete" class="mt-3">
             <button v-if="orderLines.length === 0" class="btn btn-lg btn-block btn-primary" aria-disabled="true" disabled>Commander</button>
             <button v-else class="btn btn-lg btn-block btn-primary" @click="handleOrder()">Commander</button>

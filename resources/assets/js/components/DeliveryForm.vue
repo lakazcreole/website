@@ -19,7 +19,7 @@ export default {
 <template>
   <div>
     <h2>Livraison</h2>
-    <form>
+    <!-- <form> -->
       <div class="form-row">
         <div class="form-group col-md-6">
           <label for="inputFirstName">Prénom</label>
@@ -62,6 +62,6 @@ export default {
           <input v-model="zip" type="text" class="form-control" id="inputZip" placeholder="Code postal" autocomplete="postal-code">
         </div>
       </div>
-    </form>
+    <!-- </form> -->
   </div>
 </template>

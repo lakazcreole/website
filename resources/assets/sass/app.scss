@@ -270,6 +270,12 @@ section.order {
                 color: $orange300;
             }
         }
+        a.link {
+            color: $orange500;
+            &:hover {
+                color: $orange300;
+            }
+        }
         .card-footer {
             font-weight: 600;
         }
