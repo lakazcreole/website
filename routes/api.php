@@ -21,3 +21,5 @@ Route::post('/contact', 'Api\ContactController@store');
 Route::post('/subscription', 'Api\SubscriptionController@store');
 
 Route::get('/products', 'Api\ProductController@index');
+
+Route::post('/orders', 'Api\OrderController@store');
