@@ -30,7 +30,7 @@
         },
         methods: {
             onSubmit: function() {
-                axios.post('/api/contact', {
+                axios.post('/api/contacts', {
                     name: this.name,
                     email: this.email,
                     subject: this.subject,

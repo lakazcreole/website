@@ -58325,7 +58325,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         onSubmit: function onSubmit() {
             var _this = this;
 
-            axios.post('/api/contact', {
+            axios.post('/api/contacts', {
                 name: this.name,
                 email: this.email,
                 subject: this.subject,
@@ -59252,7 +59252,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         onSubmit: function onSubmit() {
             var _this = this;
 
-            axios.post('/api/subscription', {
+            axios.post('/api/subscriptions', {
                 email: this.email
             }).then(function (response) {
                 _this.subscribed = true;

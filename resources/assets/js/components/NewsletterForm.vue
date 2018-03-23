@@ -16,7 +16,7 @@
         },
         methods: {
             onSubmit() {
-                axios.post('/api/subscription', {
+                axios.post('/api/subscriptions', {
                     email: this.email
                 }).then(response => {
                     this.subscribed = true
