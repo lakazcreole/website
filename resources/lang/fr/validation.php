@@ -32,6 +32,7 @@ return [
     'confirmed' => 'Le champ de confirmation :attribute ne correspond pas.',
     'date' => "Le champ :attribute n'est pas une date valide.",
     'date_format' => 'Le champ :attribute ne correspond pas au format :format.',
+    'delivery_time' => 'Le champ :attribute doit être un horaire de livraison valide.',
     'different' => 'Les champs :attribute et :other doivent être différents.',
     'digits' => 'Le champ :attribute doit contenir :digits chiffres.',
     'digits_between' => 'Le champ :attribute doit contenir entre :min et :max chiffres.',

@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Order;
 use App\Product;
 use App\Customer;
-use Illuminate\Http\Request;
+use App\Http\Requests\StoreOrder;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\OrderResource;
 
@@ -14,12 +14,11 @@ class OrderController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  StoreOrder  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreOrder $request)
     {
-        // dd($request);
         $customer = Customer::updateOrCreate([
             'firstName' => $request->customer['firstName'],
             'lastName' => $request->customer['lastName'],
