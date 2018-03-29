@@ -25,6 +25,13 @@ export default {
   components: {
     DatePicker
   },
+  data() {
+    return {
+      disabledDates: {
+        to: new Date()
+      }
+    }
+  }
 }
 </script>
 
@@ -33,7 +40,8 @@ export default {
     <div class="form-group col-md-6">
       <label for="inputDate" class="sr-only">Date</label>
       <DatePicker :value="defaultDate" v-on:input="value => { onDateInput(value) }"
-        language="fr" :full-month-name="true" :bootstrap-styling="true" input-class="datepicker-bg"
+        language="fr" :full-month-name="true" :monday-first="true" :disabled="disabledDates"
+        :bootstrap-styling="true" input-class="datepicker-bg"
         id="inputDate" placeholder="Choisir une date">
       </DatePicker>
     </div>

@@ -22,6 +22,7 @@ class CreateOrdersTable extends Migration
             $table->string('zip');
             $table->date('date');
             $table->time('time');
+            $table->text('information')->nullable();
             $table->integer('customer_id')->unsigned();
             $table->foreign('customer_id')->references('id')->on('customers')->onDelete('cascade');
             $table->dateTime('accepted_at')->nullable();

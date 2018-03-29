@@ -20,11 +20,25 @@ export default {
             loaded: false,
             error: false,
             products: null,
-            date: null,
-            time: null,
             editedDate: null,
             editedTime: null,
-            orderLines: [],
+            order: {
+                lines: [],
+                date: null,
+                time: null,
+                information: '',
+                customer: {
+                    firstName: '',
+                    lastName: '',
+                    email: '',
+                    phone: ''
+                },
+                address1: '',
+                address2: '',
+                address3: '',
+                city: '',
+                zip: ''
+            },
             showTimeSelector: true,
             showBasket: false,
             showMenu: false,
@@ -37,7 +51,11 @@ export default {
     },
     computed: {
         readableDate() {
-            return this.date.toLocaleDateString('fr-FR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })
+            return this.order.date.toLocaleDateString('fr-FR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })
+        },
+        deliveryFormFilled() {
+            return this.order.customer.firstName !== '' && this.order.customer.lastName !== '' && this.order.customer.email !== '' && this.order.customer.phone !== '' &&
+                this.order.address1 !== '' && this.order.address2 !== '' && this.order.address3 !== '' && this.order.city !== '' && this.order.zip !== ''
         }
     },
     methods: {
@@ -57,13 +75,13 @@ export default {
             if (side) this.addSideLine(side)
         },
         addProductLine(product) {
-            for (var i = this.orderLines.length - 1; i >= 0; i--) {
-                if (this.orderLines[i].productId === product.id) {
-                    this.orderLines[i].quantity++
+            for (var i = this.order.lines.length - 1; i >= 0; i--) {
+                if (this.order.lines[i].productId === product.id) {
+                    this.order.lines[i].quantity++
                     return
                 }
             }
-            this.orderLines.push({
+            this.order.lines.push({
                 productId: product.id,
                 productName: product.name,
                 productPrice: product.price,
@@ -71,13 +89,13 @@ export default {
             })
         },
         addSideLine(side) {
-            for (var i = this.orderLines.length - 1; i >= 0; i--) {
-                if (this.orderLines[i].productId === side.id) {
-                    this.orderLines[i].quantity++
+            for (var i = this.order.lines.length - 1; i >= 0; i--) {
+                if (this.order.lines[i].productId === side.id) {
+                    this.order.lines[i].quantity++
                     return
                 }
             }
-            this.orderLines.push({
+            this.order.lines.push({
                 productId: side.id,
                 productName: side.name,
                 productPrice: side.price,
@@ -85,13 +103,13 @@ export default {
             })
         },
         removeOrderLine(line) {
-            this.orderLines.splice(this.orderLines.indexOf(line), 1)
+            this.order.lines.splice(this.order.lines.indexOf(line), 1)
         },
         handleDateInput(value) {
-            this.date = value
+            this.order.date = value
         },
         handleTimeInput(value) {
-            this.time = value
+            this.order.time = value
         },
         handleDeliveryTimeFormSubmit() {
             this.showTimeSelector = false
@@ -99,13 +117,13 @@ export default {
             this.showBasket = true
         },
         handleDeliveryTimeEdit() {
-            this.editedDate = this.date
-            this.editedTime = this.time
+            this.editedDate = this.order.date
+            this.editedTime = this.order.time
             this.showModal = true
         },
         handleDeliveryTimeModalSave() {
-            this.date = this.editedDate
-            this.time = this.editedTime
+            this.order.date = this.editedDate
+            this.order.time = this.editedTime
             this.showModal = false
         },
         handleCartValidate() {
@@ -131,7 +149,7 @@ export default {
         </div>
         <modal v-if="showModal" @close="showModal = false">
             <h3 slot="header">Livraison</h3>
-            <DeliveryTimeSelector slot="body" :default-date="date" :default-time="time"
+            <DeliveryTimeSelector slot="body" :default-date="order.date" :default-time="order.time"
                 :on-date-input="value => { this.editedDate = value }"
                 :on-time-input="value => { this.editedTime = value }"
                 >
@@ -144,20 +162,35 @@ export default {
         <div class="row">
             <div class="col-md-8">
                 <order-menu v-if="showMenu" :products="products" :handle-add="addOrderLine"></order-menu>
-                <delivery-form v-if="showDeliveryForm"></delivery-form>
+                <delivery-form v-if="showDeliveryForm"
+                    :on-first-name-input="value => { this.order.customer.firstName = value }"
+                    :on-last-name-input="value => { this.order.customer.lastName = value }"
+                    :on-email-input="value => { this.order.customer.email = value }"
+                    :on-phone-input="value => { this.order.customer.phone = value }"
+                    :on-address-one-input="value => { this.order.address1 = value }"
+                    :on-address-two-input="value => { this.order.address2 = value }"
+                    :on-address-three-input="value => { this.order.address3 = value }"
+                    :on-city-input="value => { this.order.city = value }"
+                    :on-zip-input="value => { this.order.zip = value }"
+                >
+                </delivery-form>
             </div>
             <div class="col-md-4">
                 <div v-if="showBasket" v-sticky="{ zIndex: 1020, stickyTop: 115 }">
-                    <cart :order-lines="orderLines" :handle-remove="removeOrderLine" v-on:complete="handleCartValidate()" v-on:edit="handleCartEdit()">
-                        <div slot="info" class="my-3 text-center">
-                            <p class="mb-0">
-                                Livraison le <a href="#" class="link" title="Modifier" v-on:click.prevent="handleDeliveryTimeEdit()">{{ readableDate }} à {{ time }}</a>.<br/>
+                    <cart :order-lines="order.lines" :handle-remove="removeOrderLine" v-on:complete="handleCartValidate()" v-on:edit="handleCartEdit()">
+                        <div slot="info" class="my-3">
+                            <div v-if="showDeliveryForm" class="form-group">
+                                <label for="inputInformation">Informations</label>
+                                <textarea @input="value => { this.order.information = value }" class="form-control" placeholder="Allergies, etc."></textarea>
+                            </div>
+                            <p class="mb-0 text-center">
+                                Livraison le <a href="#" class="link" title="Modifier" v-on:click.prevent="handleDeliveryTimeEdit()">{{ readableDate }} à {{ order.time }}</a>.<br/>
                                 Paiement en <strong>espèces</strong>.
                             </p>
                         </div>
                     </cart>
                     <div v-if="showDeliveryForm" class="mt-3">
-                        <button v-if="canOrder" class="btn btn-lg btn-block btn-primary" @click="handleOrder()">Commander</button>
+                        <button v-if="deliveryFormFilled" class="btn btn-lg btn-block btn-primary" @click="handleOrder()">Commander</button>
                         <button v-else class="btn btn-lg btn-block btn-primary" aria-disabled="true" disabled>Commander</button>
                     </div>
                 </div>

@@ -19,7 +19,7 @@ class Order extends Model
      * @var array
      */
     protected $fillable = [
-        'address1', 'address2', 'address3', 'city', 'zip', 'date', 'time', 'customer_id'
+        'address1', 'address2', 'address3', 'city', 'zip', 'date', 'time', 'information', 'customer_id'
     ];
 
     /**

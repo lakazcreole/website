@@ -35,7 +35,8 @@ class OrderControllerTest extends TestCase
             'address' => $address,
             'orderLines' => [ $line1, $line2 ],
             'date' => date('d/m/Y', strtotime('tomorrow')),
-            'time' => '13:00'
+            'time' => '13:00',
+            'information' => 'allergic to everything'
         ];
         $response = $this->json('POST', '/api/orders', $data);
         $response->assertStatus(201);
@@ -65,7 +66,8 @@ class OrderControllerTest extends TestCase
                 ['product_id' => 76, 'quantity' => 2]
             ],
             'date' => date('d/m/Y', strtotime('tomorrow')),
-            'time' => '13:00'
+            'time' => '13:00',
+            'information' => 'allergic to everything'
         ];
         $response = $this->json('POST', '/api/orders', $data)->assertStatus(422);
     }
@@ -97,7 +99,8 @@ class OrderControllerTest extends TestCase
                 ['product_id' => $product->id, 'quantity' => 2]
             ],
             'date' => date('d/m/Y', strtotime('tomorrow')),
-            'time' => '16:00'
+            'time' => '16:00',
+            'information' => 'allergic to everything'
         ];
         $this->json('POST', '/api/orders', $data)->assertStatus(422);
     }
