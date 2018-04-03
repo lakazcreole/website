@@ -59487,141 +59487,175 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    components: {
-        'cart': __webpack_require__(69),
-        'modal': __webpack_require__(12),
-        'order-menu': __webpack_require__(72),
-        'delivery-form': __webpack_require__(75),
-        DeliveryTimeForm: __WEBPACK_IMPORTED_MODULE_1__DeliveryTimeForm___default.a,
-        DeliveryTimeSelector: __WEBPACK_IMPORTED_MODULE_2__DeliveryTimeSelector___default.a
-    },
-    directives: {
-        'sticky': __WEBPACK_IMPORTED_MODULE_0_vue_sticky___default.a
-    },
-    data: function data() {
-        return {
-            loaded: false,
-            error: false,
-            products: null,
-            editedDate: null,
-            editedTime: null,
-            order: {
-                lines: [],
-                date: null,
-                time: null,
-                information: '',
-                customer: {
-                    firstName: '',
-                    lastName: '',
-                    email: '',
-                    phone: ''
-                },
-                address1: '',
-                address2: '',
-                address3: '',
-                city: '',
-                zip: ''
-            },
-            showTimeSelector: true,
-            showBasket: false,
-            showMenu: false,
-            showDeliveryForm: false,
-            showModal: false
-        };
-    },
-    mounted: function mounted() {
-        this.fetchProducts();
-    },
+  components: {
+    'cart': __webpack_require__(69),
+    'modal': __webpack_require__(12),
+    'order-menu': __webpack_require__(72),
+    'delivery-form': __webpack_require__(75),
+    DeliveryTimeForm: __WEBPACK_IMPORTED_MODULE_1__DeliveryTimeForm___default.a,
+    DeliveryTimeSelector: __WEBPACK_IMPORTED_MODULE_2__DeliveryTimeSelector___default.a
+  },
+  directives: {
+    'sticky': __WEBPACK_IMPORTED_MODULE_0_vue_sticky___default.a
+  },
+  data: function data() {
+    return {
+      loaded: false,
+      error: false,
+      products: null,
+      editedDate: null,
+      editedTime: null,
+      order: {
+        lines: [],
+        date: null,
+        time: null,
+        information: '',
+        customer: {
+          firstName: '',
+          lastName: '',
+          email: '',
+          phone: ''
+        },
+        address1: '',
+        address2: '',
+        address3: '',
+        city: '',
+        zip: '',
+        errors: null,
+        serverError: false
+      },
+      showTimeSelector: true,
+      showBasket: false,
+      showMenu: false,
+      showDeliveryForm: false,
+      showModal: false,
+      finished: false
+    };
+  },
+  mounted: function mounted() {
+    this.fetchProducts();
+  },
 
-    computed: {
-        readableDate: function readableDate() {
-            return this.order.date.toLocaleDateString('fr-FR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
-        },
-        deliveryFormFilled: function deliveryFormFilled() {
-            return this.order.customer.firstName !== '' && this.order.customer.lastName !== '' && this.order.customer.email !== '' && this.order.customer.phone !== '' && this.order.address1 !== '' && this.order.address2 !== '' && this.order.address3 !== '' && this.order.city !== '' && this.order.zip !== '';
-        }
+  computed: {
+    readableDate: function readableDate() {
+      return this.order.date.toLocaleDateString('fr-FR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
     },
-    methods: {
-        fetchProducts: function fetchProducts() {
-            var _this = this;
-
-            axios.get('/api/products').then(function (response) {
-                if (response.status === 200) {
-                    _this.products = response.data.data;
-                    _this.loaded = true;
-                }
-            }).catch(function (error) {
-                console.log(error);
-                _this.error = true;
-            });
-        },
-        addOrderLine: function addOrderLine(product) {
-            var side = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
-
-            this.addProductLine(product);
-            if (side) this.addSideLine(side);
-        },
-        addProductLine: function addProductLine(product) {
-            for (var i = this.order.lines.length - 1; i >= 0; i--) {
-                if (this.order.lines[i].productId === product.id) {
-                    this.order.lines[i].quantity++;
-                    return;
-                }
-            }
-            this.order.lines.push({
-                productId: product.id,
-                productName: product.name,
-                productPrice: product.price,
-                quantity: 1
-            });
-        },
-        addSideLine: function addSideLine(side) {
-            for (var i = this.order.lines.length - 1; i >= 0; i--) {
-                if (this.order.lines[i].productId === side.id) {
-                    this.order.lines[i].quantity++;
-                    return;
-                }
-            }
-            this.order.lines.push({
-                productId: side.id,
-                productName: side.name,
-                productPrice: side.price,
-                quantity: 1
-            });
-        },
-        removeOrderLine: function removeOrderLine(line) {
-            this.order.lines.splice(this.order.lines.indexOf(line), 1);
-        },
-        handleDateInput: function handleDateInput(value) {
-            this.order.date = value;
-        },
-        handleTimeInput: function handleTimeInput(value) {
-            this.order.time = value;
-        },
-        handleDeliveryTimeFormSubmit: function handleDeliveryTimeFormSubmit() {
-            this.showTimeSelector = false;
-            this.showMenu = true;
-            this.showBasket = true;
-        },
-        handleDeliveryTimeEdit: function handleDeliveryTimeEdit() {
-            this.editedDate = this.order.date;
-            this.editedTime = this.order.time;
-            this.showModal = true;
-        },
-        handleDeliveryTimeModalSave: function handleDeliveryTimeModalSave() {
-            this.order.date = this.editedDate;
-            this.order.time = this.editedTime;
-            this.showModal = false;
-        },
-        handleCartValidate: function handleCartValidate() {
-            this.showMenu = false;
-            this.showDeliveryForm = true;
-        },
-        handleCartEdit: function handleCartEdit() {
-            this.showMenu = true;
-            this.showDeliveryForm = false;
-        }
+    deliveryFormFilled: function deliveryFormFilled() {
+      return this.order.customer.firstName !== '' && this.order.customer.lastName !== '' && this.order.customer.email !== '' && this.order.customer.phone !== '' && this.order.address1 !== '' && this.order.address2 !== '' && this.order.address3 !== '' && this.order.city !== '' && this.order.zip !== '';
     }
+  },
+  methods: {
+    fetchProducts: function fetchProducts() {
+      var _this = this;
+
+      axios.get('/api/products').then(function (response) {
+        if (response.status === 200) {
+          _this.products = response.data.data;
+          _this.loaded = true;
+        }
+      }).catch(function (error) {
+        console.log(error);
+        _this.error = true;
+      });
+    },
+    addOrderLine: function addOrderLine(product) {
+      var side = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+
+      this.addProductLine(product);
+      if (side) this.addSideLine(side);
+    },
+    addProductLine: function addProductLine(product) {
+      for (var i = this.order.lines.length - 1; i >= 0; i--) {
+        if (this.order.lines[i].productId === product.id) {
+          this.order.lines[i].quantity++;
+          return;
+        }
+      }
+      this.order.lines.push({
+        productId: product.id,
+        productName: product.name,
+        productPrice: product.price,
+        quantity: 1
+      });
+    },
+    addSideLine: function addSideLine(side) {
+      for (var i = this.order.lines.length - 1; i >= 0; i--) {
+        if (this.order.lines[i].productId === side.id) {
+          this.order.lines[i].quantity++;
+          return;
+        }
+      }
+      this.order.orderLines.push({
+        productId: side.id,
+        productName: side.name,
+        productPrice: side.price,
+        quantity: 1
+      });
+    },
+    removeOrderLine: function removeOrderLine(line) {
+      this.order.orderLines.splice(this.order.orderLines.indexOf(line), 1);
+    },
+    handleDateInput: function handleDateInput(value) {
+      this.order.date = value;
+    },
+    handleTimeInput: function handleTimeInput(value) {
+      this.order.time = value;
+    },
+    handleDeliveryTimeFormSubmit: function handleDeliveryTimeFormSubmit() {
+      this.showTimeSelector = false;
+      this.showMenu = true;
+      this.showBasket = true;
+    },
+    handleDeliveryTimeEdit: function handleDeliveryTimeEdit() {
+      this.editedDate = this.order.date;
+      this.editedTime = this.order.time;
+      this.showModal = true;
+    },
+    handleDeliveryTimeModalSave: function handleDeliveryTimeModalSave() {
+      this.order.date = this.editedDate;
+      this.order.time = this.editedTime;
+      this.showModal = false;
+    },
+    handleCartValidate: function handleCartValidate() {
+      this.showMenu = false;
+      this.showDeliveryForm = true;
+    },
+    handleCartEdit: function handleCartEdit() {
+      this.showMenu = true;
+      this.showDeliveryForm = false;
+    },
+    handleOrder: function handleOrder() {
+      var _this2 = this;
+
+      var order = {
+        orderLines: this.order.lines,
+        date: this.order.date.toLocaleDateString('fr-FR'),
+        time: this.order.time,
+        information: this.order.information,
+        customer: {
+          firstName: this.order.customer.firstName,
+          lastName: this.order.customer.lastName,
+          email: this.order.customer.email,
+          phone: this.order.customer.phone
+        },
+        address: {
+          address1: this.order.address1,
+          address2: this.order.address2,
+          address3: this.order.address3,
+          city: this.order.city,
+          zip: this.order.zip
+        }
+      };
+      axios.post('/api/orders', order).then(function (response) {
+        _this2.finished = true;
+      }).catch(function (error) {
+        if (error.response && error.response.status === 422) {
+          _this2.order.errors = error.response.data;
+          _this2.order.serverError = true;
+        }
+      });
+    }
+  }
 });
 
 /***/ }),
@@ -60786,6 +60820,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
+    errors: {
+      type: Object,
+      required: false
+    },
     onFirstNameInput: {
       type: Function,
       required: true
@@ -60853,7 +60891,17 @@ var render = function() {
               _vm.onFirstNameInput(e.target.value)
             }
           }
-        })
+        }),
+        _vm._v(" "),
+        _vm.errors && _vm.errors.errors["customer.firstName"]
+          ? _c(
+              "div",
+              { staticClass: "d-flex invalid-feedback" },
+              _vm._l(_vm.errors.errors["customer.firstName"], function(err) {
+                return _c("span", [_vm._v(_vm._s(err) + " ")])
+              })
+            )
+          : _vm._e()
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "form-group col-md-6" }, [
@@ -60872,7 +60920,17 @@ var render = function() {
               _vm.onLastNameInput(e.target.value)
             }
           }
-        })
+        }),
+        _vm._v(" "),
+        _vm.errors && _vm.errors.errors["customer.lastName"]
+          ? _c(
+              "div",
+              { staticClass: "d-flex invalid-feedback" },
+              _vm._l(_vm.errors.errors["customer.lastName"], function(err) {
+                return _c("span", [_vm._v(_vm._s(err) + " ")])
+              })
+            )
+          : _vm._e()
       ])
     ]),
     _vm._v(" "),
@@ -60893,7 +60951,17 @@ var render = function() {
               _vm.onEmailInput(e.target.value)
             }
           }
-        })
+        }),
+        _vm._v(" "),
+        _vm.errors && _vm.errors.errors["customer.email"]
+          ? _c(
+              "div",
+              { staticClass: "d-flex invalid-feedback" },
+              _vm._l(_vm.errors.errors["customer.email"], function(err) {
+                return _c("span", [_vm._v(_vm._s(err) + " ")])
+              })
+            )
+          : _vm._e()
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "form-group col-md-6" }, [
@@ -60912,7 +60980,17 @@ var render = function() {
               _vm.onPhoneInput(e.target.value)
             }
           }
-        })
+        }),
+        _vm._v(" "),
+        _vm.errors && _vm.errors.errors["customer.phone"]
+          ? _c(
+              "div",
+              { staticClass: "d-flex invalid-feedback" },
+              _vm._l(_vm.errors.errors["customer.phone"], function(err) {
+                return _c("span", [_vm._v(_vm._s(err) + " ")])
+              })
+            )
+          : _vm._e()
       ])
     ]),
     _vm._v(" "),
@@ -60932,7 +61010,17 @@ var render = function() {
             _vm.onAddressOneInput(e.target.value)
           }
         }
-      })
+      }),
+      _vm._v(" "),
+      _vm.errors && _vm.errors.errors["address.address1"]
+        ? _c(
+            "div",
+            { staticClass: "d-flex invalid-feedback" },
+            _vm._l(_vm.errors.errors["address.address1"], function(err) {
+              return _c("span", [_vm._v(_vm._s(err) + " ")])
+            })
+          )
+        : _vm._e()
     ]),
     _vm._v(" "),
     _c("div", { staticClass: "form-group" }, [
@@ -60951,7 +61039,17 @@ var render = function() {
             _vm.onAddressTwoInput(e.target.value)
           }
         }
-      })
+      }),
+      _vm._v(" "),
+      _vm.errors && _vm.errors.errors["address.address2"]
+        ? _c(
+            "div",
+            { staticClass: "d-flex invalid-feedback" },
+            _vm._l(_vm.errors.errors["address.address2"], function(err) {
+              return _c("span", [_vm._v(_vm._s(err) + " ")])
+            })
+          )
+        : _vm._e()
     ]),
     _vm._v(" "),
     _c("div", { staticClass: "form-group" }, [
@@ -60972,7 +61070,17 @@ var render = function() {
             _vm.onAddressThreeInput(e.target.value)
           }
         }
-      })
+      }),
+      _vm._v(" "),
+      _vm.errors && _vm.errors.errors["address.address3"]
+        ? _c(
+            "div",
+            { staticClass: "d-flex invalid-feedback" },
+            _vm._l(_vm.errors.errors["address.address3"], function(err) {
+              return _c("span", [_vm._v(_vm._s(err) + " ")])
+            })
+          )
+        : _vm._e()
     ]),
     _vm._v(" "),
     _c("div", { staticClass: "form-row" }, [
@@ -60992,7 +61100,17 @@ var render = function() {
               _vm.onCityInput(e.target.value)
             }
           }
-        })
+        }),
+        _vm._v(" "),
+        _vm.errors && _vm.errors.errors["address.city"]
+          ? _c(
+              "div",
+              { staticClass: "d-flex invalid-feedback" },
+              _vm._l(_vm.errors.errors["address.city"], function(err) {
+                return _c("span", [_vm._v(_vm._s(err) + " ")])
+              })
+            )
+          : _vm._e()
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "form-group col-md-4" }, [
@@ -61011,7 +61129,17 @@ var render = function() {
               _vm.onZipInput(e.target.value)
             }
           }
-        })
+        }),
+        _vm._v(" "),
+        _vm.errors && _vm.errors.errors["address.zip"]
+          ? _c(
+              "div",
+              { staticClass: "d-flex invalid-feedback" },
+              _vm._l(_vm.errors.errors["address.zip"], function(err) {
+                return _c("span", [_vm._v(_vm._s(err) + " ")])
+              })
+            )
+          : _vm._e()
       ])
     ])
   ])
@@ -61035,295 +61163,332 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm.error
-    ? _c("div", { staticClass: "text-center" }, [
-        _c("p", [
+  return _vm.finished
+    ? _c("div", { staticClass: "container" }, [
+        _c("p", { staticClass: "my-3" }, [
           _vm._v(
-            "Le service de commande est indisponible. Veuillez réessayer plus tard."
-          )
+            "Merci de votre commande ! Je reviendrai rapidement vers vous par le biais de votre adresse e-mail "
+          ),
+          _c("strong", [_vm._v(_vm._s(_vm.order.customer.email))]),
+          _vm._v(".")
         ])
       ])
-    : _vm.loaded
-      ? _c(
-          "div",
-          { staticClass: "container" },
-          [
-            _vm.showTimeSelector
-              ? _c(
-                  "div",
-                  [
-                    _c("h2", [_vm._v("Livraison")]),
-                    _vm._v(" "),
-                    _c("DeliveryTimeForm", {
-                      attrs: {
-                        "on-date-input": _vm.handleDateInput,
-                        "on-time-input": _vm.handleTimeInput
-                      },
-                      on: { submit: _vm.handleDeliveryTimeFormSubmit }
-                    })
-                  ],
-                  1
+    : _c("div", [
+        _vm.error
+          ? _c("div", { staticClass: "container" }, [
+              _c("p", { staticClass: "my-3 text-center" }, [
+                _vm._v(
+                  "Le service de commande est indisponible. Veuillez réessayer plus tard."
                 )
-              : _vm._e(),
-            _vm._v(" "),
-            _vm.showModal
-              ? _c(
-                  "modal",
-                  {
-                    on: {
-                      close: function($event) {
-                        _vm.showModal = false
-                      }
-                    }
-                  },
-                  [
-                    _c("h3", { attrs: { slot: "header" }, slot: "header" }, [
-                      _vm._v("Livraison")
-                    ]),
-                    _vm._v(" "),
-                    _c("DeliveryTimeSelector", {
-                      attrs: {
-                        slot: "body",
-                        "default-date": _vm.order.date,
-                        "default-time": _vm.order.time,
-                        "on-date-input": function(value) {
-                          this$1.editedDate = value
-                        },
-                        "on-time-input": function(value) {
-                          this$1.editedTime = value
-                        }
-                      },
-                      slot: "body"
-                    }),
-                    _vm._v(" "),
-                    _c(
-                      "div",
-                      {
-                        staticClass: "text-right",
-                        attrs: { slot: "footer" },
-                        slot: "footer"
-                      },
-                      [
-                        _c(
-                          "button",
-                          {
-                            staticClass: "btn btn-secondary ml-2",
-                            attrs: { type: "button" },
-                            on: {
-                              click: function($event) {
-                                _vm.showModal = false
-                              }
-                            }
-                          },
-                          [_vm._v("Annuler")]
-                        ),
-                        _vm._v(" "),
-                        _c(
-                          "button",
-                          {
-                            staticClass: "btn btn-primary ml-2",
-                            attrs: { type: "button" },
-                            on: { click: _vm.handleDeliveryTimeModalSave }
-                          },
-                          [_vm._v("Modifier")]
-                        )
-                      ]
-                    )
-                  ],
-                  1
-                )
-              : _vm._e(),
-            _vm._v(" "),
-            _c("div", { staticClass: "row" }, [
-              _c(
+              ])
+            ])
+          : _vm.loaded
+            ? _c(
                 "div",
-                { staticClass: "col-md-8" },
+                { staticClass: "container" },
                 [
-                  _vm.showMenu
-                    ? _c("order-menu", {
-                        attrs: {
-                          products: _vm.products,
-                          "handle-add": _vm.addOrderLine
-                        }
-                      })
+                  _vm.showTimeSelector
+                    ? _c(
+                        "div",
+                        [
+                          _c("h2", [_vm._v("Livraison")]),
+                          _vm._v(" "),
+                          _c("DeliveryTimeForm", {
+                            attrs: {
+                              "on-date-input": _vm.handleDateInput,
+                              "on-time-input": _vm.handleTimeInput
+                            },
+                            on: { submit: _vm.handleDeliveryTimeFormSubmit }
+                          })
+                        ],
+                        1
+                      )
                     : _vm._e(),
                   _vm._v(" "),
-                  _vm.showDeliveryForm
-                    ? _c("delivery-form", {
-                        attrs: {
-                          "on-first-name-input": function(value) {
-                            this$1.order.customer.firstName = value
-                          },
-                          "on-last-name-input": function(value) {
-                            this$1.order.customer.lastName = value
-                          },
-                          "on-email-input": function(value) {
-                            this$1.order.customer.email = value
-                          },
-                          "on-phone-input": function(value) {
-                            this$1.order.customer.phone = value
-                          },
-                          "on-address-one-input": function(value) {
-                            this$1.order.address1 = value
-                          },
-                          "on-address-two-input": function(value) {
-                            this$1.order.address2 = value
-                          },
-                          "on-address-three-input": function(value) {
-                            this$1.order.address3 = value
-                          },
-                          "on-city-input": function(value) {
-                            this$1.order.city = value
-                          },
-                          "on-zip-input": function(value) {
-                            this$1.order.zip = value
-                          }
-                        }
-                      })
-                    : _vm._e()
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c("div", { staticClass: "col-md-4" }, [
-                _vm.showBasket
-                  ? _c(
-                      "div",
-                      {
-                        directives: [
-                          {
-                            name: "sticky",
-                            rawName: "v-sticky",
-                            value: { zIndex: 1020, stickyTop: 115 },
-                            expression: "{ zIndex: 1020, stickyTop: 115 }"
-                          }
-                        ]
-                      },
-                      [
-                        _c(
-                          "cart",
-                          {
-                            attrs: {
-                              "order-lines": _vm.order.lines,
-                              "handle-remove": _vm.removeOrderLine
-                            },
-                            on: {
-                              complete: function($event) {
-                                _vm.handleCartValidate()
-                              },
-                              edit: function($event) {
-                                _vm.handleCartEdit()
-                              }
+                  _vm.showModal
+                    ? _c(
+                        "modal",
+                        {
+                          on: {
+                            close: function($event) {
+                              _vm.showModal = false
                             }
-                          },
-                          [
-                            _c(
-                              "div",
-                              {
-                                staticClass: "my-3",
-                                attrs: { slot: "info" },
-                                slot: "info"
+                          }
+                        },
+                        [
+                          _c(
+                            "h3",
+                            { attrs: { slot: "header" }, slot: "header" },
+                            [_vm._v("Livraison")]
+                          ),
+                          _vm._v(" "),
+                          _c("DeliveryTimeSelector", {
+                            attrs: {
+                              slot: "body",
+                              "default-date": _vm.order.date,
+                              "default-time": _vm.order.time,
+                              "on-date-input": function(value) {
+                                this$1.editedDate = value
                               },
-                              [
-                                _vm.showDeliveryForm
-                                  ? _c("div", { staticClass: "form-group" }, [
-                                      _c(
-                                        "label",
-                                        { attrs: { for: "inputInformation" } },
-                                        [_vm._v("Informations")]
-                                      ),
-                                      _vm._v(" "),
-                                      _c("textarea", {
-                                        staticClass: "form-control",
-                                        attrs: {
-                                          placeholder: "Allergies, etc."
-                                        },
-                                        on: {
-                                          input: function(value) {
-                                            this$1.order.information = value
-                                          }
-                                        }
-                                      })
-                                    ])
-                                  : _vm._e(),
-                                _vm._v(" "),
-                                _c("p", { staticClass: "mb-0 text-center" }, [
-                                  _vm._v(
-                                    "\n                            Livraison le "
-                                  ),
-                                  _c(
-                                    "a",
-                                    {
-                                      staticClass: "link",
-                                      attrs: { href: "#", title: "Modifier" },
-                                      on: {
-                                        click: function($event) {
-                                          $event.preventDefault()
-                                          _vm.handleDeliveryTimeEdit()
-                                        }
-                                      }
-                                    },
-                                    [
-                                      _vm._v(
-                                        _vm._s(_vm.readableDate) +
-                                          " à " +
-                                          _vm._s(_vm.order.time)
-                                      )
-                                    ]
-                                  ),
-                                  _vm._v("."),
-                                  _c("br"),
-                                  _vm._v(
-                                    "\n                            Paiement en "
-                                  ),
-                                  _c("strong", [_vm._v("espèces")]),
-                                  _vm._v(".\n                        ")
-                                ])
-                              ]
-                            )
-                          ]
-                        ),
+                              "on-time-input": function(value) {
+                                this$1.editedTime = value
+                              }
+                            },
+                            slot: "body"
+                          }),
+                          _vm._v(" "),
+                          _c(
+                            "div",
+                            {
+                              staticClass: "text-right",
+                              attrs: { slot: "footer" },
+                              slot: "footer"
+                            },
+                            [
+                              _c(
+                                "button",
+                                {
+                                  staticClass: "btn btn-secondary ml-2",
+                                  attrs: { type: "button" },
+                                  on: {
+                                    click: function($event) {
+                                      _vm.showModal = false
+                                    }
+                                  }
+                                },
+                                [_vm._v("Annuler")]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "button",
+                                {
+                                  staticClass: "btn btn-primary ml-2",
+                                  attrs: { type: "button" },
+                                  on: { click: _vm.handleDeliveryTimeModalSave }
+                                },
+                                [_vm._v("Modifier")]
+                              )
+                            ]
+                          )
+                        ],
+                        1
+                      )
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "row" }, [
+                    _c(
+                      "div",
+                      { staticClass: "col-md-8" },
+                      [
+                        _vm.showMenu
+                          ? _c("order-menu", {
+                              attrs: {
+                                products: _vm.products,
+                                "handle-add": _vm.addOrderLine
+                              }
+                            })
+                          : _vm._e(),
                         _vm._v(" "),
                         _vm.showDeliveryForm
-                          ? _c("div", { staticClass: "mt-3" }, [
-                              _vm.deliveryFormFilled
-                                ? _c(
-                                    "button",
-                                    {
-                                      staticClass:
-                                        "btn btn-lg btn-block btn-primary",
-                                      on: {
-                                        click: function($event) {
-                                          _vm.handleOrder()
-                                        }
-                                      }
-                                    },
-                                    [_vm._v("Commander")]
-                                  )
-                                : _c(
-                                    "button",
-                                    {
-                                      staticClass:
-                                        "btn btn-lg btn-block btn-primary",
-                                      attrs: {
-                                        "aria-disabled": "true",
-                                        disabled: ""
-                                      }
-                                    },
-                                    [_vm._v("Commander")]
-                                  )
-                            ])
+                          ? _c("delivery-form", {
+                              attrs: {
+                                errors: _vm.order.errors,
+                                "on-first-name-input": function(value) {
+                                  this$1.order.customer.firstName = value
+                                },
+                                "on-last-name-input": function(value) {
+                                  this$1.order.customer.lastName = value
+                                },
+                                "on-email-input": function(value) {
+                                  this$1.order.customer.email = value
+                                },
+                                "on-phone-input": function(value) {
+                                  this$1.order.customer.phone = value
+                                },
+                                "on-address-one-input": function(value) {
+                                  this$1.order.address1 = value
+                                },
+                                "on-address-two-input": function(value) {
+                                  this$1.order.address2 = value
+                                },
+                                "on-address-three-input": function(value) {
+                                  this$1.order.address3 = value
+                                },
+                                "on-city-input": function(value) {
+                                  this$1.order.city = value
+                                },
+                                "on-zip-input": function(value) {
+                                  this$1.order.zip = value
+                                }
+                              }
+                            })
                           : _vm._e()
                       ],
                       1
-                    )
-                  : _vm._e()
-              ])
-            ])
-          ],
-          1
-        )
-      : _vm._e()
+                    ),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-md-4" }, [
+                      _vm.showBasket
+                        ? _c(
+                            "div",
+                            {
+                              directives: [
+                                {
+                                  name: "sticky",
+                                  rawName: "v-sticky",
+                                  value: { zIndex: 1020, stickyTop: 115 },
+                                  expression: "{ zIndex: 1020, stickyTop: 115 }"
+                                }
+                              ]
+                            },
+                            [
+                              _c(
+                                "cart",
+                                {
+                                  attrs: {
+                                    "order-lines": _vm.order.lines,
+                                    "handle-remove": _vm.removeOrderLine
+                                  },
+                                  on: {
+                                    complete: function($event) {
+                                      _vm.handleCartValidate()
+                                    },
+                                    edit: function($event) {
+                                      _vm.handleCartEdit()
+                                    }
+                                  }
+                                },
+                                [
+                                  _c(
+                                    "div",
+                                    {
+                                      staticClass: "my-3",
+                                      attrs: { slot: "info" },
+                                      slot: "info"
+                                    },
+                                    [
+                                      _vm.showDeliveryForm
+                                        ? _c(
+                                            "div",
+                                            { staticClass: "form-group" },
+                                            [
+                                              _c(
+                                                "label",
+                                                {
+                                                  attrs: {
+                                                    for: "inputInformation"
+                                                  }
+                                                },
+                                                [_vm._v("Informations")]
+                                              ),
+                                              _vm._v(" "),
+                                              _c("textarea", {
+                                                staticClass: "form-control",
+                                                attrs: {
+                                                  placeholder: "Allergies, etc."
+                                                },
+                                                on: {
+                                                  input: function(value) {
+                                                    this$1.order.information = value
+                                                  }
+                                                }
+                                              })
+                                            ]
+                                          )
+                                        : _vm._e(),
+                                      _vm._v(" "),
+                                      _c(
+                                        "p",
+                                        { staticClass: "mb-0 text-center" },
+                                        [
+                                          _vm._v(
+                                            "\n                Livraison le "
+                                          ),
+                                          _c(
+                                            "a",
+                                            {
+                                              staticClass: "link",
+                                              attrs: {
+                                                href: "#",
+                                                title: "Modifier"
+                                              },
+                                              on: {
+                                                click: function($event) {
+                                                  $event.preventDefault()
+                                                  _vm.handleDeliveryTimeEdit()
+                                                }
+                                              }
+                                            },
+                                            [
+                                              _vm._v(
+                                                _vm._s(_vm.readableDate) +
+                                                  " à " +
+                                                  _vm._s(_vm.order.time)
+                                              )
+                                            ]
+                                          ),
+                                          _vm._v("."),
+                                          _c("br"),
+                                          _vm._v(
+                                            "\n                Paiement en "
+                                          ),
+                                          _c("strong", [_vm._v("espèces")]),
+                                          _vm._v(".\n              ")
+                                        ]
+                                      )
+                                    ]
+                                  )
+                                ]
+                              ),
+                              _vm._v(" "),
+                              _vm.showDeliveryForm
+                                ? _c("div", { staticClass: "mt-3" }, [
+                                    _c(
+                                      "button",
+                                      {
+                                        staticClass:
+                                          "btn btn-lg btn-block btn-primary",
+                                        on: {
+                                          click: function($event) {
+                                            _vm.handleOrder()
+                                          }
+                                        }
+                                      },
+                                      [_vm._v("Commander")]
+                                    ),
+                                    _vm._v(" "),
+                                    _vm.order.serverError
+                                      ? _c(
+                                          "div",
+                                          { staticClass: "mt-3 text-center" },
+                                          [
+                                            _c(
+                                              "p",
+                                              {
+                                                staticClass: "mb-0 text-danger"
+                                              },
+                                              [
+                                                _vm._v(
+                                                  "Une erreur s'est produite. Veuillez réessayer plus tard."
+                                                )
+                                              ]
+                                            )
+                                          ]
+                                        )
+                                      : _vm._e()
+                                  ])
+                                : _vm._e()
+                            ],
+                            1
+                          )
+                        : _vm._e()
+                    ])
+                  ])
+                ],
+                1
+              )
+            : _vm._e()
+      ])
 }
 var staticRenderFns = []
 render._withStripped = true

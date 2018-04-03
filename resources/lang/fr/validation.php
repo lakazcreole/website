@@ -146,6 +146,15 @@ return [
         'time' => 'heure',
         'available' => 'disponible',
         'size' => 'taille',
-        'subject' => 'objet'
+        'subject' => 'objet',
+        'address.address1' => 'adresse',
+        'address.address2' => 'adresse 2',
+        'address.address3' => 'instructions de livraison',
+        'address.city' => 'ville',
+        'address.zip' => 'code postal',
+        'customer.firstName' => 'prénom',
+        'customer.lastName' => 'nom',
+        'customer.email' => 'e-mail',
+        'customer.phone' => 'téléphone',
     ],
 ];

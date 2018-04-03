@@ -28,8 +28,8 @@ class OrderControllerTest extends TestCase
             'city' => 'Paris',
             'zip' => '75001'
         ];
-        $line1 = [ 'product_id' => $product1->id, 'quantity' => 2 ];
-        $line2 = [ 'product_id' => $product2->id, 'quantity' => 3 ];
+        $line1 = [ 'productId' => $product1->id, 'quantity' => 2 ];
+        $line2 = [ 'productId' => $product2->id, 'quantity' => 3 ];
         $data = [
             'customer' => $customer,
             'address' => $address,
@@ -42,8 +42,8 @@ class OrderControllerTest extends TestCase
         $response->assertStatus(201);
         $this->assertDatabaseHas('orders', $address);
         $this->assertDatabaseHas('customers', $customer);
-        $this->assertDatabaseHas('order_lines', array_merge($line1, ['order_id' => $response->json()['data']['id']]));
-        $this->assertDatabaseHas('order_lines', array_merge($line2, ['order_id' => $response->json()['data']['id']]));
+        $this->assertDatabaseHas('order_lines', array_merge([ 'product_id' => $product1->id, 'quantity' => 2 ], ['order_id' => $response->json()['data']['id']]));
+        $this->assertDatabaseHas('order_lines', array_merge([ 'product_id' => $product2->id, 'quantity' => 3 ], ['order_id' => $response->json()['data']['id']]));
     }
 
     public function testStoreValidatesProductIds()
@@ -63,7 +63,7 @@ class OrderControllerTest extends TestCase
                 'zip' => '75001'
             ],
             'orderLines' => [
-                ['product_id' => 76, 'quantity' => 2]
+                ['productId' => 76, 'quantity' => 2]
             ],
             'date' => date('d/m/Y', strtotime('tomorrow')),
             'time' => '13:00',
@@ -96,12 +96,35 @@ class OrderControllerTest extends TestCase
                 'zip' => '75001'
             ],
             'orderLines' => [
-                ['product_id' => $product->id, 'quantity' => 2]
+                ['productId' => $product->id, 'quantity' => 2]
             ],
             'date' => date('d/m/Y', strtotime('tomorrow')),
             'time' => '16:00',
             'information' => 'allergic to everything'
         ];
         $this->json('POST', '/api/orders', $data)->assertStatus(422);
+    }
+
+    public function testStoreValidatesAllRequiredFields()
+    {
+        $this->json('POST', '/api/orders', [])
+            ->assertStatus(422)
+            ->assertJson([
+                'message' => 'The given data was invalid.',
+                'errors' => [
+                    'customer.firstName' => [],
+                    'customer.lastName' => [],
+                    'customer.email' => [],
+                    'customer.phone' => [],
+                    'address.address1' => [],
+                    'address.address2' => [],
+                    'address.address3' => [],
+                    'address.city' => [],
+                    'address.zip' => [],
+                    'date' => [],
+                    'time' => [],
+                    'orderLines' => []
+                ]
+            ]);
     }
 }

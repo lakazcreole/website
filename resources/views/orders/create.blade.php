@@ -1,5 +1,10 @@
 @extends('layouts.app')
 
+@section('modals')
+    @parent
+    <contact-modal v-if="showContactModal" @close="showContactModal = false" :default-subject="subject" :default-message="message"></contact-modal>
+@endsection
+
 @section('content')
     <section class="order">
         <div class="order-header pb-4 position-relative">

@@ -25,12 +25,10 @@ class StoreOrder extends FormRequest
     public function rules()
     {
         return [
-            'customer' => 'required',
             'customer.firstName' => 'required|alpha|max:255',
             'customer.lastName' => 'required|alpha|max:255',
             'customer.email' => 'required|email',
             'customer.phone' => 'required',
-            'address' => 'required',
             'address.address1' => 'required|max:255',
             'address.address2' => 'required|max:255',
             'address.address3' => 'required|max:255',
@@ -39,8 +37,9 @@ class StoreOrder extends FormRequest
             'date' => 'required|date_format:d/m/Y|after:today',
             'time' => [ 'required', 'date_format:H:i', new DeliveryTime],
             'orderLines' => 'required',
-            'orderLines.*.product_id' => 'required|exists:products,id',
-            'orderLines.*.quantity' => 'required|numeric|min:1'
+            'orderLines.*.productId' => 'required|exists:products,id',
+            'orderLines.*.quantity' => 'required|numeric|min:1',
+            'information' => 'max:255'
         ];
     }
 }
