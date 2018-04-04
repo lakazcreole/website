@@ -3,6 +3,7 @@
 namespace Tests\Unit;
 
 use App\Order;
+use App\Customer;
 use Tests\TestCase;
 use App\Events\OrderDeclined;
 use Illuminate\Support\Facades\Log;
@@ -15,21 +16,24 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class OrderDeclinedTest extends TestCase
 {
+    use RefreshDatabase;
+
     public function testHasListeners()
     {
         $this->assertTrue(Event::hasListeners(OrderDeclined::class));
     }
 
-    // public function testSendsOrderDeclinedMail()
-    // {
-    //     Mail::fake();
-    //     $order = factory(Order::class)->create();
-    //     $listener = new SendOrderDeclinedMail();
-    //     $listener->handle(new OrderDeclined($order));
-    //     Mail::assertSent(OrderDeclinedMail::class, function ($mail) use ($order) {
-    //         $mail->build();
-    //         return $mail->hasTo($order->customer->email) &&
-    //             $mail->hasFrom(config('app.mail.username'));
-    //     });
-    // }
+    public function testSendsOrderDeclinedMail()
+    {
+        Mail::fake();
+        $order = factory(Order::class)->create([
+            'customer_id' => factory(Customer::class)->create()->id
+        ]);
+        $listener = new SendOrderDeclinedMail();
+        $listener->handle(new OrderDeclined($order));
+        Mail::assertSent(OrderDeclinedMail::class, function ($mail) use ($order) {
+            $mail->build();
+            return $mail->hasTo($order->customer->email);
+        });
+    }
 }
