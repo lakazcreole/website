@@ -1,0 +1,47 @@
+.btn-primary {
+    background-color: $orange500;
+    border-color: $orange500;
+
+    &:hover {
+        background-color: $orange300;
+        border-color: $orange300;
+    }
+    &:not(:disabled):not(.disabled):active {
+        background-color: $orange700;
+        border-color: $orange700;
+    }
+    &:not(:disabled):not(.disabled):active:focus {
+        box-shadow: none;
+    }
+    &:focus {
+        box-shadow: none;
+    }
+    &.disabled {
+        background-color: $orange50;
+        border-color: $orange50;
+    }
+    &:disabled {
+        background-color: $orange200;
+        border-color: $orange200;
+    }
+}
+
+.btn-outline-primary {
+    border-color: $orange500;
+    color: white;
+
+    &:hover {
+        background: $orange300;
+        border-color: $orange300;
+    }
+    &:not(:disabled):not(.disabled):active {
+        background-color: $orange700;
+        border-color: $orange700;
+    }
+    &:not(:disabled):not(.disabled):active:focus {
+        box-shadow: none;
+    }
+    &:focus {
+        box-shadow: none;
+    }
+}

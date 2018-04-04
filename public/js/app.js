@@ -58729,7 +58729,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             message: '',
             serverError: false,
             errors: null,
-            sent: false
+            sent: false,
+            waiting: false
         };
     },
 
@@ -58737,14 +58738,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         onSubmit: function onSubmit() {
             var _this = this;
 
+            this.waiting = true;
             axios.post('/api/contacts', {
                 name: this.name,
                 email: this.email,
                 subject: this.subject,
                 message: this.message
             }).then(function (response) {
+                _this.waiting = false;
                 _this.sent = true;
             }).catch(function (error) {
+                _this.waiting = false;
                 if (error.response && error.response.status === 422) {
                     _this.errors = error.response.data;
                 } else {
@@ -59026,7 +59030,12 @@ var render = function() {
                         }
                       ],
                       class: _vm.inputClasses("name"),
-                      attrs: { type: "text", id: "name", placeholder: "Nom" },
+                      attrs: {
+                        type: "text",
+                        id: "name",
+                        placeholder: "Nom",
+                        disabled: _vm.waiting
+                      },
                       domProps: { value: _vm.name },
                       on: {
                         input: function($event) {
@@ -59067,7 +59076,8 @@ var render = function() {
                       attrs: {
                         type: "email",
                         id: "email",
-                        placeholder: "E-mail"
+                        placeholder: "E-mail",
+                        disabled: _vm.waiting
                       },
                       domProps: { value: _vm.email },
                       on: {
@@ -59109,7 +59119,8 @@ var render = function() {
                       attrs: {
                         type: "text",
                         id: "subject",
-                        placeholder: "Objet"
+                        placeholder: "Objet",
+                        disabled: _vm.waiting
                       },
                       domProps: { value: _vm.subject },
                       on: {
@@ -59151,7 +59162,8 @@ var render = function() {
                       attrs: {
                         id: "message",
                         placeholder: "Saisissez votre message...",
-                        rows: "3"
+                        rows: "3",
+                        disabled: _vm.waiting
                       },
                       domProps: { value: _vm.message },
                       on: {
@@ -59208,10 +59220,14 @@ var render = function() {
                 "button",
                 {
                   staticClass: "btn btn-primary ml-2",
-                  attrs: { type: "button" },
+                  attrs: { type: "button", disabled: _vm.waiting },
                   on: { click: _vm.onSubmit }
                 },
-                [_vm._v("Envoyer")]
+                [
+                  _vm.waiting
+                    ? _c("span", [_vm._v("En cours")])
+                    : _c("span", [_vm._v("Envoyer")])
+                ]
               )
             : _vm._e()
         ]
@@ -59289,7 +59305,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             email: '',
             errors: null,
             subscribed: false,
-            serverError: false
+            serverError: false,
+            waiting: false
         };
     },
 
@@ -59303,11 +59320,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         onSubmit: function onSubmit() {
             var _this = this;
 
+            this.waiting = true;
             axios.post('/api/subscriptions', {
                 email: this.email
             }).then(function (response) {
                 _this.subscribed = true;
+                _this.waiting = false;
             }).catch(function (error) {
+                _this.waiting = false;
                 if (error.response && error.response.status === 422) {
                     _this.errors = error.response.data;
                 } else {
@@ -59373,7 +59393,8 @@ var render = function() {
                           attrs: {
                             type: "email",
                             id: "email",
-                            placeholder: "Entrez votre email"
+                            placeholder: "Entrez votre email",
+                            disabled: _vm.waiting
                           },
                           domProps: { value: _vm.email },
                           on: {
@@ -59401,9 +59422,13 @@ var render = function() {
                         "button",
                         {
                           staticClass: "btn btn-primary m-2",
-                          attrs: { type: "submit" }
+                          attrs: { type: "submit", disabled: _vm.waiting }
                         },
-                        [_vm._v("Inscription")]
+                        [
+                          _vm.waiting
+                            ? _c("span", [_vm._v("En cours")])
+                            : _c("span", [_vm._v("Inscription")])
+                        ]
                       )
                     ]
                   )
@@ -59651,6 +59676,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       }).catch(function (error) {
         if (error.response && error.response.status === 422) {
           _this2.order.errors = error.response.data;
+        } else {
           _this2.order.serverError = true;
         }
       });
@@ -60463,7 +60489,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "row" }, [
+  return _c("div", { staticClass: "row mb-5" }, [
     _c("div", { staticClass: "col-md-4 order-nav" }, [
       _c(
         "div",
@@ -60711,8 +60737,7 @@ var render = function() {
                                 _c(
                                   "button",
                                   {
-                                    staticClass:
-                                      "btn btn-sm btn-block btn-primary",
+                                    staticClass: "btn btn-block btn-primary",
                                     on: {
                                       click: function($event) {
                                         _vm.handleAddWithOption(
@@ -61191,7 +61216,9 @@ var render = function() {
                     ? _c(
                         "div",
                         [
-                          _c("h2", [_vm._v("Livraison")]),
+                          _c("h2", { staticClass: "mb-3" }, [
+                            _vm._v("Livraison")
+                          ]),
                           _vm._v(" "),
                           _c("DeliveryTimeForm", {
                             attrs: {
@@ -61448,6 +61475,9 @@ var render = function() {
                                       {
                                         staticClass:
                                           "btn btn-lg btn-block btn-primary",
+                                        attrs: {
+                                          disabled: !_vm.deliveryFormFilled
+                                        },
                                         on: {
                                           click: function($event) {
                                             _vm.handleOrder()

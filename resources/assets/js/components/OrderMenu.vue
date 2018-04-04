@@ -62,7 +62,7 @@ export default {
 </script>
 
 <template>
-    <div class="row">
+    <div class="row mb-5">
         <div class="col-md-4 order-nav">
             <div v-sticky="{ zIndex: 1020, stickyTop: 115 }">
                 Catégories
@@ -116,7 +116,7 @@ export default {
                                             </option>
                                         </select>
                                     </div>
-                                    <button class="btn btn-sm btn-block btn-primary" @click="handleAddWithOption(product, optionId)">
+                                    <button class="btn btn-block btn-primary" @click="handleAddWithOption(product, optionId)">
                                         Ajouter
                                     </button>
                                 </div>

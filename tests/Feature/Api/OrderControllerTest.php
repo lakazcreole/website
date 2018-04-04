@@ -127,4 +127,36 @@ class OrderControllerTest extends TestCase
                 ]
             ]);
     }
+
+    public function testCanStoreTwoOrdersWithSameEmail()
+    {
+        $product = factory(Product::class)->create();
+        $data = [
+            'customer' => [
+                'firstName' => 'Sally',
+                'lastName' => 'Holman',
+                'email' => 'sally@email.com',
+                'phone' => '01 23 45 67 89'
+            ],
+            'address' => [
+                'address1' => '3 rue de Paris',
+                'address2' => 'Bâtiment B, étage 4, appartement 21',
+                'address3' => 'Code 0000, interphone 21',
+                'city' => 'Paris',
+                'zip' => '75001'
+            ],
+            'orderLines' => [
+                ['productId' => $product->id, 'quantity' => 2]
+            ],
+            'date' => date('d/m/Y', strtotime('tomorrow')),
+            'time' => '12:00',
+            'information' => 'allergic to everything'
+        ];
+        $this->json('POST', '/api/orders', $data)->assertStatus(201);
+        $data['time'] = '12:15';
+        $data['customer']['firstName'] = 'Something';
+        $data['customer']['lastName'] = 'Else';
+        $data['customer']['phone'] = '06 01 01 01 01';
+        $this->json('POST', '/api/orders', $data)->assertStatus(201);
+    }
 }

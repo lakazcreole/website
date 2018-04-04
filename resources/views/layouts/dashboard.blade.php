@@ -17,6 +17,7 @@
 
     <body>
         <div id="app">
+            @include('dashboard.partials.navbar')
             @yield('modals')
             @yield('content')
         </div>

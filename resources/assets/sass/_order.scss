@@ -1,0 +1,69 @@
+section.order {
+    .order-header {
+        .gradient {
+            background-image: -webkit-gradient(linear, left bottom, left top, from(rgba(255, 33, 82, 0.7)), to(rgba(255, 167, 0, 0.7)));
+            background-image: linear-gradient(0deg, rgba(255, 33, 82, 0.7), rgba(255, 167, 0, 0.7));
+            background-size: cover;
+
+            box-shadow: inset 0px -2px 3px $section-shadow;
+            opacity: 0.9;
+            z-index: -1;
+        }
+        h1 {
+            font-family: $title-font-family;
+            font-size: 3.25rem;
+        }
+        p {
+            font-size: 1rem;
+        }
+    }
+    .order-manager {
+        .order-nav {
+            font-size: 1rem;
+            margin-top: 0.5rem;
+            ul li a.nav-link {
+                color: black;
+                &:hover {
+                    background-color: $orange300;
+                    color: white;
+                }
+            }
+        }
+        .order-menu {
+            button i.material-icons {
+                color: $orange500;
+            }
+            button:hover i.material-icons {
+                color: white;
+            }
+        }
+    }
+    .order-cart {
+        .btn-link {
+            color: $orange500;
+            &:hover {
+                color: $orange300;
+            }
+        }
+        a.link {
+            color: $orange500;
+            &:hover {
+                color: $orange300;
+            }
+        }
+        .card-footer {
+            font-weight: 600;
+        }
+    }
+    h2 {
+        font-family: $title-font-family;
+        font-size: 2.5rem;
+        // color: $orange500;
+    }
+    h3 {
+        color: $orange500;
+        small {
+            font-size: 60%;
+        }
+    }
+}

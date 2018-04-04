@@ -6,6 +6,9 @@
 @endsection
 
 @section('content')
+    <header v-sticky="{ zIndex: 1020, stickyTop: 0 }">
+        @include('partials.navbar')
+    </header>
     <section class="order">
         <div class="order-header pb-4 position-relative">
             <div class="gradient position-absolute w-100 h-100"></div>
@@ -20,8 +23,9 @@
                 </div>
             </div>
         </div>
-        <div class="order-manager container-fluid px-0 pt-3">
+        <div class="order-manager container-fluid my-5 px-0">
             <order-manager></order-manager>
         </div>
     </section>
+    @include('partials.footer')
 @endsection

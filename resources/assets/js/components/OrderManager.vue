@@ -164,6 +164,7 @@ export default {
         .catch((error) => {
           if (error.response && error.response.status === 422) {
             this.order.errors = error.response.data
+          } else {
             this.order.serverError = true
           }
         })
@@ -182,7 +183,7 @@ export default {
     </div>
     <div v-else-if="loaded" class="container">
       <div v-if="showTimeSelector">
-        <h2>Livraison</h2>
+        <h2 class="mb-3">Livraison</h2>
         <DeliveryTimeForm @submit="handleDeliveryTimeFormSubmit" :on-date-input="handleDateInput" :on-time-input="handleTimeInput"></DeliveryTimeForm>
       </div>
       <modal v-if="showModal" @close="showModal = false">
@@ -229,7 +230,7 @@ export default {
               </div>
             </cart>
             <div v-if="showDeliveryForm" class="mt-3">
-              <button class="btn btn-lg btn-block btn-primary" @click="handleOrder()">Commander</button>
+              <button class="btn btn-lg btn-block btn-primary" @click="handleOrder()" :disabled="!deliveryFormFilled">Commander</button>
               <div v-if="order.serverError" class="mt-3 text-center">
                 <p class="mb-0 text-danger">Une erreur s'est produite. Veuillez réessayer plus tard.</p>
               </div>

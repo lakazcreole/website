@@ -1,0 +1,125 @@
+// Home page
+
+@media (max-width: 576px) {
+    section.promo {
+        h1 {
+            font-size: 3.25rem;
+        }
+    }
+}
+
+@media (min-width: 577px) {
+    section.promo {
+        h1 {
+            font-size: 5.5rem;
+        }
+    }
+}
+
+section.promo {
+    height: 30rem;
+    // height: 50vh;
+
+    .background {
+        background-image: url('/images/header.jpg');
+        background-size: cover;
+        // z-index: 10;
+    }
+    .overlay {
+        background-color: rgba(0, 0, 0, 0.2);
+        // z-index: 11;
+        top: 0;
+    }
+    h1 {
+        font-family: $title-font-family;
+        text-shadow: 2px 2px 3px black;
+        color: white;
+    }
+    p {
+        font-size: 1.2rem;
+        text-shadow: 1px 1px 2px black;
+        color: white;
+    }
+    a.btn {
+        width: 210px;
+    }
+}
+
+@media (max-width: 576px) {
+    section.intro div.intro-text {
+        margin-top: 2rem;
+        margin-left: 0;
+        &::before {
+            content: none;
+        }
+    }
+}
+
+@media (min-width: 769px) {
+    section.intro div.intro-text {
+        margin-left: 3.5rem;
+    }
+}
+
+section.intro {
+    .intro-text {
+        background: #ffffff;
+        padding: 1.5rem;
+        border-radius: 1rem;
+        box-shadow: 2px 2px 5px #ffa500b3;
+        position: relative;
+        &::before {
+            content: "\A";
+            position: absolute;
+            background-color: white;
+            width: 30px;
+            height: 30px;
+            left: -15px;
+            top: 38px;
+            box-shadow: 2px 2px 6px #ffa500b3;
+            transform: rotate(45deg);
+            z-index: -1;
+        }
+    }
+    h2 {
+        font-family: $title-font-family;
+        margin-bottom: 1rem;
+        color: $orange500;
+    }
+    p {
+        margin-bottom: 0;
+    }
+}
+
+section.menu {
+    h2 {
+        font-family: $title-font-family;
+        font-size: 3rem;
+        color: $orange500;
+    }
+    h3 {
+        color: $orange500;
+    }
+    .card {
+        border:none;
+        box-shadow: 0 8px 16px 0 rgba(0,0,0,0.05), 0 6px 20px 0 rgba(0,0,0,0.05);
+        overflow: hidden;
+
+        .tag {
+            background-color: $orange400;
+            color: white;
+            font-weight: 600;
+            width: 190px;
+            position: absolute;
+            transform: rotate(45deg);
+            right: -37px;
+            top: 43px;
+            padding-top: 2px;
+            padding-bottom: 2px;
+            font-size: 1rem;
+        }
+    }
+    .btn-big {
+        width: 260px;
+    }
+}

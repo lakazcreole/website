@@ -5,7 +5,8 @@
                 email: '',
                 errors: null,
                 subscribed: false,
-                serverError: false
+                serverError: false,
+                waiting: false
             }
         },
         computed: {
@@ -16,11 +17,14 @@
         },
         methods: {
             onSubmit() {
+                this.waiting = true
                 axios.post('/api/subscriptions', {
                     email: this.email
                 }).then(response => {
                     this.subscribed = true
+                    this.waiting = false
                 }).catch(error => {
+                    this.waiting = false
                     if (error.response && error.response.status === 422) {
                         this.errors = error.response.data
                     } else {
@@ -44,12 +48,15 @@
                 <div class="d-flex">
                     <form v-on:submit.prevent="onSubmit" class="form-inline mx-auto d-flex align-items-start justify-content-center">
                         <div class="m-2">
-                            <input v-model="email" type="email" :class="inputClasses" id="email" placeholder="Entrez votre email"/>
+                            <input v-model="email" type="email" :class="inputClasses" id="email" placeholder="Entrez votre email" :disabled="waiting"/>
                             <div v-if="errors" class="d-flex invalid-feedback">
                                 <span v-for="err in errors.errors.email">{{ err }} </span>
                             </div>
                         </div>
-                        <button type="submit" class="btn btn-primary m-2">Inscription</button>
+                        <button type="submit" class="btn btn-primary m-2" :disabled="waiting">
+                            <span v-if="waiting">En cours</span>
+                            <span v-else>Inscription</span>
+                        </button>
                     </form>
                 </div>
             </div>
