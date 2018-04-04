@@ -59610,7 +59610,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
           return;
         }
       }
-      this.order.orderLines.push({
+      this.order.lines.push({
         productId: side.id,
         productName: side.name,
         productPrice: side.price,
@@ -59618,7 +59618,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       });
     },
     removeOrderLine: function removeOrderLine(line) {
-      this.order.orderLines.splice(this.order.orderLines.indexOf(line), 1);
+      this.order.lines.splice(this.order.lines.indexOf(line), 1);
     },
     handleDateInput: function handleDateInput(value) {
       this.order.date = value;
@@ -60455,10 +60455,10 @@ var VueScrollTo = __webpack_require__(11);
             this.expandedProductId = this.expandedProductId === product.id ? null : product.id;
         },
         handleAddWithOption: function handleAddWithOption(product, optionId) {
+            this.expandedProductId = null;
             this.handleAdd(product, this.products.find(function (product) {
                 return product.id === optionId;
             }));
-            this.expandedProductId = null;
         },
 
         scrollToTag: function scrollToTag(tag) {

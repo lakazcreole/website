@@ -37,8 +37,8 @@ export default {
             this.expandedProductId = this.expandedProductId === product.id ? null : product.id
         },
         handleAddWithOption(product, optionId) {
-            this.handleAdd(product, this.products.find(product => product.id === optionId))
             this.expandedProductId = null
+            this.handleAdd(product, this.products.find(product => product.id === optionId))
         },
         scrollToTag: function(tag) {
             const options = {

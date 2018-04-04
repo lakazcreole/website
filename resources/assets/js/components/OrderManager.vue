@@ -98,7 +98,7 @@ export default {
           return
         }
       }
-      this.order.orderLines.push({
+      this.order.lines.push({
         productId: side.id,
         productName: side.name,
         productPrice: side.price,
@@ -106,7 +106,7 @@ export default {
       })
     },
     removeOrderLine(line) {
-      this.order.orderLines.splice(this.order.orderLines.indexOf(line), 1)
+      this.order.lines.splice(this.order.lines.indexOf(line), 1)
     },
     handleDateInput(value) {
       this.order.date = value
