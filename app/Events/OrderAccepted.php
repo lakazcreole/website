@@ -30,6 +30,7 @@ class OrderAccepted
     public function __construct(Order $order)
     {
         $this->order = $order;
+        Log::info("Accepted order #{$this->order->id} from {$this->order->customer->email}");
     }
 
     /**

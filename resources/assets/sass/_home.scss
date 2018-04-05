@@ -41,7 +41,7 @@ section.promo {
         color: white;
     }
     a.btn {
-        width: 210px;
+        width: $cta-btn-width;
     }
 }
 
@@ -121,5 +121,8 @@ section.menu {
     }
     .btn-big {
         width: 260px;
+    }
+    a.btn {
+        width: $cta-btn-width;
     }
 }

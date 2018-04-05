@@ -19,8 +19,8 @@
           <p class="text-light">Gastronomie réunionnaise disponible en traiteur et livraison.</p>
         </div>
         <div class="d-flex flex-wrap justify-content-center">
-          <a class="btn btn-lg btn-primary m-2" href="{{ route('order') }}">Commander</a>
-          <a class="btn btn-lg btn-outline-primary m-2" href="{{ asset('pdf/LaKazCreole.pdf') }}" target="_blank">Télécharger la carte</a>
+          <a class="btn btn-rounded btn-lg btn-primary m-2" href="{{ route('order') }}">Commander</a>
+          <a class="btn btn-rounded btn-lg btn-outline-primary m-2" href="{{ asset('pdf/LaKazCreole.pdf') }}" target="_blank">Télécharger la carte</a>
         </div>
       </div>
     </div>

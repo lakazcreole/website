@@ -23,7 +23,7 @@
                 </ul>
             </div>
             <div class="ml-2">
-                <a class="btn btn-lg btn-primary" href="{{ route('order') }}">Commander</a>
+                <a class="btn btn-rounded btn-lg btn-primary" href="{{ route('order') }}">Commander</a>
             </div>
         </div>
     </div>

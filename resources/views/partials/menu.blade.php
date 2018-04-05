@@ -41,7 +41,7 @@
       </div>
     </div>
     <div class="text-center my-5">
-      <a class="btn btn-lg btn-primary" href="{{ route('order') }}">Commander</a>
+      <a class="btn btn-rounded btn-lg btn-primary" href="{{ route('order') }}">Commander</a>
     </div>
   </div>
 </section>

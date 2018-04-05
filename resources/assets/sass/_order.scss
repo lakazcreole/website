@@ -1,6 +1,7 @@
 section.order {
     .order-header {
         .gradient {
+            // background-image: url('/images/header.jpg');
             background-image: -webkit-gradient(linear, left bottom, left top, from(rgba(255, 33, 82, 0.7)), to(rgba(255, 167, 0, 0.7)));
             background-image: linear-gradient(0deg, rgba(255, 33, 82, 0.7), rgba(255, 167, 0, 0.7));
             background-size: cover;

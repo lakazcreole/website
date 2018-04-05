@@ -19,7 +19,7 @@
                         Je prépare chaque commande toute seule, il faut que toute commande doit être passée 24h à l'avance. Merci de votre compréhension.<br>
                         Pour toute demande particulière, contactez-moi directement !
                     </p>
-                    <button class="btn btn-lg btn-outline-light ml-auto">Contact</button>
+                    <button class="btn btn-lg btn-outline-light ml-auto" @click="showContactModal = true">Contact</button>
                 </div>
             </div>
         </div>

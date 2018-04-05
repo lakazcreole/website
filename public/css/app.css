@@ -10002,6 +10002,10 @@ a.text-dark:focus {
   }
 }
 
+.btn.btn-rounded {
+  border-radius: 999px;
+}
+
 .btn-primary {
   background-color: #FF9800;
   border-color: #FF9800;
@@ -10229,6 +10233,10 @@ section.menu .card .tag {
 
 section.menu .btn-big {
   width: 260px;
+}
+
+section.menu a.btn {
+  width: 210px;
 }
 
 section.order .order-header .gradient {
