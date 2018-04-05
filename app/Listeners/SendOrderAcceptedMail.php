@@ -3,8 +3,11 @@
 namespace App\Listeners;
 
 use App\Events\OrderAccepted;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use App\Mail\OrderAccepted as OrderAcceptedMail;
 
 class SendOrderAcceptedMail
 {
@@ -26,6 +29,8 @@ class SendOrderAcceptedMail
      */
     public function handle(OrderAccepted $event)
     {
-        //
+        Mail::to($event->order->customer->email)
+            ->send(new OrderAcceptedMail($event->order));
+        Log::info("Order accepted mail sent to {$event->order->customer->email}");
     }
 }
