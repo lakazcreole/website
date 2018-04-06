@@ -1,11 +1,9 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers;
 
 use App\Product;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use App\Http\Resources\ProductResource;
 
 class ProductController extends Controller
 {
@@ -14,10 +12,26 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
-        $products = Product::where('disabled', $request->query('disabled', false))->get();
-        return ProductResource::collection($products);
+        return view('products.index')
+            ->with('productTypes', [
+                [ 'type' => 'starter', 'title' => 'Entrées' ],
+                [ 'type' => 'main', 'title' => 'Plats' ],
+                [ 'type' => 'drink', 'title' => 'Boissons' ],
+                [ 'type' => 'side', 'title' => 'Accompagnements' ],
+            ])
+            ->with('products', Product::all());
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        //
     }
 
     /**
@@ -34,7 +48,7 @@ class ProductController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  Product $product
+     * @param  \App\Product  $product
      * @return \Illuminate\Http\Response
      */
     public function show(Product $product)
@@ -43,23 +57,32 @@ class ProductController extends Controller
     }
 
     /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  \App\Product  $product
+     * @return \Illuminate\Http\Response
+     */
+    public function edit(Product $product)
+    {
+        //
+    }
+
+    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  Product $product
+     * @param  \App\Product  $product
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Product $product)
     {
-        $product->disabled = $request->disabled;
-        $product->save();
-        return new ProductResource($product);
+        //
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  Product $product
+     * @param  \App\Product  $product
      * @return \Illuminate\Http\Response
      */
     public function destroy(Product $product)

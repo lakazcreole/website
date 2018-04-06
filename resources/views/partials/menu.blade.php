@@ -36,7 +36,7 @@
             <li>Gâteau patate</li>
             <li>Fruits exotiques</li>
           </ul>
-          <p class="card-text">Il reste toujours une place pour le dessert.</p>
+          <p class="card-text">Il reste toujours une place pour le dessert. 😉</p>
         </div>
       </div>
     </div>

@@ -10258,6 +10258,19 @@ section.order .order-header p {
   font-size: 1rem;
 }
 
+section.order .order-header p a.link {
+  color: #343a40;
+  text-decoration: underline;
+}
+
+section.order .order-header p a.link:hover {
+  color: white;
+}
+
+section.order .order-header p a.link:focus {
+  color: white;
+}
+
 section.order .order-manager .order-nav {
   font-size: 1rem;
   margin-top: 0.5rem;

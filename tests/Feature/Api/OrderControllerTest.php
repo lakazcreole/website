@@ -19,7 +19,7 @@ class OrderControllerTest extends TestCase
             'firstName' => 'Sally',
             'lastName' => 'Holman',
             'email' => 'sally@email.com',
-            'phone' => '01 23 45 67 89'
+            'phone' => '0123456789'
         ];
         $address = [
             'address1' => '3 rue de Paris',
@@ -53,7 +53,7 @@ class OrderControllerTest extends TestCase
                 'firstName' => 'Sally',
                 'lastName' => 'Holman',
                 'email' => 'sally@email.com',
-                'phone' => '01 23 45 67 89'
+                'phone' => '0123456789'
             ],
             'address' => [
                 'address1' => '3 rue de Paris',
@@ -86,7 +86,7 @@ class OrderControllerTest extends TestCase
                 'firstName' => 'Sally',
                 'lastName' => 'Holman',
                 'email' => 'sally@email.com',
-                'phone' => '01 23 45 67 89'
+                'phone' => '0123456789'
             ],
             'address' => [
                 'address1' => '3 rue de Paris',
@@ -117,8 +117,6 @@ class OrderControllerTest extends TestCase
                     'customer.email' => [],
                     'customer.phone' => [],
                     'address.address1' => [],
-                    'address.address2' => [],
-                    'address.address3' => [],
                     'address.city' => [],
                     'address.zip' => [],
                     'date' => [],
@@ -136,7 +134,7 @@ class OrderControllerTest extends TestCase
                 'firstName' => 'Sally',
                 'lastName' => 'Holman',
                 'email' => 'sally@email.com',
-                'phone' => '01 23 45 67 89'
+                'phone' => '0123456789'
             ],
             'address' => [
                 'address1' => '3 rue de Paris',
@@ -156,7 +154,7 @@ class OrderControllerTest extends TestCase
         $data['time'] = '12:15';
         $data['customer']['firstName'] = 'Something';
         $data['customer']['lastName'] = 'Else';
-        $data['customer']['phone'] = '06 01 01 01 01';
+        $data['customer']['phone'] = '0601010101';
         $this->json('POST', '/api/orders', $data)->assertStatus(201);
     }
 }

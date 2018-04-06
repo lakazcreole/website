@@ -15,6 +15,9 @@
                 </li>
             </ul>
             <p class="text-light">
+                <a href="#" @click.prevent="showContactModal = true">Signaler un bug</a>
+            </p>
+            <p class="text-light">
                 Made with <span class="color">&hearts;</span> by <a href="http://laurentcazanove.com" target="_blank">Laurent Cazanove</a>.
             </p>
         </div>

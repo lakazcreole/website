@@ -103,6 +103,9 @@ return [
         'attribute-name' => [
             'rule-name' => 'custom-message',
         ],
+        'customer.phone' => [
+            'numeric' => 'Le champ :attribute doit contenir un numéro de téléphone sans espaces.',
+        ],
     ],
 
     /*

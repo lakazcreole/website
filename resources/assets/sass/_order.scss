@@ -16,6 +16,16 @@ section.order {
         }
         p {
             font-size: 1rem;
+            a.link {
+                color: #343a40; // .text-dark
+                text-decoration: underline;
+                &:hover {
+                    color: white;
+                }
+                &:focus {
+                    color: white;
+                }
+            }
         }
     }
     .order-manager {

@@ -40,7 +40,7 @@
     <div class="newsletter">
         <p v-if="serverError" class="text-center text-light">Une erreur s'est produite. Veuillez réessayer plus tard.</p>
         <div v-else >
-            <p v-if="subscribed" class="text-center text-light">Vous êtes maintenant abonné à notre newsletter. Merci !</p>
+            <p v-if="subscribed" class="text-center text-light">Vous êtes maintenant abonné(e) à notre newsletter. Merci !</p>
             <div v-else>
                 <p class="text-center text-light">
                     Pour suivre le projet et recevoir nos actualités, inscrivez-vous à la newsletter !
