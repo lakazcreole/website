@@ -59862,6 +59862,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     return {
       disabledDates: {
         to: new Date()
+      },
+      highlightedDates: {
+        dates: [new Date()],
+        includeDisabled: true
       }
     };
   }
@@ -59897,6 +59901,7 @@ var render = function() {
             "full-month-name": true,
             "monday-first": true,
             disabled: _vm.disabledDates,
+            highlighted: _vm.highlightedDates,
             "bootstrap-styling": true,
             "input-class": "datepicker-bg",
             id: "inputDate",

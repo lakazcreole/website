@@ -11,7 +11,8 @@
 @media (min-width: 577px) {
     section.promo {
         h1 {
-            font-size: 5.5rem;
+            font-size: 4.2rem;
+            // font-size: 5.5rem;
         }
     }
 }
@@ -87,7 +88,11 @@ section.intro {
         color: $orange500;
     }
     p {
+        font-size: 0.9rem;
         margin-bottom: 0;
+    }
+    blockquote footer {
+        color: #866b5b;
     }
 }
 

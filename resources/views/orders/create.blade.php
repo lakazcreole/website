@@ -11,11 +11,12 @@
     </header>
     <section class="order">
         <div class="order-header pb-4 position-relative">
-            <div class="gradient position-absolute w-100 h-100"></div>
+            <div class="background position-absolute w-100 h-100"></div>
+            <div class="overlay position-absolute w-100 h-100"></div>
             <div class="container">
                 <h1 class="text-light pt-4 mb-3">Commande</h1>
-                <p class="text-dark">
-                    Je prépare chaque commande toute seule, il faut que toute commande doit être passée 24h à l'avance. Merci de votre compréhension.<br>
+                <p class="text-light">
+                    Chaque commande est préparée par mes soins de l'achat des marchandises à la livraison chez vous. Il faut donc commander 24h à l'avance pour que je puisse vous servir dans les meilleures conditions. Merci d'avance pour votre compréhension.<br>
                     Pour toute demande particulière, <a class="link" href="#" @click.prevent="showContactModal = true">contactez-moi directement</a> !
                 </p>
             </div>

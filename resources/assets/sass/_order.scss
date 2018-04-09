@@ -1,23 +1,29 @@
 section.order {
     .order-header {
-        .gradient {
-            // background-image: url('/images/header.jpg');
-            background-image: -webkit-gradient(linear, left bottom, left top, from(rgba(255, 33, 82, 0.7)), to(rgba(255, 167, 0, 0.7)));
-            background-image: linear-gradient(0deg, rgba(255, 33, 82, 0.7), rgba(255, 167, 0, 0.7));
+        .background {
+            background-image: url('/images/order_header.jpg');
             background-size: cover;
+            background-position: center;
 
             box-shadow: inset 0px -2px 3px $section-shadow;
             opacity: 0.9;
             z-index: -1;
         }
+        .overlay {
+            background-color: rgba(0, 0, 0, 0.4);
+            z-index: -1;
+            top: 0;
+        }
         h1 {
             font-family: $title-font-family;
             font-size: 3.25rem;
+            text-shadow: 2px 2px 3px black;
         }
         p {
             font-size: 1rem;
+            text-shadow: 1px 1px 2px black;
             a.link {
-                color: #343a40; // .text-dark
+                color: #f8f9fa; // text-light
                 text-decoration: underline;
                 &:hover {
                     color: white;

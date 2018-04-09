@@ -10114,7 +10114,7 @@ img.portrait {
 
 @media (min-width: 577px) {
   section.promo h1 {
-    font-size: 5.5rem;
+    font-size: 4.2rem;
   }
 }
 
@@ -10196,7 +10196,12 @@ section.intro h2 {
 }
 
 section.intro p {
+  font-size: 0.9rem;
   margin-bottom: 0;
+}
+
+section.intro blockquote footer {
+  color: #866b5b;
 }
 
 section.menu h2 {
@@ -10239,27 +10244,35 @@ section.menu a.btn {
   width: 210px;
 }
 
-section.order .order-header .gradient {
-  background-image: -webkit-gradient(linear, left bottom, left top, from(rgba(255, 33, 82, 0.7)), to(rgba(255, 167, 0, 0.7)));
-  background-image: linear-gradient(0deg, rgba(255, 33, 82, 0.7), rgba(255, 167, 0, 0.7));
+section.order .order-header .background {
+  background-image: url("/images/order_header.jpg");
   background-size: cover;
+  background-position: center;
   -webkit-box-shadow: inset 0px -2px 3px #ab5c0c;
           box-shadow: inset 0px -2px 3px #ab5c0c;
   opacity: 0.9;
   z-index: -1;
 }
 
+section.order .order-header .overlay {
+  background-color: rgba(0, 0, 0, 0.4);
+  z-index: -1;
+  top: 0;
+}
+
 section.order .order-header h1 {
   font-family: "Kaushan Script";
   font-size: 3.25rem;
+  text-shadow: 2px 2px 3px black;
 }
 
 section.order .order-header p {
   font-size: 1rem;
+  text-shadow: 1px 1px 2px black;
 }
 
 section.order .order-header p a.link {
-  color: #343a40;
+  color: #f8f9fa;
   text-decoration: underline;
 }
 
