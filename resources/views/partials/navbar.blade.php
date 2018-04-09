@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container">
-        <a class="navbar-brand" href="{{ url('/') }}">
+        <a class="navbar-brand" href="{{ route('home') }}">
             <img class="logo" src="{{ asset('images/logo.png') }}" alt="logo La Kaz Creole">
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -13,7 +13,9 @@
                         <a class="nav-link" href="#">À propos {!! Request::is('/') ? '<span class="sr-only">(current)</span>' : '' !!}</a>
                     </li> --}}
                     <li class="nav-item">
-                        <a class="nav-link" href="#" @click.prevent="scrollToMenu">La carte</a>
+                        @if(Request::is('/'))
+                            <a class="nav-link" href="#" @click.prevent="scrollToMenu">La carte</a>
+                        @endif
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#" @click.prevent="showContactModal = true">Contact</a>
@@ -21,7 +23,7 @@
                 </ul>
             </div>
             <div class="ml-2">
-                <button class="btn btn-lg btn-primary" type="submit" @click="openOrder">Commander</button>
+                <a class="btn btn-rounded btn-lg btn-primary" href="{{ route('order') }}">Commander</a>
             </div>
         </div>
     </div>

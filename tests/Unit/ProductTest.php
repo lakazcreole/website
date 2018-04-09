@@ -42,4 +42,14 @@ class ProductTest extends TestCase
         $this->assertEquals($product1->type === 'side', $product1->isSide());
         $this->assertTrue($product2->isSide());
     }
+
+    public function testGetDisabledAttributeReturnsBoolean()
+    {
+        $product1 = factory(Product::class)->create(['disabled' => true]);
+        $product2 = factory(Product::class)->create(['disabled' => false]);
+        $product1 = Product::find($product1->id);
+        $product2 = Product::find($product2->id);
+        $this->assertTrue($product1->disabled === true);
+        $this->assertTrue($product2->disabled === false);
+    }
 }

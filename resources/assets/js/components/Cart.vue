@@ -73,14 +73,20 @@ export default {
                             Livraison <small class="ml-auto">Offert</small>
                         </div>
                     </li>
+                    <li v-if="fullPrice < 8" class="list-group-item">
+                            <div class="text-danger">
+                                Minimum de commande (8 €) non atteint.
+                            </div>
+                    </li>
                 </ul>
             </div>
             <div class="card-footer d-flex flex-row align-items-center">
                 Total : <span class="ml-auto">{{ fullPrice.toString().replace('.', ',') }} €</span>
             </div>
         </div>
+        <slot name="info"></slot>
         <div v-if="!complete" class="mt-3">
-            <button v-if="orderLines.length === 0" class="btn btn-lg btn-block btn-primary" aria-disabled="true" disabled>Commander</button>
+            <button v-if="orderLines.length === 0 || fullPrice < 8" class="btn btn-lg btn-block btn-primary" aria-disabled="true" disabled>Commander</button>
             <button v-else class="btn btn-lg btn-block btn-primary" @click="handleOrder()">Commander</button>
         </div>
     </div>

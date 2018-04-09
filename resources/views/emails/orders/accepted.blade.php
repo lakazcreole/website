@@ -1,0 +1,31 @@
+@component('mail::message')
+Bonjour {{ $customerName }},<br/>
+<br/>
+Vous avez réalisé une commande sur La Kaz Créole pour le {{ $date }} à {{ $time }}.<br/>
+{{-- <br/>
+Paiement en <strong>espèces</strong> à la livraison ou en ligne via Lydia.
+
+@component('mail::button', ['url' => '#'])
+Payer via <img src="https://lydia-app.com/assets/img/sitep2p/logo-lydia@2x.png" style="margin: -5px 0px; height: 20px">
+@endcomponent --}}
+
+# Récapitulatif de votre commande
+
+@component('mail::table')
+| Produits | Prix |
+|:--- | ---:|
+@foreach($lines as $line)
+| {{ $line->quantity . ' ' }}{{ str_plural($line->product->name, $line->quantity) }} | {{ number_format($line->totalPrice, 2) }} €
+@endforeach
+ | <strong>Total</strong> | <strong>{{ number_format($totalPrice, 2) }} €</strong>
+@endcomponent
+
+# Adresse de livraison
+{{ $address1 }}<br/>
+{{ $address2 }}<br/>
+{{ $address3 }}<br/>
+
+
+Bonne journée,<br/>
+{{ config('app.name') }}
+@endcomponent

@@ -11,7 +11,7 @@ class DashboardController extends TestCase
 {
     use RefreshDatabase;
 
-    public function testAdminUserCanDashboard()
+    public function testAdminUserCanAccessDashboard()
     {
         $user = factory(User::class)->create(['admin' => true]);
         $this->actingAs($user)
@@ -20,7 +20,7 @@ class DashboardController extends TestCase
             ->assertViewIs('dashboard.home');
     }
 
-    public function testStandardUserCannotDashboard()
+    public function testStandardUserCannotAccessDashboard()
     {
         $user = factory(User::class)->create(['admin' => false]);
         $this->actingAs($user)
@@ -28,7 +28,7 @@ class DashboardController extends TestCase
             ->assertStatus(403);
     }
 
-    public function testGuestCannotDashboard()
+    public function testGuestIsRedirectedToLogin()
     {
         $this->get('dashboard')
             ->assertRedirect(route('login'));

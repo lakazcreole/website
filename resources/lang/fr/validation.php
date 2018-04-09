@@ -32,6 +32,7 @@ return [
     'confirmed' => 'Le champ de confirmation :attribute ne correspond pas.',
     'date' => "Le champ :attribute n'est pas une date valide.",
     'date_format' => 'Le champ :attribute ne correspond pas au format :format.',
+    'delivery_time' => 'Le champ :attribute doit être un horaire de livraison valide.',
     'different' => 'Les champs :attribute et :other doivent être différents.',
     'digits' => 'Le champ :attribute doit contenir :digits chiffres.',
     'digits_between' => 'Le champ :attribute doit contenir entre :min et :max chiffres.',
@@ -102,6 +103,9 @@ return [
         'attribute-name' => [
             'rule-name' => 'custom-message',
         ],
+        'customer.phone' => [
+            'numeric' => 'Le champ :attribute doit contenir un numéro de téléphone sans espaces.',
+        ],
     ],
 
     /*
@@ -145,6 +149,15 @@ return [
         'time' => 'heure',
         'available' => 'disponible',
         'size' => 'taille',
-        'subject' => 'objet'
+        'subject' => 'objet',
+        'address.address1' => 'adresse',
+        'address.address2' => 'adresse 2',
+        'address.address3' => 'instructions de livraison',
+        'address.city' => 'ville',
+        'address.zip' => 'code postal',
+        'customer.firstName' => 'prénom',
+        'customer.lastName' => 'nom',
+        'customer.email' => 'e-mail',
+        'customer.phone' => 'téléphone',
     ],
 ];

@@ -18,7 +18,7 @@ class ContactControllerTest extends TestCase
             'subject' => 'Hello',
             'message' => 'Hey I just wanted to say hi'
         ];
-        $this->json('POST', '/api/contact', $data)->assertStatus(201);
+        $this->json('POST', '/api/contacts', $data)->assertStatus(201);
         $this->assertDatabaseHas('contacts', $data);
     }
 
@@ -30,7 +30,7 @@ class ContactControllerTest extends TestCase
             'subject' => '',
             'message' => ''
         ];
-        $this->json('POST', '/api/contact', $data)->assertStatus(422);
-        $this->json('POST', '/api/contact', [])->assertStatus(422);
+        $this->json('POST', '/api/contacts', $data)->assertStatus(422);
+        $this->json('POST', '/api/contacts', [])->assertStatus(422);
     }
 }

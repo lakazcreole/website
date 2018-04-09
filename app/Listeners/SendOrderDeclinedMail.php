@@ -29,7 +29,8 @@ class SendOrderDeclinedMail
      */
     public function handle(OrderDeclined $event)
     {
-        Mail::to($event->order->customer->email)->send(new OrderDeclinedMail($event->order));
+        Mail::to($event->order->customer->email)
+            ->send(new OrderDeclinedMail($event->order));
         Log::info("Order declined mail sent to {$event->order->customer->email}");
     }
 }

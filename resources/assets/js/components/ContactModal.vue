@@ -25,19 +25,23 @@
                 message: '',
                 serverError: false,
                 errors: null,
-                sent: false
+                sent: false,
+                waiting: false,
             }
         },
         methods: {
             onSubmit: function() {
-                axios.post('/api/contact', {
+                this.waiting = true
+                axios.post('/api/contacts', {
                     name: this.name,
                     email: this.email,
                     subject: this.subject,
                     message: this.message
                 }).then(response => {
+                    this.waiting = false
                     this.sent = true
                 }).catch(error => {
+                    this.waiting = false
                     if (error.response && error.response.status === 422) {
                         this.errors = error.response.data
                     } else {
@@ -66,28 +70,28 @@
             <div v-else>
                 <div class="form-group">
                     <label for="name">Nom</label>
-                    <input v-model="name" type="text" :class="inputClasses('name')" id="name" placeholder="Nom"/>
+                    <input v-model="name" type="text" :class="inputClasses('name')" id="name" placeholder="Nom" :disabled="waiting"/>
                     <div v-if="errors" class="invalid-feedback">
                         <span v-for="err in errors.errors.name">{{ err }} </span>
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="email">E-mail</label>
-                    <input v-model="email" type="email" :class="inputClasses('email')" id="email" placeholder="E-mail"/>
+                    <input v-model="email" type="email" :class="inputClasses('email')" id="email" placeholder="E-mail" :disabled="waiting"/>
                     <div v-if="errors" class="invalid-feedback">
                         <span v-for="err in errors.errors.email">{{ err }} </span>
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="subject">Objet</label>
-                    <input v-model="subject" type="text" :class="inputClasses('subject')" id="subject" placeholder="Objet" />
+                    <input v-model="subject" type="text" :class="inputClasses('subject')" id="subject" placeholder="Objet" :disabled="waiting"/>
                     <div v-if="errors" class="invalid-feedback">
                         <span v-for="err in errors.errors.subject">{{ err }} </span>
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="message">Message</label>
-                    <textarea v-model="message" :class="inputClasses('message')" id="message" placeholder="Saisissez votre message..." rows="3"></textarea>
+                    <textarea v-model="message" :class="inputClasses('message')" id="message" placeholder="Saisissez votre message..." rows="3" :disabled="waiting"></textarea>
                     <div v-if="errors" class="invalid-feedback">
                         <span v-for="err in errors.errors.message">{{ err }} </span>
                     </div>
@@ -99,7 +103,10 @@
                 <span v-if="sent">Fermer</span>
                 <span v-else>Annuler</span>
             </button>
-            <button v-if="!serverError && !sent" type="button" class="btn btn-primary ml-2" @click="onSubmit">Envoyer</button>
+            <button v-if="!serverError && !sent" type="button" class="btn btn-primary ml-2" @click="onSubmit" :disabled="waiting">
+                <span v-if="waiting">En cours</span>
+                <span v-else>Envoyer</span>
+            </button>
         </div>
     </modal>
 </template>

@@ -1,0 +1,86 @@
+section.order {
+    .order-header {
+        .background {
+            background-image: url('/images/order_header.jpg');
+            background-size: cover;
+            background-position: center;
+
+            box-shadow: inset 0px -2px 3px $section-shadow;
+            opacity: 0.9;
+            z-index: -1;
+        }
+        .overlay {
+            background-color: rgba(0, 0, 0, 0.4);
+            z-index: -1;
+            top: 0;
+        }
+        h1 {
+            font-family: $title-font-family;
+            font-size: 3.25rem;
+            text-shadow: 2px 2px 3px black;
+        }
+        p {
+            font-size: 1rem;
+            text-shadow: 1px 1px 2px black;
+            a.link {
+                color: #f8f9fa; // text-light
+                text-decoration: underline;
+                &:hover {
+                    color: white;
+                }
+                &:focus {
+                    color: white;
+                }
+            }
+        }
+    }
+    .order-manager {
+        .order-nav {
+            font-size: 1rem;
+            margin-top: 0.5rem;
+            ul li a.nav-link {
+                color: black;
+                &:hover {
+                    background-color: $orange300;
+                    color: white;
+                }
+            }
+        }
+        .order-menu {
+            button i.material-icons {
+                color: $orange500;
+            }
+            button:hover i.material-icons {
+                color: white;
+            }
+        }
+    }
+    .order-cart {
+        .btn-link {
+            color: $orange500;
+            &:hover {
+                color: $orange300;
+            }
+        }
+        a.link {
+            color: $orange500;
+            &:hover {
+                color: $orange300;
+            }
+        }
+        .card-footer {
+            font-weight: 600;
+        }
+    }
+    h2 {
+        font-family: $title-font-family;
+        font-size: 2.5rem;
+        // color: $orange500;
+    }
+    h3 {
+        color: $orange500;
+        small {
+            font-size: 60%;
+        }
+    }
+}

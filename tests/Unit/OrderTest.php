@@ -146,4 +146,16 @@ class OrderTest extends TestCase
             return $event->order->id === $order->id;
         });
     }
+
+    public function testHasInformation()
+    {
+        $order = factory(Order::class)->create([
+            'information' => 'test',
+            'customer_id' => factory(Customer::class)->create()->id
+        ]);
+        $this->assertDatabaseHas('orders', [
+            'id' => $order->id,
+            'information' => 'test'
+        ]);
+    }
 }

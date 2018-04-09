@@ -14,6 +14,15 @@ use Illuminate\Database\Eloquent\Model;
 class Order extends Model
 {
     /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'address1', 'address2', 'address3', 'city', 'zip', 'date', 'time', 'information', 'customer_id'
+    ];
+
+    /**
      * The event map for the model.
      *
      * @var array

@@ -17,9 +17,10 @@
 
     <body>
         <div id="app">
+            @include('dashboard.partials.navbar')
             @yield('modals')
             @yield('content')
         </div>
-        <script src="{{ mix('js/app.js') }}"></script>
+        <script src="{{ mix('js/dashboard.js') }}"></script>
     </body>
 </html>
