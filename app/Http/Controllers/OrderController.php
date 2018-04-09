@@ -23,7 +23,7 @@ class OrderController extends Controller
             'customerEmail' => $order->customer->email,
             'customerPhone' => $order->customer->phone,
             'lines' => $order->lines,
-            'address' => $order->address,
+            'address' => "{$order->address1} {$order->address2} {$order->address3}",
             'date' => $order->date,
             'time' => $order->time,
             'totalPrice' => $order->totalPrice,
