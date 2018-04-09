@@ -54,6 +54,7 @@ class OrderControllerTest extends TestCase
         $this->actingAs($admin)
             ->get("/dashboard/orders/{$order->id}/decline")
             ->assertViewIs('orders.decline_form')
+            ->assertViewHas('address', "{$order->address1} {$order->address2} {$order->address3}")
             ->assertStatus(200);
     }
 
@@ -77,6 +78,7 @@ class OrderControllerTest extends TestCase
         $this->actingAs($admin)
             ->post("/dashboard/orders/{$order->id}/decline", ['message' => 'No.'])
             ->assertViewIs('orders.declined')
+            ->assertViewHas('address', "{$order->address1} {$order->address2} {$order->address3}")
             ->assertStatus(200);
         $order = Order::find($order->id);
         $this->assertTrue($order->isDeclined());
