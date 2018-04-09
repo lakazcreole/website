@@ -29,6 +29,8 @@ class OrderControllerTest extends TestCase
         $admin = factory(User::class)->make(['admin' => true]);
         $this->actingAs($admin)
             ->get("/dashboard/orders/{$order->id}/accept")
+            ->assertViewIs('orders.accepted')
+            ->assertViewHas('address', "{$order->address1} {$order->address2} {$order->address3}")
             ->assertStatus(200);
         $this->assertTrue(Order::find($order->id)->isAccepted());
     }
