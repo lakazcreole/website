@@ -65,9 +65,6 @@ export default {
           <option value="13:00">13:00</option>
         </optgroup>
         <optgroup label="Soir">
-          <option value="19:00">19:00</option>
-          <option value="19:15">19:15</option>
-          <option value="19:30">19:30</option>
           <option value="19:45">19:45</option>
           <option value="20:00">20:00</option>
           <option value="20:15">20:15</option>

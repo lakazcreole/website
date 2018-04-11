@@ -39,7 +39,7 @@ class NewOrder extends Mailable implements ShouldQueue
                 'customerEmail' => $this->order->customer->email,
                 'customerPhone' => $this->order->customer->phone,
                 'lines' => $this->order->lines,
-                'address' => $this->order->address,
+                'address' => "{$this->order->address1} {$this->order->address2} {$this->order->address3}",
                 'date' => $this->order->date,
                 'time' => $this->order->time,
                 'totalPrice' => $this->order->totalPrice,

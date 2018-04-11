@@ -20,6 +20,8 @@ Payer via <img src="https://lydia-app.com/assets/img/sitep2p/logo-lydia@2x.png" 
  | <strong>Total</strong> | <strong>{{ number_format($totalPrice, 2) }} €</strong>
 @endcomponent
 
+Le paiement peut être réalisé en espèces, tickets restaurant ou Lydia. Le numéro de téléphone associé au compte Lydia est : 06 29 24 30 90.
+
 # Adresse de livraison
 {{ $address1 }}<br/>
 {{ $address2 }}<br/>

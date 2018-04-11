@@ -99,7 +99,7 @@ class OrderControllerTest extends TestCase
                 ['productId' => $product->id, 'quantity' => 2]
             ],
             'date' => date('d/m/Y', strtotime('tomorrow')),
-            'time' => '16:00',
+            'time' => '19:00',
             'information' => 'allergic to everything'
         ];
         $this->json('POST', '/api/orders', $data)->assertStatus(422);
