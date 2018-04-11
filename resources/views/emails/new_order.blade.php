@@ -7,7 +7,7 @@ Au travail !
 
 @component('mail::panel')
 @foreach($lines as $line)
-- {{ $line->quantity }} {{ $line->product->name }} ({{ $line->totalPrice }} €)
+- {{ $line->quantity }} {{ $line->product->pieces > 1 ? "portion(s) de {$line->product->pieces}" : "" }} {{ $line->product->name }} ({{ $line->totalPrice }} €)
 @endforeach
 @endcomponent
 
