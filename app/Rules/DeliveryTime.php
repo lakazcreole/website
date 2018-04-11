@@ -26,7 +26,7 @@ class DeliveryTime implements Rule
     public function passes($attribute, $value)
     {
         if ((strtotime($value) < strtotime('11:00')) or
-            ((strtotime($value) > strtotime('13:00')) and (strtotime($value) < strtotime('19:00'))))
+            ((strtotime($value) > strtotime('13:00')) and (strtotime($value) < strtotime('19:45'))))
         {
             return false;
         }
