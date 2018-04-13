@@ -5,10 +5,10 @@ import DeliveryTimeSelector from './DeliveryTimeSelector'
 
 export default {
   components: {
-    'cart': require('./Cart'),
-    'modal': require('./Modal'),
-    'order-menu': require('./OrderMenu'),
-    'delivery-form': require('./DeliveryForm'),
+    'cart': require('./Cart').default,
+    'modal': require('./Modal').default,
+    'order-menu': require('./OrderMenu').default,
+    'delivery-form': require('./DeliveryForm').default,
     DeliveryTimeForm,
     DeliveryTimeSelector,
   },
