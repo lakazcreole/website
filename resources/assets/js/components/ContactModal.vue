@@ -15,7 +15,7 @@
             this.message = this.defaultMessage
         },
         components: {
-            'modal': require('./Modal.vue')
+            'modal': require('./Modal.vue').default
         },
         data() {
             return {

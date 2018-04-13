@@ -26,9 +26,9 @@ const VueScrollTo = require('vue-scrollto')
 const app = new Vue({
     el: '#app',
     components: {
-        'contact-modal': require('./components/ContactModal.vue'),
-        'newsletter-form': require('./components/NewsletterForm.vue'),
-        'order-manager': require('./components/OrderManager.vue')
+        'contact-modal': require('./components/ContactModal.vue').default,
+        'newsletter-form': require('./components/NewsletterForm.vue').default,
+        'order-manager': require('./components/OrderManager.vue').default
     },
     directives: {
         'sticky': VueSticky
