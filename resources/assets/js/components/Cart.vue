@@ -81,7 +81,7 @@ export default {
                 </ul>
             </div>
             <div class="card-footer d-flex flex-row align-items-center">
-                Total : <span class="ml-auto">{{ fullPrice.toString().replace('.', ',') }} €</span>
+                Total : <span class="ml-auto">{{ fullPrice.toFixed(2).toString().replace('.', ',') }} €</span>
             </div>
         </div>
         <slot name="info"></slot>

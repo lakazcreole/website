@@ -5,7 +5,7 @@ import DeliveryTimeSelector from './DeliveryTimeSelector'
 
 export default {
   components: {
-    'cart': require('./Cart').default,
+    'cart': require('./NewCart').default,
     'modal': require('./Modal').default,
     'order-menu': require('./OrderMenu').default,
     'delivery-form': require('./DeliveryForm').default,
@@ -224,7 +224,7 @@ export default {
           </div>
           <div class="col-md-4">
             <div v-if="showBasket" v-sticky="{ zIndex: 1020, stickyTop: 115 }">
-              <cart :order-lines="order.lines" :handle-remove="removeOrderLine" v-on:complete="handleCartValidate()" v-on:edit="handleCartEdit()">
+              <cart :items="order.lines" :handle-remove="removeOrderLine" v-on:complete="handleCartValidate()" v-on:edit="handleCartEdit()">
                 <div slot="info" class="my-3">
                   <div v-if="showDeliveryForm" class="form-group">
                     <label for="inputInformation">Informations</label>
