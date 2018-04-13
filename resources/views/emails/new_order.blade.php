@@ -11,6 +11,12 @@ Au travail !
 @endforeach
 @endcomponent
 
+@if($information != null)
+## Attention
+
+{{ $information }}
+@endif
+
 ## Informations
 - Client : {{ $customerName }}
 - Email : {{ $customerEmail }}

@@ -49,7 +49,8 @@ if (App::environment('local')) {
     });
     Route::get('/mailables/OrderAccepted', function() {
         $order = factory(App\Order::class)->create([
-            'customer_id' => factory(App\Customer::class)->create()->id
+            'customer_id' => factory(App\Customer::class)->create()->id,
+            'information' => 'MI MANGE PAS PIMENT GARS'
         ]);
         $product = App\Product::find(1);
         $order->lines()->save(App\OrderLine::create([
