@@ -11,5 +11,6 @@ $factory->define(App\Order::class, function (Faker $faker) {
         'zip' => $faker->postCode,
         'date' => $faker->date(),
         'time' => $faker->time(),
+        'information' => $faker->sentence(3),
     ];
 });
