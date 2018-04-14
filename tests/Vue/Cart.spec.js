@@ -1,12 +1,12 @@
-import { shallow } from '@vue/test-utils'
-import Cart from '../../resources/assets/js/components/NewCart.vue'
+import { shallow, mount } from '@vue/test-utils'
+import Cart from '../../resources/assets/js/components/Cart.vue'
 import CartItem from '../../resources/assets/js/components/CartItem.vue'
 import expect from 'expect'
 
 const factory = (props = {}) => {
   return shallow(Cart, {
     propsData: {
-      editing: true,
+      editable: true,
       items: [],
       ...props
     }
@@ -16,12 +16,12 @@ const factory = (props = {}) => {
 const itemsFactory = () => {
   return [{
     id: 1,
-    name: 'Cat',
+    name: 'Test',
     quantity: 1,
     price: 2
   }, {
     id: 2,
-    name: 'Dog',
+    name: 'Product',
     quantity: 2,
     price: 3
   }]
@@ -48,17 +48,29 @@ describe('Cart', () => {
     expect(wrapper.find('.total').text()).toContain('Total : 10,00 €')
   })
 
-  it('fires a remove event when CartItem fires a remove event', () => {
+  it('fires a removeItem event when CartItem fires a remove event', () => {
     const wrapper = factory({
       items: itemsFactory()
     })
     const childWrapper = wrapper.find(CartItem)
     childWrapper.vm.$emit('remove', childWrapper.id)
-    expect(wrapper.emitted('remove')[0]).toEqual([childWrapper.id])
+    expect(wrapper.emitted('removeItem')[0]).toEqual([childWrapper.id])
   })
 
-  it('displays a delivery cost when total price below 15', () => {
-    const wrapper = factory()
+  it('has remove buttons when editable', () => {
+    const wrapper = mount(Cart, {
+      propsData: {
+        editable: true,
+        items: itemsFactory()
+      }
+    })
+    expect(wrapper.findAll(CartItem).contains('button.remove')).toBe(true)
+  })
+
+  it('displays a delivery cost if not empty and total price below 15', () => {
+    const wrapper = factory({
+      items: itemsFactory()
+    })
     expect(wrapper.find('ul > li.delivery').text()).toContain('Offert à partir de 15 € de commande (hors frais).')
   })
 
@@ -66,7 +78,7 @@ describe('Cart', () => {
     const wrapper = factory({
       items: [{
         id: 1,
-        name: 'Dog',
+        name: 'Product',
         quantity: 1,
         price: 15
       }]
@@ -79,7 +91,7 @@ describe('Cart', () => {
     const wrapper = factory({
       items: [{
         id: 1,
-        name: 'Dog',
+        name: 'Product',
         quantity: 1,
         price: 14
       }]
@@ -91,7 +103,7 @@ describe('Cart', () => {
     const wrapper = factory({
       items: [{
         id: 1,
-        name: 'Dog',
+        name: 'Product',
         quantity: 1,
         price: 5.99
       }]
@@ -99,22 +111,22 @@ describe('Cart', () => {
     expect(wrapper.find('ul > li:last-child').text()).toContain('Minimum de commande (8 €) non atteint.')
   })
 
-  it('has no edit button when editing is true', () => {
+  it('has no edit button when editable', () => {
     const wrapper = factory()
     expect(wrapper.find('button.edit').exists()).toBe(false)
   })
 
   it('fires an edit event when clicking on edit button', () => {
     const wrapper = factory({
-      editing: false
+      editable: false
     })
     wrapper.find('button.edit').trigger('click')
     expect(wrapper.emitted('edit')).toBeTruthy()
   })
 
-  it('has no validate button when editing is false', () => {
+  it('has no validate button when not editable', () => {
     const wrapper = factory({
-      editing: false
+      editable: false
     })
     expect(wrapper.find('button.validate').exists()).toBe(false)
   })
