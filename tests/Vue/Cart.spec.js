@@ -1,10 +1,11 @@
 import { shallow } from '@vue/test-utils'
-import Cart from '../../resources/assets/js/components/NewCart.vue'
+import Cart from '../../resources/assets/js/components/Cart.vue'
 import expect from 'expect'
 
 const factory = (props = {}) => {
   return shallow(Cart, {
     propsData: {
+      editing: true,
       items: [],
       ...props
     }
@@ -47,7 +48,7 @@ describe('Cart', () => {
   })
 
   it('removing an item fires an remove event', () => {
-    const item = { id: 1 }
+    const item = { id: 1, quantity: 1 }
     const wrapper = factory({
       items: [item]
     })
@@ -85,16 +86,30 @@ describe('Cart', () => {
     const wrapper = factory({
       items: [{
         quantity: 1,
-        price: 7.99
+        price: 5.99
       }]
     })
     expect(wrapper.find('ul > li:last-child').text()).toContain('Minimum de commande (8 €) non atteint.')
   })
 
-  it('has an edit button that fires and edit event', () => {
+  it('has no edit button when editing is true', () => {
     const wrapper = factory()
+    expect(wrapper.find('button.edit').exists()).toBe(false)
+  })
+
+  it('fires an edit event when clicking on edit button', () => {
+    const wrapper = factory({
+      editing: false
+    })
     wrapper.find('button.edit').trigger('click')
     expect(wrapper.emitted('edit')).toBeTruthy()
+  })
+
+  it('has no validate button when editing is false', () => {
+    const wrapper = factory({
+      editing: false
+    })
+    expect(wrapper.find('button.validate').exists()).toBe(false)
   })
 
   it('has a validate button that fires a validate event', () => {

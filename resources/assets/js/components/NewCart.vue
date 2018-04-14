@@ -4,6 +4,10 @@ export default {
     items: {
       type: Array,
       required: true
+    },
+    editing: {
+      type: Boolean,
+      required: true
     }
   },
   computed: {
@@ -35,10 +39,10 @@ export default {
 
 <template>
   <div>
-    <button class="edit" @click="edit">Modifier</button>
+    <button v-if="!editing" class="edit" @click="edit">Modifier</button>
     <ul>
       <li v-for="(item, index) in items" :key="index">
-        {{ item.quantity }} {{ item.name }} <button class="remove" @click="remove(item, index)">&times;</button>
+          {{ item.quantity }} {{ item.name }} <button v-if="editing" class="remove" @click="remove(item, index)">&times;</button>
       </li>
       <li v-if="totalPrice < 15" class="delivery">
         Livraison <span class="ml-auto">{{ deliveryCost.toFixed(2).toString().replace('.', ',') }} €</span>
@@ -47,13 +51,13 @@ export default {
       <li v-else class="delivery">
         Livraison <small class="ml-auto">Offert</small>
       </li>
-      <li v-if="totalPrice < 8">
+      <li v-if="fullPrice < 8">
         Minimum de commande (8 €) non atteint.
       </li>
     </ul>
     <div class="total">
       Total : <span class="ml-auto">{{ fullPrice.toFixed(2).toString().replace('.', ',') }} €</span>
     </div>
-    <button class="validate" @click="validate">Commander</button>
+    <button v-if="editing" class="validate" @click="validate">Commander</button>
   </div>
 </template>
