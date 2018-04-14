@@ -1,5 +1,6 @@
 import { shallow } from '@vue/test-utils'
-import Cart from '../../resources/assets/js/components/Cart.vue'
+import Cart from '../../resources/assets/js/components/NewCart.vue'
+import CartItem from '../../resources/assets/js/components/CartItem.vue'
 import expect from 'expect'
 
 const factory = (props = {}) => {
@@ -12,6 +13,20 @@ const factory = (props = {}) => {
   })
 }
 
+const itemsFactory = () => {
+  return [{
+    id: 1,
+    name: 'Cat',
+    quantity: 1,
+    price: 2
+  }, {
+    id: 2,
+    name: 'Dog',
+    quantity: 2,
+    price: 3
+  }]
+}
+
 describe('Cart', () => {
 
   it('initially displays a price of 0 €', () => {
@@ -21,39 +36,25 @@ describe('Cart', () => {
 
   it('displays all the items in the cart', () => {
     const wrapper = factory({
-      items: [{
-        name: 'Cat',
-        quantity: 1,
-      }, {
-        name: 'Dog',
-        quantity: 2,
-      }]
+      items: itemsFactory().concat(itemsFactory())
     })
-    const items = wrapper.findAll('ul > li')
-    expect(items.at(0).text()).toContain('1 Cat')
-    expect(items.at(1).text()).toContain('2 Dog')
+    expect(wrapper.findAll(CartItem).length).toBe(4)
   })
 
   it('displays the full price', () => {
     const wrapper = factory({
-      items: [{
-        quantity: 1,
-        price: 4
-      }, {
-        quantity: 2,
-        price: 3
-      }]
+      items: itemsFactory()
     })
-    expect(wrapper.find('.total').text()).toContain('Total : 12,00 €')
+    expect(wrapper.find('.total').text()).toContain('Total : 10,00 €')
   })
 
-  it('removing an item fires an remove event', () => {
-    const item = { id: 1, quantity: 1 }
+  it('fires a remove event when CartItem fires a remove event', () => {
     const wrapper = factory({
-      items: [item]
+      items: itemsFactory()
     })
-    wrapper.find('ul > li .remove').trigger('click')
-    expect(wrapper.emitted('remove')[0]).toEqual([item])
+    const childWrapper = wrapper.find(CartItem)
+    childWrapper.vm.$emit('remove', childWrapper.id)
+    expect(wrapper.emitted('remove')[0]).toEqual([childWrapper.id])
   })
 
   it('displays a delivery cost when total price below 15', () => {
@@ -64,6 +65,8 @@ describe('Cart', () => {
   it('does not display a delivery cost when total price above 15', () => {
     const wrapper = factory({
       items: [{
+        id: 1,
+        name: 'Dog',
         quantity: 1,
         price: 15
       }]
@@ -75,6 +78,8 @@ describe('Cart', () => {
   it('adjust the delivery cost for total prices between 13 and 15', () => {
     const wrapper = factory({
       items: [{
+        id: 1,
+        name: 'Dog',
         quantity: 1,
         price: 14
       }]
@@ -85,6 +90,8 @@ describe('Cart', () => {
   it('displays a message when total price is below 8', () => {
     const wrapper = factory({
       items: [{
+        id: 1,
+        name: 'Dog',
         quantity: 1,
         price: 5.99
       }]
@@ -114,10 +121,7 @@ describe('Cart', () => {
 
   it('has a validate button that fires a validate event', () => {
     const wrapper = factory({
-      items: [{
-        quantity: 1,
-        price: 14
-      }]
+      items: itemsFactory()
     })
     wrapper.find('button.validate').trigger('click')
     expect(wrapper.emitted('validate')).toBeTruthy()

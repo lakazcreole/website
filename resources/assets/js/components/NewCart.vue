@@ -1,5 +1,10 @@
 <script>
+import CartItem from './CartItem'
+
 export default {
+  components: {
+    CartItem
+  },
   props: {
     items: {
       type: Array,
@@ -24,15 +29,15 @@ export default {
     }
   },
   methods: {
-    remove(item) {
-      this.$emit('remove', item)
+    remove(id) {
+      this.$emit('remove', id)
     },
     edit() {
       this.$emit('edit')
     },
     validate() {
       this.$emit('validate')
-    }
+    },
   }
 }
 </script>
@@ -42,7 +47,8 @@ export default {
     <button v-if="!editing" class="edit" @click="edit">Modifier</button>
     <ul>
       <li v-for="(item, index) in items" :key="index">
-          {{ item.quantity }} {{ item.name }} <button v-if="editing" class="remove" @click="remove(item, index)">&times;</button>
+        <CartItem :ref="`cartItem${index}`" :id="item.id" name="item.name" :price="item.price" :quantity="item.quantity" @remove="remove"></CartItem>
+        <!-- {{ item.quantity }} {{ item.name }} <button v-if="editing" class="remove" @click="remove(item, index)">&times;</button> -->
       </li>
       <li v-if="totalPrice < 15" class="delivery">
         Livraison <span class="ml-auto">{{ deliveryCost.toFixed(2).toString().replace('.', ',') }} €</span>
