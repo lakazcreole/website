@@ -1,93 +1,90 @@
 <script>
+import CartItem from './CartItem'
+
 export default {
-    props: {
-        orderLines: {
-            type: Array,
-            required: true
-        },
-        handleRemove: {
-            type: Function,
-            required: true
-        }
+  components: {
+    CartItem
+  },
+
+  props: {
+    items: {
+      type: Array,
+      required: true
     },
-    data() {
-        return {
-            complete: false
-        }
-    },
-    computed: {
-        totalPrice() {
-            return this.orderLines.reduce((accumulator, line) => accumulator + line.quantity * line.productPrice, 0)
-        },
-        deliveryCost() {
-            if (this.totalPrice === 0 || this.totalPrice >= 15) return 0
-            else if (this.totalPrice <= 13) return 2
-            else return 15 - this.totalPrice
-        },
-        fullPrice() {
-            return this.totalPrice + this.deliveryCost
-        }
-    },
-    methods: {
-        handleOrder() {
-            this.complete = true
-            this.$emit('complete')
-        },
-        handleEdit() {
-            this.complete = false
-            this.$emit('edit')
-        }
+    editable: {
+      type: Boolean,
+      required: true
     }
+  },
+
+  computed: {
+    totalPrice() {
+        return this.items.reduce((accumulator, item) => accumulator + item.quantity * item.price, 0)
+    },
+    deliveryCost() {
+      if (this.totalPrice === 0 || this.totalPrice >= 15) return 0
+      else if (this.totalPrice <= 13) return 2
+      else return 15 - this.totalPrice
+    },
+    fullPrice() {
+      return this.totalPrice + this.deliveryCost
+    }
+  },
+
+  methods: {
+    remove(id) {
+      this.$emit('removeItem', id)
+    },
+    edit() {
+      this.$emit('edit')
+    },
+    validate() {
+      this.$emit('validate')
+    }
+  }
 }
 </script>
 
 <template>
-    <div class="order-cart">
-        <div class="d-flex justify-content-between align-items-center">
-            <h2>Panier</h2>
-            <button v-if="complete" class="btn btn-link" @click="handleEdit()">Modifier</button>
-        </div>
-        <div class="card">
-            <div v-if="orderLines.length === 0" class="card-header">
-                Votre panier est vide.
+  <div class="order-cart">
+    <div class="d-flex justify-content-between align-items-center">
+      <h2>Panier</h2>
+      <button v-if="!editable" class="edit btn btn-link" @click="edit">Modifier</button>
+    </div>
+    <div class="card">
+      <div v-if="items.length === 0" class="card-header">
+        Votre panier est vide.
+      </div>
+      <div v-else>
+        <ul class="list-group list-group-flush">
+          <li v-for="(item, index) in items" :key="index" class="list-group-item">
+            <CartItem :ref="`cartItem${index}`" :id="item.id" :name="item.name" :price="item.price" :quantity="item.quantity" :editable="editable" @remove="remove"></CartItem>
+          </li>
+          <li class="delivery list-group-item">
+            <div v-if="totalPrice < 15">
+              <div class="d-flex flex-row align-items-center">
+                Livraison<span class="ml-auto">{{ deliveryCost.toFixed(2).toString().replace('.', ',') }} €</span>
+              </div>
+              <small>Offert à partir de 15 € de commande (hors frais).</small>
             </div>
             <div v-else>
-                <ul class="list-group list-group-flush">
-                    <li v-for="line in orderLines" v-if="line.quantity" class="list-group-item">
-                        <div class="d-flex flex-row align-items-center">
-                            <span class="badge badge-pill badge-secondary mr-2 px-2 py-1">{{ line.quantity }}</span>
-                            {{ line.productName }}
-                            <span v-if="line.productPrice != 0" class="ml-auto">{{ (line.quantity * line.productPrice).toString().replace('.', ',') }} €</span>
-                            <small v-else class="ml-auto">Offert</small>
-                            <button v-if="!complete" type="button" class="text-danger close ml-3" @click="handleRemove(line)">&times;</button>
-                        </div>
-                    </li>
-                    <li class="list-group-item">
-                        <div v-if="totalPrice < 15">
-                            <div class="d-flex flex-row align-items-center">
-                                Livraison<span class="ml-auto">{{ deliveryCost.toString().replace('.', ',') }} €</span>
-                            </div>
-                            <small>Offert à partir de 15 € de commande (hors frais).</small>
-                        </div>
-                        <div v-else class="d-flex flex-row align-items-center">
-                            Livraison <small class="ml-auto">Offert</small>
-                        </div>
-                    </li>
-                    <li v-if="fullPrice < 8" class="list-group-item">
-                            <div class="text-danger">
-                                Minimum de commande (8 €) non atteint.
-                            </div>
-                    </li>
-                </ul>
+              <div class="d-flex flex-row align-items-center">
+                Livraison <small class="ml-auto">Offert</small>
+              </div>
             </div>
-            <div class="card-footer d-flex flex-row align-items-center">
-                Total : <span class="ml-auto">{{ fullPrice.toString().replace('.', ',') }} €</span>
+          </li>
+          <li v-if="fullPrice < 8" class="list-group-item">
+            <div class="text-danger">
+              Minimum de commande (8 €) non atteint.
             </div>
-        </div>
-        <slot name="info"></slot>
-        <div v-if="!complete" class="mt-3">
-            <button v-if="orderLines.length === 0 || fullPrice < 8" class="btn btn-lg btn-block btn-primary" aria-disabled="true" disabled>Commander</button>
-            <button v-else class="btn btn-lg btn-block btn-primary" @click="handleOrder()">Commander</button>
-        </div>
+          </li>
+        </ul>
+      </div>
+      <div class="total card-footer d-flex flex-row align-items-center">
+        Total : <span class="ml-auto">{{ fullPrice.toFixed(2).toString().replace('.', ',') }} €</span>
+      </div>
     </div>
+    <slot name="info"></slot>
+    <button v-if="editable" class="validate btn btn-lg btn-block btn-primary mt-3" :disabled="items.length === 0 || fullPrice < 8" @click="validate">Commander</button>
+  </div>
 </template>

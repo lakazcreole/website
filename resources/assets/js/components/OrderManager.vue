@@ -1,11 +1,13 @@
 <script>
 import VueSticky from 'vue-sticky'
+
+import Cart from './Cart'
 import DeliveryTimeForm from './DeliveryTimeForm'
 import DeliveryTimeSelector from './DeliveryTimeSelector'
 
 export default {
   components: {
-    'cart': require('./Cart').default,
+    Cart,
     'modal': require('./Modal').default,
     'order-menu': require('./OrderMenu').default,
     'delivery-form': require('./DeliveryForm').default,
@@ -79,34 +81,34 @@ export default {
     },
     addProductLine(product) {
       for (var i = this.order.lines.length - 1; i >= 0; i--) {
-        if (this.order.lines[i].productId === product.id) {
+        if (this.order.lines[i].id === product.id) {
           this.order.lines[i].quantity++
           return
         }
       }
       this.order.lines.push({
-        productId: product.id,
-        productName: product.name,
-        productPrice: product.price,
+        id: product.id,
+        name: product.name,
+        price: Number(product.price),
         quantity: 1
       })
     },
     addSideLine(side) {
       for (var i = this.order.lines.length - 1; i >= 0; i--) {
-        if (this.order.lines[i].productId === side.id) {
+        if (this.order.lines[i].id === side.id) {
           this.order.lines[i].quantity++
           return
         }
       }
       this.order.lines.push({
-        productId: side.id,
-        productName: side.name,
-        productPrice: side.price,
+        id: side.id,
+        name: side.name,
+        price: Number(side.price),
         quantity: 1
       })
     },
-    removeOrderLine(line) {
-      this.order.lines.splice(this.order.lines.indexOf(line), 1)
+    removeOrderLine(productId) {
+      this.order.lines.splice(this.order.lines.find((product) => product.id === productId), 1)
     },
     handleDateInput(value) {
       this.order.date = value
@@ -224,7 +226,7 @@ export default {
           </div>
           <div class="col-md-4">
             <div v-if="showBasket" v-sticky="{ zIndex: 1020, stickyTop: 115 }">
-              <cart :order-lines="order.lines" :handle-remove="removeOrderLine" v-on:complete="handleCartValidate()" v-on:edit="handleCartEdit()">
+              <cart :items="order.lines" :editable="showMenu" @validate="handleCartValidate()" @edit="handleCartEdit()" @removeItem="removeOrderLine">
                 <div slot="info" class="my-3">
                   <div v-if="showDeliveryForm" class="form-group">
                     <label for="inputInformation">Informations</label>

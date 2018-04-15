@@ -1,0 +1,18 @@
+language: php
+
+php:
+  - 7.2
+
+before_script:
+  - cp .env.travis .env
+  - touch database/testing.sqlite
+  - composer self-update
+  - composer install --no-interaction
+  - php artisan key:generate
+  - nvm install 9.3.0
+  - npm install yarn -g
+  - yarn
+
+script:
+  - vendor/bin/phpunit
+  - yarn test

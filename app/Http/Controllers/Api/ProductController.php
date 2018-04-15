@@ -51,6 +51,9 @@ class ProductController extends Controller
      */
     public function update(Request $request, Product $product)
     {
+        $request->validate([
+            'disabled' => 'required|boolean',
+        ]);
         $product->disabled = $request->disabled;
         $product->save();
         return new ProductResource($product);

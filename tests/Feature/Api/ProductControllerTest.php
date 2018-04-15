@@ -44,4 +44,19 @@ class ProductControllerTest extends TestCase
             ]);
         $this->assertTrue(Product::find($product->id)->disabled);
     }
+
+    public function testUpdateValidatesRequest()
+    {
+        $user = factory(User::class)->create(['admin' => true]);
+        $product = factory(Product::class)->create(['disabled' => false]);
+        $r = $this->actingAs($user, 'api')
+            ->json('PUT', "/api/products/{$product->id}", [])
+            ->assertStatus(422)
+            ->assertJson([
+                'message' => 'The given data was invalid.',
+                'errors' => [
+                    'disabled' => []
+                ]
+            ]);
+    }
 }

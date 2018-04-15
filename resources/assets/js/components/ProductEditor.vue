@@ -1,16 +1,3 @@
-<template>
-  <div class="d-flex">
-    {{ name }}
-    <!-- <div class="ml-auto form-check form-check-inline">
-      <input v-model="state" class="form-check-input" type="checkbox" id="checkbox" @change="updateDisabled" :disabled="waiting">
-      <label class="form-check-label" for="checkbox">
-        Désactivé
-      </label>
-    </div> -->
-  </div>
-  </div>
-</template>
-
 <script>
 export default {
   props: {
@@ -25,13 +12,17 @@ export default {
     disabled: {
       type: Boolean,
       required: true
+    },
+    apiToken: {
+      type: String,
+      require: true
     }
   },
   data() {
     return {
       state: null,
       waiting: false,
-      errors: []
+      errors: null
     }
   },
   mounted() {
@@ -41,16 +32,14 @@ export default {
     updateDisabled() {
       this.waiting = true
       axios.put(`/api/products/${this.id}`, {
+        disabled: this.state
+      },{
         headers: {
-          'HTTP_Authorization': 'Bearer' + 'api_token'
-        },
-        data:{
-          disabled: this.state
+          'Authorization': `Bearer ${this.apiToken}`
         }
       })
       .then(response => {
         this.waiting = false
-        console.log("ok")
       })
       .catch(error => {
         this.waiting = false
@@ -64,3 +53,21 @@ export default {
   }
 }
 </script>
+
+<template>
+  <div>
+    <div class="d-flex">
+      {{ name }}
+      <div class="ml-auto form-check form-check-inline">
+        <input v-model="state" class="form-check-input" type="checkbox" id="checkbox" @change="updateDisabled" :disabled="waiting">
+        <label class="form-check-label" for="checkbox">
+          Désactivé
+        </label>
+      </div>
+    </div>
+    <div v-if="errors && errors.errors['disabled']" class="d-flex invalid-feedback">
+      <span v-for="err in errors.errors['disabled']">{{ err }} </span>
+    </div>
+  </div>
+</template>
+

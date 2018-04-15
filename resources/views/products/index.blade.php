@@ -11,7 +11,11 @@
           @foreach($products as $product)
             @if($product->type === $productType['type'])
               <li class="list-group-item">
-                <product-editor :id="{{ $product->id }}" name="{{ $product->name }}" :disabled="{{ $product->disabled ? 'true' : 'false' }}" ></product-editor>
+                <product-editor
+                  :id="{{ $product->id }}" name="{{ $product->name }}" :disabled="{{ $product->disabled ? 'true' : 'false' }}"
+                  api-token="{{ $apiToken }}"
+                  >
+                </product-editor>
               </li>
             @endif
           @endforeach
