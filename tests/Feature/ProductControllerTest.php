@@ -26,6 +26,6 @@ class ProductControllerTest extends TestCase
                 [ 'type' => 'side', 'title' => 'Accompagnements' ],
             ])
             ->assertViewHas('products', Product::all())
-            ->assertViewHas('api_token', $user->api_token);
+            ->assertViewHas('apiToken', $user->api_token);
     }
 }

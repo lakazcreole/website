@@ -16,6 +16,7 @@ class AdminUserSeeder extends Seeder
             'admin' => true,
             'email' => env('ADMIN_EMAIL'),
             'password' => bcrypt(env('ADMIN_PASSWORD')),
+            'api_token' => str_random(60)
         ]);
     }
 }

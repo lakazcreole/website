@@ -18,6 +18,6 @@ window.Vue = require('vue')
 const app = new Vue({
     el: '#app',
     components: {
-        'product-editor': require('./components/ProductEditor.vue')
+        'product-editor': require('./components/ProductEditor.vue').default
     }
 });

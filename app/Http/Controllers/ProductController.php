@@ -23,7 +23,7 @@ class ProductController extends Controller
                 [ 'type' => 'side', 'title' => 'Accompagnements' ],
             ])
             ->with('products', Product::all())
-            ->with('api_token', Auth::user()->api_token);
+            ->with('apiToken', Auth::user()->api_token);
     }
 
     /**
