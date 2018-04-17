@@ -22,6 +22,9 @@ section.order {
         p {
             font-size: 1rem;
             text-shadow: 1px 1px 2px black;
+            strong {
+                color: $orange500;
+            }
             a.link {
                 color: #f8f9fa; // text-light
                 text-decoration: underline;
