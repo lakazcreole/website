@@ -4,10 +4,20 @@ namespace App\Http\Controllers;
 
 use App\Product;
 use Illuminate\Http\Request;
+use App\Http\Requests\StoreProduct;
+use Illuminate\Support\Facades\Log;
+use App\Http\Requests\UpdateProduct;
 use Illuminate\Support\Facades\Auth;
 
 class ProductController extends Controller
 {
+    protected $productTypes = [
+        [ 'type' => 'starter', 'title' => 'Entrées' ],
+        [ 'type' => 'main', 'title' => 'Plats' ],
+        [ 'type' => 'drink', 'title' => 'Boissons' ],
+        [ 'type' => 'side', 'title' => 'Accompagnements' ],
+    ];
+
     /**
      * Display a listing of the resource.
      *
@@ -16,12 +26,7 @@ class ProductController extends Controller
     public function index()
     {
         return view('products.index')
-            ->with('productTypes', [
-                [ 'type' => 'starter', 'title' => 'Entrées' ],
-                [ 'type' => 'main', 'title' => 'Plats' ],
-                [ 'type' => 'drink', 'title' => 'Boissons' ],
-                [ 'type' => 'side', 'title' => 'Accompagnements' ],
-            ])
+            ->with('productTypes', $this->productTypes)
             ->with('products', Product::all())
             ->with('apiToken', Auth::user()->api_token);
     }
@@ -33,18 +38,25 @@ class ProductController extends Controller
      */
     public function create()
     {
-        //
+        return view('products.create')
+            ->with('productTypes', $this->productTypes);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  StoreProduct  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreProduct $request)
     {
-        //
+        $product = Product::create($request->only(['name', 'type', 'pieces', 'description', 'price', 'disabled']));
+        Log::notice("{$product->name} was added to the products list");
+        return view('products.index')
+            ->with('productTypes', $this->productTypes)
+            ->with('products', Product::all())
+            ->with('apiToken', Auth::user()->api_token)
+            ->with('success', "Le produit {$product->name} a été créé avec succès !");
     }
 
     /**
@@ -66,19 +78,35 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-        //
+        return view('products.edit', [
+            'id' => $product->id,
+            'name' => $product->name,
+            'type' => $product->type,
+            'pieces' => $product->pieces,
+            'description' => $product->description,
+            'price' => $product->price,
+            'disabled' => $product->disabled,
+            'productTypes' => $this->productTypes
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  UpdateProduct  $request
      * @param  \App\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Product $product)
+    public function update(UpdateProduct $request, Product $product)
     {
-        //
+        $product->fill($request->only(['name', 'type', 'pieces', 'description', 'price', 'disabled']));
+        $product->save();
+        Log::notice("Product #{$product->id} was updated");
+        return view('products.index')
+            ->with('productTypes', $this->productTypes)
+            ->with('products', Product::all())
+            ->with('apiToken', Auth::user()->api_token)
+            ->with('success', "Le produit #{$product->id} ({$product->name}) a été modifié avec succès !");
     }
 
     /**

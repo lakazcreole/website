@@ -29,6 +29,10 @@ Route::prefix('/dashboard')->middleware('can:access-dashboard')->group(function 
 
     // Products
     Route::get('/products', 'ProductController@index')->name('dashboard.products');
+    Route::get('/products/create', 'ProductController@create')->name('dashboard.products.create');
+    Route::post('/products/create', 'ProductController@store')->name('dashboard.products.store');
+    Route::get('/products/{product}/edit', 'ProductController@edit')->name('dashboard.products.edit');
+    Route::post('/products/{product}/edit', 'ProductController@update')->name('dashboard.products.update');
 });
 
 
