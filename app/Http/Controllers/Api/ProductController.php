@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ProductResource;
 
@@ -56,6 +57,7 @@ class ProductController extends Controller
         ]);
         $product->disabled = $request->disabled;
         $product->save();
+        Log::notice("Product #{$product->id} is now " . $request->disabled ? 'disabled' : 'enabled');
         return new ProductResource($product);
     }
 

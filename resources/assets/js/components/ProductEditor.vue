@@ -58,11 +58,14 @@ export default {
   <div>
     <div class="d-flex">
       {{ name }}
-      <div class="ml-auto form-check form-check-inline">
-        <input v-model="state" class="form-check-input" type="checkbox" id="checkbox" @change="updateDisabled" :disabled="waiting">
-        <label class="form-check-label" for="checkbox">
-          Désactivé
-        </label>
+      <div class="ml-auto ">
+        <div class="form-check form-check-inline">
+          <input v-model="state" class="form-check-input" type="checkbox" id="checkbox" @change="updateDisabled" :disabled="waiting">
+          <label class="form-check-label" for="checkbox">
+            <small>Indisponible</small>
+          </label>
+        </div>
+        <a :href="`/dashboard/products/${id}/edit`" class="btn btn-outline-secondary btn-sm">Modifier</a>
       </div>
     </div>
     <div v-if="errors && errors.errors['disabled']" class="d-flex invalid-feedback">
