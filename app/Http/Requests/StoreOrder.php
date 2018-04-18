@@ -37,7 +37,7 @@ class StoreOrder extends FormRequest
             'date' => 'required|date_format:d/m/Y|after:today',
             'time' => [ 'required', 'date_format:H:i', new DeliveryTime],
             'orderLines' => 'required',
-            'orderLines.*.productId' => 'required|exists:products,id',
+            'orderLines.*.id' => 'required|exists:products,id',
             'orderLines.*.quantity' => 'required|numeric|min:1',
             'information' => 'max:255'
         ];
