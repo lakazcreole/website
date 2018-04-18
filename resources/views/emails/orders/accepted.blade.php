@@ -15,7 +15,7 @@ Payer via <img src="https://lydia-app.com/assets/img/sitep2p/logo-lydia@2x.png" 
 | Produits | Prix |
 |:--- | ---:|
 @foreach($lines as $line)
-| {{ $line->quantity . ' ' }}{{ str_plural($line->product->name, $line->quantity) }} | {{ number_format($line->totalPrice, 2) }} €
+| {{ $line->quantity . ' ' }}{{ $line->product->pieces > 1 ? "portion(s) de {$line->product->pieces}" : "" }} {{ $line->product->name }} | {{ number_format($line->totalPrice, 2) }} €
 @endforeach
  | <strong>Total</strong> | <strong>{{ number_format($totalPrice, 2) }} €</strong>
 @endcomponent
