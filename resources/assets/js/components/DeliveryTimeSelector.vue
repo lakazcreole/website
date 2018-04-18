@@ -1,59 +1,22 @@
-<script>
-import DatePicker from 'vuejs-datepicker'
-
-export default {
-  props: {
-    defaultDate: {
-      type: Date,
-      required: false,
-      default: null
-    },
-    defaultTime: {
-      type: String,
-      required: false,
-      default: null
-    },
-    onDateInput: {
-      type: Function,
-      required: false
-    },
-    onTimeInput: {
-      type: Function,
-      required: false
-    }
-  },
-  components: {
-    DatePicker
-  },
-  data() {
-    return {
-      disabledDates: {
-        to: new Date()
-      },
-      highlightedDates: {
-        dates: [
-          new Date()
-        ],
-        includeDisabled: true
-      }
-    }
-  }
-}
-</script>
-
 <template>
   <div class="form-row">
     <div class="form-group col-md-6">
       <label for="inputDate" class="sr-only">Date</label>
-      <DatePicker :value="defaultDate" v-on:input="value => { onDateInput(value) }"
-        language="fr" :full-month-name="true" :monday-first="true" :disabled="disabledDates" :highlighted="highlightedDates"
+      <DatePicker
+        :value="defaultDate"
+        language="fr"
+        :full-month-name="true"
+        :monday-first="true"
+        :disabled="disabledDates"
+        :highlighted="highlightedDates"
         :bootstrap-styling="true" input-class="datepicker-bg"
-        id="inputDate" placeholder="Choisir une date">
-      </DatePicker>
+        id="inputDate" placeholder="Choisir une date"
+        @input="value => { onDateInput(value) }"
+      />
     </div>
     <div class="form-group col-md-6">
       <label for="inputTime" class="sr-only">Heure</label>
-      <select :value="defaultTime" v-on:input="event => { onTimeInput(event.target.value) }" class="custom-select">
+      <select :value="defaultTime" class="custom-select" @input="event => { onTimeInput(event.target.value) }">
         <option v-if="defaultTime === null" :value="null" >Choisir un horaire</option>
         <optgroup label="Midi">
           <option value="11:30">11:30</option>
@@ -76,6 +39,50 @@ export default {
     </div>
   </div>
 </template>
+
+<script>
+import DatePicker from 'vuejs-datepicker'
+
+export default {
+  props: {
+    defaultDate: {
+      type: Date,
+      required: false,
+      default: null
+    },
+    defaultTime: {
+      type: String,
+      required: false,
+      default: null
+    },
+    onDateInput: {
+      type: Function,
+      required: true
+    },
+    onTimeInput: {
+      type: Function,
+      required: true
+    }
+  },
+  components: {
+    DatePicker
+  },
+  data() {
+    return {
+      disabledDates: {
+        to: new Date()
+      },
+      highlightedDates: {
+        dates: [
+          new Date()
+        ],
+        includeDisabled: true
+      }
+    }
+  }
+}
+</script>
+
 
 <style type="scss">
   .datepicker-bg {

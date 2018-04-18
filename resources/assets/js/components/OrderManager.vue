@@ -179,6 +179,7 @@ export default {
 </script>
 
 <template>
+  <!-- eslint-disable vue/html-indent -->
   <div v-if="finished" class="container">
     <div style="height: 259px;" class="d-flex">
       <div class="my-auto w-100">
@@ -194,7 +195,7 @@ export default {
       <div v-if="showTimeSelector" style="height: 259px;" class="d-flex">
         <div class="my-auto w-100">
           <h2 class="mb-3">Livraison</h2>
-          <DeliveryTimeForm @submit="handleDeliveryTimeFormSubmit" :on-date-input="handleDateInput" :on-time-input="handleTimeInput"></DeliveryTimeForm>
+          <DeliveryTimeForm @submit="handleDeliveryTimeFormSubmit" :on-date-input="handleDateInput" :on-time-input="handleTimeInput"/>
         </div>
       </div>
       <div v-else>
@@ -203,8 +204,7 @@ export default {
           <DeliveryTimeSelector slot="body" :default-date="order.date" :default-time="order.time"
             :on-date-input="value => { this.editedDate = value }"
             :on-time-input="value => { this.editedTime = value }"
-            >
-          </DeliveryTimeSelector>
+            />
           <div slot="footer" class="text-right">
             <button type="button" class="btn btn-secondary ml-2" @click="showModal = false">Annuler</button>
             <button type="button" class="btn btn-primary ml-2" @click="handleDeliveryTimeModalSave">Modifier</button>
@@ -212,7 +212,7 @@ export default {
         </modal>
         <div class="row">
           <div class="col-md-8">
-            <order-menu v-if="showMenu" :products="products" :handle-add="addOrderLine"></order-menu>
+            <order-menu v-if="showMenu" :products="products" :handle-add="addOrderLine"/>
             <delivery-form v-if="showDeliveryForm"
               :errors="order.errors"
               :on-first-name-input="value => { this.order.customer.firstName = value }"
@@ -224,8 +224,7 @@ export default {
               :on-address-three-input="value => { this.order.address3 = value }"
               :on-city-input="value => { this.order.city = value }"
               :on-zip-input="value => { this.order.zip = value }"
-            >
-            </delivery-form>
+            />
           </div>
           <div class="col-md-4">
             <div v-if="showBasket" v-sticky="{ zIndex: 1020, stickyTop: 115 }">
@@ -233,10 +232,10 @@ export default {
                 <div slot="info" class="my-3">
                   <div v-if="showDeliveryForm" class="form-group">
                     <label for="inputInformation">Informations</label>
-                    <textarea @input="value => { this.order.information = value }" class="form-control" placeholder="Allergies, etc."></textarea>
+                    <textarea @input="value => { this.order.information = value }" class="form-control" placeholder="Allergies, etc."/>
                   </div>
                   <p class="mb-0 text-center">
-                    Livraison le <a href="#" class="link" title="Modifier" v-on:click.prevent="handleDeliveryTimeEdit()">{{ readableDate }} à {{ order.time }}</a>.<br/>
+                    Livraison le <a href="#" class="link" title="Modifier" @click.prevent="handleDeliveryTimeEdit()">{{ readableDate }} à {{ order.time }}</a>.<br>
                     Paiement en <strong>espèces, tickets restaurant ou Lydia</strong>.
                   </p>
                 </div>

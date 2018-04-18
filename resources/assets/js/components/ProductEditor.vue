@@ -4,7 +4,7 @@
       {{ name }}
       <div class="ml-auto ">
         <div class="form-check form-check-inline">
-          <input v-model="state" class="form-check-input" type="checkbox" id="checkbox" @change="updateDisabled" :disabled="waiting">
+          <input v-model="state" type="checkbox" id="checkbox" :disabled="waiting" @change="updateDisabled">
           <label class="form-check-label" for="checkbox">
             <small>Indisponible</small>
           </label>
@@ -37,7 +37,7 @@ export default {
     },
     apiToken: {
       type: String,
-      require: true
+      required: true
     }
   },
   data() {
