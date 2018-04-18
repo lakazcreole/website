@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Order;
 use App\Product;
 use App\Customer;
+use Carbon;
 use App\Http\Requests\StoreOrder;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\OrderResource;
@@ -32,7 +33,7 @@ class OrderController extends Controller
             'address3' => $request->address['address3'],
             'city' => $request->address['city'],
             'zip' => $request->address['zip'],
-            'date' => $request->date,
+            'date' => Carbon\Carbon::createFromFormat('d/m/Y', $request->date),
             'time' => $request->time,
             'customer_id' => $customer->id,
         ]);
