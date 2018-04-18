@@ -71,7 +71,7 @@ describe('Cart', () => {
     const wrapper = factory({
       items: itemsFactory()
     })
-    expect(wrapper.find('ul > li.delivery').text()).toContain('Offert à partir de 15 € de commande (hors frais).')
+    expect(wrapper.find('ul > li.delivery').text()).toContain('Offert à partir de 15 € de commande (hors frais).')
   })
 
   it('does not display a delivery cost when total price above 15', () => {

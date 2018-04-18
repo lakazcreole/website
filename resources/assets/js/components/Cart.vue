@@ -22,7 +22,7 @@ export default {
         return this.items.reduce((accumulator, item) => accumulator + item.quantity * item.price, 0)
     },
     deliveryCost() {
-      if (this.totalPrice === 0 || this.totalPrice >= 15) return 0
+      if (this.totalPrice === 0 || this.totalPrice >= 15) return 0
       else if (this.totalPrice <= 13) return 2
       else return 15 - this.totalPrice
     },
@@ -65,7 +65,7 @@ export default {
               <div class="d-flex flex-row align-items-center">
                 Livraison<span class="ml-auto">{{ deliveryCost.toFixed(2).toString().replace('.', ',') }} €</span>
               </div>
-              <small>Offert à partir de 15 € de commande (hors frais).</small>
+              <small>Offert à partir de 15 € de commande (hors frais).</small>
             </div>
             <div v-else>
               <div class="d-flex flex-row align-items-center">
@@ -81,10 +81,10 @@ export default {
         </ul>
       </div>
       <div class="total card-footer d-flex flex-row align-items-center">
-        Total : <span class="ml-auto">{{ fullPrice.toFixed(2).toString().replace('.', ',') }} €</span>
+        Total : <span class="ml-auto">{{ fullPrice.toFixed(2).toString().replace('.', ',') }} €</span>
       </div>
     </div>
     <slot name="info"></slot>
-    <button v-if="editable" class="validate btn btn-lg btn-block btn-primary mt-3" :disabled="items.length === 0 || fullPrice < 8" @click="validate">Commander</button>
+    <button v-if="editable" class="validate btn btn-lg btn-block btn-primary mt-3" :disabled="items.length === 0 || fullPrice < 8" @click="validate">Commander</button>
   </div>
 </template>

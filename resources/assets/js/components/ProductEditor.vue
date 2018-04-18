@@ -19,6 +19,8 @@
 </template>
 
 <script>
+import axios from 'axios'
+
 export default {
   props: {
     id: {
@@ -58,7 +60,7 @@ export default {
           'Authorization': `Bearer ${this.apiToken}`
         }
       })
-      .then(response => {
+      .then(() => {
         this.waiting = false
       })
       .catch(error => {

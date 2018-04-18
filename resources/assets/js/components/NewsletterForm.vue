@@ -27,40 +27,42 @@
 </template>
 
 <script>
-  export default {
-    data() {
-      return {
-        email: '',
-        errors: null,
-        subscribed: false,
-        serverError: false,
-        waiting: false
-      }
-    },
-    computed: {
-      inputClasses() {
-        if (this.errors && this.errors.errors.hasOwnProperty('email')) return 'form-control is-invalid'
-        return 'form-control'
-      }
-    },
-    methods: {
-      onSubmit() {
-        this.waiting = true
-        axios.post('/api/subscriptions', {
-          email: this.email
-        }).then(response => {
-          this.subscribed = true
-          this.waiting = false
-        }).catch(error => {
-          this.waiting = false
-          if (error.response && error.response.status === 422) {
-            this.errors = error.response.data
-          } else {
-            this.serverError = true
-          }
-        })
-      }
+import axios from 'axios'
+
+export default {
+  data() {
+    return {
+      email: '',
+      errors: null,
+      subscribed: false,
+      serverError: false,
+      waiting: false
+    }
+  },
+  computed: {
+    inputClasses() {
+      if (this.errors && this.errors.errors.hasOwnProperty('email')) return 'form-control is-invalid'
+      return 'form-control'
+    }
+  },
+  methods: {
+    onSubmit() {
+      this.waiting = true
+      axios.post('/api/subscriptions', {
+        email: this.email
+      }).then(() => {
+        this.subscribed = true
+        this.waiting = false
+      }).catch(error => {
+        this.waiting = false
+        if (error.response && error.response.status === 422) {
+          this.errors = error.response.data
+        } else {
+          this.serverError = true
+        }
+      })
     }
   }
+}
 </script>
 

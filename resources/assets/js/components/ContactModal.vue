@@ -1,60 +1,62 @@
 <script>
-  export default {
-    props: {
-      defaultSubject: {
-        type: String,
-        required: true
-      },
-      defaultMessage: {
-        type: String,
-        required: true
-      }
+import axios from 'axios'
+
+export default {
+  props: {
+    defaultSubject: {
+      type: String,
+      required: true
     },
-    mounted() {
-      this.subject = this.defaultSubject
-      this.message = this.defaultMessage
+    defaultMessage: {
+      type: String,
+      required: true
+    }
+  },
+  mounted() {
+    this.subject = this.defaultSubject
+    this.message = this.defaultMessage
+  },
+  components: {
+    'modal': require('./Modal.vue').default
+  },
+  data() {
+    return {
+      name: '',
+      email: '',
+      subject: '',
+      message: '',
+      serverError: false,
+      errors: null,
+      sent: false,
+      waiting: false,
+    }
+  },
+  methods: {
+    onSubmit: function() {
+      this.waiting = true
+      axios.post('/api/contacts', {
+        name: this.name,
+        email: this.email,
+        subject: this.subject,
+        message: this.message
+      }).then(() => {
+        this.waiting = false
+        this.sent = true
+      }).catch(error => {
+        this.waiting = false
+        if (error.response && error.response.status === 422) {
+          this.errors = error.response.data
+        } else {
+          this.serverError = true
+        }
+      })
     },
-    components: {
-      'modal': require('./Modal.vue').default
-    },
-    data() {
-      return {
-        name: '',
-        email: '',
-        subject: '',
-        message: '',
-        serverError: false,
-        errors: null,
-        sent: false,
-        waiting: false,
-      }
-    },
-    methods: {
-      onSubmit: function() {
-        this.waiting = true
-        axios.post('/api/contacts', {
-          name: this.name,
-          email: this.email,
-          subject: this.subject,
-          message: this.message
-        }).then(response => {
-          this.waiting = false
-          this.sent = true
-        }).catch(error => {
-          this.waiting = false
-          if (error.response && error.response.status === 422) {
-            this.errors = error.response.data
-          } else {
-            this.serverError = true
-          }
-        })
-      },
-      inputClasses: function(key) {
-        if (this.errors && this.errors.errors.hasOwnProperty(key)) return 'form-control is-invalid'
-        return 'form-control'
-      }
+    inputClasses: function(key) {
+      if (this.errors && this.errors.errors.hasOwnProperty(key)) return 'form-control is-invalid'
+      return 'form-control'
     }
   }
+}
 </script>
 
 <template>

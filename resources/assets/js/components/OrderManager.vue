@@ -1,4 +1,5 @@
 <script>
+import axios from 'axios'
 import VueSticky from 'vue-sticky'
 
 import Cart from './Cart'
@@ -70,8 +71,8 @@ export default {
           this.products = response.data.data
           this.loaded = true
         }
-      }).catch(error => {
-        console.log(error)
+      }).catch(() => {
+        // console.log(error)
         this.error = true
       })
     },
@@ -159,15 +160,15 @@ export default {
           zip: this.order.zip
         },
       }
-      console.log(order)
+      // console.log(order)
       axios.post('/api/orders', order)
-        .then((response) => {
+        .then(() => {
           this.finished = true
         })
         .catch((error) => {
           if (error.response && error.response.status === 422) {
             this.order.errors = error.response.data
-            console.log(this.order.errors)
+            // console.log(this.order.errors)
           } else {
             this.order.serverError = true
           }
@@ -222,7 +223,7 @@ export default {
               :on-address-two-input="value => { this.order.address2 = value }"
               :on-address-three-input="value => { this.order.address3 = value }"
               :on-city-input="value => { this.order.city = value }"
-              :on-zip-input="value => { this.order.zip = value }"
+              :on-zip-input="value => { this.order.zip = value }"
             >
             </delivery-form>
           </div>

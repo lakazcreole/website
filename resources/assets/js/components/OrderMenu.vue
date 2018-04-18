@@ -68,7 +68,7 @@
 
 <script>
 import VueSticky from 'vue-sticky'
-const VueScrollTo = require('vue-scrollto')
+const VueScrollTo = require('vue-scrollto') // eslint-disable-line no-unused-vars
 
 export default {
   directives: {

@@ -15,6 +15,7 @@ window.Vue = require('vue')
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
+// eslint-disable-next-line no-unused-vars, no-undef
 const app = new Vue({
     el: '#app',
     components: {

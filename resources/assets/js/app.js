@@ -1,4 +1,4 @@
-
+//
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
@@ -15,6 +15,7 @@ window.Vue = require('vue')
 
 import VueSticky from 'vue-sticky'
 
+// eslint-disable-next-line no-unused-vars
 const VueScrollTo = require('vue-scrollto')
 
 /**
@@ -23,6 +24,7 @@ const VueScrollTo = require('vue-scrollto')
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
+// eslint-disable-next-line no-unused-vars, no-undef
 const app = new Vue({
     el: '#app',
     components: {
@@ -44,7 +46,7 @@ const app = new Vue({
             this.message = 'Cela a l\'air délicieux, je souhaiterais commander toute la carte !'
             this.showContactModal = true
         },
-        scrollToMenu: function(e) {
+        scrollToMenu: function() {
             const options = {
                 container: 'body',
                 easing: 'ease-in',
