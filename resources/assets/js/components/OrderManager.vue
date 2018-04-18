@@ -159,6 +159,7 @@ export default {
           zip: this.order.zip
         },
       }
+      console.log(order)
       axios.post('/api/orders', order)
         .then((response) => {
           this.finished = true
@@ -166,6 +167,7 @@ export default {
         .catch((error) => {
           if (error.response && error.response.status === 422) {
             this.order.errors = error.response.data
+            console.log(this.order.errors)
           } else {
             this.order.serverError = true
           }

@@ -37,7 +37,7 @@ class OrderController extends Controller
             'customer_id' => $customer->id,
         ]);
         foreach ($request->orderLines as $line) {
-            $product = Product::find($line['productId']);
+            $product = Product::find($line['id']);
             $order->addProduct($product, $line['quantity']);
         }
         return new OrderResource($order);
