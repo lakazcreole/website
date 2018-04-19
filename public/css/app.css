@@ -10682,6 +10682,14 @@ section.order .order-header p a.link:focus {
   color: white;
 }
 
+section.order .order-manager .btn-link {
+  color: #FF9800;
+}
+
+section.order .order-manager .btn-link:hover {
+  color: #FFB74D;
+}
+
 section.order .order-manager .order-nav {
   font-size: 1rem;
   margin-top: 0.5rem;
@@ -10702,14 +10710,6 @@ section.order .order-manager .order-menu button i.material-icons {
 
 section.order .order-manager .order-menu button:hover i.material-icons {
   color: white;
-}
-
-section.order .order-cart .btn-link {
-  color: #FF9800;
-}
-
-section.order .order-cart .btn-link:hover {
-  color: #FFB74D;
 }
 
 section.order .order-cart a.link {

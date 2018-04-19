@@ -59163,11 +59163,9 @@ if (false) {(function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_axios__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue_sticky__ = __webpack_require__(40);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue_sticky___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_vue_sticky__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_vue_drawer_layout__ = __webpack_require__(97);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_vue_drawer_layout___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_vue_drawer_layout__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Cart__ = __webpack_require__(72);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__DeliveryTimeForm__ = __webpack_require__(76);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__DeliveryTimeSelector__ = __webpack_require__(52);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Cart__ = __webpack_require__(72);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__DeliveryTimeForm__ = __webpack_require__(76);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__DeliveryTimeSelector__ = __webpack_require__(52);
 //
 //
 //
@@ -59257,7 +59255,17 @@ if (false) {(function () {
 //
 //
 //
-
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -59268,17 +59276,18 @@ if (false) {(function () {
 
 /* harmony default export */ __webpack_exports__["a"] = ({
   components: {
-    Cart: __WEBPACK_IMPORTED_MODULE_3__Cart__["a" /* default */],
+    Cart: __WEBPACK_IMPORTED_MODULE_2__Cart__["a" /* default */],
     'modal': __webpack_require__(45).default,
     'order-menu': __webpack_require__(82).default,
     'delivery-form': __webpack_require__(84).default,
-    DeliveryTimeForm: __WEBPACK_IMPORTED_MODULE_4__DeliveryTimeForm__["a" /* default */],
-    DeliveryTimeSelector: __WEBPACK_IMPORTED_MODULE_5__DeliveryTimeSelector__["a" /* default */],
-    'vue-drawer-layout': __WEBPACK_IMPORTED_MODULE_2_vue_drawer_layout__["DrawerLayout"]
+    DeliveryTimeForm: __WEBPACK_IMPORTED_MODULE_3__DeliveryTimeForm__["a" /* default */],
+    DeliveryTimeSelector: __WEBPACK_IMPORTED_MODULE_4__DeliveryTimeSelector__["a" /* default */]
   },
+
   directives: {
     'sticky': __WEBPACK_IMPORTED_MODULE_1_vue_sticky___default.a
   },
+
   data: function data() {
     return {
       loaded: false,
@@ -59312,7 +59321,8 @@ if (false) {(function () {
       showMenu: false,
       showDeliveryForm: false,
       showModal: false,
-      finished: false
+      finished: false,
+      minimumReached: false
     };
   },
   mounted: function mounted() {
@@ -59325,6 +59335,9 @@ if (false) {(function () {
     },
     deliveryFormFilled: function deliveryFormFilled() {
       return this.order.customer.firstName !== '' && this.order.customer.lastName !== '' && this.order.customer.email !== '' && this.order.customer.phone !== '' && this.order.address1 !== '' && this.order.city !== '' && this.order.zip !== '';
+    },
+    canOrder: function canOrder() {
+      return this.order.lines && this.minimumReached;
     }
   },
   methods: {
@@ -59401,7 +59414,7 @@ if (false) {(function () {
       this.order.time = this.editedTime;
       this.showModal = false;
     },
-    handleCartValidate: function handleCartValidate() {
+    validateCart: function validateCart() {
       this.showMenu = false;
       this.showDeliveryForm = true;
     },
@@ -59505,11 +59518,6 @@ if (false) {(function () {
 //
 //
 //
-//
-//
-//
-//
-//
 
 
 
@@ -59540,8 +59548,20 @@ if (false) {(function () {
     },
     fullPrice: function fullPrice() {
       return this.totalPrice + this.deliveryCost;
+    },
+    minimumReached: function minimumReached() {
+      return this.fullPrice >= 8;
     }
   },
+
+  updated: function updated() {
+    if (this.minimumReached) {
+      this.$emit('minimumReached');
+    } else {
+      this.$emit('minimumDropped');
+    }
+  },
+
 
   methods: {
     remove: function remove(id) {
@@ -59549,9 +59569,6 @@ if (false) {(function () {
     },
     edit: function edit() {
       this.$emit('edit');
-    },
-    validate: function validate() {
-      this.$emit('validate');
     }
   }
 });
@@ -61924,22 +61941,6 @@ var render = function() {
     "div",
     { staticClass: "order-cart" },
     [
-      _c(
-        "div",
-        { staticClass: "d-flex justify-content-between align-items-center" },
-        [
-          _c("h2", [_vm._v("Panier")]),
-          _vm._v(" "),
-          !_vm.editable
-            ? _c(
-                "button",
-                { staticClass: "edit btn btn-link", on: { click: _vm.edit } },
-                [_vm._v("Modifier")]
-              )
-            : _vm._e()
-        ]
-      ),
-      _vm._v(" "),
       _c("div", { staticClass: "card" }, [
         _vm.items.length === 0
           ? _c("div", { staticClass: "card-header" }, [
@@ -62004,7 +62005,7 @@ var render = function() {
                       : _c("div", [_vm._m(0)])
                   ]),
                   _vm._v(" "),
-                  _vm.fullPrice < 8
+                  !_vm.minimumReached
                     ? _c("li", { staticClass: "list-group-item" }, [
                         _c("div", { staticClass: "text-danger" }, [
                           _vm._v(
@@ -62039,19 +62040,7 @@ var render = function() {
         )
       ]),
       _vm._v(" "),
-      _vm._t("info"),
-      _vm._v(" "),
-      _vm.editable
-        ? _c(
-            "button",
-            {
-              staticClass: "validate btn btn-lg btn-block btn-primary mt-3",
-              attrs: { disabled: _vm.items.length === 0 || _vm.fullPrice < 8 },
-              on: { click: _vm.validate }
-            },
-            [_vm._v("Commander")]
-          )
-        : _vm._e()
+      _vm._t("info")
     ],
     2
   )
@@ -63397,6 +63386,37 @@ var render = function() {
                                       { staticClass: "d-none d-sm-block" },
                                       [
                                         _c(
+                                          "div",
+                                          {
+                                            staticClass:
+                                              "d-flex justify-content-between align-items-center"
+                                          },
+                                          [
+                                            _c("h2", [_vm._v("Panier")]),
+                                            _vm._v(" "),
+                                            _c(
+                                              "button",
+                                              {
+                                                directives: [
+                                                  {
+                                                    name: "show",
+                                                    rawName: "v-show",
+                                                    value: _vm.showDeliveryForm,
+                                                    expression:
+                                                      "showDeliveryForm"
+                                                  }
+                                                ],
+                                                staticClass: "btn btn-link",
+                                                on: {
+                                                  click: _vm.handleCartEdit
+                                                }
+                                              },
+                                              [_vm._v("Modifier")]
+                                            )
+                                          ]
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
                                           "cart",
                                           {
                                             attrs: {
@@ -63404,11 +63424,11 @@ var render = function() {
                                               editable: _vm.showMenu
                                             },
                                             on: {
-                                              validate: function($event) {
-                                                _vm.handleCartValidate()
+                                              minimumReached: function($event) {
+                                                _vm.minimumReached = true
                                               },
-                                              edit: function($event) {
-                                                _vm.handleCartEdit()
+                                              minimumDropped: function($event) {
+                                                _vm.minimumReached = false
                                               },
                                               removeItem: _vm.removeOrderLine
                                             }
@@ -63521,7 +63541,22 @@ var render = function() {
                                               ]
                                             )
                                           ]
-                                        )
+                                        ),
+                                        _vm._v(" "),
+                                        _vm.showMenu
+                                          ? _c(
+                                              "button",
+                                              {
+                                                staticClass:
+                                                  "validate-cart btn btn-lg btn-block btn-primary mt-3",
+                                                attrs: {
+                                                  disabled: !_vm.canOrder
+                                                },
+                                                on: { click: _vm.validateCart }
+                                              },
+                                              [_vm._v("Commander")]
+                                            )
+                                          : _vm._e()
                                       ],
                                       1
                                     ),
@@ -63603,21 +63638,6 @@ if (false) {
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 89 */,
-/* 90 */,
-/* 91 */,
-/* 92 */,
-/* 93 */,
-/* 94 */,
-/* 95 */,
-/* 96 */,
-/* 97 */
-/***/ (function(module, exports, __webpack_require__) {
-
-!function(t,e){ true?e():"function"==typeof define&&define.amd?define(e):e()}(0,function(){"use strict";var t=function(t,e,i){return e in t?Object.defineProperty(t,e,{value:i,enumerable:!0,configurable:!0,writable:!0}):t[e]=i,t},e=function(){return function(t,e){if(Array.isArray(t))return t;if(Symbol.iterator in Object(t))return function(t,e){var i=[],n=!0,a=!1,o=void 0;try{for(var s,r=t[Symbol.iterator]();!(n=(s=r.next()).done)&&(i.push(s.value),!e||i.length!==e);n=!0);}catch(t){a=!0,o=t}finally{try{!n&&r.return&&r.return()}finally{if(a)throw o}}return i}(t,e);throw new TypeError("Invalid attempt to destructure non-iterable instance")}}();!function(){if("undefined"!=typeof document){var t=document.head||document.getElementsByTagName("head")[0],e=document.createElement("style"),i=".drawer-layout[data-v-7e696ca1] { position: absolute; top: 0; left: 0; bottom: 0; right: 0; overflow: hidden; } .drawer-wrap[data-v-7e696ca1] { position: absolute; top: 0; bottom: 0; transform: translateZ(0); } .content-wrap[data-v-7e696ca1] { position: absolute; top: 0; right: 0; bottom: 0; left: 0; overflow: hidden; transform: translateZ(0); } .drawer-mask[data-v-7e696ca1] { position: absolute; top: 0; right: 0; bottom: 0; left: 0; background-color: #000; z-index: 818; } .moving[data-v-7e696ca1] { transition: transform 0.3s ease; } .will-change[data-v-7e696ca1] { will-change: transform; } ";e.type="text/css",e.styleSheet?e.styleSheet.cssText=i:e.appendChild(document.createTextNode(i)),t.appendChild(e)}}();var i=function(){var t=!1;try{var e=Object.defineProperty({},"passive",{get:function(){t=!0}});window.addEventListener("test",null,e)}catch(t){}return t}(),n="ontouchstart"in window,a=n?{down:"touchstart",move:"touchmove",up:"touchend"}:{down:"mousedown",move:"mousemove",up:"mouseup"},o={render:function(){var t=this,e=t.$createElement,i=t._self._c||e;return i("div",{staticClass:"drawer-layout"},[i("div",{staticClass:"drawer-wrap",class:t.animateStyle,style:t.drawerStyle},[t._t("drawer")],2),t._v(" "),i("div",{staticClass:"content-wrap",class:t.contentDrawable?t.animateStyle:{},style:t.contentDrawable?t.contentStyle:{}},[i("div",{directives:[{name:"show",rawName:"v-show",value:t.backdrop&&t.pos,expression:"backdrop && pos"}],staticClass:"drawer-mask",style:{opacity:t.backdropOpacity},on:{click:t.handleMaskClick}}),t._v(" "),t._t("content")],2)])},staticRenderFns:[],_scopeId:"data-v-7e696ca1",name:"vue-drawer-layout",props:{drawerWidth:{type:Number},drawableDistance:{type:Number},zIndex:{type:Number,default:818},contentDrawable:{type:Boolean,default:!1},backdrop:{type:Boolean,default:!0},backdropOpacityRange:{type:Array,default:function(){return[0,.4]},validator:function(t){var i=e(t,2),n=i[0],a=i[1];return n<a&&n>=0&&a<=1}},enable:{type:Boolean,default:!0},animatable:{type:Boolean,default:!0},reverse:{type:Boolean,default:!1}},data:function(){return{width:this.drawerWidth,distance:this.drawableDistance,pos:0,visible:!1,moving:!1,willChange:!1}},methods:{toggle:function(t){void 0===t&&(t=!this.visible),this.visible=t,this.pos=t?this.width:0,this.moving=!0},handleMaskClick:function(){this.moving||this.$emit("mask-click")}},watch:{moving:function(){this.animatable||(this.moving=!1)},willChange:function(){this.animatable||(this.willChange=!1)}},computed:{animateStyle:function(){return{moving:this.moving,"will-change":this.willChange}},drawerStyle:function(){var e,i=this.zIndex,n=this.width,a=this.moveRate,o=this.pos,s=this.reverse;return t(e={zIndex:i,width:n+"px"},s?"right":"left","-"+Math.ceil(n*a)+"px"),t(e,"transform","translate3d("+(s?"-":"")+Math.ceil(o*a)+"px,0,0)"),e},contentStyle:function(){var t=this.pos;return{transform:"translate3d("+(this.reverse?"-":"")+t+"px,0,0)"}},backdropOpacity:function(){var t=this.backdropOpacityRange,i=this.pos,n=this.width,a=e(t,2);return a[0]+a[1]*(i/n)||0},moveRate:function(){var t=this.width;return this.distance/t}},mounted:function(){var t=this,e=this.$el,o=.8*parseInt(window.getComputedStyle(this.$el.parentNode).width);this.width=this.width||o,this.distance=this.distance||o;var s=this.width,r=this.reverse,d=void 0,l=void 0,c=void 0,h=void 0,u=void 0,v=void 0,p=void 0,m=void 0,f=void 0,w=void 0,b=function(t){this.enable&&(this.willChange=!0,w=void 0,v=h=t.clientX||t.changedTouches[0].clientX,u=t.clientY||t.changedTouches[0].clientY,l=+new Date,f=this.pos,document.addEventListener(a.move,y,!(!n||!i)&&{passive:!0}),document.addEventListener(a.up,g,!(!n||!i)&&{passive:!0}),this.$emit("slide-start"))}.bind(this),y=function(t){d=l,l=+new Date,m=v,v=t.clientX||t.changedTouches[0].clientX,p=t.clientY||t.changedTouches[0].clientY,c=[1,-1][+r]*(v-m)/(l-d);var e=f+[1,-1][+r]*(v-h);e=Math.min(s,e),e=Math.max(0,e),void 0===w&&(w=Math.abs(v-h)/Math.abs(p-u)<Math.sqrt(3)),w||(n&&i||t.preventDefault(),this.pos=e,this.$emit("slide-move",e))}.bind(this),g=function(t){if(void 0!==w){if(!w){var e=this.pos;this.visible=c>0?(s-e)/c<500||e>3*s/5:!((0-e)/c<500||e<3*s/5),this.pos>0&&this.pos<s&&(this.moving=!0)}this.pos=this.visible?s:0}this.moving||(this.willChange=!1,this.$emit("slide-end",this.visible)),w=void 0,document.removeEventListener(a.move,y,!(!n||!i)&&{passive:!0}),document.removeEventListener(a.up,g,!(!n||!i)&&{passive:!0})}.bind(this);"transitionend webkitTransitionEnd msTransitionEnd otransitionend oTransitionEnd".split(" ").forEach(function(e){t.$el.addEventListener(e,function(){t.moving&&(t.moving=!1,t.willChange=!1,t.pos=t.visible?s:0,t.$emit("slide-end",t.visible))},!1)}),e.addEventListener(a.down,b,!(!n||!i)&&{passive:!0})}};module.exports={DrawerLayout:o,install:function t(e){t.installed||e.component(o.name,o)}},module.exports.default=module.exports});
-
 
 /***/ })
 /******/ ]);

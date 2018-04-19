@@ -60,7 +60,17 @@
                 </div>
               </div>
               <div class="d-none d-sm-block">
-                <cart :items="order.lines" :editable="showMenu" @validate="handleCartValidate()" @edit="handleCartEdit()" @removeItem="removeOrderLine">
+                <div class="d-flex justify-content-between align-items-center">
+                  <h2>Panier</h2>
+                  <button v-show="showDeliveryForm" class="btn btn-link" @click="handleCartEdit">Modifier</button>
+                </div>
+                <cart
+                  :items="order.lines"
+                  :editable="showMenu"
+                  @minimumReached="minimumReached = true"
+                  @minimumDropped="minimumReached = false"
+                  @removeItem="removeOrderLine"
+                >
                   <div slot="info" class="my-3">
                     <div v-if="showDeliveryForm" class="form-group">
                       <label for="inputInformation">Informations</label>
@@ -72,6 +82,7 @@
                     </p>
                   </div>
                 </cart>
+                <button v-if="showMenu" class="validate-cart btn btn-lg btn-block btn-primary mt-3" :disabled="!canOrder" @click="validateCart">Commander</button>
               </div>
               <div v-if="showDeliveryForm" class="mt-3">
                 <button class="btn btn-lg btn-block btn-primary" @click="handleOrder()" :disabled="!deliveryFormFilled">Commander</button>
@@ -90,7 +101,6 @@
 <script>
 import axios from 'axios'
 import VueSticky from 'vue-sticky'
-import {DrawerLayout} from 'vue-drawer-layout'
 
 import Cart from './Cart'
 import DeliveryTimeForm from './DeliveryTimeForm'
@@ -103,12 +113,13 @@ export default {
     'order-menu': require('./OrderMenu').default,
     'delivery-form': require('./DeliveryForm').default,
     DeliveryTimeForm,
-    DeliveryTimeSelector,
-    'vue-drawer-layout': DrawerLayout
+    DeliveryTimeSelector
   },
+
   directives: {
     'sticky': VueSticky
   },
+
   data() {
     return {
       loaded: false,
@@ -143,6 +154,7 @@ export default {
       showDeliveryForm: false,
       showModal: false,
       finished: false,
+      minimumReached: false
     }
   },
   mounted() {
@@ -155,6 +167,9 @@ export default {
     deliveryFormFilled() {
       return this.order.customer.firstName !== '' && this.order.customer.lastName !== '' && this.order.customer.email !== '' && this.order.customer.phone !== '' &&
         this.order.address1 !== '' && this.order.city !== '' && this.order.zip !== ''
+    },
+    canOrder() {
+      return this.order.lines && this.minimumReached
     }
   },
   methods: {
@@ -225,7 +240,7 @@ export default {
       this.order.time = this.editedTime
       this.showModal = false
     },
-    handleCartValidate() {
+    validateCart() {
       this.showMenu = false
       this.showDeliveryForm = true
     },
