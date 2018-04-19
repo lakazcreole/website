@@ -19,6 +19,8 @@ import CheckView from 'vue-check-view'
 
 const VueScrollTo = require('vue-scrollto') // eslint-disable-line no-unused-vars
 
+import ContactButton from './components/ContactButton'
+
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -32,17 +34,12 @@ Vue.use(CheckView) // eslint-disable-line no-undef
 const app = new Vue({
     el: '#app',
     components: {
-        'contact-modal': require('./components/ContactModal.vue').default,
+        ContactButton,
         'newsletter-form': require('./components/NewsletterForm.vue').default,
         'order-manager': require('./components/OrderManager.vue').default
     },
     directives: {
         'sticky': VueSticky
-    },
-    data: {
-        showContactModal: false,
-        subject: '',
-        message: ''
     },
     methods: {
         openOrder: function() {

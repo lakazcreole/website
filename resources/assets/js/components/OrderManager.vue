@@ -35,7 +35,7 @@
           </modal>
         </portal>
         <div class="row">
-          <div class="col-md-8">
+          <div class="col-sm-6 col-lg-8">
             <order-menu v-if="showMenu" :products="products" :handle-add="addOrderLine"/>
             <delivery-form
               v-if="showDeliveryForm"
@@ -51,29 +51,37 @@
               :on-zip-input="value => { this.order.zip = value }"
             />
           </div>
-          <div class="col-md-4">
-            <div v-if="showBasket" v-sticky="{ zIndex: 1019, stickyTop: 115 }">
+          <div class="col-sm-6 col-lg-4">
+            <div v-if="showCart" v-sticky="{ zIndex: 1019, stickyTop: 115 }">
               <div class="d-block d-sm-none">
                 <div v-show="showFixedCartButton" class="fixed-bottom container text-center mb-3">
-                  <button class="btn btn-rounded btn-lg btn-primary" @click="$refs.drawer.toggle()">Panier</button>
+                  <cart-button :items="order.lines" @click="showCartModal = true"/>
                 </div>
                 <div v-view="viewHandler" class="text-center mb-3">
-                  <button class="btn btn-rounded btn-lg btn-primary" @click="$refs.drawer.toggle()">Panier</button>
+                  <cart-button :items="order.lines" @click="showCartModal = true"/>
                 </div>
+                <portal v-if="showCartModal" to="modal">
+                  <modal @close="showCartModal = false">
+                    <h3 slot="header">Panier</h3>
+                    <portal-target name="cart-modal" slot="body"/>
+                  </modal>
+                </portal>
               </div>
               <div class="d-none d-sm-block">
                 <div class="d-flex justify-content-between align-items-center">
                   <h2>Panier</h2>
                   <button v-show="showDeliveryForm" class="btn btn-link" @click="handleCartEdit">Modifier</button>
                 </div>
-                <cart
-                  :items="order.lines"
-                  :editable="showMenu"
-                  @minimumReached="minimumReached = true"
-                  @minimumDropped="minimumReached = false"
-                  @removeItem="removeOrderLine"
-                >
-                  <div slot="info" class="my-3">
+                <portal-target name="cart"/>
+                <portal :to="showCartModal ? 'cart-modal' : 'cart'">
+                  <cart
+                    :items="order.lines"
+                    :editable="showMenu"
+                    @minimumReached="minimumReached = true"
+                    @minimumDropped="minimumReached = false"
+                    @removeItem="removeOrderLine"
+                  />
+                  <div class="my-3">
                     <div v-if="showDeliveryForm" class="form-group">
                       <label for="inputInformation">Informations</label>
                       <textarea @input="value => { this.order.information = value }" class="form-control" placeholder="Allergies, etc."/>
@@ -83,7 +91,7 @@
                       Paiement en <strong>espèces, tickets restaurant ou Lydia</strong>.
                     </p>
                   </div>
-                </cart>
+                </portal>
                 <button v-if="showMenu" class="validate-cart btn btn-lg btn-block btn-primary mt-3" :disabled="!canOrder" @click="validateCart">Commander</button>
               </div>
               <div v-if="showDeliveryForm" class="mt-3">
@@ -105,12 +113,14 @@ import axios from 'axios'
 import VueSticky from 'vue-sticky'
 
 import Cart from './Cart'
+import CartButton from './CartButton'
 import DeliveryTimeForm from './DeliveryTimeForm'
 import DeliveryTimeSelector from './DeliveryTimeSelector'
 
 export default {
   components: {
     Cart,
+    CartButton,
     'modal': require('./Modal').default,
     'order-menu': require('./OrderMenu').default,
     'delivery-form': require('./DeliveryForm').default,
@@ -149,9 +159,9 @@ export default {
         serverError: false,
       },
       showTimeSelector: true,
-      showBasket: false,
+      showCart: false,
       showFixedCartButton: false,
-      showCartDrawer: false,
+      showCartModal: false,
       showMenu: false,
       showDeliveryForm: false,
       showModal: false,
@@ -230,7 +240,7 @@ export default {
     handleDeliveryTimeFormSubmit() {
       this.showTimeSelector = false
       this.showMenu = true
-      this.showBasket = true
+      this.showCart = true
     },
     handleDeliveryTimeEdit() {
       this.editedDate = this.order.date

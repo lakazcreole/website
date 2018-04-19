@@ -1,6 +1,6 @@
 <template>
   <div class="row mb-5">
-    <div class="d-none d-sm-block col-md-4 order-nav">
+    <div class="d-none d-lg-block col-lg-4 order-nav">
       <div v-sticky="{ zIndex: 1020, stickyTop: 115 }">
         Catégories
         <ul class="nav flex-column mt-3">
@@ -10,7 +10,7 @@
         </ul>
       </div>
     </div>
-    <div class="col-xs col-md-8 order-menu">
+    <div class="col-xs col-lg-8 order-menu">
       <h2>Menu</h2>
       <div v-for="type in types" :key="type.key">
         <!-- <h3 class="my-3">{{ type.name }}</h3> -->

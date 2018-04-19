@@ -41,7 +41,6 @@
         Total : <span class="ml-auto">{{ fullPrice.toFixed(2).toString().replace('.', ',') }} €</span>
       </div>
     </div>
-    <slot name="info"/>
   </div>
 </template>
 

@@ -1,4 +1,3 @@
-
 <template>
   <modal @close="$emit('close')">
     <h3 slot="header">Contact</h3>
@@ -55,25 +54,26 @@
 
 <script>
 import axios from 'axios'
+import Modal from './Modal'
 
 export default {
+  components: {
+    Modal
+  },
+
   props: {
-    defaultSubject: {
+    initialSubject: {
       type: String,
-      required: true
+      required: false,
+      default: ''
     },
-    defaultMessage: {
+    initialMessage: {
       type: String,
-      required: true
+      required: false,
+      default: ''
     }
   },
-  mounted() {
-    this.subject = this.defaultSubject
-    this.message = this.defaultMessage
-  },
-  components: {
-    'modal': require('./Modal.vue').default
-  },
+
   data() {
     return {
       name: '',
@@ -86,6 +86,12 @@ export default {
       waiting: false,
     }
   },
+
+  mounted() {
+    this.subject = this.initialSubject
+    this.message = this.initialMessage
+  },
+
   methods: {
     onSubmit: function() {
       this.waiting = true
