@@ -24,6 +24,7 @@ class OrderController extends Controller
             'customerPhone' => $order->customer->phone,
             'lines' => $order->lines,
             'address' => "{$order->address1} {$order->address2} {$order->address3}",
+            'zip' => $order->zip,
             'date' => $order->date,
             'time' => $order->time,
             'totalPrice' => $order->totalPrice,
