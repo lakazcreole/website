@@ -102,7 +102,7 @@
               </div>
               <div v-if="showDeliveryForm" class="mt-3">
                 <button class="btn btn-lg btn-block btn-primary" @click="handleOrder()" :disabled="!deliveryFormFilled">Commander</button>
-                <button class="btn btn-block btn-link" @click.prevent="showCartModal = true">Retour au panier</button>
+                <button class="d-block d-sm-none btn btn-block btn-link" @click.prevent="showCartModal = true">Retour au panier</button>
                 <div v-if="order.serverError" class="mt-3 text-center">
                   <p class="mb-0 text-danger">Une erreur s'est produite. Veuillez réessayer plus tard.</p>
                 </div>
