@@ -18,8 +18,8 @@
         </div>
       </div>
       <div v-else>
-        <portal v-if="showModal" to="modal">
-          <modal @close="showModal = false">
+        <portal v-if="showDeliveryTimeModal" to="modal">
+          <modal @close="showDeliveryTimeModal = false">
             <h3 slot="header">Livraison</h3>
             <DeliveryTimeSelector
               slot="body"
@@ -29,7 +29,7 @@
               :on-time-input="value => { this.editedTime = value }"
             />
             <div slot="footer" class="text-right">
-              <button type="button" class="btn btn-secondary ml-2" @click="showModal = false">Annuler</button>
+              <button type="button" class="btn btn-secondary ml-2" @click="showDeliveryTimeModal = false">Annuler</button>
               <button type="button" class="btn btn-primary ml-2" @click="handleDeliveryTimeModalSave">Modifier</button>
             </div>
           </modal>
@@ -53,20 +53,26 @@
           </div>
           <div class="col-sm-6 col-lg-4">
             <div v-if="showCart" v-sticky="{ zIndex: 1019, stickyTop: 115 }">
-              <div class="d-block d-sm-none">
+              <div v-if="!showDeliveryForm" v-show="!showCartModal" class="d-block d-sm-none">
                 <div v-show="showFixedCartButton" class="fixed-bottom container text-center mb-3">
-                  <cart-button :items="order.lines" @click="showCartModal = true"/>
+                  <transition name="fade">
+                    <cart-button :items="order.lines" @click="showCartModal = true"/>
+                  </transition>
                 </div>
                 <div v-view="viewHandler" class="text-center mb-3">
                   <cart-button :items="order.lines" @click="showCartModal = true"/>
                 </div>
-                <portal v-if="showCartModal" to="modal">
-                  <modal @close="showCartModal = false">
-                    <h3 slot="header">Panier</h3>
-                    <portal-target name="cart-modal" slot="body"/>
-                  </modal>
-                </portal>
               </div>
+              <portal v-if="showCartModal" to="modal">
+                <modal @close="showCartModal = false">
+                  <h3 slot="header">Panier</h3>
+                  <portal-target name="cart-modal" slot="body"/>
+                  <div slot="footer">
+                    <button v-if="showMenu" class="validate-cart btn btn-lg btn-block btn-primary" :disabled="!canOrder" @click="validateCart">Commander</button>
+                    <button v-if="showDeliveryForm" class="btn btn-link btn-block" @click="editCart">Modifier</button>
+                  </div>
+                </modal>
+              </portal>
               <div class="d-none d-sm-block">
                 <div class="d-flex justify-content-between align-items-center">
                   <h2>Panier</h2>
@@ -96,6 +102,7 @@
               </div>
               <div v-if="showDeliveryForm" class="mt-3">
                 <button class="btn btn-lg btn-block btn-primary" @click="handleOrder()" :disabled="!deliveryFormFilled">Commander</button>
+                <button class="btn btn-block btn-link" @click.prevent="showCartModal = true">Retour au panier</button>
                 <div v-if="order.serverError" class="mt-3 text-center">
                   <p class="mb-0 text-danger">Une erreur s'est produite. Veuillez réessayer plus tard.</p>
                 </div>
@@ -164,7 +171,7 @@ export default {
       showCartModal: false,
       showMenu: false,
       showDeliveryForm: false,
-      showModal: false,
+      showDeliveryTimeModal: false,
       finished: false,
       minimumReached: false
     }
@@ -245,20 +252,22 @@ export default {
     handleDeliveryTimeEdit() {
       this.editedDate = this.order.date
       this.editedTime = this.order.time
-      this.showModal = true
+      this.showDeliveryTimeModal = true
     },
     handleDeliveryTimeModalSave() {
       this.order.date = this.editedDate
       this.order.time = this.editedTime
-      this.showModal = false
+      this.showDeliveryTimeModal = false
     },
     validateCart() {
       this.showMenu = false
       this.showDeliveryForm = true
+      this.showCartModal = false
     },
     editCart() {
       this.showMenu = true
       this.showDeliveryForm = false
+      this.showCartModal = false
     },
     handleOrder() {
       const order = {
