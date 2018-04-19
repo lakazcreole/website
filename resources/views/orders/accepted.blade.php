@@ -23,6 +23,7 @@
                 <li>Email : {{ $customerEmail }}</li>
                 <li>Tél. : {{ $customerPhone }}</li>
                 <li>Addresse : {{ $address }}</li>
+                <li>Code postal : {{ $zip }}</li>
                 <li>Date : {{ $date }} à {{ $time }}</li>
             </ul>
         </p>

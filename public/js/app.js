@@ -59266,6 +59266,8 @@ if (false) {(function () {
 //
 //
 //
+//
+//
 
 
 
@@ -63173,70 +63175,82 @@ var render = function() {
                       [
                         _vm.showModal
                           ? _c(
-                              "modal",
-                              {
-                                on: {
-                                  close: function($event) {
-                                    _vm.showModal = false
-                                  }
-                                }
-                              },
+                              "portal",
+                              { attrs: { to: "modal" } },
                               [
                                 _c(
-                                  "h3",
-                                  { attrs: { slot: "header" }, slot: "header" },
-                                  [_vm._v("Livraison")]
-                                ),
-                                _vm._v(" "),
-                                _c("DeliveryTimeSelector", {
-                                  attrs: {
-                                    slot: "body",
-                                    "default-date": _vm.order.date,
-                                    "default-time": _vm.order.time,
-                                    "on-date-input": function(value) {
-                                      this$1.editedDate = value
-                                    },
-                                    "on-time-input": function(value) {
-                                      this$1.editedTime = value
-                                    }
-                                  },
-                                  slot: "body"
-                                }),
-                                _vm._v(" "),
-                                _c(
-                                  "div",
+                                  "modal",
                                   {
-                                    staticClass: "text-right",
-                                    attrs: { slot: "footer" },
-                                    slot: "footer"
+                                    on: {
+                                      close: function($event) {
+                                        _vm.showModal = false
+                                      }
+                                    }
                                   },
                                   [
                                     _c(
-                                      "button",
+                                      "h3",
                                       {
-                                        staticClass: "btn btn-secondary ml-2",
-                                        attrs: { type: "button" },
-                                        on: {
-                                          click: function($event) {
-                                            _vm.showModal = false
-                                          }
-                                        }
+                                        attrs: { slot: "header" },
+                                        slot: "header"
                                       },
-                                      [_vm._v("Annuler")]
+                                      [_vm._v("Livraison")]
                                     ),
                                     _vm._v(" "),
-                                    _c(
-                                      "button",
-                                      {
-                                        staticClass: "btn btn-primary ml-2",
-                                        attrs: { type: "button" },
-                                        on: {
-                                          click: _vm.handleDeliveryTimeModalSave
+                                    _c("DeliveryTimeSelector", {
+                                      attrs: {
+                                        slot: "body",
+                                        "default-date": _vm.order.date,
+                                        "default-time": _vm.order.time,
+                                        "on-date-input": function(value) {
+                                          this$1.editedDate = value
+                                        },
+                                        "on-time-input": function(value) {
+                                          this$1.editedTime = value
                                         }
                                       },
-                                      [_vm._v("Modifier")]
+                                      slot: "body"
+                                    }),
+                                    _vm._v(" "),
+                                    _c(
+                                      "div",
+                                      {
+                                        staticClass: "text-right",
+                                        attrs: { slot: "footer" },
+                                        slot: "footer"
+                                      },
+                                      [
+                                        _c(
+                                          "button",
+                                          {
+                                            staticClass:
+                                              "btn btn-secondary ml-2",
+                                            attrs: { type: "button" },
+                                            on: {
+                                              click: function($event) {
+                                                _vm.showModal = false
+                                              }
+                                            }
+                                          },
+                                          [_vm._v("Annuler")]
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
+                                          "button",
+                                          {
+                                            staticClass: "btn btn-primary ml-2",
+                                            attrs: { type: "button" },
+                                            on: {
+                                              click:
+                                                _vm.handleDeliveryTimeModalSave
+                                            }
+                                          },
+                                          [_vm._v("Modifier")]
+                                        )
+                                      ]
                                     )
-                                  ]
+                                  ],
+                                  1
                                 )
                               ],
                               1

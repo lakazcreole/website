@@ -18,20 +18,22 @@
         </div>
       </div>
       <div v-else>
-        <modal v-if="showModal" @close="showModal = false">
-          <h3 slot="header">Livraison</h3>
-          <DeliveryTimeSelector
-            slot="body"
-            :default-date="order.date"
-            :default-time="order.time"
-            :on-date-input="value => { this.editedDate = value }"
-            :on-time-input="value => { this.editedTime = value }"
-          />
-          <div slot="footer" class="text-right">
-            <button type="button" class="btn btn-secondary ml-2" @click="showModal = false">Annuler</button>
-            <button type="button" class="btn btn-primary ml-2" @click="handleDeliveryTimeModalSave">Modifier</button>
-          </div>
-        </modal>
+        <portal v-if="showModal" to="modal">
+          <modal @close="showModal = false">
+            <h3 slot="header">Livraison</h3>
+            <DeliveryTimeSelector
+              slot="body"
+              :default-date="order.date"
+              :default-time="order.time"
+              :on-date-input="value => { this.editedDate = value }"
+              :on-time-input="value => { this.editedTime = value }"
+            />
+            <div slot="footer" class="text-right">
+              <button type="button" class="btn btn-secondary ml-2" @click="showModal = false">Annuler</button>
+              <button type="button" class="btn btn-primary ml-2" @click="handleDeliveryTimeModalSave">Modifier</button>
+            </div>
+          </modal>
+        </portal>
         <div class="row">
           <div class="col-md-8">
             <order-menu v-if="showMenu" :products="products" :handle-add="addOrderLine"/>

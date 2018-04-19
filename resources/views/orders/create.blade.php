@@ -2,6 +2,7 @@
 
 @section('modals')
     @parent
+    <portal-target name="modal"></portal-target>
     <contact-modal v-if="showContactModal" @close="showContactModal = false" :default-subject="subject" :default-message="message"></contact-modal>
 @endsection
 

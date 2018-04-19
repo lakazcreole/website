@@ -22,6 +22,7 @@ Au travail !
 - Email : {{ $customerEmail }}
 - Tél. : {{ $customerPhone }}
 - Addresse : {{ $address }}
+- Code Postal : {{ $zip }}
 - Date : {{ $date }} à {{ $time }}
 - Prix total : {{ $totalPrice }} €
 
