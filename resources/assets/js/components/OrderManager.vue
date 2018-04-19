@@ -70,7 +70,7 @@
               <div class="d-none d-sm-block">
                 <div class="d-flex justify-content-between align-items-center">
                   <h2>Panier</h2>
-                  <button v-show="showDeliveryForm" class="btn btn-link" @click="handleCartEdit">Modifier</button>
+                  <button v-show="showDeliveryForm" class="btn btn-link" @click="editCart">Modifier</button>
                 </div>
                 <portal-target name="cart"/>
                 <portal :to="showCartModal ? 'cart-modal' : 'cart'">
@@ -256,7 +256,7 @@ export default {
       this.showMenu = false
       this.showDeliveryForm = true
     },
-    handleCartEdit() {
+    editCart() {
       this.showMenu = true
       this.showDeliveryForm = false
     },
