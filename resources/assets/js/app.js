@@ -14,15 +14,19 @@ window.Vue = require('vue')
  */
 
 import VueSticky from 'vue-sticky'
+import PortalVue from 'portal-vue'
+import CheckView from 'vue-check-view'
 
-// eslint-disable-next-line no-unused-vars
-const VueScrollTo = require('vue-scrollto')
+const VueScrollTo = require('vue-scrollto') // eslint-disable-line no-unused-vars
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
+
+Vue.use(PortalVue) // eslint-disable-line no-undef
+Vue.use(CheckView) // eslint-disable-line no-undef
 
 // eslint-disable-next-line no-unused-vars, no-undef
 const app = new Vue({

@@ -35,8 +35,8 @@
         <div class="row">
           <div class="col-md-8">
             <order-menu v-if="showMenu" :products="products" :handle-add="addOrderLine"/>
-            <!-- eslint-disable vue/html-indent -->
-            <delivery-form v-if="showDeliveryForm"
+            <delivery-form
+              v-if="showDeliveryForm"
               :errors="order.errors"
               :on-first-name-input="value => { this.order.customer.firstName = value }"
               :on-last-name-input="value => { this.order.customer.lastName = value }"
@@ -48,22 +48,31 @@
               :on-city-input="value => { this.order.city = value }"
               :on-zip-input="value => { this.order.zip = value }"
             />
-            <!-- eslint-enable vue/html-indent -->
           </div>
           <div class="col-md-4">
             <div v-if="showBasket" v-sticky="{ zIndex: 1019, stickyTop: 115 }">
-              <cart :items="order.lines" :editable="showMenu" @validate="handleCartValidate()" @edit="handleCartEdit()" @removeItem="removeOrderLine">
-                <div slot="info" class="my-3">
-                  <div v-if="showDeliveryForm" class="form-group">
-                    <label for="inputInformation">Informations</label>
-                    <textarea @input="value => { this.order.information = value }" class="form-control" placeholder="Allergies, etc."/>
-                  </div>
-                  <p class="mb-0 text-center">
-                    Livraison le <a href="#" class="link" title="Modifier" @click.prevent="handleDeliveryTimeEdit()">{{ readableDate }} à {{ order.time }}</a>.<br>
-                    Paiement en <strong>espèces, tickets restaurant ou Lydia</strong>.
-                  </p>
+              <div class="d-block d-sm-none">
+                <div v-show="showFixedCartButton" class="fixed-bottom container text-center mb-3">
+                  <button class="btn btn-rounded btn-lg btn-primary" @click="$refs.drawer.toggle()">Panier</button>
                 </div>
-              </cart>
+                <div v-view="viewHandler" class="text-center mb-3">
+                  <button class="btn btn-rounded btn-lg btn-primary" @click="$refs.drawer.toggle()">Panier</button>
+                </div>
+              </div>
+              <div class="d-none d-sm-block">
+                <cart :items="order.lines" :editable="showMenu" @validate="handleCartValidate()" @edit="handleCartEdit()" @removeItem="removeOrderLine">
+                  <div slot="info" class="my-3">
+                    <div v-if="showDeliveryForm" class="form-group">
+                      <label for="inputInformation">Informations</label>
+                      <textarea @input="value => { this.order.information = value }" class="form-control" placeholder="Allergies, etc."/>
+                    </div>
+                    <p class="mb-0 text-center">
+                      Livraison le <a href="#" class="link" title="Modifier" @click.prevent="handleDeliveryTimeEdit()">{{ readableDate }} à {{ order.time }}</a>.<br>
+                      Paiement en <strong>espèces, tickets restaurant ou Lydia</strong>.
+                    </p>
+                  </div>
+                </cart>
+              </div>
               <div v-if="showDeliveryForm" class="mt-3">
                 <button class="btn btn-lg btn-block btn-primary" @click="handleOrder()" :disabled="!deliveryFormFilled">Commander</button>
                 <div v-if="order.serverError" class="mt-3 text-center">
@@ -81,6 +90,7 @@
 <script>
 import axios from 'axios'
 import VueSticky from 'vue-sticky'
+import {DrawerLayout} from 'vue-drawer-layout'
 
 import Cart from './Cart'
 import DeliveryTimeForm from './DeliveryTimeForm'
@@ -94,6 +104,7 @@ export default {
     'delivery-form': require('./DeliveryForm').default,
     DeliveryTimeForm,
     DeliveryTimeSelector,
+    'vue-drawer-layout': DrawerLayout
   },
   directives: {
     'sticky': VueSticky
@@ -126,6 +137,8 @@ export default {
       },
       showTimeSelector: true,
       showBasket: false,
+      showFixedCartButton: false,
+      showCartDrawer: false,
       showMenu: false,
       showDeliveryForm: false,
       showModal: false,
@@ -253,8 +266,20 @@ export default {
             this.order.serverError = true
           }
         })
+    },
+    viewHandler (e) {
+      if (e.type === 'exit') {
+        this.showFixedCartButton = true
+      } else if (e.type === 'enter') {
+        this.showFixedCartButton = false
+      }
     }
   }
 }
 </script>
 
+<style scoped>
+  .vue-affix {
+    width: 100%;
+  }
+</style>

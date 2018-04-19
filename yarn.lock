@@ -5822,6 +5822,10 @@ popper.js@^1.12:
   version "1.14.3"
   resolved "https://registry.yarnpkg.com/popper.js/-/popper.js-1.14.3.tgz#1438f98d046acf7b4d78cd502bf418ac64d4f095"
 
+portal-vue@^1.3.0:
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/portal-vue/-/portal-vue-1.3.0.tgz#479630547c12bc94200d3485d40f21368955f809"
+
 portfinder@^1.0.9:
   version "1.0.13"
   resolved "https://registry.yarnpkg.com/portfinder/-/portfinder-1.0.13.tgz#bb32ecd87c27104ae6ee44b5a3ccbf0ebb1aede9"
@@ -7941,6 +7945,14 @@ vm-browserify@0.0.4:
   resolved "https://registry.yarnpkg.com/vm-browserify/-/vm-browserify-0.0.4.tgz#5d7ea45bbef9e4a6ff65f95438e0a87c357d5a73"
   dependencies:
     indexof "0.0.1"
+
+vue-check-view@^0.2.3:
+  version "0.2.3"
+  resolved "https://registry.yarnpkg.com/vue-check-view/-/vue-check-view-0.2.3.tgz#0bb8175908eee6e0975c63de71cfc445d251d97a"
+
+vue-drawer-layout@^0.3.1:
+  version "0.3.1"
+  resolved "https://registry.yarnpkg.com/vue-drawer-layout/-/vue-drawer-layout-0.3.1.tgz#c585f0e29892fafc0549de676ae88bde047a1d43"
 
 vue-eslint-parser@^2.0.3:
   version "2.0.3"
