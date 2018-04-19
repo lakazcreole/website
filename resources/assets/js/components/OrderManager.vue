@@ -1,22 +1,144 @@
+<template>
+  <div v-if="finished" class="container">
+    <div style="height: 259px;" class="d-flex">
+      <div class="my-auto w-100">
+        <p class="my-3 text-center">Merci de votre commande ! Je reviendrai rapidement vers vous par le biais de votre adresse e-mail <strong>{{ order.customer.email }}</strong>.</p>
+      </div>
+    </div>
+  </div>
+  <div v-else>
+    <div v-if="error" class="container">
+      <p class="my-3 text-center">Le service de commande est indisponible. Veuillez réessayer plus tard.</p>
+    </div>
+    <div v-else-if="loaded" class="container">
+      <div v-if="showTimeSelector" style="height: 259px;" class="d-flex">
+        <div class="my-auto w-100">
+          <h2 class="mb-3">Livraison</h2>
+          <DeliveryTimeForm @submit="handleDeliveryTimeFormSubmit" :on-date-input="handleDateInput" :on-time-input="handleTimeInput"/>
+        </div>
+      </div>
+      <div v-else>
+        <portal v-if="showDeliveryTimeModal" to="modal">
+          <modal @close="showDeliveryTimeModal = false">
+            <h3 slot="header">Livraison</h3>
+            <DeliveryTimeSelector
+              slot="body"
+              :default-date="order.date"
+              :default-time="order.time"
+              :on-date-input="value => { this.editedDate = value }"
+              :on-time-input="value => { this.editedTime = value }"
+            />
+            <div slot="footer" class="text-right">
+              <button type="button" class="btn btn-secondary ml-2" @click="showDeliveryTimeModal = false">Annuler</button>
+              <button type="button" class="btn btn-primary ml-2" @click="handleDeliveryTimeModalSave">Modifier</button>
+            </div>
+          </modal>
+        </portal>
+        <div class="row">
+          <div class="col-sm-6 col-lg-8">
+            <order-menu v-if="showMenu" :products="products" :handle-add="addOrderLine"/>
+            <delivery-form
+              v-if="showDeliveryForm"
+              :errors="order.errors"
+              :on-first-name-input="value => { this.order.customer.firstName = value }"
+              :on-last-name-input="value => { this.order.customer.lastName = value }"
+              :on-email-input="value => { this.order.customer.email = value }"
+              :on-phone-input="value => { this.order.customer.phone = value }"
+              :on-address-one-input="value => { this.order.address1 = value }"
+              :on-address-two-input="value => { this.order.address2 = value }"
+              :on-address-three-input="value => { this.order.address3 = value }"
+              :on-city-input="value => { this.order.city = value }"
+              :on-zip-input="value => { this.order.zip = value }"
+            />
+          </div>
+          <div class="col-sm-6 col-lg-4">
+            <div v-if="showCart" v-sticky="{ zIndex: 1019, stickyTop: 115 }">
+              <div v-if="!showDeliveryForm" v-show="!showCartModal" class="d-block d-sm-none">
+                <div v-show="showFixedCartButton" class="fixed-bottom container text-center mb-3">
+                  <transition name="fade">
+                    <cart-button :items="order.lines" @click="showCartModal = true"/>
+                  </transition>
+                </div>
+                <div v-view="viewHandler" class="text-center mb-3">
+                  <cart-button :items="order.lines" @click="showCartModal = true"/>
+                </div>
+              </div>
+              <portal v-if="showCartModal" to="modal">
+                <modal @close="showCartModal = false">
+                  <h3 slot="header">Panier</h3>
+                  <portal-target name="cart-modal" slot="body"/>
+                  <div slot="footer">
+                    <button v-if="showMenu" class="validate-cart btn btn-lg btn-block btn-primary" :disabled="!canOrder" @click="validateCart">Commander</button>
+                    <button v-if="showDeliveryForm" class="btn btn-link btn-block" @click="editCart">Modifier</button>
+                  </div>
+                </modal>
+              </portal>
+              <div class="d-none d-sm-block">
+                <div class="d-flex justify-content-between align-items-center">
+                  <h2>Panier</h2>
+                  <button v-show="showDeliveryForm" class="btn btn-link" @click="editCart">Modifier</button>
+                </div>
+                <portal-target name="cart"/>
+                <portal :to="showCartModal ? 'cart-modal' : 'cart'">
+                  <cart
+                    :items="order.lines"
+                    :editable="showMenu"
+                    @minimumReached="minimumReached = true"
+                    @minimumDropped="minimumReached = false"
+                    @removeItem="removeOrderLine"
+                  />
+                  <div class="my-3">
+                    <div v-if="showDeliveryForm" class="form-group">
+                      <label for="inputInformation">Informations</label>
+                      <textarea @input="value => { this.order.information = value }" class="form-control" placeholder="Allergies, etc."/>
+                    </div>
+                    <p class="mb-0 text-center">
+                      Livraison le <a href="#" class="link" title="Modifier" @click.prevent="handleDeliveryTimeEdit()">{{ readableDate }} à {{ order.time }}</a>.<br>
+                      Paiement en <strong>espèces, tickets restaurant ou Lydia</strong>.
+                    </p>
+                  </div>
+                </portal>
+                <button v-if="showMenu" class="validate-cart btn btn-lg btn-block btn-primary mt-3" :disabled="!canOrder" @click="validateCart">Commander</button>
+              </div>
+              <div v-if="showDeliveryForm" class="mt-3">
+                <button class="btn btn-lg btn-block btn-primary" @click="handleOrder()" :disabled="!deliveryFormFilled">Commander</button>
+                <button class="d-block d-sm-none btn btn-block btn-link" @click.prevent="showCartModal = true">Retour au panier</button>
+                <div v-if="order.serverError" class="mt-3 text-center">
+                  <p class="mb-0 text-danger">Une erreur s'est produite. Veuillez réessayer plus tard.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
 <script>
+import axios from 'axios'
 import VueSticky from 'vue-sticky'
 
 import Cart from './Cart'
+import CartButton from './CartButton'
 import DeliveryTimeForm from './DeliveryTimeForm'
 import DeliveryTimeSelector from './DeliveryTimeSelector'
 
 export default {
   components: {
     Cart,
+    CartButton,
     'modal': require('./Modal').default,
     'order-menu': require('./OrderMenu').default,
     'delivery-form': require('./DeliveryForm').default,
     DeliveryTimeForm,
-    DeliveryTimeSelector,
+    DeliveryTimeSelector
   },
+
   directives: {
     'sticky': VueSticky
   },
+
   data() {
     return {
       loaded: false,
@@ -44,11 +166,14 @@ export default {
         serverError: false,
       },
       showTimeSelector: true,
-      showBasket: false,
+      showCart: false,
+      showFixedCartButton: false,
+      showCartModal: false,
       showMenu: false,
       showDeliveryForm: false,
-      showModal: false,
+      showDeliveryTimeModal: false,
       finished: false,
+      minimumReached: false
     }
   },
   mounted() {
@@ -61,6 +186,9 @@ export default {
     deliveryFormFilled() {
       return this.order.customer.firstName !== '' && this.order.customer.lastName !== '' && this.order.customer.email !== '' && this.order.customer.phone !== '' &&
         this.order.address1 !== '' && this.order.city !== '' && this.order.zip !== ''
+    },
+    canOrder() {
+      return this.order.lines && this.minimumReached
     }
   },
   methods: {
@@ -70,8 +198,8 @@ export default {
           this.products = response.data.data
           this.loaded = true
         }
-      }).catch(error => {
-        console.log(error)
+      }).catch(() => {
+        // console.log(error)
         this.error = true
       })
     },
@@ -119,25 +247,27 @@ export default {
     handleDeliveryTimeFormSubmit() {
       this.showTimeSelector = false
       this.showMenu = true
-      this.showBasket = true
+      this.showCart = true
     },
     handleDeliveryTimeEdit() {
       this.editedDate = this.order.date
       this.editedTime = this.order.time
-      this.showModal = true
+      this.showDeliveryTimeModal = true
     },
     handleDeliveryTimeModalSave() {
       this.order.date = this.editedDate
       this.order.time = this.editedTime
-      this.showModal = false
+      this.showDeliveryTimeModal = false
     },
-    handleCartValidate() {
+    validateCart() {
       this.showMenu = false
       this.showDeliveryForm = true
+      this.showCartModal = false
     },
-    handleCartEdit() {
+    editCart() {
       this.showMenu = true
       this.showDeliveryForm = false
+      this.showCartModal = false
     },
     handleOrder() {
       const order = {
@@ -159,97 +289,33 @@ export default {
           zip: this.order.zip
         },
       }
-      console.log(order)
+      // console.log(order)
       axios.post('/api/orders', order)
-        .then((response) => {
+        .then(() => {
           this.finished = true
         })
         .catch((error) => {
           if (error.response && error.response.status === 422) {
             this.order.errors = error.response.data
-            console.log(this.order.errors)
+            // console.log(this.order.errors)
           } else {
             this.order.serverError = true
           }
         })
+    },
+    viewHandler (e) {
+      if (e.type === 'exit') {
+        this.showFixedCartButton = true
+      } else if (e.type === 'enter') {
+        this.showFixedCartButton = false
+      }
     }
   }
 }
 </script>
 
-<template>
-  <div v-if="finished" class="container">
-    <div style="height: 259px;" class="d-flex">
-      <div class="my-auto w-100">
-        <p class="my-3 text-center">Merci de votre commande ! Je reviendrai rapidement vers vous par le biais de votre adresse e-mail <strong>{{ order.customer.email }}</strong>.</p>
-      </div>
-    </div>
-  </div>
-  <div v-else>
-    <div v-if="error" class="container">
-      <p class="my-3 text-center">Le service de commande est indisponible. Veuillez réessayer plus tard.</p>
-    </div>
-    <div v-else-if="loaded" class="container">
-      <div v-if="showTimeSelector" style="height: 259px;" class="d-flex">
-        <div class="my-auto w-100">
-          <h2 class="mb-3">Livraison</h2>
-          <DeliveryTimeForm @submit="handleDeliveryTimeFormSubmit" :on-date-input="handleDateInput" :on-time-input="handleTimeInput"></DeliveryTimeForm>
-        </div>
-      </div>
-      <div v-else>
-        <modal v-if="showModal" @close="showModal = false">
-          <h3 slot="header">Livraison</h3>
-          <DeliveryTimeSelector slot="body" :default-date="order.date" :default-time="order.time"
-            :on-date-input="value => { this.editedDate = value }"
-            :on-time-input="value => { this.editedTime = value }"
-            >
-          </DeliveryTimeSelector>
-          <div slot="footer" class="text-right">
-            <button type="button" class="btn btn-secondary ml-2" @click="showModal = false">Annuler</button>
-            <button type="button" class="btn btn-primary ml-2" @click="handleDeliveryTimeModalSave">Modifier</button>
-          </div>
-        </modal>
-        <div class="row">
-          <div class="col-md-8">
-            <order-menu v-if="showMenu" :products="products" :handle-add="addOrderLine"></order-menu>
-            <delivery-form v-if="showDeliveryForm"
-              :errors="order.errors"
-              :on-first-name-input="value => { this.order.customer.firstName = value }"
-              :on-last-name-input="value => { this.order.customer.lastName = value }"
-              :on-email-input="value => { this.order.customer.email = value }"
-              :on-phone-input="value => { this.order.customer.phone = value }"
-              :on-address-one-input="value => { this.order.address1 = value }"
-              :on-address-two-input="value => { this.order.address2 = value }"
-              :on-address-three-input="value => { this.order.address3 = value }"
-              :on-city-input="value => { this.order.city = value }"
-              :on-zip-input="value => { this.order.zip = value }"
-            >
-            </delivery-form>
-          </div>
-          <div class="col-md-4">
-            <div v-if="showBasket" v-sticky="{ zIndex: 1020, stickyTop: 115 }">
-              <cart :items="order.lines" :editable="showMenu" @validate="handleCartValidate()" @edit="handleCartEdit()" @removeItem="removeOrderLine">
-                <div slot="info" class="my-3">
-                  <div v-if="showDeliveryForm" class="form-group">
-                    <label for="inputInformation">Informations</label>
-                    <textarea @input="value => { this.order.information = value }" class="form-control" placeholder="Allergies, etc."></textarea>
-                  </div>
-                  <p class="mb-0 text-center">
-                    Livraison le <a href="#" class="link" title="Modifier" v-on:click.prevent="handleDeliveryTimeEdit()">{{ readableDate }} à {{ order.time }}</a>.<br/>
-                    Paiement en <strong>espèces, tickets restaurant ou Lydia</strong>.
-                  </p>
-                </div>
-              </cart>
-              <div v-if="showDeliveryForm" class="mt-3">
-                <button class="btn btn-lg btn-block btn-primary" @click="handleOrder()" :disabled="!deliveryFormFilled">Commander</button>
-                <div v-if="order.serverError" class="mt-3 text-center">
-                  <p class="mb-0 text-danger">Une erreur s'est produite. Veuillez réessayer plus tard.</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</template>
+<style scoped>
+  .vue-affix {
+    width: 100%;
+  }
+</style>

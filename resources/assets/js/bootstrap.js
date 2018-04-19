@@ -1,4 +1,4 @@
-
+/* eslint-disable */
 window._ = require('lodash');
 
 window.Popper = require('popper.js/dist/umd/popper');

@@ -38,6 +38,18 @@ section.order {
         }
     }
     .order-manager {
+        .btn-link {
+            color: $orange500;
+            &:hover {
+                color: $orange300;
+            }
+        }
+        a.link {
+            color: $orange500;
+            &:hover {
+                color: $orange300;
+            }
+        }
         .order-nav {
             font-size: 1rem;
             margin-top: 0.5rem;
@@ -59,18 +71,6 @@ section.order {
         }
     }
     .order-cart {
-        .btn-link {
-            color: $orange500;
-            &:hover {
-                color: $orange300;
-            }
-        }
-        a.link {
-            color: $orange500;
-            &:hover {
-                color: $orange300;
-            }
-        }
         .card-footer {
             font-weight: 600;
         }

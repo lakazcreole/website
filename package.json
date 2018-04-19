@@ -8,15 +8,21 @@
         "hot": "cross-env NODE_ENV=development node_modules/webpack-dev-server/bin/webpack-dev-server.js --inline --hot --config=node_modules/laravel-mix/setup/webpack.config.js",
         "prod": "npm run production",
         "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
+        "lint": "eslint --ext .js,.vue resources/assets/js",
         "test": "cross-env NODE_ENV=testing mocha-webpack --webpack-config node_modules/laravel-mix/setup/webpack.config.js --require tests/Vue/setup.js tests/Vue/*.spec.js",
         "watch-test": "npm run test -- --watch"
     },
+    "pre-commit": [
+        "lint"
+    ],
     "devDependencies": {
         "@vue/test-utils": "^1.0.0-beta.13",
         "axios": "^0.17",
         "bootstrap": "^4.0.0",
         "bootstrap-sass": "^3.3.7",
         "cross-env": "^5.1",
+        "eslint": "^4.19.1",
+        "eslint-plugin-vue": "^4.4.0",
         "expect": "^22.4.3",
         "jquery": "^3.2",
         "jsdom": "^11.7.0",
@@ -26,11 +32,15 @@
         "mocha": "^5.0.5",
         "mocha-webpack": "^1.1.0",
         "popper.js": "^1.12",
+        "pre-commit": "^1.2.2",
         "vue": "^2.5.7",
         "vue-loader": "^14.2.2",
         "vue-template-compiler": "^2.x"
     },
     "dependencies": {
+        "portal-vue": "^1.3.0",
+        "vue-check-view": "^0.2.3",
+        "vue-drawer-layout": "^0.3.1",
         "vue-scrollto": "^2.8.0",
         "vue-sticky": "^3.3.1",
         "vuejs-datepicker": "^0.9.29"

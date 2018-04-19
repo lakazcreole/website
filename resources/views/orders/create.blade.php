@@ -1,8 +1,8 @@
 @extends('layouts.app')
 
 @section('modals')
-    @parent
-    <contact-modal v-if="showContactModal" @close="showContactModal = false" :default-subject="subject" :default-message="message"></contact-modal>
+  @parent
+  <portal-target name="modal"></portal-target>
 @endsection
 
 @section('content')

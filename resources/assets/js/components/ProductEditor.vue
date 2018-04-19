@@ -1,4 +1,26 @@
+<template>
+  <div>
+    <div class="d-flex">
+      {{ name }}
+      <div class="ml-auto ">
+        <div class="form-check form-check-inline">
+          <input v-model="state" type="checkbox" id="checkbox" :disabled="waiting" @change="updateDisabled">
+          <label class="form-check-label" for="checkbox">
+            <small>Indisponible</small>
+          </label>
+        </div>
+        <a :href="`/dashboard/products/${id}/edit`" class="btn btn-outline-secondary btn-sm">Modifier</a>
+      </div>
+    </div>
+    <div v-if="errors && errors.errors['disabled']" class="d-flex invalid-feedback">
+      <span v-for="(err, index) in errors.errors['disabled']" :key="index">{{ err }} </span>
+    </div>
+  </div>
+</template>
+
 <script>
+import axios from 'axios'
+
 export default {
   props: {
     id: {
@@ -15,7 +37,7 @@ export default {
     },
     apiToken: {
       type: String,
-      require: true
+      required: true
     }
   },
   data() {
@@ -38,7 +60,7 @@ export default {
           'Authorization': `Bearer ${this.apiToken}`
         }
       })
-      .then(response => {
+      .then(() => {
         this.waiting = false
       })
       .catch(error => {
@@ -53,24 +75,3 @@ export default {
   }
 }
 </script>
-
-<template>
-  <div>
-    <div class="d-flex">
-      {{ name }}
-      <div class="ml-auto ">
-        <div class="form-check form-check-inline">
-          <input v-model="state" class="form-check-input" type="checkbox" id="checkbox" @change="updateDisabled" :disabled="waiting">
-          <label class="form-check-label" for="checkbox">
-            <small>Indisponible</small>
-          </label>
-        </div>
-        <a :href="`/dashboard/products/${id}/edit`" class="btn btn-outline-secondary btn-sm">Modifier</a>
-      </div>
-    </div>
-    <div v-if="errors && errors.errors['disabled']" class="d-flex invalid-feedback">
-      <span v-for="err in errors.errors['disabled']">{{ err }} </span>
-    </div>
-  </div>
-</template>
-

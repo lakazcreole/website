@@ -18,7 +18,7 @@
                         @endif
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#" @click.prevent="showContactModal = true">Contact</a>
+                        <contact-button/>
                     </li>
                 </ul>
             </div>

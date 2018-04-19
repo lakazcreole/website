@@ -42,6 +42,7 @@ class OrderAccepted extends Mailable
                 'address1' => $this->order->address1,
                 'address2' => $this->order->address2,
                 'address3' => $this->order->address3,
+                'zip' => $this->order->zip,
                 'date' => strftime('%A %d %B %Y', strtotime($this->order->date)),
                 'time' => date('H:i', strtotime($this->order->time)),
                 'totalPrice' => $this->order->totalPrice

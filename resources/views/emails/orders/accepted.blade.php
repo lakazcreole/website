@@ -26,6 +26,7 @@ Le paiement peut être réalisé en espèces, tickets restaurant ou Lydia. Le nu
 {{ $address1 }}<br/>
 {{ $address2 }}<br/>
 {{ $address3 }}<br/>
+{{ $zip }}<br/>
 
 
 Bonne journée,<br/>

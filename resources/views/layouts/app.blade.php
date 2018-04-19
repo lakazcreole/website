@@ -17,8 +17,8 @@
 
     <body>
         <div id="app">
-            @yield('modals')
             @yield('content')
+            @yield('modals')
         </div>
         <script src="{{ mix('js/app.js') }}"></script>
         @env('production')
