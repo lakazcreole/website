@@ -13,7 +13,8 @@
         "watch-test": "npm run test -- --watch"
     },
     "pre-commit": [
-        "lint"
+        "lint",
+        "prod"
     ],
     "devDependencies": {
         "@vue/test-utils": "^1.0.0-beta.13",
