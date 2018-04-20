@@ -2,7 +2,7 @@
 
 @section('modals')
   @parent
-  <portal-target name="modal"></portal-target>
+  <contact-modal/>
 @endsection
 
 @section('content')

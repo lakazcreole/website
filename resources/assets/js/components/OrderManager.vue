@@ -18,22 +18,21 @@
         </div>
       </div>
       <div v-else>
-        <portal v-if="showDeliveryTimeModal" to="modal">
-          <modal @close="showDeliveryTimeModal = false">
-            <h3 slot="header">Livraison</h3>
-            <DeliveryTimeSelector
-              slot="body"
-              :default-date="order.date"
-              :default-time="order.time"
-              :on-date-input="value => { this.editedDate = value }"
-              :on-time-input="value => { this.editedTime = value }"
-            />
-            <div slot="footer" class="text-right">
-              <button type="button" class="btn btn-secondary ml-2" @click="showDeliveryTimeModal = false">Annuler</button>
-              <button type="button" class="btn btn-primary ml-2" @click="handleDeliveryTimeModalSave">Modifier</button>
-            </div>
-          </modal>
-        </portal>
+        <!-- Delivery Time Modal -->
+        <modal name="delivery-time-modal">
+          <h3 slot="header">Livraison</h3>
+          <DeliveryTimeSelector
+            slot="body"
+            :default-date="order.date"
+            :default-time="order.time"
+            :on-date-input="value => { this.editedDate = value }"
+            :on-time-input="value => { this.editedTime = value }"
+          />
+          <div slot="footer" class="text-right">
+            <button type="button" class="btn btn-secondary ml-2" @click="disableDeliveryTimeModal">Annuler</button>
+            <button type="button" class="btn btn-primary ml-2" @click="handleDeliveryTimeModalSave">Modifier</button>
+          </div>
+        </modal>
         <div class="row">
           <div class="col-sm-6 col-lg-8">
             <order-menu v-if="showMenu" :products="products" :handle-add="addOrderLine"/>
@@ -56,23 +55,22 @@
               <div v-if="!showDeliveryForm" v-show="!showCartModal" class="d-block d-sm-none">
                 <div v-show="showFixedCartButton" class="fixed-bottom container text-center mb-3">
                   <transition name="fade">
-                    <cart-button :items="order.lines" @click="showCartModal = true"/>
+                    <cart-button :items="order.lines" @click="enableCartModal"/>
                   </transition>
                 </div>
                 <div v-view="viewHandler" class="text-center mb-3">
-                  <cart-button :items="order.lines" @click="showCartModal = true"/>
+                  <cart-button :items="order.lines" @click="enableCartModal"/>
                 </div>
               </div>
-              <portal v-if="showCartModal" to="modal">
-                <modal @close="showCartModal = false">
-                  <h3 slot="header">Panier</h3>
-                  <portal-target name="cart-modal" slot="body"/>
-                  <div slot="footer">
-                    <button v-if="showMenu" class="validate-cart btn btn-lg btn-block btn-primary" :disabled="!canOrder" @click="validateCart">Commander</button>
-                    <button v-if="showDeliveryForm" class="btn btn-link btn-block" @click="editCart">Modifier</button>
-                  </div>
-                </modal>
-              </portal>
+              <!-- Cart modal -->
+              <modal name="cart-modal">
+                <h3 slot="header">Panier</h3>
+                <portal-target name="cart-modal" slot="body"/>
+                <div slot="footer">
+                  <button v-if="showMenu" class="validate-cart btn btn-lg btn-block btn-primary" :disabled="!canOrder" @click="validateCart">Commander</button>
+                  <button v-if="showDeliveryForm" class="btn btn-link btn-block" @click="editCart">Modifier</button>
+                </div>
+              </modal>
               <div class="d-none d-sm-block">
                 <div class="d-flex justify-content-between align-items-center">
                   <h2>Panier</h2>
@@ -88,9 +86,13 @@
                     @removeItem="removeOrderLine"
                   />
                   <div class="my-3">
-                    <div v-if="showDeliveryForm" class="form-group">
+                    <div v-if="showDeliveryForm || showCartModal " class="form-group">
                       <label for="inputInformation">Informations</label>
-                      <textarea @input="value => { this.order.information = value }" class="form-control" placeholder="Allergies, etc."/>
+                      <textarea
+                        class="form-control"
+                        placeholder="Allergies, etc."
+                        v-model="order.information"
+                      />
                     </div>
                     <p class="mb-0 text-center">
                       Livraison le <a href="#" class="link" title="Modifier" @click.prevent="handleDeliveryTimeEdit()">{{ readableDate }} à {{ order.time }}</a>.<br>
@@ -102,7 +104,7 @@
               </div>
               <div v-if="showDeliveryForm" class="mt-3">
                 <button class="btn btn-lg btn-block btn-primary" @click="handleOrder()" :disabled="!deliveryFormFilled">Commander</button>
-                <button class="d-block d-sm-none btn btn-block btn-link" @click.prevent="showCartModal = true">Retour au panier</button>
+                <button class="d-block d-sm-none btn btn-block btn-link" @click.prevent="enableCartModal">Retour au panier</button>
                 <div v-if="order.serverError" class="mt-3 text-center">
                   <p class="mb-0 text-danger">Une erreur s'est produite. Veuillez réessayer plus tard.</p>
                 </div>
@@ -171,7 +173,6 @@ export default {
       showCartModal: false,
       showMenu: false,
       showDeliveryForm: false,
-      showDeliveryTimeModal: false,
       finished: false,
       minimumReached: false
     }
@@ -252,22 +253,24 @@ export default {
     handleDeliveryTimeEdit() {
       this.editedDate = this.order.date
       this.editedTime = this.order.time
-      this.showDeliveryTimeModal = true
+      this.enableDeliveryTimeModal()
     },
     handleDeliveryTimeModalSave() {
       this.order.date = this.editedDate
       this.order.time = this.editedTime
-      this.showDeliveryTimeModal = false
+      this.disableDeliveryTimeModal()
     },
     validateCart() {
       this.showMenu = false
       this.showDeliveryForm = true
-      this.showCartModal = false
+      this.disableCartModal()
+      // this.showCartModal = false
     },
     editCart() {
       this.showMenu = true
       this.showDeliveryForm = false
-      this.showCartModal = false
+      this.disableCartModal()
+      // this.showCartModal = false
     },
     handleOrder() {
       const order = {
@@ -309,6 +312,20 @@ export default {
       } else if (e.type === 'enter') {
         this.showFixedCartButton = false
       }
+    },
+    enableDeliveryTimeModal() {
+      this.$modal.show('delivery-time-modal')
+    },
+    disableDeliveryTimeModal() {
+      this.$modal.hide('delivery-time-modal')
+    },
+    enableCartModal() {
+      this.showCartModal = true
+      this.$modal.show('cart-modal')
+    },
+    disableCartModal() {
+      this.showCartModal = false
+      this.$modal.hide('cart-modal')
     }
   }
 }
