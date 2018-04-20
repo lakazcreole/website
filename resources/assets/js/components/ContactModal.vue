@@ -1,5 +1,5 @@
 <template>
-  <modal @close="$emit('close')">
+  <modal name="contact-modal">
     <h3 slot="header">Contact</h3>
     <div v-if="serverError" slot="body">
       <p class="text-justify">Une erreur s'est produite. Veuillez réessayer plus tard.</p>
@@ -40,7 +40,7 @@
       </div>
     </div>
     <div slot="footer" class="text-right">
-      <button type="button" class="btn btn-secondary" @click="$emit('close')">
+      <button type="button" class="btn btn-secondary" @click="hide">
         <span v-if="sent">Fermer</span>
         <span v-else>Annuler</span>
       </button>
@@ -93,6 +93,13 @@ export default {
   },
 
   methods: {
+    // show () {
+    //   console.log('ContactModal.show()') // eslint-disable-line no-console
+    //   this.$modal.show('contact-modal')
+    // },
+    hide () {
+      this.$modal.hide('contact-modal')
+    },
     onSubmit: function() {
       this.waiting = true
       axios.post('/api/contacts', {

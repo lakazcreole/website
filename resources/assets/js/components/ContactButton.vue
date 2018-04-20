@@ -1,9 +1,6 @@
 <template>
-  <a class="nav-link" href="#" @click.prevent="showContactModal = true">
+  <a class="nav-link" href="#" @click.prevent="showContactModal">
     Contact
-    <portal v-if="showContactModal" to="modal">
-      <contact-modal @close="showContactModal = false"/>
-    </portal>
   </a>
 </template>
 
@@ -15,9 +12,9 @@ export default {
     ContactModal
   },
 
-  data() {
-    return {
-      showContactModal: false
+  methods: {
+    showContactModal() {
+      this.$modal.show('contact-modal')
     }
   }
 }

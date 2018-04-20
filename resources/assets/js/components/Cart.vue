@@ -80,12 +80,12 @@ export default {
     }
   },
 
+  mounted() {
+    this.checkMinimum()
+  },
+
   updated() {
-    if (this.minimumReached) {
-      this.$emit('minimumReached')
-    } else {
-      this.$emit('minimumDropped')
-    }
+    this.checkMinimum()
   },
 
   methods: {
@@ -94,6 +94,13 @@ export default {
     },
     edit() {
       this.$emit('edit')
+    },
+    checkMinimum() {
+      if (this.minimumReached) {
+        this.$emit('minimumReached')
+      } else {
+        this.$emit('minimumDropped')
+      }
     }
   }
 }
