@@ -24,7 +24,7 @@
             @if($product->type === $productType['type'])
               <li class="list-group-item">
                 <product-editor
-                  :id="{{ $product->id }}" name="{{ $product->name }}" :disabled="{{ $product->disabled ? 'true' : 'false' }}"
+                  :id="{{ $product->id }}" name="{{ $product->name }}" :initial-disabled="{{ $product->disabled ? 'true' : 'false' }}"
                   api-token="{{ $apiToken }}"
                   >
                 </product-editor>

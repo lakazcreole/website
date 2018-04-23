@@ -4,7 +4,7 @@
       {{ name }}
       <div class="ml-auto ">
         <div class="form-check form-check-inline">
-          <input v-model="state" type="checkbox" id="checkbox" :disabled="waiting" @change="updateDisabled">
+          <input v-model="disabled" type="checkbox" id="checkbox" :disabled="waiting" @change="updateDisabled">
           <label class="form-check-label" for="checkbox">
             <small>Indisponible</small>
           </label>
@@ -31,7 +31,7 @@ export default {
       type: String,
       required: true
     },
-    disabled: {
+    initialDisabled: {
       type: Boolean,
       required: true
     },
@@ -42,29 +42,35 @@ export default {
   },
   data() {
     return {
-      state: null,
+      disabled: null,
       waiting: false,
       errors: null
     }
   },
   mounted() {
-    this.state = this.disabled
+    this.disabled = this.disabled
   },
   methods: {
     updateDisabled() {
+      // eslint-disable-next-line no-console
+      console.log(`put: /api/products/${this.id}`)
       this.waiting = true
       axios.put(`/api/products/${this.id}`, {
-        disabled: this.state
+        disabled: this.disabled
       },{
         headers: {
           'Authorization': `Bearer ${this.apiToken}`
         }
       })
-      .then(() => {
+      .then(response => {
+        // eslint-disable-next-line no-console
+        console.log(response)
         this.waiting = false
       })
       .catch(error => {
         this.waiting = false
+        // eslint-disable-next-line no-console
+        console.log(error)
         if (error.response && error.response.status === 422) {
             this.errors = error.response.data
         } else {
