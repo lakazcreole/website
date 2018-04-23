@@ -5,10 +5,7 @@ Au travail !
 
 {{ $customerName }} a une commande pour toi :
 
-@component('mail::panel')
-@foreach($lines as $line)
-- {{ $line->quantity }} {{ $line->product->pieces > 1 ? "portion(s) de {$line->product->pieces}" : "" }} {{ $line->product->name }} ({{ $line->totalPrice }} €)
-@endforeach
+@component('emails.components.order', [ 'lines' => $lines, 'deliveryPrice' => $deliveryPrice, 'fullPrice' => $fullPrice ])
 @endcomponent
 
 @if($information != null)
@@ -24,7 +21,8 @@ Au travail !
 - Addresse : {{ $address }}
 - Code Postal : {{ $zip }}
 - Date : {{ $date }} à {{ $time }}
-- Prix total : {{ $totalPrice }} €
+- Livraison : {{ $deliveryPrice }} €
+- Prix total : {{ $fullPrice }} €
 
 ## Actions
 

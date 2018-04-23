@@ -45,7 +45,9 @@ class OrderAccepted extends Mailable
                 'zip' => $this->order->zip,
                 'date' => strftime('%A %d %B %Y', strtotime($this->order->date)),
                 'time' => date('H:i', strtotime($this->order->time)),
-                'totalPrice' => $this->order->totalPrice
+                'deliveryPrice' => $this->order->deliveryPrice,
+                'totalPrice' => $this->order->totalPrice,
+                'fullPrice' => $this->order->fullPrice
             ]);
     }
 }

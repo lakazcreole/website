@@ -44,7 +44,9 @@ class NewOrder extends Mailable implements ShouldQueue
                 'information' => $this->order->information,
                 'date' => $this->order->date,
                 'time' => $this->order->time,
+                'deliveryPrice' => $this->order->deliveryPrice,
                 'totalPrice' => $this->order->totalPrice,
+                'fullPrice' => $this->order->fullPrice,
                 'acceptUrl' => $this->order->acceptUrl,
                 'declineUrl' => $this->order->declineUrl,
             ]);
