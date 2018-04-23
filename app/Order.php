@@ -65,7 +65,10 @@ class Order extends Model
 
     public function getTotalPriceAttribute()
     {
-        $this->load('lines');
+        if (!$this->relationLoaded('lines'))
+        {
+            $this->load('lines');
+        }
         return $this->lines->sum('totalPrice');
     }
 
