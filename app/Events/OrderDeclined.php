@@ -3,6 +3,7 @@
 namespace App\Events;
 
 use App\Order;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Broadcasting\PrivateChannel;
@@ -30,6 +31,7 @@ class OrderDeclined
     public function __construct(Order $order)
     {
         $this->order = $order;
+        Log::info("Declined order #{$this->order->id} from {$this->order->customer->email}");
     }
 
     /**

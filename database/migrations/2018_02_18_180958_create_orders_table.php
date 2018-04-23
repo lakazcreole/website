@@ -15,9 +15,14 @@ class CreateOrdersTable extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('address');
+            $table->string('address1');
+            $table->string('address2');
+            $table->string('address3');
+            $table->string('city');
+            $table->string('zip');
             $table->date('date');
             $table->time('time');
+            $table->text('information')->nullable();
             $table->integer('customer_id')->unsigned();
             $table->foreign('customer_id')->references('id')->on('customers')->onDelete('cascade');
             $table->dateTime('accepted_at')->nullable();

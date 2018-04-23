@@ -11,7 +11,7 @@
             Détail de la commande :
             <ul>
                 @foreach($lines as $line)
-                    <li>{{ $line->quantity }} {{ $line->product->name }} ({{ $line->totalPrice }} €)</li>
+                    <li>{{ $line->quantity }} {{ $line->product->pieces > 1 ? "portion(s) de {$line->product->pieces}" : "" }} {{ $line->product->name }} ({{ $line->totalPrice }} €)</li>
                 @endforeach
             </ul>
             Soit un total de <strong>{{ $totalPrice }} €</strong>.
@@ -23,6 +23,7 @@
                 <li>Email : {{ $customerEmail }}</li>
                 <li>Tél. : {{ $customerPhone }}</li>
                 <li>Addresse : {{ $address }}</li>
+                <li>Code postal : {{ $zip }}</li>
                 <li>Date : {{ $date }} à {{ $time }}</li>
             </ul>
         </p>

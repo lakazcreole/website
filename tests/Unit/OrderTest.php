@@ -75,6 +75,54 @@ class OrderTest extends TestCase
         $this->assertEquals(action('OrderController@getDeclineForm', ['order' => $order->id]), $order->declineUrl);
     }
 
+    public function testHasDeliveryPriceAttribute()
+    {
+        $order = factory(Order::class)->create([
+            'customer_id' => factory(Customer::class)->create()->id
+        ]);
+        $this->assertNotNull($order->deliveryPrice);
+    }
+
+    public function testDeliveryPriceBelow13()
+    {
+        $order = factory(Order::class)->create([
+            'customer_id' => factory(Customer::class)->create()->id
+        ]);
+        $order->addProduct(factory(Product::class)->create(['price' => 10]));
+        // Delivery price is 2 € for orders up to 13 €
+        $this->assertEquals(2, $order->deliveryPrice);
+    }
+
+    public function testDeliveryPriceBetween13and15()
+    {
+        $order = factory(Order::class)->create([
+            'customer_id' => factory(Customer::class)->create()->id
+        ]);
+        $order->addProduct(factory(Product::class)->create(['price' => 14]));
+        // Delivery price is the difference between the price and 15 for orders from 13 € to 15 €
+        $this->assertEquals(1, $order->deliveryPrice);
+    }
+
+    public function testDeliveryPriceFrom15()
+    {
+        $order = factory(Order::class)->create([
+            'customer_id' => factory(Customer::class)->create()->id
+        ]);
+        $order->addProduct(factory(Product::class)->create(['price' => 15]));
+        // Delivery is free for orders of 15 € or above
+        $this->assertEquals(0, $order->deliveryPrice);
+    }
+
+    public function testHasFullPriceAttribute()
+    {
+        $order = factory(Order::class)->create([
+            'customer_id' => factory(Customer::class)->create()->id
+        ]);
+        $order->addProduct(factory(Product::class)->create(['price' => 14]));
+        $this->assertNotNull($order->fullPrice);
+        $this->assertEquals(15, $order->fullPrice);
+    }
+
     public function testIsAccepted()
     {
         $order = factory(Order::class)->create([
@@ -145,5 +193,17 @@ class OrderTest extends TestCase
         Event::assertDispatched(OrderDeclined::class, function ($event) use ($order) {
             return $event->order->id === $order->id;
         });
+    }
+
+    public function testHasInformation()
+    {
+        $order = factory(Order::class)->create([
+            'information' => 'test',
+            'customer_id' => factory(Customer::class)->create()->id
+        ]);
+        $this->assertDatabaseHas('orders', [
+            'id' => $order->id,
+            'information' => 'test'
+        ]);
     }
 }

@@ -1,4 +1,4 @@
-<footer class="bg-dark mt-5 pt-5 pb-3">
+<footer class="bg-dark pt-5 pb-3">
     <div class="container">
         <newsletter-form></newsletter-form>
         <div class="text-center mt-5">
@@ -14,6 +14,9 @@
                     </a>
                 </li>
             </ul>
+            <p class="text-light">
+                <a href="#" @click.prevent="showContactModal = true">Signaler un bug</a>
+            </p>
             <p class="text-light">
                 Made with <span class="color">&hearts;</span> by <a href="http://laurentcazanove.com" target="_blank">Laurent Cazanove</a>.
             </p>

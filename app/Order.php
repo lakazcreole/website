@@ -14,6 +14,27 @@ use Illuminate\Database\Eloquent\Model;
 class Order extends Model
 {
     /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'address1', 'address2', 'address3', 'city', 'zip', 'date', 'time', 'information', 'customer_id'
+    ];
+
+    /**
+     * The attributes that should be mutated to dates.
+     *
+     * @var array
+     */
+    protected $dates = [
+        'date',
+        'created_at',
+        'updated_at',
+        'deleted_at'
+    ];
+
+    /**
      * The event map for the model.
      *
      * @var array
@@ -56,6 +77,20 @@ class Order extends Model
     public function getDeclineUrlAttribute()
     {
         return action('OrderController@getDeclineForm', ['order' => $this->id]);
+    }
+
+    public function getDeliveryPriceAttribute()
+    {
+        if ($this->totalPrice < 13)
+            return 2;
+        if ($this->totalPrice >= 15)
+            return 0;
+        return 15 - $this->totalPrice;
+    }
+
+    public function getFullPriceAttribute()
+    {
+        return $this->totalPrice + $this->deliveryPrice;
     }
 
     public function accept()

@@ -1,4 +1,4 @@
-
+//
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
@@ -14,8 +14,14 @@ window.Vue = require('vue')
  */
 
 import VueSticky from 'vue-sticky'
+import PortalVue from 'portal-vue'
+import CheckView from 'vue-check-view'
+import VueModal from 'vue-js-modal'
 
-const VueScrollTo = require('vue-scrollto')
+const VueScrollTo = require('vue-scrollto') // eslint-disable-line no-unused-vars
+
+import ContactButton from './components/ContactButton'
+import ContactModal from './components/ContactModal'
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -23,20 +29,21 @@ const VueScrollTo = require('vue-scrollto')
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
+Vue.use(PortalVue) // eslint-disable-line no-undef
+Vue.use(CheckView) // eslint-disable-line no-undef
+Vue.use(VueModal, { componentName: 'vue-modal' }) // eslint-disable-line no-undef
+
+// eslint-disable-next-line no-unused-vars, no-undef
 const app = new Vue({
     el: '#app',
     components: {
-        'contact-modal': require('./components/ContactModal.vue'),
-        'newsletter-form': require('./components/NewsletterForm.vue'),
-        'order-manager': require('./components/OrderManager.vue')
+        ContactButton,
+        ContactModal,
+        'newsletter-form': require('./components/NewsletterForm.vue').default,
+        'order-manager': require('./components/OrderManager.vue').default
     },
     directives: {
         'sticky': VueSticky
-    },
-    data: {
-        showContactModal: false,
-        subject: '',
-        message: ''
     },
     methods: {
         openOrder: function() {
@@ -44,7 +51,7 @@ const app = new Vue({
             this.message = 'Cela a l\'air délicieux, je souhaiterais commander toute la carte !'
             this.showContactModal = true
         },
-        scrollToMenu: function(e) {
+        scrollToMenu: function() {
             const options = {
                 container: 'body',
                 easing: 'ease-in',

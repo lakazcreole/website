@@ -17,21 +17,19 @@
 
     <body>
         <div id="app">
-            @yield('modals')
-            <header v-sticky="{ zIndex: 1020, stickyTop: 0 }">
-                @include('partials.navbar')
-            </header>
             @yield('content')
-            @include('partials.footer')
+            @yield('modals')
         </div>
         <script src="{{ mix('js/app.js') }}"></script>
-        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-114349707-1"></script>
-        <script>
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          gtag('js', new Date());
+        @env('production')
+            <script async src="https://www.googletagmanager.com/gtag/js?id=UA-114349707-1"></script>
+            <script>
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
 
-          gtag('config', 'UA-114349707-1');
-        </script>
+              gtag('config', 'UA-114349707-1');
+            </script>
+        @endenv
     </body>
 </html>

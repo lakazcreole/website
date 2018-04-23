@@ -5,19 +5,24 @@ Au travail !
 
 {{ $customerName }} a une commande pour toi :
 
-@component('mail::panel')
-@foreach($lines as $line)
-- {{ $line->quantity }} {{ $line->product->name }} ({{ $line->totalPrice }} €)
-@endforeach
+@component('emails.components.order', [ 'lines' => $lines, 'deliveryPrice' => $deliveryPrice, 'fullPrice' => $fullPrice ])
 @endcomponent
+
+@if($information != null)
+## Attention
+
+{{ $information }}
+@endif
 
 ## Informations
 - Client : {{ $customerName }}
 - Email : {{ $customerEmail }}
 - Tél. : {{ $customerPhone }}
 - Addresse : {{ $address }}
+- Code Postal : {{ $zip }}
 - Date : {{ $date }} à {{ $time }}
-- Prix total : {{ $totalPrice }} €
+- Livraison : {{ $deliveryPrice }} €
+- Prix total : {{ $fullPrice }} €
 
 ## Actions
 

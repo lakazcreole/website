@@ -151,6 +151,14 @@ class ProductsSeeder extends Seeder
             'pieces' => 1,
             'description' => null,
             'price' => 2,
+            'disabled' => true,
+        ]);
+        DB::table('products')->insert([
+            'name' => 'Limonade Cot 33cl',
+            'type' => 'drink',
+            'pieces' => 1,
+            'description' => null,
+            'price' => 2.5,
             'disabled' => false,
         ]);
         DB::table('products')->insert([
