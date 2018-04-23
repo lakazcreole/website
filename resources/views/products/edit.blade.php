@@ -19,10 +19,22 @@
         <input type="text" name="name" class="form-control" id="name" placeholder="Entrez le nom" value="{{ old('name') ?? $name }}" required>
       </div>
       <div class="form-group">
-        <label for="type">Type</label>
+        <label for="type">Type</label> {{ $type }}
+        @if(old('type'))
+          oldtype
+        @else
+          no old type
+        @endif
+        @foreach($productTypes as $typeIterator)
+          type: {{ $type }}  iterator: {{ $typeIterator['type'] }}
+        @endforeach
         <select name="type" class="form-control" required>
-          @foreach($productTypes as $type)
-            <option value="{{ $type['type'] }}" {{ old('type') ?? old('type') === $type['type'] ? 'selected' : '' }}>{{ $type['title'] }}</option>
+          @foreach($productTypes as $typeIterator)
+            @if(old('type'))
+              <option value="{{ $typeIterator['type'] }}" {{ old('type') === $typeIterator['type'] ? 'selected' : '' }}>{{ $typeIterator['type'] }}</option>
+            @else
+              <option value="{{ $typeIterator['type'] }}" {{ $type == $typeIterator['type'] ? 'selected="selected"' : '' }}>{{ $typeIterator['type'] }}</option>
+            @endif
           @endforeach
         </select>
       </div>
