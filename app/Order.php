@@ -79,6 +79,20 @@ class Order extends Model
         return action('OrderController@getDeclineForm', ['order' => $this->id]);
     }
 
+    public function getDeliveryPriceAttribute()
+    {
+        if ($this->totalPrice < 13)
+            return 2;
+        if ($this->totalPrice >= 15)
+            return 0;
+        return 15 - $this->totalPrice;
+    }
+
+    public function getFullPriceAttribute()
+    {
+        return $this->totalPrice + $this->deliveryPrice;
+    }
+
     public function accept()
     {
         $this->accepted_at = Carbon::now();

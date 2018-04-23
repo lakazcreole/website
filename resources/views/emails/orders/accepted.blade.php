@@ -11,13 +11,7 @@ Payer via <img src="https://lydia-app.com/assets/img/sitep2p/logo-lydia@2x.png" 
 
 # Récapitulatif de votre commande
 
-@component('mail::table')
-| Produits | Prix |
-|:--- | ---:|
-@foreach($lines as $line)
-| {{ $line->quantity . ' ' }}{{ $line->product->pieces > 1 ? "portion(s) de {$line->product->pieces}" : "" }} {{ $line->product->name }} | {{ number_format($line->totalPrice, 2) }} €
-@endforeach
- | <strong>Total</strong> | <strong>{{ number_format($totalPrice, 2) }} €</strong>
+@component('emails.components.order', [ 'lines' => $lines, 'deliveryPrice' => $deliveryPrice, 'fullPrice' => $fullPrice ])
 @endcomponent
 
 Le paiement peut être réalisé en espèces, tickets restaurant ou Lydia. Le numéro de téléphone associé au compte Lydia est : 06 29 24 30 90.
