@@ -42,7 +42,11 @@ class ProductControllerTest extends TestCase
                     'disabled' => true
                 ]
             ]);
-        $this->assertTrue(Product::find($product->id)->disabled);
+        // $this->assertTrue(Product::find($product->id)->disabled);
+        $this->assertDatabaseHas('products', [
+            'id' => $product->id,
+            'disabled' => true
+        ]);
     }
 
     public function testUpdateValidatesRequest()
