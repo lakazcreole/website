@@ -31,7 +31,7 @@ class OrderDeclinedTest extends TestCase
         ]);
         $listener = new SendOrderDeclinedMail();
         $listener->handle(new OrderDeclined($order));
-        Mail::assertSent(OrderDeclinedMail::class, function ($mail) use ($order) {
+        Mail::assertQueued(OrderDeclinedMail::class, function ($mail) use ($order) {
             $mail->build();
             return $mail->hasTo($order->customer->email);
         });
