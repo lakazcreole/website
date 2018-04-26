@@ -22,6 +22,7 @@ before_script:
   - yarn
 
 script:
-  - vendor/bin/phpunit --coverage-clover codeCoverage.xml --log-junit testResults.xml
-  - yarn test
+  # - vendor/bin/phpunit --coverage-clover codeCoverage.xml --log-junit testResults.xml
+  # - yarn test
+  - ls
   - sonar-scanner
