@@ -4,7 +4,7 @@ addons:
   sonarcloud:
     organization: "strift-github"
     token:
-      secure: $SONAR_TOKEN
+      secure: "ED93AZI188cK0tFYMFsGdIgWPeJXPEicWXpyz9V5+7WZMmebSCNOuhhQncv6lKrWoYAaF23GKBnEaOtp+DPfgmH32TbrDLignAhgVoH9bP46ZL0y/bW3axD575UDZToA2Em//N4kv+FhCelIatPZBtEhtyyMo69YoQYzjGpxMEu/MPgYzqwYZ5VkkABIme89cdd9psHMFPbmiZ7RG0Z6zNngCsCiF3ZVQ03k3XMkkErNTdEbnzeHDWnwyBNmNDQk2x5yTQdaxxwjpVBgV+lu/mQnQFqeHMnY5tT+n8hvR308mOvGZWlmfXDNd31b+UqYMONC3h+1jhsuuijuovX35vCUENZfJpUIZDVJphkN6KEuMaznZqzJDljYE2CDes2BUcVcBsONDuTNWDfqIyNF0Wl3i6n3JpEwzt2nF5Du4daeBIXF+YwUpRzfnUndj64SkNHSkTSx7WGU20UpEroRQcnB7qfva8uSDazfcQsIg5O87jeecAaKQn/4+cYqEp+9EpEfSCXT6jIGSs8OTUn8iTCe207vXe4uvenx5nJGQi44psxICV5TAUphltxj51PwWjIsXrG1Qd07G2wZ8u0f105aao5nHUrBFbrB3QCNBhR5PhIzdU/PPjrna3fpAhm2lD7r3N2Nbs97y+MjnT4tFaZo1RznhRJyPnjlSaCcqHc="
 
 language: php
 
@@ -24,5 +24,4 @@ before_script:
 script:
   # - vendor/bin/phpunit --coverage-clover codeCoverage.xml --log-junit testResults.xml
   # - yarn test
-  - ls -al
-  - sonar-scanner -X
+  - sonar-scanner
