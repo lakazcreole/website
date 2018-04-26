@@ -25,4 +25,4 @@ script:
   # - vendor/bin/phpunit --coverage-clover codeCoverage.xml --log-junit testResults.xml
   # - yarn test
   - ls -al
-  - sonar-scanner
+  - sonar-scanner -X
