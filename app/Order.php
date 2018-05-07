@@ -74,7 +74,7 @@ class Order extends Model
 
     public function getAcceptUrlAttribute()
     {
-        return action('OrderController@accept', ['order' => $this->id]);
+        return action('OrderController@getAcceptForm', ['order' => $this->id]);
     }
 
     public function getDeclineUrlAttribute()
@@ -96,9 +96,10 @@ class Order extends Model
         return $this->totalPrice + $this->deliveryPrice;
     }
 
-    public function accept()
+    public function accept($message)
     {
         $this->accepted_at = Carbon::now();
+        $this->acceptMessage = $message;
         $this->save();
         event(new OrderAccepted($this));
     }

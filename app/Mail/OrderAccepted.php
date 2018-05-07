@@ -47,7 +47,8 @@ class OrderAccepted extends Mailable implements ShouldQueue
                 'time' => date('H:i', strtotime($this->order->time)),
                 'deliveryPrice' => $this->order->deliveryPrice,
                 'totalPrice' => $this->order->totalPrice,
-                'fullPrice' => $this->order->fullPrice
+                'fullPrice' => $this->order->fullPrice,
+                'message' => $this->order->acceptMessage,
             ]);
     }
 }
