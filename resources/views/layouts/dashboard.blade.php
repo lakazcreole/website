@@ -7,6 +7,7 @@
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
         <link href="{{ asset('css/dashboard.css') }}" rel="stylesheet" type="text/css">
+        @yield('styles')
 
         <title>
             @section('title')
@@ -21,6 +22,7 @@
             @yield('modals')
             @yield('content')
         </div>
+        @yield('scripts')
         <script src="{{ mix('js/dashboard.js') }}"></script>
     </body>
 </html>
