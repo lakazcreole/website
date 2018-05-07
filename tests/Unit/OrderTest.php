@@ -144,9 +144,10 @@ class OrderTest extends TestCase
         $order = factory(Order::class)->create([
             'customer_id' => factory(Customer::class)->create()->id
         ]);
-        $order->accept();
+        $order->accept('Yes.');
         $this->assertNotNull(Order::find($order->id)->accepted_at);
         $this->assertTrue($order->isAccepted());
+        $this->assertEquals('Yes.', $order->acceptMessage);
     }
 
     public function testDeclineUpdatesModel()
@@ -177,7 +178,7 @@ class OrderTest extends TestCase
         $order = factory(Order::class)->make([
             'customer_id' => factory(Customer::class)->create()->id
         ]);
-        $order->accept();
+        $order->accept('Yes!');
         Event::assertDispatched(OrderAccepted::class, function ($event) use ($order) {
             return $event->order->id === $order->id;
         });

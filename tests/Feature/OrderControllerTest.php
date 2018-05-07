@@ -21,7 +21,33 @@ class OrderControllerTest extends TestCase
             ->assertStatus(200);
     }
 
-    public function testAdminUsersCanAccept()
+    // public function testAdminUsersCanAccept()
+    // {
+    //     $order = factory(Order::class)->create([
+    //         'customer_id' => factory(Customer::class)->create()->id
+    //     ]);
+    //     $admin = factory(User::class)->make(['admin' => true]);
+    //     $this->actingAs($admin)
+    //         ->get("/dashboard/orders/{$order->id}/accept")
+    //         ->assertViewIs('orders.accepted')
+    //         ->assertViewHas('address', "{$order->address1} {$order->address2} {$order->address3}")
+    //         ->assertStatus(200);
+    //     $this->assertTrue(Order::find($order->id)->isAccepted());
+    // }
+
+    // public function testStandardUsersCannotAccept()
+    // {
+    //     $order = factory(Order::class)->create([
+    //         'customer_id' => factory(Customer::class)->create()->id
+    //     ]);
+    //     $user = factory(User::class)->make(['admin' => false]);
+    //     $this->actingAs($user)
+    //         ->get("/dashboard/orders/{$order->id}/accept")
+    //         ->assertStatus(403);
+    //     $this->assertFalse(Order::find($order->id)->isAccepted());
+    // }
+
+    public function testAdminUsersCanGetAcceptForm()
     {
         $order = factory(Order::class)->create([
             'customer_id' => factory(Customer::class)->create()->id
@@ -29,13 +55,12 @@ class OrderControllerTest extends TestCase
         $admin = factory(User::class)->make(['admin' => true]);
         $this->actingAs($admin)
             ->get("/dashboard/orders/{$order->id}/accept")
-            ->assertViewIs('orders.accepted')
+            ->assertViewIs('orders.accept_form')
             ->assertViewHas('address', "{$order->address1} {$order->address2} {$order->address3}")
             ->assertStatus(200);
-        $this->assertTrue(Order::find($order->id)->isAccepted());
     }
 
-    public function testStandardUsersCannotAccept()
+    public function testStandardUsersCannotGetAcceptForm()
     {
         $order = factory(Order::class)->create([
             'customer_id' => factory(Customer::class)->create()->id
@@ -44,7 +69,22 @@ class OrderControllerTest extends TestCase
         $this->actingAs($user)
             ->get("/dashboard/orders/{$order->id}/accept")
             ->assertStatus(403);
-        $this->assertFalse(Order::find($order->id)->isAccepted());
+    }
+
+    public function testAdminUsersCanAccept()
+    {
+        $order = factory(Order::class)->create([
+            'customer_id' => factory(Customer::class)->create()->id
+        ]);
+        $admin = factory(User::class)->make(['admin' => true]);
+        $this->actingAs($admin)
+            ->post("/dashboard/orders/{$order->id}/accept", ['message' => 'Okay cya l8er.'])
+            ->assertViewIs('orders.accepted')
+            ->assertViewHas('address', "{$order->address1} {$order->address2} {$order->address3}")
+            ->assertStatus(200);
+        $order = Order::find($order->id);
+        $this->assertTrue($order->isAccepted());
+        $this->assertEquals('Okay cya l8er.', $order->acceptMessage);
     }
 
     public function testAdminUsersCanGetDeclineForm()
