@@ -22,8 +22,12 @@ Auth::routes();
 Route::prefix('/dashboard')->middleware('can:access-dashboard')->group(function () {
     Route::get('/', 'DashboardController')->name('dashboard');
 
+    // Logs
+    Route::get('/logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index')->name('dashboard.logs');
+
     // Orders
-    Route::get('/orders/{order}/accept', 'OrderController@accept')->middleware('can:accept,order');
+    Route::get('/orders/{order}/accept', 'OrderController@getAcceptForm')->middleware('can:accept,order');
+    Route::post('/orders/{order}/accept', 'OrderController@accept')->middleware('can:accept,order');
     Route::get('/orders/{order}/decline', 'OrderController@getDeclineForm')->middleware('can:decline,order');
     Route::post('/orders/{order}/decline', 'OrderController@decline')->middleware('can:decline,order');
 

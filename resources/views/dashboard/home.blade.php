@@ -5,7 +5,16 @@
     @foreach($orders as $order)
       <div class="card my-3">
         <div class="card-header d-flex flex-row">
-          Commande #{{ $order->id }}
+          <div>
+            Commande #{{ $order->id }}
+            @if($order->isAccepted())
+              <span class="badge badge-success">Acceptée</span>
+            @elseif($order->isDeclined())
+              <span class="badge badge-secondary">Refusée</span>
+            @else
+              <span class="badge badge-warning">En attente</span>
+            @endif
+          </div>
           <small class="ml-auto">{{ strftime('%A %d %B %Y', strtotime($order->date)) }} at {{ $order->time }}</small>
         </div>
         <div class="card-body">

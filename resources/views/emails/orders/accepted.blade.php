@@ -1,7 +1,5 @@
 @component('mail::message')
-Bonjour {{ $customerName }},<br/>
-<br/>
-Vous avez réalisé une commande sur La Kaz Créole pour le {{ $date }} à {{ $time }}.<br/>
+{!! $message !!}
 {{-- <br/>
 Paiement en <strong>espèces</strong> à la livraison ou en ligne via Lydia.
 
