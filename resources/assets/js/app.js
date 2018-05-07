@@ -17,6 +17,7 @@ import VueSticky from 'vue-sticky'
 import PortalVue from 'portal-vue'
 import CheckView from 'vue-check-view'
 import VueModal from 'vue-js-modal'
+import VTooltip from 'v-tooltip'
 
 const VueScrollTo = require('vue-scrollto') // eslint-disable-line no-unused-vars
 
@@ -32,6 +33,7 @@ import ContactModal from './components/ContactModal'
 Vue.use(PortalVue) // eslint-disable-line no-undef
 Vue.use(CheckView) // eslint-disable-line no-undef
 Vue.use(VueModal, { componentName: 'vue-modal' }) // eslint-disable-line no-undef
+Vue.use(VTooltip) // eslint-disable-line no-undef
 
 // eslint-disable-next-line no-unused-vars, no-undef
 const app = new Vue({
