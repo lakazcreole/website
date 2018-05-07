@@ -25,6 +25,7 @@
               <li v-for="product in products" v-if="product.type === type.key" class="list-group-item bg-light" :key="product.id">
                 <div class="d-flex flex-row align-items-center">
                   {{ product.name }}
+                  <span v-if="product.description" v-tooltip="product.description" class="ml-2 badge badge-pill badge-secondary">i</span>
                   <span class="ml-auto">{{ product.price.toString().replace('.', ',') }} €</span>
                   <button v-if="type.key === 'main'" class="btn btn-sm btn-outline-primary ml-2" @click="handleExpand(product)">
                     <div class="d-flex align-items-center text-primary">
