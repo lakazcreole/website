@@ -23,7 +23,7 @@ class ProductControllerTest extends TestCase
     {
         $user = factory(User::class)->create(['admin' => true]);
         $this->actingAs($user)
-            ->get(route('dashboard.products'))
+            ->get(route('dashboard.products.index'))
             ->assertStatus(200)
             ->assertViewIs('products.index')
             ->assertViewHas('productTypes', $this->productTypes)

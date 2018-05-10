@@ -6,6 +6,7 @@ use App\Order;
 use App\Product;
 use Illuminate\Http\Request;
 use App\Http\Requests\AcceptOrder;
+use App\Http\Requests\CancelOrder;
 use App\Http\Requests\DeclineOrder;
 
 class OrderController extends Controller
@@ -13,6 +14,19 @@ class OrderController extends Controller
     public function create()
     {
         return view('orders.create');
+    }
+
+    public function index()
+    {
+        $orders = Order::with([
+            'customer',
+            'lines' => function($query) {
+                $query->orderBy('product_id');
+            },
+            'lines.product'
+        ])->orderByDesc('date')->get();
+        return view('orders.index')
+            ->with('orders', $orders);
     }
 
     public function getAcceptForm(Order $order)
@@ -34,6 +48,7 @@ class OrderController extends Controller
 
     public function accept(Order $order, AcceptOrder $request)
     {
+        $order->notifyAccept = $request->input('notify');
         $order->accept(nl2br($request->input('message')));
         return view('orders.accepted')->with([
             'id' => $order->id,
@@ -67,6 +82,7 @@ class OrderController extends Controller
 
     public function decline(Order $order, DeclineOrder $request)
     {
+        $order->notifyDecline = $request->input('notify');
         $order->decline(nl2br($request->input('message')));
         return view('orders.declined')->with([
             'id' => $order->id,
@@ -80,5 +96,10 @@ class OrderController extends Controller
             'totalPrice' => $order->totalPrice,
             'declineMessage' => $order->declineMessage,
         ]);
+    }
+
+    public function cancel(Order $order, CancelOrder $request)
+    {
+        $order->cancel();
     }
 }

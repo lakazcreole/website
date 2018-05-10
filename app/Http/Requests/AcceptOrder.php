@@ -25,6 +25,7 @@ class AcceptOrder extends FormRequest
     {
         return [
             'message' => 'required',
+            'notify' => 'required|boolean',
         ];
     }
 }
