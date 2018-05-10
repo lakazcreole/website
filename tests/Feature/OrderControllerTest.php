@@ -24,6 +24,14 @@ class OrderControllerTest extends TestCase
             ->assertStatus(200);
     }
 
+    public function testIndex()
+    {
+        $this->actingAs(factory(User::class)->make(['admin' => true]))
+            ->get(route('dashboard.orders.index'))
+            ->assertViewIs('orders.index')
+            ->assertViewHas('orders', Order::all());
+    }
+
     public function testGetAcceptForm()
     {
         $order = factory(Order::class)->create([

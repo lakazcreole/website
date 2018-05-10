@@ -18,8 +18,7 @@ class DashboardController extends TestCase
         $this->actingAs($user)
             ->get('/dashboard')
             ->assertStatus(200)
-            ->assertViewIs('dashboard.home')
-            ->assertViewHas('orders', Order::all());
+            ->assertViewIs('dashboard.home');
     }
 
     public function testStandardUserCannotAccessDashboard()

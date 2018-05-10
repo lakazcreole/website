@@ -16,6 +16,19 @@ class OrderController extends Controller
         return view('orders.create');
     }
 
+    public function index()
+    {
+        $orders = Order::with([
+            'customer',
+            'lines' => function($query) {
+                $query->orderBy('product_id');
+            },
+            'lines.product'
+        ])->orderByDesc('date')->get();
+        return view('orders.index')
+            ->with('orders', $orders);
+    }
+
     public function getAcceptForm(Order $order)
     {
         setlocale (LC_TIME, 'fr_FR.utf8', 'fra');
