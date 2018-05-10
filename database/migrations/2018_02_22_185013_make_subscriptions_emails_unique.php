@@ -14,7 +14,7 @@ class MakeSubscriptionsEmailsUnique extends Migration
     public function up()
     {
         Schema::table('subscriptions', function (Blueprint $table) {
-            $table->string('email')->unique()->change();
+            $table->string('email')->unique();
         });
     }
 
