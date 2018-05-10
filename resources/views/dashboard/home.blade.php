@@ -6,7 +6,7 @@
       <div class="card my-3">
         <div class="card-header d-flex flex-row">
           <div>
-            Commande #{{ $order->id }}
+            {{ strftime('%A %d %B %Y', strtotime($order->date)) }} at {{ $order->time }} <small class="text-muted">#{{ $order->id }}</small>
             @if($order->isAccepted())
               <span class="badge badge-success">Acceptée</span>
             @elseif($order->isDeclined())
@@ -15,7 +15,16 @@
               <span class="badge badge-warning">En attente</span>
             @endif
           </div>
-          <small class="ml-auto">{{ strftime('%A %d %B %Y', strtotime($order->date)) }} at {{ $order->time }}</small>
+          <div class="ml-auto d-flex flex-row">
+            @if($order->isWaiting())
+              <a href="{{ route('dashboard.orders.accept', $order) }}" class="btn btn-sm btn-outline-success">Accepter</a>
+              <a href="{{ route('dashboard.orders.decline', $order) }}" class="btn btn-sm btn-outline-danger ml-2">Refuser</a>
+              <form action="{{ route('dashboard.orders.cancel', $order) }}" method="POST" class="form-inline">
+                <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                <button type="submit" class="btn btn-sm btn-outline-secondary ml-2">Annuler</button>
+              </form>
+            @endif
+          </div>
         </div>
         <div class="card-body">
             @foreach($order->lines as $line)

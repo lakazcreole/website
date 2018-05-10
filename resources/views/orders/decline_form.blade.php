@@ -49,6 +49,17 @@ Je vous remercie de votre commande et espère que vous recommanderez bientôt !
 Cordialement,
                 </textarea>
             </div>
+            <div class="form-group">
+                Notifier le client par email :
+                <div class="form-check form-check-inline ml-2">
+                  <input class="form-check-input" type="radio" name="notify" id="enabled" value="1" checked>
+                  <label class="form-check-label" for="enabled">Oui</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="notify" id="disabled" value="0">
+                  <label class="form-check-label" for="disabled">Non</label>
+                </div>
+            </div>
             <button type="submit" class="btn btn-lg btn-block btn-danger">Refuser</button>
         </form>
     </div>

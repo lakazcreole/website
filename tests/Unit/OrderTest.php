@@ -139,6 +139,22 @@ class OrderTest extends TestCase
         $this->assertEquals($order->declined_at !== null, $order->isDeclined());
     }
 
+    public function testIsCanceled()
+    {
+        $order = factory(Order::class)->create([
+            'customer_id' => factory(Customer::class)->create()->id
+        ]);
+        $this->assertEquals($order->canceled_at !== null, $order->isCanceled());
+    }
+
+    public function testIsWaiting()
+    {
+        $order = factory(Order::class)->create([
+            'customer_id' => factory(Customer::class)->create()->id
+        ]);
+        $this->assertEquals($order->accepted_at === null && $order->declined_at === null && $order->canceled_at === null, $order->isWaiting());
+    }
+
     public function testAcceptUpdatesModel()
     {
         $order = factory(Order::class)->create([
@@ -159,6 +175,16 @@ class OrderTest extends TestCase
         $this->assertNotNull(Order::find($order->id)->declined_at);
         $this->assertTrue($order->isDeclined());
         $this->assertEquals('No.', $order->declineMessage);
+    }
+
+    public function testCancelUpdatesModel()
+    {
+        $order = factory(Order::class)->create([
+            'customer_id' => factory(Customer::class)->create()->id
+        ]);
+        $order->cancel();
+        $this->assertNotNull(Order::find($order->id)->canceled_at);
+        $this->assertTrue($order->isCanceled());
     }
 
     public function testCreationFiresEvent()

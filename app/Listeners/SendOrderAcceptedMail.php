@@ -29,8 +29,11 @@ class SendOrderAcceptedMail
      */
     public function handle(OrderAccepted $event)
     {
-        Mail::to($event->order->customer->email)
-            ->send(new OrderAcceptedMail($event->order));
-        Log::info("Order accepted mail sent to {$event->order->customer->email}");
+        if ($event->order->notifyAccept)
+        {
+            Mail::to($event->order->customer->email)
+                ->send(new OrderAcceptedMail($event->order));
+            Log::info("Order accepted mail sent to {$event->order->customer->email}");
+        }
     }
 }

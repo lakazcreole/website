@@ -26,10 +26,11 @@ Route::prefix('/dashboard')->middleware('can:access-dashboard')->group(function 
     Route::get('/logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index')->name('dashboard.logs');
 
     // Orders
-    Route::get('/orders/{order}/accept', 'OrderController@getAcceptForm')->middleware('can:accept,order');
+    Route::get('/orders/{order}/accept', 'OrderController@getAcceptForm')->middleware('can:accept,order')->name('dashboard.orders.accept');
     Route::post('/orders/{order}/accept', 'OrderController@accept')->middleware('can:accept,order');
-    Route::get('/orders/{order}/decline', 'OrderController@getDeclineForm')->middleware('can:decline,order');
+    Route::get('/orders/{order}/decline', 'OrderController@getDeclineForm')->middleware('can:decline,order')->name('dashboard.orders.decline');
     Route::post('/orders/{order}/decline', 'OrderController@decline')->middleware('can:decline,order');
+    Route::post('/orders/{order}/cancel', 'OrderController@cancel')->middleware('can:cancel,order')->name('dashboard.orders.cancel');
 
     // Products
     Route::get('/products', 'ProductController@index')->name('dashboard.products');
