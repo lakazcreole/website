@@ -10,7 +10,9 @@
             @if($order->isAccepted())
               <span class="badge badge-success">Acceptée</span>
             @elseif($order->isDeclined())
-              <span class="badge badge-secondary">Refusée</span>
+              <span class="badge badge-danger">Refusée</span>
+            @elseif($order->isCanceled())
+              <span class="badge badge-secondary">Annulée</span>
             @else
               <span class="badge badge-warning">En attente</span>
             @endif
