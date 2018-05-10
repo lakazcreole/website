@@ -35,7 +35,7 @@ host('lakazcreole.fr')
     ->addSshOption('UserKnownHostsFile', '/dev/null')
     ->addSshOption('StrictHostKeyChecking', 'no')
     ->stage('production')
-    ->set('deploy_path', '/home/strift/lakazcreole');
+    ->set('deploy_path', '/home/strift/test-deploy');
 
 // Tasks
 
