@@ -7,6 +7,7 @@
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
         <link href="{{ asset('css/app.css') }}" rel="stylesheet" type="text/css">
+        <link rel="icon" href="{{ asset('images/favicon.png') }}" type="image/png" sizes="196x196">
 
         <title>
             @section('title')
