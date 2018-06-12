@@ -23,7 +23,7 @@ Route::post('/subscriptions', 'Api\SubscriptionController@store');
 
 // Order page
 Route::get('/products', 'Api\ProductController@index');
-Route::get('/offers', 'Api\OfferController@index');
+Route::get('/products/offers', 'Api\OfferController@index');
 Route::post('/orders', 'Api\OrderController@store');
 
 // Dashboard

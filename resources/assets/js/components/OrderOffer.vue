@@ -4,7 +4,7 @@
       <span v-if="description" v-tooltip="description" class="info position-absolute pin-r m-3 badge badge-pill badge-light">i</span>
       <img class="card-img-top" style="height:300px" :src="imgSrc" :alt="name">
       <div class="position-asbolute card-img-overlay"/>
-      <div class="position-absolute card-img-header p-3">
+      <div class="position-absolute card-img-header p-3 w-100">
         <div class="d-flex">
           <div class="h3">{{ name }}</div>
           <div class="ml-auto my-auto price">{{ price.toFixed(2).toString().replace('.', ',') }} €</div>
@@ -34,8 +34,7 @@ export default {
     },
     imgSrc: {
       type: String,
-      required: false,
-      default: '/images/bouchons.jpg'
+      required: true
     },
     description: {
       type: String,

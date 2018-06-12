@@ -17,6 +17,9 @@ class CreateOffersTable extends Migration
             $table->increments('id');
             $table->dateTime('start_at');
             $table->dateTime('end_at');
+            $table->integer('product_id')->unsigned();
+            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
+            $table->string('imageUrl');
             $table->timestamps();
         });
     }

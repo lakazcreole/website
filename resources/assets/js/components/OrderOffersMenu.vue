@@ -3,10 +3,10 @@
     <h2 class="mb-4">Offres du moment</h2>
     <div class="card-deck mb-5">
       <OrderOffer
-        v-for="product in products"
-        :id="product.id" :name="product.name" :price="Number(product.price)" :img-src="product.imageUrl" :description="product.description"
-        @add="add(product)"
-        :key="product.id"
+        v-for="offer in offers"
+        :id="offer.product.id" :name="offer.product.name" :price="Number(offer.product.price)" :img-src="offer.imageUrl" :description="offer.product.description"
+        @add="add(offer.product)"
+        :key="offer.product.id"
       />
     </div>
   </div>
@@ -21,7 +21,7 @@ export default {
   },
 
   props: {
-    products: {
+    offers: {
       type: Array,
       required: true
     }
