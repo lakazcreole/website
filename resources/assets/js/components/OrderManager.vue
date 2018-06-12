@@ -33,6 +33,7 @@
             <button type="button" class="btn btn-primary ml-2" @click="handleDeliveryTimeModalSave">Modifier</button>
           </div>
         </modal>
+        <OrderOffersMenu v-if="showMenu" :products="products.slice(0, 3)" @addProduct="addOrderLine"/>
         <div class="row">
           <div class="col-sm-6 col-lg-8">
             <order-menu v-if="showMenu" :products="products" :handle-add="addOrderLine"/>
@@ -121,18 +122,23 @@
 import axios from 'axios'
 import VueSticky from 'vue-sticky'
 
+import Modal from './Modal'
+import OrderOffersMenu from './OrderOffersMenu'
+import OrderMenu from './OrderMenu'
 import Cart from './Cart'
 import CartButton from './CartButton'
+import DeliveryForm from './DeliveryForm'
 import DeliveryTimeForm from './DeliveryTimeForm'
 import DeliveryTimeSelector from './DeliveryTimeSelector'
 
 export default {
   components: {
+    Modal,
+    OrderMenu,
+    OrderOffersMenu,
     Cart,
     CartButton,
-    'modal': require('./Modal').default,
-    'order-menu': require('./OrderMenu').default,
-    'delivery-form': require('./DeliveryForm').default,
+    DeliveryForm,
     DeliveryTimeForm,
     DeliveryTimeSelector
   },

@@ -3,7 +3,7 @@
     <h2 class="text-center mb-4">La carte</h2>
     <div class="card-deck">
       <div class="card">
-        <img class="card-img-top" style="height:300px" src="{{ asset('/images/bouchons.jpg') }}" alt="Bonbons porc Réunion"/>
+        <img class="card-img-top" style="height:300px" src="{{ asset('/images/bouchons.jpg') }}" alt="Bouchons porc Réunion"/>
         <div class="card-body">
           <h3 class="card-title">Entrées</h3>
           <ul>
