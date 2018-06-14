@@ -12,8 +12,7 @@ class OfferControllerTest extends TestCase
 {
     use RefreshDatabase;
 
-    /** @test */
-    public function index_responds_with_products_associated_with_offers()
+    public function testIndex()
     {
         $product = factory(Product::class)->create();
         $offer = factory(Offer::class)->create([
@@ -42,6 +41,28 @@ class OfferControllerTest extends TestCase
                         ]
                     ]
                 ],
+            ]);
+    }
+
+    /** @test */
+    public function index_only_show_current_offers()
+    {
+        $product = factory(Product::class)->create();
+        factory(Offer::class)->create([
+            'begin_at' => now()->subDays(3),
+            'end_at' => now()->subDays(1),
+            'product_id' => $product->id,
+            'enabled' => true,
+        ]);
+        factory(Offer::class)->create([
+            'begin_at' => now()->subDay(),
+            'end_at' => now()->addDay(),
+            'product_id' => $product->id,
+            'enabled' => false,
+        ]);
+        $this->json('GET', '/api/products/offers')
+            ->assertExactJson([
+                'data' => []
             ]);
     }
 }

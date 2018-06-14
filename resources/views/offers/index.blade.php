@@ -20,7 +20,7 @@
         @if($offer->enabled)
           <div class="col-md-4 mb-4">
             <div class="card">
-              <img class="card-img-top" style="height:300px" src="{{ asset("storage/{$offer->imageUrl}") }}">
+              <img class="card-img-top" style="height:300px" src="{{ asset($offer->imageUrl) }}">
               <div class="card-body">
                 <strong>{{ $offer->name }}</strong><br>
                 <small>Du {{ $offer->begin_at }} au {{ $offer->end_at }}</small>

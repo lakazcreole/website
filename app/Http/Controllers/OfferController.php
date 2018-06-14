@@ -48,14 +48,13 @@ class OfferController extends Controller
      */
     public function store(StoreOffer $request)
     {
-        Offer::create([
-            'name' => $request->name,
-            'product_id' => $request->product,
-            'begin_at' => Carbon::createFromFormat('d/m/Y', $request->begin_date)->startOfDay(),
-            'end_at' =>  Carbon::createFromFormat('d/m/Y', $request->end_date)->startOfDay(),
-            'enabled' => $request->enabled,
-            'imageUrl' => str_replace('public', '', $request->file('image')->store('public/offers')), // remove the 'public/' in the path
-        ]);
+        $offer = new Offer();
+        $offer->name = $request->name;
+        $offer->product_id = $request->product;
+        $offer->begin_at = Carbon::createFromFormat('d/m/Y', $request->begin_date)->startOfDay();
+        $offer->end_at =  Carbon::createFromFormat('d/m/Y', $request->end_date)->startOfDay();
+        $offer->enabled = $request->enabled;
+        $offer->saveImage($request->file('image'));
         return redirect()->route('dashboard.offers.index')
             ->with('success', "L'offre {$request->name} a été créé avec succès !");
     }
@@ -105,11 +104,11 @@ class OfferController extends Controller
         $offer->begin_at =  Carbon::createFromFormat('d/m/Y', $request->begin_date)->startOfDay();
         $offer->end_at = Carbon::createFromFormat('d/m/Y', $request->end_date)->startOfDay();
         $offer->enabled = $request->enabled;
-        if ($request->hasFile('image'))
-        {
-            $offer->imageUrl = str_replace('public', '', $request->file('image')->store('public/offers')); // remove the 'public/' in the path
+        if ($request->hasFile('image')) {
+            $offer->saveImage($request->file('image'));
+        } else {
+            $offer->save();
         }
-        $offer->save();
         return redirect()->route('dashboard.offers.index')
             ->with('success', "L'offre {$request->name} a été modifiée avec succès !");
     }

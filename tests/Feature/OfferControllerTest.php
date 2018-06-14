@@ -72,8 +72,8 @@ class OfferControllerTest extends TestCase
             'end_at' => Carbon::createFromFormat('d/m/Y', $data['end_date'])->startOfDay(),
             'enabled' => $data['enabled'],
         ]);
-        $imageUrl = Offer::findByName('Something interesting')->imageUrl;
-        Storage::disk('local')->assertExists("public/{$imageUrl}");
+        $path = str_replace("storage", "public", Offer::findByName('Something interesting')->imageUrl);
+        Storage::disk('local')->assertExists($path);
     }
 
     public function testStoreValidatesData()
@@ -126,8 +126,8 @@ class OfferControllerTest extends TestCase
             'end_at' => Carbon::createFromFormat('d/m/Y', $data['end_date'])->startOfDay(),
             'enabled' => $data['enabled']
         ]);
-        $imageUrl = Offer::find($offer->id)->imageUrl;
-        Storage::disk('local')->assertExists("public/{$imageUrl}");
+        $path = str_replace("storage", "public", Offer::find($offer->id)->imageUrl);
+        Storage::disk('local')->assertExists($path);
     }
 
     public function testUpdateValidatesData()
