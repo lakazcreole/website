@@ -15,11 +15,13 @@ class CreateOffersTable extends Migration
     {
         Schema::create('offers', function (Blueprint $table) {
             $table->increments('id');
-            $table->dateTime('start_at');
+            $table->string('name');
+            $table->dateTime('begin_at');
             $table->dateTime('end_at');
             $table->integer('product_id')->unsigned();
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
             $table->string('imageUrl');
+            $table->boolean('enabled');
             $table->timestamps();
         });
     }

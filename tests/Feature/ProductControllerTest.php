@@ -77,6 +77,7 @@ class ProductControllerTest extends TestCase
             ->get(route('dashboard.products.edit', ['product' => $product]))
             ->assertStatus(200)
             ->assertViewIs('products.edit')
+            ->assertViewHas('id', $product->id)
             ->assertViewHas('name', $product->name)
             ->assertViewHas('type', $product->type)
             ->assertViewHas('pieces', $product->pieces)

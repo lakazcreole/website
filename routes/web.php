@@ -39,6 +39,14 @@ Route::prefix('/dashboard')->middleware('can:access-dashboard')->group(function 
     Route::post('/products/create', 'ProductController@store')->name('dashboard.products.store');
     Route::get('/products/{product}/edit', 'ProductController@edit')->name('dashboard.products.edit');
     Route::post('/products/{product}/edit', 'ProductController@update')->name('dashboard.products.update');
+
+    // Offers
+    Route::get('/offers', 'OfferController@index')->name('dashboard.offers.index');
+    Route::get('/offers/create', 'OfferController@create')->name('dashboard.offers.create');
+    Route::post('/offers/create', 'OfferController@store')->name('dashboard.offers.store');
+    Route::get('/offers/{offer}/edit', 'OfferController@edit')->name('dashboard.offers.edit');
+    Route::post('/offers/{offer}/edit', 'OfferController@update')->name('dashboard.offers.update');
+    Route::get('/offers/{offer}/destroy', 'OfferController@destroy')->name('dashboard.offers.destroy');
 });
 
 

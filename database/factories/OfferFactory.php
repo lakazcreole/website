@@ -7,8 +7,10 @@ $factory->define(App\Offer::class, function (Faker $faker) {
     $startingDate = now();
     $endingDate = $faker->dateTimeBetween($startingDate, '+1 week');
     return [
-        'start_at' => $startingDate,
+        'name' => $faker->sentence(3),
+        'begin_at' => $startingDate,
         'end_at' => $endingDate,
-        'imageUrl' => '/images/bouchons.jpg'
+        'imageUrl' => '/images/bouchons.jpg',
+        'enabled' => $faker->boolean()
     ];
 });

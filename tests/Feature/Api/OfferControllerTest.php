@@ -17,9 +17,10 @@ class OfferControllerTest extends TestCase
     {
         $product = factory(Product::class)->create();
         $offer = factory(Offer::class)->create([
-            'start_at' => now()->subDay(),
+            'begin_at' => now()->subDay(),
             'end_at' => now()->addDay(),
             'product_id' => $product->id,
+            'enabled' => true,
         ]);
         $this->json('GET', '/api/products/offers')
             ->assertStatus(200)
@@ -27,9 +28,10 @@ class OfferControllerTest extends TestCase
                 'data' => [
                     [
                         'id' => $offer->id,
-                        'start_at' => $offer->start_at,
+                        'begin_at' => $offer->begin_at,
                         'end_at' => $offer->end_at,
                         'imageUrl' => $offer->imageUrl,
+                        'enabled' => true,
                         'product' => [
                             'id' => $product->id,
                             'name' => $product->name,

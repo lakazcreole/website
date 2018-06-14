@@ -16,7 +16,7 @@ class OfferController extends Controller
      */
     public function index()
     {
-        $offers = Offer::with('product')->where('start_at', '<=', now())->where('end_at', '>=', now())->get();
+        $offers = Offer::with('product')->where('begin_at', '<=', now())->where('end_at', '>=', now())->get();
         return ApiResource::collection($offers);
     }
 }

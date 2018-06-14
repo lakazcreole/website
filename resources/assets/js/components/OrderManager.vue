@@ -33,7 +33,7 @@
             <button type="button" class="btn btn-primary ml-2" @click="handleDeliveryTimeModalSave">Modifier</button>
           </div>
         </modal>
-        <OrderOffersMenu v-if="showMenu" :offers="productOffers" @addProduct="addOrderLine"/>
+        <OrderOffersMenu v-if="showMenu && productOffers.length" :offers="productOffers" @addProduct="addOrderLine"/>
         <div class="row">
           <div class="col-sm-6 col-lg-8">
             <order-menu v-if="showMenu" :products="products" :handle-add="addOrderLine"/>
