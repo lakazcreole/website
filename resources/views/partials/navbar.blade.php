@@ -1,10 +1,10 @@
 <div>
-{{--     <div class="banner">
+    <div class="banner">
         <div class="container d-flex align-items-baseline">
             La Kaz Créole lance sa campagne de financement participatif. Prenez part au projet et obtenez votre contrepartie !
-            <a href="#" target="blank_" class="btn btn-sm btn-outline-light cta ml-auto">Participer</a>
+            <a href="https://www.kisskissbankbank.com/fr/projects/la-kaz-creole-l-ile-de-la-reunion-a-portee-de-main" target="blank_" class="btn btn-sm btn-outline-light cta ml-auto">Participer</a>
         </div>
-    </div> --}}
+    </div>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container">
             <a class="navbar-brand" href="{{ route('home') }}">

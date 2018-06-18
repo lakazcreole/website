@@ -52,7 +52,7 @@
             />
           </div>
           <div class="col-sm-6 col-lg-4">
-            <div v-if="showCart" v-sticky="{ zIndex: 1019, stickyTop: 115 }">
+            <div v-if="showCart" v-sticky="{ zIndex: 1019, stickyTop: 115+38 }">
               <div v-if="!showDeliveryForm" v-show="!showCartModal" class="d-block d-sm-none">
                 <div v-show="showFixedCartButton" class="fixed-bottom container text-center mb-3">
                   <transition name="fade">
