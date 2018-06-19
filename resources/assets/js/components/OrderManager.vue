@@ -10,7 +10,7 @@
     <div v-if="error" class="container">
       <p class="my-3 text-center">Le service de commande est indisponible. Veuillez réessayer plus tard.</p>
     </div>
-    <div v-else-if="loaded" class="container">
+    <div v-else-if="loadedProducts && loadedOffers" class="container">
       <div v-if="showTimeSelector" style="height: 259px;" class="d-flex">
         <div class="my-auto w-100">
           <h2 class="mb-3">Livraison</h2>
@@ -33,6 +33,7 @@
             <button type="button" class="btn btn-primary ml-2" @click="handleDeliveryTimeModalSave">Modifier</button>
           </div>
         </modal>
+        <OrderOffersMenu v-if="showMenu && productOffers.length" :offers="productOffers" @addProduct="addOrderLine"/>
         <div class="row">
           <div class="col-sm-6 col-lg-8">
             <order-menu v-if="showMenu" :products="products" :handle-add="addOrderLine"/>
@@ -51,7 +52,7 @@
             />
           </div>
           <div class="col-sm-6 col-lg-4">
-            <div v-if="showCart" v-sticky="{ zIndex: 1019, stickyTop: 115 }">
+            <div v-if="showCart" v-sticky="{ zIndex: 1019, stickyTop: 115+38 }">
               <div v-if="!showDeliveryForm" v-show="!showCartModal" class="d-block d-sm-none">
                 <div v-show="showFixedCartButton" class="fixed-bottom container text-center mb-3">
                   <transition name="fade">
@@ -121,18 +122,23 @@
 import axios from 'axios'
 import VueSticky from 'vue-sticky'
 
+import Modal from './Modal'
+import OrderOffersMenu from './OrderOffersMenu'
+import OrderMenu from './OrderMenu'
 import Cart from './Cart'
 import CartButton from './CartButton'
+import DeliveryForm from './DeliveryForm'
 import DeliveryTimeForm from './DeliveryTimeForm'
 import DeliveryTimeSelector from './DeliveryTimeSelector'
 
 export default {
   components: {
+    Modal,
+    OrderMenu,
+    OrderOffersMenu,
     Cart,
     CartButton,
-    'modal': require('./Modal').default,
-    'order-menu': require('./OrderMenu').default,
-    'delivery-form': require('./DeliveryForm').default,
+    DeliveryForm,
     DeliveryTimeForm,
     DeliveryTimeSelector
   },
@@ -143,9 +149,11 @@ export default {
 
   data() {
     return {
-      loaded: false,
+      loadedProducts: false,
+      loadedOffers: false,
       error: false,
       products: null,
+      productOffers: null,
       editedDate: null,
       editedTime: null,
       order: {
@@ -179,6 +187,7 @@ export default {
   },
   mounted() {
     this.fetchProducts()
+    this.fetchProductOffers()
   },
   computed: {
     readableDate() {
@@ -197,7 +206,18 @@ export default {
       axios.get('/api/products').then(response => {
         if (response.status === 200) {
           this.products = response.data.data
-          this.loaded = true
+          this.loadedProducts = true
+        }
+      }).catch(() => {
+        // console.log(error)
+        this.error = true
+      })
+    },
+    fetchProductOffers () {
+      axios.get('/api/products/offers').then(response => {
+        if (response.status === 200) {
+          this.productOffers = response.data.data
+          this.loadedOffers = true
         }
       }).catch(() => {
         // console.log(error)

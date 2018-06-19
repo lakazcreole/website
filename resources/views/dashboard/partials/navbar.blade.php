@@ -13,11 +13,17 @@
         <li class="nav-item {{ Route::currentRouteName() === 'dashboard.products.index' ? 'active' : '' }}">
           <a class="nav-link" href="{{ route('dashboard.products.index') }}">Produits</a>
         </li>
+        <li class="nav-item {{ Route::currentRouteName() === 'dashboard.offers.index' ? 'active' : '' }}">
+          <a class="nav-link" href="{{ route('dashboard.offers.index') }}">Offres</a>
+        </li>
         <li class="nav- {{ Route::currentRouteName() === 'dashboard.logs' ? 'active' : '' }}">
           <a class="nav-link" href="{{ route('dashboard.logs') }}">Logs</a>
         </li>
       </ul>
       <div class="navbar-nav">
+        <a class="nav-link" href="{{ route('home') }}" target="_blank">
+          Site
+        </a>
         <a class="nav-link" href="https://docs.google.com/spreadsheets/d/1Bt-5V-Gp-d4asQOb6XLwaTbxZTJEHzoCRtlBlZ5rRa8/edit?usp=sharing" target="_blank">
           Stocks
           <i class="material-icons" style="font-size: 0.9rem; vertical-align: middle;">launch</i>

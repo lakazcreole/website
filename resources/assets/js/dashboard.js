@@ -5,6 +5,7 @@
  * building robust, powerful web applications using Vue and Laravel.
  */
 
+
 require('./bootstrap')
 
 window.Vue = require('vue')
@@ -15,10 +16,13 @@ window.Vue = require('vue')
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
+import Datepicker from 'vuejs-datepicker'
+
 // eslint-disable-next-line no-unused-vars, no-undef
 const app = new Vue({
-    el: '#app',
-    components: {
-        'product-editor': require('./components/ProductEditor.vue').default
-    }
+  el: '#app',
+  components: {
+    Datepicker,
+    'product-editor': require('./components/ProductEditor.vue').default
+  }
 });

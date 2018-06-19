@@ -1,7 +1,7 @@
 <template>
   <div class="row mb-5">
     <div class="d-none d-lg-block col-lg-4 order-nav">
-      <div v-sticky="{ zIndex: 1020, stickyTop: 115 }">
+      <div v-sticky="{ zIndex: 1019, stickyTop: 115+38 }">
         Catégories
         <ul class="nav flex-column mt-3">
           <li v-for="type in types" class="nav-item" :key="type.key">
