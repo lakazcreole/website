@@ -78,12 +78,13 @@ export default {
   }
 
   .card-img-overlay {
-    transition: background-color 0.25s ease;
+    transition: background-color 0.5s;
   }
 
   .btn-wrapper {
     transform: translateY(-100%);
-    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.5s;
   }
 }
 
@@ -95,7 +96,7 @@ export default {
     background-color: rgba(0, 0, 0, 0.5);
   }
   .btn-wrapper {
-    visibility: visible;
+    opacity: 1;
   }
 }
 </style>
