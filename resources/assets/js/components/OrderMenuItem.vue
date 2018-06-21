@@ -22,7 +22,7 @@
           <label class="input-group-text" :for="`select-option-${option.name}`">{{ option.name }}</label>
         </div>
         <select v-model="optionValues[index]" class="custom-select" :id="`select-option-${option.name}`">
-          <option selected value="0">Aucun</option>
+          <option selected :value="0">Aucun</option>
           <option v-for="product in option.products" :value="product.id" :key="product.id">
             {{ product.name }}
           </option>
@@ -71,9 +71,21 @@ export default {
     }
   },
 
+  mounted () {
+    this.options.forEach((option, index) => {
+      this.optionValues[index] = 0
+    })
+  },
+
   methods: {
     toggle () {
       this.expand = !this.expand
+      if (this.expand) {
+        this.$emit('expand')
+      }
+    },
+    expandLess () {
+      this.expand = false
     },
     add () {
       this.$emit('add', this.id)

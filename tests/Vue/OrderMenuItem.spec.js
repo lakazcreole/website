@@ -73,6 +73,17 @@ describe('OrderMenuItem', () => {
     expect(wrapper.find('.expandable').isVisible()).toBe(false)
   })
 
+  it('emits an expand event when the expand button is clicked', () => {
+    const wrapper = factory({ options: [
+      {
+        name: 'Sauce',
+        products: [{ id: 99, name: 'Ketchup' }, { id: 100, name: 'Mayo' }]
+      }
+    ]})
+    wrapper.find('button.expand').trigger('click')
+    expect(wrapper.emitted().expand).toBeTruthy
+  })
+
   it('emits an add event when add button is clicked', () => {
     const wrapper = factory()
     wrapper.find('button.add').trigger('click')
@@ -91,6 +102,7 @@ describe('OrderMenuItem', () => {
       }
     ]})
     expect(wrapper.findAll('select').length).toBe(2)
+    expect(wrapper.vm.optionValues).toEqual([0, 0])
   })
 
   it('emits two add event when add-both button is clicked', () => {

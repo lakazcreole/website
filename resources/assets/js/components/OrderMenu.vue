@@ -23,41 +23,18 @@
           <div>
             <ul class="list-group list-group-flush">
               <li v-for="product in products" v-if="product.type === type.key" class="list-group-item bg-light" :key="product.id">
-                <div class="d-flex flex-row align-items-center">
-                  {{ product.name }}
-                  <span v-if="product.description" v-tooltip="product.description" class="ml-2 badge badge-pill badge-secondary">i</span>
-                  <span class="ml-auto">{{ product.price.toString().replace('.', ',') }} €</span>
-                  <button v-if="type.key === 'main'" class="btn btn-sm btn-outline-primary ml-2" @click="handleExpand(product)">
-                    <div class="d-flex align-items-center text-primary">
-                      <i v-if="product.id !== expandedProductId" class="material-icons">expand_more</i>
-                      <i v-else class="material-icons">expand_less</i>
-                    </div>
-                  </button>
-                  <button v-else class="btn btn-sm btn-outline-primary ml-2" @click="handleAdd(product)">
-                    <div class="d-flex align-items-center text-primary">
-                      <i class="material-icons">add</i>
-                    </div>
-                  </button>
-                </div>
-                <div v-if="product.id === expandedProductId">
-                  <p class="mt-3 mb-0">
-                    Tous nos plats sont accompagnés de riz blanc et de lentilles. Une sauce pimentée (rougail) est également offerte.
-                  </p>
-                  <div class="input-group my-3">
-                    <div class="input-group-prepend">
-                      <label class="input-group-text" :for="'select-side-' + product.id">Sauce</label>
-                    </div>
-                    <select v-model="optionId" class="custom-select" :id="'select-side-' + product.id">
-                      <option selected value="0">Aucun</option>
-                      <option v-for="side in products.filter(product => product.type === 'side')" :value="side.id" :key="side.id">
-                        {{ side.name }}
-                      </option>
-                    </select>
-                  </div>
-                  <button class="btn btn-block btn-primary" @click="handleAddWithOption(product, optionId)">
-                    Ajouter
-                  </button>
-                </div>
+                <OrderMenuItem
+                  v-if="product.type === 'main'"
+                  :id="product.id"
+                  :name="product.name"
+                  :price="Number(product.price)"
+                  :description="product.description"
+                  :options="mainOptions"
+                  :ref="`expandable${product.id}`"
+                  @add="add"
+                  @expand="handleExpand(product.id)"
+                />
+                <OrderMenuItem v-else :id="product.id" :name="product.name" :price="Number(product.price)" :description="product.description" @add="add"/>
               </li>
             </ul>
           </div>
@@ -69,12 +46,18 @@
 
 <script>
 import VueSticky from 'vue-sticky'
+import OrderMenuItem from './OrderMenuItem'
 const VueScrollTo = require('vue-scrollto') // eslint-disable-line no-unused-vars
 
 export default {
+  components: {
+    OrderMenuItem
+  },
+
   directives: {
     'sticky': VueSticky
   },
+
   props: {
     products: {
       type: Array,
@@ -85,6 +68,7 @@ export default {
       required: true
     }
   },
+
   data() {
     return {
       types: [{
@@ -101,9 +85,32 @@ export default {
       optionId: 0
     }
   },
+
+  computed: {
+    mainOptions () {
+      return [{
+        name: 'Sauce',
+        products: this.products.filter(product => product.type === 'side')
+      }]
+    }
+  },
+
   methods: {
-    handleExpand(product) {
-      this.expandedProductId = this.expandedProductId === product.id ? null : product.id
+    handleExpand(productId ) {
+      this.expandedProductId = this.expandedProductId === productId ? null : productId
+      if (this.$refs) {
+        for (let key in this.$refs) {
+          if (this.$refs[key][0] != this.$refs[`expandable${productId}`][0]) {
+            this.$refs[key][0].expandLess()
+          }
+        }
+      }
+    },
+    add (productId) {
+      this.handleAdd(this.products.find(product => product.id === productId))
+      if (this.$refs[`expandable${productId}`]) {
+        this.$refs[`expandable${productId}`][0].expandLess()
+      }
     },
     handleAddWithOption(product, optionId) {
       this.expandedProductId = null
