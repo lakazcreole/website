@@ -62,10 +62,6 @@ export default {
     products: {
       type: Array,
       required: true
-    },
-    handleAdd: {
-      type: Function,
-      required: true
     }
   },
 
@@ -107,20 +103,16 @@ export default {
       }
     },
     add (productId) {
-      this.handleAdd(this.products.find(product => product.id === productId))
+      this.$emit('add', productId)
       if (this.$refs[`expandable${productId}`]) {
         this.$refs[`expandable${productId}`][0].expandLess()
       }
-    },
-    handleAddWithOption(product, optionId) {
-      this.expandedProductId = null
-      this.handleAdd(product, this.products.find(product => product.id === optionId))
     },
     scrollToTag: function(tag) {
       const options = {
         container: 'body',
         easing: 'ease-in',
-        offset: -100,
+        offset: -138,
         cancelable: true,
         onDone: function() {
           // scrolling is done
