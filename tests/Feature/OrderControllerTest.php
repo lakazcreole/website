@@ -41,7 +41,12 @@ class OrderControllerTest extends TestCase
         $this->actingAs($admin)
             ->get(route('dashboard.orders.accept', $order))
             ->assertViewIs('orders.accept_form')
-            ->assertViewHas('address', "{$order->address1} {$order->address2} {$order->address3}")
+            ->assertViewHas('address1', $order->address1)
+            ->assertViewHas('address2', $order->address2)
+            ->assertViewHas('address3', $order->address3)
+            ->assertViewHas('zip', $order->zip)
+            ->assertViewHas('deliveryPrice', $order->deliveryPrice)
+            ->assertViewHas('fullPrice', $order->fullPrice)
             ->assertStatus(200);
     }
 
