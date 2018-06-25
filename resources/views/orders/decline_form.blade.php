@@ -48,6 +48,16 @@ Je vous remercie de votre commande et espère que vous recommanderez bientôt !
 
 Cordialement,
                 </textarea>
+                <div>
+                    <div class="collapse" id="collapse">
+                        <small>
+                            {{ config('app.name') }}
+                        </small>
+                    </div>
+                    <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse" aria-expanded="false" aria-controls="collapse">
+                        Ce mail sera complété par cette signature.
+                    </button>
+                </div>
             </div>
             <div class="form-group">
                 Notifier le client par email :

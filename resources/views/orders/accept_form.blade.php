@@ -61,7 +61,7 @@ Vous avez réalisé une commande sur La Kaz Créole pour le {{ $date }} à {{ $t
                         </small>
                     </div>
                     <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse" aria-expanded="false" aria-controls="collapse">
-                        Ce mail sera complété par ce récaptitulatif.
+                        Ce mail sera complété par ce récapitulatif.
                     </button>
                 </div>
             </div>
