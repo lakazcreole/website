@@ -203,7 +203,7 @@ export default {
   },
   methods: {
     fetchProducts() {
-      axios.get('/api/products').then(response => {
+      axios.get('/api/products?order=true').then(response => {
         if (response.status === 200) {
           this.products = response.data.data
           this.loadedProducts = true
