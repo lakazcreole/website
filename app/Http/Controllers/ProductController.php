@@ -11,13 +11,6 @@ use Illuminate\Support\Facades\Auth;
 
 class ProductController extends Controller
 {
-    protected $productTypes = [
-        [ 'type' => 'starter', 'title' => 'Entrées' ],
-        [ 'type' => 'main', 'title' => 'Plats' ],
-        [ 'type' => 'drink', 'title' => 'Boissons' ],
-        [ 'type' => 'side', 'title' => 'Accompagnements' ],
-    ];
-
     /**
      * Display a listing of the resource.
      *
@@ -26,8 +19,8 @@ class ProductController extends Controller
     public function index()
     {
         return view('products.index')
-            ->with('productTypes', $this->productTypes)
-            ->with('products', Product::all())
+            ->with('productTypes', Product::TYPES)
+            ->with('products', Product::orderBy('name')->get())
             ->with('apiToken', Auth::user()->api_token);
     }
 
@@ -39,7 +32,7 @@ class ProductController extends Controller
     public function create()
     {
         return view('products.create')
-            ->with('productTypes', $this->productTypes);
+            ->with('productTypes', Product::TYPES);
     }
 
     /**
@@ -53,7 +46,7 @@ class ProductController extends Controller
         $product = Product::create($request->only(['name', 'type', 'pieces', 'description', 'price', 'disabled']));
         Log::notice("{$product->name} was added to the products list");
         return view('products.index')
-            ->with('productTypes', $this->productTypes)
+            ->with('productTypes', Product::TYPES)
             ->with('products', Product::all())
             ->with('apiToken', Auth::user()->api_token)
             ->with('success', "Le produit {$product->name} a été créé avec succès !");
@@ -86,7 +79,7 @@ class ProductController extends Controller
             'description' => $product->description,
             'price' => $product->price,
             'disabled' => $product->disabled,
-            'productTypes' => $this->productTypes
+            'productTypes' => Product::TYPES
         ]);
     }
 
@@ -103,7 +96,7 @@ class ProductController extends Controller
         $product->save();
         Log::notice("Product #{$product->id} was updated");
         return view('products.index')
-            ->with('productTypes', $this->productTypes)
+            ->with('productTypes', Product::TYPES)
             ->with('products', Product::all())
             ->with('apiToken', Auth::user()->api_token)
             ->with('success', "Le produit #{$product->id} ({$product->name}) a été modifié avec succès !");

@@ -110,6 +110,18 @@ section.menu {
         box-shadow: 0 8px 16px 0 rgba(0,0,0,0.05), 0 6px 20px 0 rgba(0,0,0,0.05);
         overflow: hidden;
 
+        .zoom-wrapper {
+            overflow: hidden;
+
+            .card-img-top {
+                transition: transform .3s;
+                &:hover {
+                    transform: scale(1.1);
+                }
+            }
+        }
+
+
         .tag {
             background-color: $orange400;
             color: white;
@@ -122,6 +134,7 @@ section.menu {
             padding-top: 2px;
             padding-bottom: 2px;
             font-size: 1rem;
+            z-index: 1;
         }
     }
     .btn-big {
