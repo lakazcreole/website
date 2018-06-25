@@ -26,7 +26,7 @@
                 <li>Date : {{ $date }} à {{ $time }}</li>
             </ul>
         </p>
-        <h2>Action</h2>
+        <h2>Mail</h2>
         @if ($errors->any())
             <div class="alert alert-danger">
                 <ul>
@@ -39,7 +39,7 @@
         <form method="POST" action="{{ $postUrl }}" accept-charset="UTF-8">
             {{ csrf_field() }}
             <div class="form-group">
-                <label for="message">Motif de refus</label>
+                <label for="message">Personnaliser</label>
                 <textarea class="form-control" name="message" id="message" rows="8">
 Bonjour,
 
