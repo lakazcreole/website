@@ -18,9 +18,9 @@ class ProductTest extends TestCase
         $this->assertEquals([
             [ 'type' => 'starter', 'title' => 'Entrées' ],
             [ 'type' => 'main', 'title' => 'Plats' ],
+            [ 'type' => 'desert', 'title' => 'Desserts'],
             [ 'type' => 'drink', 'title' => 'Boissons' ],
             [ 'type' => 'side', 'title' => 'Accompagnements' ],
-            [ 'type' => 'desert', 'title' => 'Desserts']
         ], Product::TYPES);
     }
 
