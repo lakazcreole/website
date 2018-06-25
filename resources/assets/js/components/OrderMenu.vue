@@ -4,7 +4,7 @@
       <div v-sticky="{ zIndex: 1019, stickyTop: 115+38 }">
         Catégories
         <ul class="nav flex-column mt-3">
-          <li v-for="type in types" class="nav-item" :key="type.key">
+          <li v-for="type in types" v-if="shouldDisplay(type.key)" class="nav-item" :key="type.key">
             <a href="#" @click.prevent="scrollToTag(type.key)" class="nav-link">{{ type.name }}</a>
           </li>
         </ul>
@@ -12,7 +12,7 @@
     </div>
     <div class="col-xs col-lg-8 order-menu">
       <h2>Menu</h2>
-      <div v-for="type in types" :key="type.key">
+      <div v-for="type in types" v-if="shouldDisplay(type.key)" :key="type.key">
         <!-- <h3 class="my-3">{{ type.name }}</h3> -->
         <div class="card mb-3">
           <div class="card-header bg-white" :id="type.key">
@@ -74,6 +74,10 @@ export default {
         key: 'main',
         name: 'Plats'
       }, {
+        key: 'desert',
+        name: 'Desserts'
+      },
+      {
         key: 'drink',
         name: 'Boissons'
       }],
@@ -107,6 +111,10 @@ export default {
       if (this.$refs[`expandable${productId}`]) {
         this.$refs[`expandable${productId}`][0].expandLess()
       }
+    },
+    shouldDisplay (type) {
+      // if there is at least one product of this type
+      return this.products.filter(product => product.type === type).length
     },
     scrollToTag: function(tag) {
       const options = {

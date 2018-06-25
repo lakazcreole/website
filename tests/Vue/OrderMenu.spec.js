@@ -22,11 +22,21 @@ const itemsFactory = () => {
     id: 2,
     name: 'Product',
     price: 3,
-    type: 'drink'
+    type: 'desert'
   }]
 }
 
 describe('OrderMenu', () => {
+
+  it('displays categories only if they are not empty', () => {
+    const wrapper = factory({
+      products: itemsFactory()
+    })
+    expect(wrapper.text()).not.toContain('Plats')
+    expect(wrapper.text()).not.toContain('Boissons')
+    expect(wrapper.text()).toContain('Entrées')
+    expect(wrapper.text()).toContain('Desserts')
+  })
 
   it('displays as many OrderMenuItem as there are products', () => {
     const wrapper = factory({
