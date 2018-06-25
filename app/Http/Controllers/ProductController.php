@@ -20,7 +20,7 @@ class ProductController extends Controller
     {
         return view('products.index')
             ->with('productTypes', Product::TYPES)
-            ->with('products', Product::all())
+            ->with('products', Product::orderBy('name')->get())
             ->with('apiToken', Auth::user()->api_token);
     }
 

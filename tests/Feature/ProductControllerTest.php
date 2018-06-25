@@ -20,7 +20,7 @@ class ProductControllerTest extends TestCase
             ->assertStatus(200)
             ->assertViewIs('products.index')
             ->assertViewHas('productTypes', Product::TYPES)
-            ->assertViewHas('products', Product::all())
+            ->assertViewHas('products', Product::orderBy('name')->get())
             ->assertViewHas('apiToken', $user->api_token);
     }
 
