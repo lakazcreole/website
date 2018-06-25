@@ -4,12 +4,25 @@ namespace Tests\Unit;
 
 use App\Product;
 use Tests\TestCase;
+use App\ProductType;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ProductTest extends TestCase
 {
     use RefreshDatabase;
+
+    /** @test */
+    public function it_has_a_type_array()
+    {
+        $this->assertEquals([
+            [ 'type' => 'starter', 'title' => 'Entrées' ],
+            [ 'type' => 'main', 'title' => 'Plats' ],
+            [ 'type' => 'drink', 'title' => 'Boissons' ],
+            [ 'type' => 'side', 'title' => 'Accompagnements' ],
+            [ 'type' => 'desert', 'title' => 'Desserts']
+        ], Product::TYPES);
+    }
 
     public function testIsStarter()
     {

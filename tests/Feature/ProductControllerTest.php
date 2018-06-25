@@ -12,13 +12,6 @@ class ProductControllerTest extends TestCase
 {
     use RefreshDatabase;
 
-    protected $productTypes = [
-        [ 'type' => 'starter', 'title' => 'Entrées' ],
-        [ 'type' => 'main', 'title' => 'Plats' ],
-        [ 'type' => 'drink', 'title' => 'Boissons' ],
-        [ 'type' => 'side', 'title' => 'Accompagnements' ],
-    ];
-
     public function testIndex()
     {
         $user = factory(User::class)->create(['admin' => true]);
@@ -26,7 +19,7 @@ class ProductControllerTest extends TestCase
             ->get(route('dashboard.products.index'))
             ->assertStatus(200)
             ->assertViewIs('products.index')
-            ->assertViewHas('productTypes', $this->productTypes)
+            ->assertViewHas('productTypes', Product::TYPES)
             ->assertViewHas('products', Product::all())
             ->assertViewHas('apiToken', $user->api_token);
     }
@@ -38,7 +31,7 @@ class ProductControllerTest extends TestCase
             ->get(route('dashboard.products.create'))
             ->assertStatus(200)
             ->assertViewIs('products.create')
-            ->assertViewHas('productTypes', $this->productTypes);
+            ->assertViewHas('productTypes', Product::TYPES);
     }
 
     public function testStore()
@@ -84,7 +77,7 @@ class ProductControllerTest extends TestCase
             ->assertViewHas('description', $product->description)
             ->assertViewHas('price', $product->price)
             ->assertViewHas('disabled', $product->disabled)
-            ->assertViewHas('productTypes', $this->productTypes);
+            ->assertViewHas('productTypes', Product::TYPES);
     }
 
     public function testUpdate()

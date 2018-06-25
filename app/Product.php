@@ -6,6 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
 {
+    const TYPES = [
+        [ 'type' => 'starter', 'title' => 'Entrées' ],
+        [ 'type' => 'main', 'title' => 'Plats' ],
+        [ 'type' => 'drink', 'title' => 'Boissons' ],
+        [ 'type' => 'side', 'title' => 'Accompagnements' ],
+        [ 'type' => 'desert', 'title' => 'Desserts']
+    ];
+
     /**
      * The attributes that are mass assignable.
      *

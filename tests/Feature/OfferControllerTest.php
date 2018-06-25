@@ -47,7 +47,7 @@ class OfferControllerTest extends TestCase
             ->assertStatus(200)
             ->assertViewIs('offers.create')
             ->assertViewHas('products', Product::all())
-            ->assertViewHas('productTypes', $this->productTypes);
+            ->assertViewHas('productTypes', Product::TYPES);
     }
 
     public function testStore()
@@ -99,7 +99,7 @@ class OfferControllerTest extends TestCase
             ->assertViewHas('enabled', $offer->enabled)
             ->assertViewHas('imageUrl', $offer->imageUrl)
             ->assertViewHas('products', Product::all())
-            ->assertViewHas('productTypes', $this->productTypes);
+            ->assertViewHas('productTypes', Product::TYPES);
     }
 
     public function testUpdate()
