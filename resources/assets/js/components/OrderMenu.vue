@@ -17,7 +17,7 @@
         <div class="card mb-3">
           <div class="card-header bg-white" :id="type.key">
             <h3>
-              {{ type.name }} <small v-if="type.key === 'starter'" class="text-muted">(4 pièces)</small>
+              {{ type.name }} <small v-if="type.key === 'starter' || type.key === 'desert'" class="text-muted">(4 pièces)</small>
             </h3>
           </div>
           <div>
