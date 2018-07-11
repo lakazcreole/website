@@ -67,7 +67,7 @@ return [
 
         // Deployment is done and live
         'done' => [
-            'fpm:reload',
+            // 'fpm:reload',
         ],
 
         // Deployment succeeded.
