@@ -149,11 +149,11 @@ export default {
 
   data() {
     return {
-      loadedProducts: false,
-      loadedOffers: false,
-      error: false,
-      products: null,
-      productOffers: null,
+      // loadedProducts: false,
+      // loadedOffers: false,
+      // error: false,
+      // products: null,
+      // productOffers: null,
       editedDate: null,
       editedTime: null,
       order: {
@@ -186,10 +186,28 @@ export default {
     }
   },
   mounted() {
-    this.fetchProducts()
-    this.fetchProductOffers()
+    this.$store.dispatch('products/fetchProducts')
+    // this.fetchProducts()
+    this.$store.dispatch('products/fetchOffers')
+    // this.fetchProductOffers()
   },
+
   computed: {
+    products () {
+      return this.$store.state.products.all
+    },
+    productOffers () {
+      return this.$store.state.products.offers
+    },
+    loadedProducts () {
+      return this.$store.state.products.loadedProducts
+    },
+    loadedOffers () {
+      return this.$store.state.products.loadedOffers
+    },
+    error () {
+      return this.$store.state.products.error
+    },
     readableDate() {
       return this.order.date.toLocaleDateString('fr-FR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })
     },
@@ -201,6 +219,7 @@ export default {
       return this.order.lines && this.minimumReached
     }
   },
+
   methods: {
     fetchProducts() {
       axios.get('/api/products?order=true').then(response => {
