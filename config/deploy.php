@@ -62,7 +62,7 @@ return [
             'artisan:cache:clear',
             'artisan:config:cache',
             'artisan:optimize',
-            'artisan:migrate',
+            // 'artisan:migrate',
         ],
 
         // Deployment is done and live
