@@ -257,7 +257,8 @@ export default {
       })
     },
     removeOrderLine(productId) {
-      this.order.lines.splice(this.order.lines.find((product) => product.id === productId), 1)
+      this.order.lines = this.order.lines.filter(product => product.id !== productId)
+      // this.order.lines.splice(this.order.lines.find((product) => product.id === productId), 1)
     },
     handleDateInput(value) {
       this.order.date = value

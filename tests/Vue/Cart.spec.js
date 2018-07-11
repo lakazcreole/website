@@ -53,8 +53,8 @@ describe('Cart', () => {
       items: itemsFactory()
     })
     const childWrapper = wrapper.find(CartItem)
-    childWrapper.vm.$emit('remove', childWrapper.id)
-    expect(wrapper.emitted('removeItem')[0]).toEqual([childWrapper.id])
+    childWrapper.vm.$emit('remove')
+    expect(wrapper.emitted('removeItem')[0]).toEqual([childWrapper.props().id])
   })
 
   it('has remove buttons when editable', () => {
