@@ -152,9 +152,7 @@ export default {
     return {
       editedDate: null,
       editedTime: null,
-      // orderLines: [],
       order: {
-        // lines: [],
         date: null,
         time: null,
         information: '',
@@ -213,9 +211,7 @@ export default {
   methods: {
     addOrderLine(product, side = null) {
       this.$store.dispatch('cart/addProduct', product)
-      // this.addProductLine(product)
       if (side) this.$store.dispatch('cart/addProduct', product)
-      // if (side) this.addSideLine(side)
     },
     addProductLine(product) {
       for (var i = this.orderLines.length - 1; i >= 0; i--) {
@@ -247,8 +243,6 @@ export default {
     },
     removeOrderLine(productId) {
       this.$store.dispatch('cart/removeProduct', productId)
-      // this.orderLines = this.orderLines.filter(product => product.id !== productId)
-      // this.orderLines.splice(this.orderLines.find((product) => product.id === productId), 1)
     },
     handleDateInput(value) {
       this.order.date = value
