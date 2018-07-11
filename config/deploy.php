@@ -51,7 +51,7 @@ return [
 
         // Code and composer vendors are ready but nothing is built.
         'build' => [
-            'npm:install',
+            'yarn:install',
             'npm:production',
         ],
 
@@ -148,7 +148,7 @@ return [
     */
 
     'include' => [
-        //
+        'recipe/yarn.php',
     ],
 
     /*
