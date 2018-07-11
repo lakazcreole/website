@@ -186,12 +186,12 @@ export default {
   },
 
   computed: {
-    ...mapState({
-      products: state => state.products.all,
-      productOffers: state => state.products.offers,
-      loadedProducts: state => state.products.loadedProducts,
-      loadedOffers: state => state.products.loadedOffers,
-      error: state => state.products.error
+    ...mapState('products', {
+      products: 'all',
+      productOffers: 'offers',
+      loadedProducts: 'loadedProducts',
+      loadedOffers: 'loadedOffers',
+      error: 'error'
     }),
     ...mapGetters('cart', {
       orderLines: 'items',
@@ -212,34 +212,6 @@ export default {
     addOrderLine(product, side = null) {
       this.$store.dispatch('cart/addProduct', product)
       if (side) this.$store.dispatch('cart/addProduct', product)
-    },
-    addProductLine(product) {
-      for (var i = this.orderLines.length - 1; i >= 0; i--) {
-        if (this.orderLines[i].id === product.id) {
-          this.orderLines[i].quantity++
-          return
-        }
-      }
-      this.orderLines.push({
-        id: product.id,
-        name: product.name,
-        price: Number(product.price),
-        quantity: 1
-      })
-    },
-    addSideLine(side) {
-      for (var i = this.orderLines.length - 1; i >= 0; i--) {
-        if (this.orderLines[i].id === side.id) {
-          this.orderLines[i].quantity++
-          return
-        }
-      }
-      this.orderLines.push({
-        id: side.id,
-        name: side.name,
-        price: Number(side.price),
-        quantity: 1
-      })
     },
     removeOrderLine(productId) {
       this.$store.dispatch('cart/removeProduct', productId)
