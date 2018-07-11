@@ -117,7 +117,6 @@ return [
         'lakazcreole.fr' => [
             'deploy_path' => '/home/deployer/lakazcreole',
             'user' => 'deployer',
-            'stage' => 'production',
         ],
     ],
 
