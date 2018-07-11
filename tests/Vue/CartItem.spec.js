@@ -44,7 +44,7 @@ describe('CartItem', () => {
   it('fires a remove event when remove button is clicked', () => {
     const wrapper = factory({ editable: true })
     wrapper.find('button.remove').trigger('click')
-    expect(wrapper.emitted('remove')[0]).toEqual([wrapper.vm.id])
+    expect(wrapper.emitted().remove).toBeTruthy()
   })
 
 })
