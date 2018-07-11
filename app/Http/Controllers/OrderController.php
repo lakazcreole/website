@@ -38,10 +38,15 @@ class OrderController extends Controller
             'customerEmail' => $order->customer->email,
             'customerPhone' => $order->customer->phone,
             'lines' => $order->lines,
-            'address' => "{$order->address1} {$order->address2} {$order->address3}",
+            'address1' => $order->address1,
+            'address2' => $order->address2,
+            'address3' => $order->address3,
+            'zip' => $order->zip,
             'date' => strftime('%A %d %B %Y', strtotime($order->date)),
             'time' => date('H:i', strtotime($order->time)),
             'totalPrice' => $order->totalPrice,
+            'deliveryPrice' => $order->deliveryPrice,
+            'fullPrice' => $order->fullPrice,
             'postUrl' => action('OrderController@accept', [$order->id]),
         ]);
     }

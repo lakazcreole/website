@@ -14,7 +14,7 @@
               :price="item.price"
               :quantity="item.quantity"
               :editable="editable"
-              @remove="remove"
+              @remove="remove(item.id)"
             />
           </li>
           <li class="delivery list-group-item">

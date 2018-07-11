@@ -17,7 +17,14 @@ class ProductController extends Controller
      */
     public function index(Request $request)
     {
-        $products = Product::where('disabled', $request->query('disabled', false))->get();
+        if ($request->query('order', false))
+        {
+            $products = Product::orderBy('name')->where('disabled', $request->query('disabled', false))->get();
+        }
+        else
+        {
+            $products = Product::where('disabled', $request->query('disabled', false))->get();
+        }
         return ProductResource::collection($products);
     }
 

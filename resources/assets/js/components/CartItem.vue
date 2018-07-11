@@ -36,7 +36,7 @@ export default {
   },
   methods: {
     remove() {
-      this.$emit('remove', this.id)
+      this.$emit('remove')
     }
   }
 }

@@ -3,7 +3,9 @@
     <h2 class="text-center mb-4">La carte</h2>
     <div class="card-deck">
       <div class="card">
-        <img class="card-img-top" style="height:300px" src="{{ asset('/images/bouchons.jpg') }}" alt="Bouchons porc Réunion"/>
+        <div class="zoom-wrapper">
+          <img class="card-img-top" style="height:300px" src="{{ asset('/images/bouchons.jpg') }}" alt="Bouchons porc Réunion"/>
+        </div>
         <div class="card-body">
           <h3 class="card-title">Entrées</h3>
           <ul>
@@ -15,7 +17,9 @@
         </div>
       </div>
       <div class="card">
-        <img class="card-img-top" style="height:300px" src="{{ asset('/images/cari-poulet.jpg') }}" alt="Cari poulet Paris">
+        <div class="zoom-wrapper">
+          <img class="card-img-top" style="height:300px" src="{{ asset('/images/cari-poulet.jpg') }}" alt="Cari poulet Paris">
+        </div>
         <div class="card-body">
           <h3 class="card-title">Plats</h3>
           <ul>
@@ -28,7 +32,9 @@
       </div>
       <div class="card">
         <div class="tag text-center">Bientôt disponible</div>
-        <img class="card-img-top" style="height:300px" src="./images/gateau-patate.jpg" alt="Gâteau patate maison">
+        <div class="zoom-wrapper">
+          <img class="card-img-top" style="height:300px" src="./images/gateau-patate.jpg" alt="Gâteau patate maison">
+        </div>
         <div class="card-body">
           <h3 class="card-title">Desserts</h3>
           <ul>

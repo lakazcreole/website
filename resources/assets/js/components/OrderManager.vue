@@ -36,7 +36,7 @@
         <OrderOffersMenu v-if="showMenu && productOffers.length" :offers="productOffers" @addProduct="addOrderLine"/>
         <div class="row">
           <div class="col-sm-6 col-lg-8">
-            <order-menu v-if="showMenu" :products="products" :handle-add="addOrderLine"/>
+            <OrderMenu v-if="showMenu" :products="products" @add="id => addOrderLine(products.find(product => product.id === id))"/>
             <delivery-form
               v-if="showDeliveryForm"
               :errors="order.errors"
@@ -203,7 +203,7 @@ export default {
   },
   methods: {
     fetchProducts() {
-      axios.get('/api/products').then(response => {
+      axios.get('/api/products?order=true').then(response => {
         if (response.status === 200) {
           this.products = response.data.data
           this.loadedProducts = true
@@ -257,7 +257,8 @@ export default {
       })
     },
     removeOrderLine(productId) {
-      this.order.lines.splice(this.order.lines.find((product) => product.id === productId), 1)
+      this.order.lines = this.order.lines.filter(product => product.id !== productId)
+      // this.order.lines.splice(this.order.lines.find((product) => product.id === productId), 1)
     },
     handleDateInput(value) {
       this.order.date = value
