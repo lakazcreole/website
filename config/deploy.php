@@ -98,7 +98,7 @@ return [
         'php_fpm_service' => 'php7.2-fpm',
         'git_tty' => true,
         'env' => [
-            'PATH' => '/home/deployer/bin:/home/deployer/.local/bin:/home/deployer/.nvm/versions/node/v10.2.1/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/home/deployer/bin'
+            'PATH' => '/home/deployer/bin:/home/deployer/.local/bin:/home/deployer/.nvm/versions/node/v9.3.0/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/home/deployer/bin'
         ],
     ],
 
