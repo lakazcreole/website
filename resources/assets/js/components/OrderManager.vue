@@ -121,6 +121,7 @@
 <script>
 import axios from 'axios'
 import VueSticky from 'vue-sticky'
+import { mapState } from 'vuex'
 
 import Modal from './Modal'
 import OrderOffersMenu from './OrderOffersMenu'
@@ -149,11 +150,6 @@ export default {
 
   data() {
     return {
-      // loadedProducts: false,
-      // loadedOffers: false,
-      // error: false,
-      // products: null,
-      // productOffers: null,
       editedDate: null,
       editedTime: null,
       order: {
@@ -187,27 +183,17 @@ export default {
   },
   mounted() {
     this.$store.dispatch('products/fetchProducts')
-    // this.fetchProducts()
     this.$store.dispatch('products/fetchOffers')
-    // this.fetchProductOffers()
   },
 
   computed: {
-    products () {
-      return this.$store.state.products.all
-    },
-    productOffers () {
-      return this.$store.state.products.offers
-    },
-    loadedProducts () {
-      return this.$store.state.products.loadedProducts
-    },
-    loadedOffers () {
-      return this.$store.state.products.loadedOffers
-    },
-    error () {
-      return this.$store.state.products.error
-    },
+    ...mapState({
+      products: state => state.products.all,
+      productOffers: state => state.products.offers,
+      loadedProducts: state => state.products.loadedProducts,
+      loadedOffers: state => state.products.loadedOffers,
+      error: state => state.products.error
+    }),
     readableDate() {
       return this.order.date.toLocaleDateString('fr-FR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })
     },
@@ -221,28 +207,6 @@ export default {
   },
 
   methods: {
-    fetchProducts() {
-      axios.get('/api/products?order=true').then(response => {
-        if (response.status === 200) {
-          this.products = response.data.data
-          this.loadedProducts = true
-        }
-      }).catch(() => {
-        // console.log(error)
-        this.error = true
-      })
-    },
-    fetchProductOffers () {
-      axios.get('/api/products/offers').then(response => {
-        if (response.status === 200) {
-          this.productOffers = response.data.data
-          this.loadedOffers = true
-        }
-      }).catch(() => {
-        // console.log(error)
-        this.error = true
-      })
-    },
     addOrderLine(product, side = null) {
       this.addProductLine(product)
       if (side) this.addSideLine(side)
