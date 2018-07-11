@@ -56,11 +56,11 @@
               <div v-if="!showDeliveryForm" v-show="!showCartModal" class="d-block d-sm-none">
                 <div v-show="showFixedCartButton" class="fixed-bottom container text-center mb-3">
                   <transition name="fade">
-                    <cart-button :items="order.lines" @click="enableCartModal"/>
+                    <cart-button :items="orderLines" @click="enableCartModal"/>
                   </transition>
                 </div>
                 <div v-view="viewHandler" class="text-center mb-3">
-                  <cart-button :items="order.lines" @click="enableCartModal"/>
+                  <cart-button :items="orderLines" @click="enableCartModal"/>
                 </div>
               </div>
               <!-- Cart modal -->
@@ -80,7 +80,7 @@
                 <portal-target name="cart"/>
                 <portal :to="showCartModal ? 'cart-modal' : 'cart'">
                   <cart
-                    :items="order.lines"
+                    :items="orderLines"
                     :editable="showMenu"
                     @minimumReached="minimumReached = true"
                     @minimumDropped="minimumReached = false"
@@ -121,7 +121,7 @@
 <script>
 import axios from 'axios'
 import VueSticky from 'vue-sticky'
-import { mapState } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 
 import Modal from './Modal'
 import OrderOffersMenu from './OrderOffersMenu'
@@ -152,8 +152,9 @@ export default {
     return {
       editedDate: null,
       editedTime: null,
+      // orderLines: [],
       order: {
-        lines: [],
+        // lines: [],
         date: null,
         time: null,
         information: '',
@@ -194,6 +195,9 @@ export default {
       loadedOffers: state => state.products.loadedOffers,
       error: state => state.products.error
     }),
+    ...mapGetters('cart', {
+      orderLines: 'items',
+    }),
     readableDate() {
       return this.order.date.toLocaleDateString('fr-FR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })
     },
@@ -202,23 +206,25 @@ export default {
         this.order.address1 !== '' && this.order.city !== '' && this.order.zip !== ''
     },
     canOrder() {
-      return this.order.lines && this.minimumReached
+      return this.orderLines && this.minimumReached
     }
   },
 
   methods: {
     addOrderLine(product, side = null) {
-      this.addProductLine(product)
-      if (side) this.addSideLine(side)
+      this.$store.dispatch('cart/addProduct', product)
+      // this.addProductLine(product)
+      if (side) this.$store.dispatch('cart/addProduct', product)
+      // if (side) this.addSideLine(side)
     },
     addProductLine(product) {
-      for (var i = this.order.lines.length - 1; i >= 0; i--) {
-        if (this.order.lines[i].id === product.id) {
-          this.order.lines[i].quantity++
+      for (var i = this.orderLines.length - 1; i >= 0; i--) {
+        if (this.orderLines[i].id === product.id) {
+          this.orderLines[i].quantity++
           return
         }
       }
-      this.order.lines.push({
+      this.orderLines.push({
         id: product.id,
         name: product.name,
         price: Number(product.price),
@@ -226,13 +232,13 @@ export default {
       })
     },
     addSideLine(side) {
-      for (var i = this.order.lines.length - 1; i >= 0; i--) {
-        if (this.order.lines[i].id === side.id) {
-          this.order.lines[i].quantity++
+      for (var i = this.orderLines.length - 1; i >= 0; i--) {
+        if (this.orderLines[i].id === side.id) {
+          this.orderLines[i].quantity++
           return
         }
       }
-      this.order.lines.push({
+      this.orderLines.push({
         id: side.id,
         name: side.name,
         price: Number(side.price),
@@ -240,8 +246,9 @@ export default {
       })
     },
     removeOrderLine(productId) {
-      this.order.lines = this.order.lines.filter(product => product.id !== productId)
-      // this.order.lines.splice(this.order.lines.find((product) => product.id === productId), 1)
+      this.$store.dispatch('cart/removeProduct', productId)
+      // this.orderLines = this.orderLines.filter(product => product.id !== productId)
+      // this.orderLines.splice(this.orderLines.find((product) => product.id === productId), 1)
     },
     handleDateInput(value) {
       this.order.date = value
@@ -278,7 +285,7 @@ export default {
     },
     handleOrder() {
       const order = {
-        orderLines: this.order.lines,
+        orderLines: this.orderLines,
         date: this.order.date.toLocaleDateString('fr-FR'),
         time: this.order.time,
         information: this.order.information,

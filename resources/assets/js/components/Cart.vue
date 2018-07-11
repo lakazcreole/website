@@ -11,7 +11,7 @@
               :ref="`cartItem${index}`"
               :id="item.id"
               :name="item.name"
-              :price="item.price"
+              :price="Number(item.price)"
               :quantity="item.quantity"
               :editable="editable"
               @remove="remove(item.id)"
