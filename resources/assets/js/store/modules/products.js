@@ -44,7 +44,7 @@ export default {
         commit('fetchError')
       })
     },
-    fetchOffers ({ commit}) {
+    fetchOffers ({ commit }) {
       axios.get('/api/products/offers').then(response => {
         if (response.status === 200) {
           commit('setOffers', response.data.data)

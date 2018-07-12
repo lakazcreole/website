@@ -1,4 +1,5 @@
-//
+/* eslint-disable import/first */
+
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
@@ -50,21 +51,21 @@ const app = new Vue({
     'sticky': VueSticky
   },
   methods: {
-    openOrder: function() {
+    openOrder: function () {
       this.subject = 'Commande'
       this.message = 'Cela a l\'air délicieux, je souhaiterais commander toute la carte !'
       this.showContactModal = true
     },
-    scrollToMenu: function() {
+    scrollToMenu: function () {
       const options = {
         container: 'body',
         easing: 'ease-in',
         offset: -100,
         cancelable: true,
-        onDone: function() {
+        onDone: function () {
           // scrolling is done
         },
-        onCancel: function() {
+        onCancel: function () {
           // scrolling has been interrupted
         },
         x: false,
@@ -73,4 +74,4 @@ const app = new Vue({
       this.$scrollTo('#la-carte', 500, options)
     }
   }
-});
+})

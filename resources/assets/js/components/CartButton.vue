@@ -19,15 +19,15 @@ export default {
   },
 
   computed: {
-    totalPrice() {
-        return this.items.reduce((accumulator, item) => accumulator + item.quantity * item.price, 0)
+    totalPrice () {
+      return this.items.reduce((accumulator, item) => accumulator + item.quantity * item.price, 0)
     },
-    deliveryCost() {
+    deliveryCost () {
       if (this.totalPrice === 0 || this.totalPrice >= 15) return 0
       else if (this.totalPrice <= 13) return 2
       else return 15 - this.totalPrice
     },
-    fullPrice() {
+    fullPrice () {
       return this.totalPrice + this.deliveryCost
     }
   }

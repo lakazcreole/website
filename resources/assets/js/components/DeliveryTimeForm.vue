@@ -16,6 +16,9 @@
 import DeliveryTimeSelector from './DeliveryTimeSelector'
 
 export default {
+  components: {
+    DeliveryTimeSelector
+  },
   props: {
     onDateInput: {
       type: Function,
@@ -26,33 +29,29 @@ export default {
       required: true
     }
   },
-  components: {
-    DeliveryTimeSelector
-  },
-  data() {
+  data () {
     return {
       date: null,
       time: null
     }
   },
   computed: {
-    canValidate() {
+    canValidate () {
       return this.date !== null && this.time !== null
     }
   },
   methods: {
-    handleSubmit() {
+    handleSubmit () {
       this.$emit('submit')
     },
-    handleDateInput(value) {
+    handleDateInput (value) {
       this.date = value
       this.onDateInput(value)
     },
-    handleTimeInput(value) {
+    handleTimeInput (value) {
       this.time = value
       this.onTimeInput(value)
     }
   }
 }
 </script>
-

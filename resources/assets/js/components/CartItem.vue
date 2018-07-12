@@ -35,11 +35,9 @@ export default {
     }
   },
   methods: {
-    remove() {
+    remove () {
       this.$emit('remove')
     }
   }
 }
 </script>
-
-

@@ -13,7 +13,7 @@ export default {
   },
 
   methods: {
-    showContactModal() {
+    showContactModal () {
       this.$modal.show('contact-modal')
     }
   }

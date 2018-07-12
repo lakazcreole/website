@@ -1,9 +1,9 @@
 <template>
   <vue-modal
     :name="name"
-    height="auto"
     :scrollable="true"
     :adaptive="true"
+    height="auto"
     transition="modal"
   >
     <div class="card">
@@ -36,12 +36,12 @@ export default {
     }
   },
   methods: {
-    show() {
+    show () {
       this.$modal.show(this.name)
     },
-    hide() {
+    hide () {
       this.$modal.hide(this.name)
-    },
+    }
   }
 }
 </script>

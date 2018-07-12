@@ -4,8 +4,8 @@
       <div v-sticky="{ zIndex: 1019, stickyTop: 115+38 }">
         Catégories
         <ul class="nav flex-column mt-3">
-          <li v-for="type in types" v-if="shouldDisplay(type.key)" class="nav-item" :key="type.key">
-            <a href="#" @click.prevent="scrollToTag(type.key)" class="nav-link">{{ type.name }}</a>
+          <li v-for="type in types" v-if="shouldDisplay(type.key)" :key="type.key" class="nav-item">
+            <a href="#" class="nav-link" @click.prevent="scrollToTag(type.key)">{{ type.name }}</a>
           </li>
         </ul>
       </div>
@@ -15,14 +15,14 @@
       <div v-for="type in types" v-if="shouldDisplay(type.key)" :key="type.key">
         <!-- <h3 class="my-3">{{ type.name }}</h3> -->
         <div class="card mb-3">
-          <div class="card-header bg-white" :id="type.key">
+          <div :id="type.key" class="card-header bg-white">
             <h3>
               {{ type.name }} <small v-if="type.key === 'starter' || type.key === 'desert'" class="text-muted">(4 pièces)</small>
             </h3>
           </div>
           <div>
             <ul class="list-group list-group-flush">
-              <li v-for="product in products" v-if="product.type === type.key" class="list-group-item bg-light" :key="product.id">
+              <li v-for="product in products" v-if="product.type === type.key" :key="product.id" class="list-group-item bg-light">
                 <OrderMenuItem
                   v-if="product.type === 'main'"
                   :id="product.id"
@@ -65,7 +65,7 @@ export default {
     }
   },
 
-  data() {
+  data () {
     return {
       types: [{
         key: 'starter',
@@ -96,11 +96,11 @@ export default {
   },
 
   methods: {
-    handleExpand(productId ) {
+    handleExpand (productId) {
       this.expandedProductId = this.expandedProductId === productId ? null : productId
       if (this.$refs) {
         for (let key in this.$refs) {
-          if (this.$refs[key][0] != this.$refs[`expandable${productId}`][0]) {
+          if (this.$refs[key][0] !== this.$refs[`expandable${productId}`][0]) {
             this.$refs[key][0].expandLess()
           }
         }
@@ -116,16 +116,16 @@ export default {
       // if there is at least one product of this type
       return this.products.filter(product => product.type === type).length
     },
-    scrollToTag: function(tag) {
+    scrollToTag: function (tag) {
       const options = {
         container: 'body',
         easing: 'ease-in',
         offset: -138,
         cancelable: true,
-        onDone: function() {
+        onDone: function () {
           // scrolling is done
         },
-        onCancel: function() {
+        onCancel: function () {
           // scrolling has been interrupted
         },
         x: false,
@@ -136,4 +136,3 @@ export default {
   }
 }
 </script>
-
