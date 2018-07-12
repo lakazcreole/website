@@ -25,8 +25,8 @@
             slot="body"
             :default-date="order.date"
             :default-time="order.time"
-            :on-date-input="value => { this.editedDate = value }"
-            :on-time-input="value => { this.editedTime = value }"
+            :on-date-input="value => { editedDate = value }"
+            :on-time-input="value => { editedTime = value }"
           />
           <div slot="footer" class="text-right">
             <button type="button" class="btn btn-secondary ml-2" @click="disableDeliveryTimeModal">Annuler</button>
@@ -40,15 +40,15 @@
             <delivery-form
               v-if="showDeliveryForm"
               :errors="order.errors"
-              :on-first-name-input="value => { this.order.customer.firstName = value }"
-              :on-last-name-input="value => { this.order.customer.lastName = value }"
-              :on-email-input="value => { this.order.customer.email = value }"
-              :on-phone-input="value => { this.order.customer.phone = value }"
-              :on-address-one-input="value => { this.order.address1 = value }"
-              :on-address-two-input="value => { this.order.address2 = value }"
-              :on-address-three-input="value => { this.order.address3 = value }"
-              :on-city-input="value => { this.order.city = value }"
-              :on-zip-input="value => { this.order.zip = value }"
+              :on-first-name-input="value => { order.customer.firstName = value }"
+              :on-last-name-input="value => { order.customer.lastName = value }"
+              :on-email-input="value => { order.customer.email = value }"
+              :on-phone-input="value => { order.customer.phone = value }"
+              :on-address-one-input="value => { order.address1 = value }"
+              :on-address-two-input="value => { order.address2 = value }"
+              :on-address-three-input="value => { order.address3 = value }"
+              :on-city-input="value => { order.city = value }"
+              :on-zip-input="value => { order.zip = value }"
             />
           </div>
           <div class="col-sm-6 col-lg-4">
