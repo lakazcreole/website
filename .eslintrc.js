@@ -3,8 +3,9 @@
 module.exports = {
   extends: [
     // add more generic rulesets here, such as:
-    'eslint:recommended',
-    'plugin:vue/strongly-recommended'
+    '@vue/standard',
+    // 'eslint:recommended',
+    'plugin:vue/recommended'
   ],
   rules: {
     // override/add rules settings here, such as:
@@ -13,5 +14,8 @@ module.exports = {
   },
   env: {
     "amd": true
+  },
+  parserOptions: {
+    parser: 'babel-eslint'
   }
 }
