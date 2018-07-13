@@ -3,14 +3,16 @@
     <div class="form-group col-md-6">
       <label for="inputDate" class="sr-only">Date</label>
       <DatePicker
+        id="inputDate"
         :value="defaultDate"
-        language="fr"
         :full-month-name="true"
         :monday-first="true"
         :disabled="disabledDates"
         :highlighted="highlightedDates"
-        :bootstrap-styling="true" input-class="datepicker-bg"
-        id="inputDate" placeholder="Choisir une date"
+        :bootstrap-styling="true"
+        language="fr"
+        input-class="datepicker-bg"
+        placeholder="Choisir une date"
         @input="value => { onDateInput(value) }"
       />
     </div>
@@ -44,6 +46,9 @@
 import DatePicker from 'vuejs-datepicker'
 
 export default {
+  components: {
+    DatePicker
+  },
   props: {
     defaultDate: {
       type: Date,
@@ -64,10 +69,7 @@ export default {
       required: true
     }
   },
-  components: {
-    DatePicker
-  },
-  data() {
+  data () {
     return {
       disabledDates: {
         to: new Date()
@@ -83,9 +85,8 @@ export default {
 }
 </script>
 
-
 <style type="scss">
   .datepicker-bg {
-    background-color: white !important
+    background-color: white !important;
   }
 </style>

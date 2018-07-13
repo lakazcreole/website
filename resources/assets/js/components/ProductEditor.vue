@@ -4,7 +4,7 @@
       {{ name }}
       <div class="ml-auto ">
         <div class="form-check form-check-inline">
-          <input v-model="disabled" type="checkbox" id="checkbox" :disabled="waiting" @change="updateDisabled">
+          <input id="checkbox" v-model="disabled" :disabled="waiting" type="checkbox" @change="updateDisabled">
           <label class="form-check-label" for="checkbox">
             <small>Indisponible</small>
           </label>
@@ -40,43 +40,43 @@ export default {
       required: true
     }
   },
-  data() {
+  data () {
     return {
       disabled: null,
       waiting: false,
       errors: null
     }
   },
-  mounted() {
+  mounted () {
     this.disabled = this.disabled
   },
   methods: {
-    updateDisabled() {
+    updateDisabled () {
       // eslint-disable-next-line no-console
       console.log(`put: /api/products/${this.id}`)
       this.waiting = true
       axios.put(`/api/products/${this.id}`, {
         disabled: this.disabled
-      },{
+      }, {
         headers: {
           'Authorization': `Bearer ${this.apiToken}`
         }
       })
-      .then(response => {
+        .then(response => {
         // eslint-disable-next-line no-console
-        console.log(response)
-        this.waiting = false
-      })
-      .catch(error => {
-        this.waiting = false
-        // eslint-disable-next-line no-console
-        console.log(error)
-        if (error.response && error.response.status === 422) {
+          console.log(response)
+          this.waiting = false
+        })
+        .catch(error => {
+          this.waiting = false
+          // eslint-disable-next-line no-console
+          console.log(error)
+          if (error.response && error.response.status === 422) {
             this.errors = error.response.data
-        } else {
+          } else {
             this.$emit('serverError')
-        }
-      })
+          }
+        })
     }
   }
 }
