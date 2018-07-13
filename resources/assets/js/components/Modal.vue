@@ -46,8 +46,12 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss">
 .v--modal-overlay {
   z-index: 1050;
+
+}
+.v--modal-overlay .v--modal-box {
+  overflow: visible;
 }
 </style>

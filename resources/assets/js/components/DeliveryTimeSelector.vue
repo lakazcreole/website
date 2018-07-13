@@ -87,6 +87,6 @@ export default {
 
 <style type="scss">
   .datepicker-bg {
-    background-color: white !important
+    background-color: white !important;
   }
 </style>
