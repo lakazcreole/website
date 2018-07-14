@@ -53,7 +53,7 @@
 </template>
 
 <script>
-import axios from 'axios'
+import contact from '../api/contact'
 import Modal from './Modal'
 
 export default {
@@ -100,26 +100,29 @@ export default {
     hide () {
       this.$modal.hide('contact-modal')
     },
-    onSubmit: function () {
+    onSubmit () {
       this.waiting = true
-      axios.post('/api/contacts', {
+      contact.send({
         name: this.name,
         email: this.email,
         subject: this.subject,
         message: this.message
-      }).then(() => {
-        this.waiting = false
-        this.sent = true
-      }).catch(error => {
-        this.waiting = false
-        if (error.response && error.response.status === 422) {
-          this.errors = error.response.data
-        } else {
-          this.serverError = true
-        }
       })
+        .then(() => {
+          this.sent = true
+        })
+        .catch((error) => {
+          if (error.status === 422) {
+            this.errors = error.data
+          } else {
+            this.serverError = true
+          }
+        })
+        .finally(() => {
+          this.waiting = false
+        })
     },
-    inputClasses: function (key) {
+    inputClasses (key) {
       if (this.errors && this.errors.errors.hasOwnProperty(key)) return 'form-control is-invalid'
       return 'form-control'
     }
