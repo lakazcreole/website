@@ -18,24 +18,13 @@
     </div>
     <div class="form-group col-md-6">
       <label for="inputTime" class="sr-only">Heure</label>
-      <select :value="time" class="custom-select" @input="e => onTimeInput(e.target.value)">
+      <select :value="time" class="custom-select" @change="e => onTimeChange(e.target.value)">
         <option v-if="time === null" :value="null" >Choisir un horaire</option>
         <optgroup label="Midi">
-          <option value="11:30">11:30</option>
-          <option value="11:45">11:45</option>
-          <option value="12:00">12:00</option>
-          <option value="12:15">12:15</option>
-          <option value="12:30">12:30</option>
-          <option value="12:45">12:45</option>
-          <option value="13:00">13:00</option>
+          <option v-for="(hour, index) in deliveryHours.morning" :value="hour" :key="index">{{ hour }}</option>
         </optgroup>
         <optgroup label="Soir">
-          <option value="19:45">19:45</option>
-          <option value="20:00">20:00</option>
-          <option value="20:15">20:15</option>
-          <option value="20:30">20:30</option>
-          <option value="20:45">20:45</option>
-          <option value="21:00">21:00</option>
+          <option v-for="(hour, index) in deliveryHours.evening" :value="hour" :key="index">{{ hour }}</option>
         </optgroup>
       </select>
     </div>
@@ -68,7 +57,8 @@ export default {
   computed: {
     ...mapState('order', [
       'date',
-      'time'
+      'time',
+      'deliveryHours'
     ])
   },
 
@@ -76,8 +66,7 @@ export default {
     onDateInput (value) {
       this.$store.commit('order/setDate', value)
     },
-    onTimeInput (value) {
-      console.log('time', value)
+    onTimeChange (value) {
       this.$store.commit('order/setTime', value)
     }
   }

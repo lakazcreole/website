@@ -1,5 +1,5 @@
 import Vuex from 'vuex'
-import { shallow, mount, createLocalVue } from '@vue/test-utils'
+import { shallowMount, mount, createLocalVue } from '@vue/test-utils'
 import expect from 'expect'
 
 import DeliveryTimeInput from '../../resources/assets/js/components/DeliveryTimeInput'
@@ -10,7 +10,7 @@ const localVue = createLocalVue()
 localVue.use(Vuex)
 
 const factory = (props = {}) => {
-  return shallow(DeliveryTimeInput, {
+  return shallowMount(DeliveryTimeInput, {
     mocks: {
       $store: store
     },
@@ -59,11 +59,21 @@ describe('DeliveryTimeInput', () => {
   })
 
   it('mutates the store time when select emits an input event', () => {
-    const time = '12:30'
     const wrapper = factory()
-    const childWrapper = wrapper.find('select')
-    childWrapper.setValue(time)
-    childWrapper.trigger('input')
-    expect(wrapper.vm.$store.state.order.time).toBe(time)
+    const optionsWrapper = wrapper.find('select').findAll('option')
+    optionsWrapper.at(1).setSelected()
+    expect(wrapper.vm.$store.state.order.time).toBe(optionsWrapper.at(1).element.value)
+  })
+
+  it('displays all delivery hours from the store state', () => {
+    const wrapper = factory()
+    const hours = {
+      morning: ['08:59', '12:37'],
+      evening: ['17:06', '23:01']
+    }
+    wrapper.vm.$store.state.order.deliveryHours = hours
+    hours.morning.concat(hours.evening).forEach((hour) => {
+      expect(wrapper.find('select').text()).toContain(hour)
+    })
   })
 })

@@ -1,30 +1,29 @@
-const state = {
-  date: null,
-  time: null
-}
-
-const getters = {
-
-}
-
-const mutations = {
-  setDate (state, date) {
-    state.date = date
-  },
-  setTime (state, time) {
-    state.time = time
-  }
-}
-
-const actions = {
-
-}
-
 export default {
   namespaced: true,
 
-  state,
-  getters,
-  mutations,
-  actions
+  state: {
+    date: null,
+    time: null,
+    deliveryHours: {
+      morning: ['11:30', '11:45', '12:00', '12:15', '12:30', '12:45', '13:00'],
+      evening: ['19:45', '20:00', '20:15', '20:30', '20:45', '21:00']
+    }
+  },
+
+  getters: {
+
+  },
+
+  mutations: {
+    setDate (state, date) {
+      state.date = date
+    },
+    setTime (state, time) {
+      state.time = time
+    }
+  },
+
+  actions: {
+
+  }
 }
