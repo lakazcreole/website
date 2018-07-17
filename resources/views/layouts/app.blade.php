@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <link href="{{ asset('css/app.css') }}" rel="stylesheet" type="text/css">
+        <link href="{{ asset('css/new.css') }}" rel="stylesheet" type="text/css">
         <link rel="icon" href="{{ asset('images/favicon.png') }}" type="image/png" sizes="196x196">
 
         <title>

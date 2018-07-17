@@ -35,6 +35,8 @@
         "mocha-webpack": "^1.1.0",
         "popper.js": "^1.12",
         "pre-commit": "^1.2.2",
+        "purify-css": "^1.2.5",
+        "purifycss-webpack": "^0.7.0",
         "tailwindcss": "^0.6.4",
         "vue": "^2.5.7",
         "vue-loader": "^14.2.2",
