@@ -8,26 +8,26 @@
 @section('content')
 {{--   <header v-sticky="{ zIndex: 1020, stickyTop: 0 }">
     @include('partials.navbar')
-  </header>
-  <section class="promo position-relative">
-    <div class="background position-absolute h-100 w-100"></div>
-    <div class="overlay position-absolute h-100 w-100"></div>
-    <div class="container position-relative h-100 d-flex">
+  </header> --}}
+  <section class="h-120 relative">
+    <div class="absolute h-full w-full" style="background-image: url('/images/header.jpg'); background-size: cover;"></div>
+    <div class="bg-black opacity-25 absolute h-full w-full"></div>
+    <div class="container mx-auto relative h-full flex">
       <div class="m-auto">
-        <div class="text-center mb-4">
-          <h1>Commander réunionnais en quelques clics</h1>
-          <p class="text-light">Gastronomie réunionnaise disponible en traiteur et livraison à Paris.</p>
+        <div class="text-center mb-10">
+          <h1 class="font-title text-grey-lightest text-6xl font-normal leading-tight mb-2" style="text-shadow: 2px 2px 3px black">Commander réunionnais en quelques clics</h1>
+          <p class="text-grey-lightest text-xl leading-tight" style="text-shadow: 2px 2px 3px black">Gastronomie réunionnaise disponible en traiteur et livraison à Paris.</p>
         </div>
-        <div class="d-flex flex-wrap justify-content-center">
-          <a class="btn btn-rounded btn-lg btn-primary m-2" href="{{ route('order') }}">Commander</a>
-          <a class="btn btn-rounded btn-lg btn-outline-primary m-2" href="{{ asset('pdf/LaKazCreole.pdf') }}" target="_blank">Télécharger la carte</a>
+        <div class="flex flex-wrap justify-center items-baseline text-center">
+          <a class="mx-4 px-3 py-3 w-50 rounded-full text-white border-2 border-orange hover:border-orange-light bg-orange hover:bg-orange-light no-underline" href="{{ route('order') }}">Commander</a>
+          <a class="mx-4 px-3 py-3 w-50 rounded-full text-white border-2 border-orange hover:border-orange-light hover:bg-orange-light no-underline" href="{{ asset('pdf/LaKazCreole.pdf') }}" target="_blank">Télécharger la carte</a>
         </div>
       </div>
     </div>
-  </section> --}}
+  </section>
   <section class="my-10">
     <div class="container mx-auto">
-      <div class="flex flex-col sm:flex-row flex-wrap justify-content-center mx-3">
+      <div class="flex flex-col sm:flex-row flex-wrap justify-center mx-3">
         <div class="mb-5 sm:mb-0 flex w-full sm:w-1/4 lg:w-1/5">
           <img class="mx-auto sm:my-auto h-40 w-40 sm:h-32 sm:w-32 md:h-40 md:w-40 rounded-full" src="{{ asset('/images/laurane.jpg') }}">
         </div>

@@ -3333,6 +3333,10 @@ table {
   height: 16rem;
 }
 
+.h-120 {
+  height: 30rem;
+}
+
 .h-auto {
   height: auto;
 }
@@ -6016,6 +6020,10 @@ table {
   font-size: 3rem;
 }
 
+.text-6xl {
+  font-size: 4.2rem;
+}
+
 .italic {
   font-style: italic;
 }
@@ -6300,6 +6308,10 @@ table {
 
 .w-48 {
   width: 12rem;
+}
+
+.w-50 {
+  width: 12.5rem;
 }
 
 .w-64 {
@@ -9095,6 +9107,10 @@ table {
     height: 16rem;
   }
 
+  .sm\:h-120 {
+    height: 30rem;
+  }
+
   .sm\:h-auto {
     height: auto;
   }
@@ -11762,6 +11778,10 @@ table {
     font-size: 3rem;
   }
 
+  .sm\:text-6xl {
+    font-size: 4.2rem;
+  }
+
   .sm\:italic {
     font-style: italic;
   }
@@ -12046,6 +12066,10 @@ table {
 
   .sm\:w-48 {
     width: 12rem;
+  }
+
+  .sm\:w-50 {
+    width: 12.5rem;
   }
 
   .sm\:w-64 {
@@ -14765,6 +14789,10 @@ table {
     height: 16rem;
   }
 
+  .md\:h-120 {
+    height: 30rem;
+  }
+
   .md\:h-auto {
     height: auto;
   }
@@ -17432,6 +17460,10 @@ table {
     font-size: 3rem;
   }
 
+  .md\:text-6xl {
+    font-size: 4.2rem;
+  }
+
   .md\:italic {
     font-style: italic;
   }
@@ -17716,6 +17748,10 @@ table {
 
   .md\:w-48 {
     width: 12rem;
+  }
+
+  .md\:w-50 {
+    width: 12.5rem;
   }
 
   .md\:w-64 {
@@ -20435,6 +20471,10 @@ table {
     height: 16rem;
   }
 
+  .lg\:h-120 {
+    height: 30rem;
+  }
+
   .lg\:h-auto {
     height: auto;
   }
@@ -23102,6 +23142,10 @@ table {
     font-size: 3rem;
   }
 
+  .lg\:text-6xl {
+    font-size: 4.2rem;
+  }
+
   .lg\:italic {
     font-style: italic;
   }
@@ -23386,6 +23430,10 @@ table {
 
   .lg\:w-48 {
     width: 12rem;
+  }
+
+  .lg\:w-50 {
+    width: 12.5rem;
   }
 
   .lg\:w-64 {
@@ -26105,6 +26153,10 @@ table {
     height: 16rem;
   }
 
+  .xl\:h-120 {
+    height: 30rem;
+  }
+
   .xl\:h-auto {
     height: auto;
   }
@@ -28772,6 +28824,10 @@ table {
     font-size: 3rem;
   }
 
+  .xl\:text-6xl {
+    font-size: 4.2rem;
+  }
+
   .xl\:italic {
     font-style: italic;
   }
@@ -29056,6 +29112,10 @@ table {
 
   .xl\:w-48 {
     width: 12rem;
+  }
+
+  .xl\:w-50 {
+    width: 12.5rem;
   }
 
   .xl\:w-64 {
