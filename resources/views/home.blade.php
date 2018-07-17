@@ -6,9 +6,9 @@
 @endsection
 
 @section('content')
-{{--   <header v-sticky="{ zIndex: 1020, stickyTop: 0 }">
+  <header v-sticky="{ zIndex: 1020, stickyTop: 0 }">
     @include('partials.navbar')
-  </header> --}}
+  </header>
   <section class="h-120 relative">
     <div class="absolute h-full w-full" style="background-image: url('/images/header.jpg'); background-size: cover;"></div>
     <div class="bg-black opacity-25 absolute h-full w-full"></div>
