@@ -20,6 +20,6 @@ mix
    .sass('resources/assets/sass/new.scss', 'public/css')
    .options({
       processCssUrls: false,
-      purifyCss: true,
+      // purifyCss: true,
       postCss: [ tailwindcss('./tailwind.js') ],
     });

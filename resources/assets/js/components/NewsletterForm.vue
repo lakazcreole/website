@@ -1,26 +1,26 @@
 <template>
-  <div class="newsletter">
-    <p v-if="serverError" class="text-center text-light">Une erreur s'est produite. Veuillez réessayer plus tard.</p>
+  <div class="text-center">
+    <p v-if="serverError">Une erreur s'est produite. Veuillez réessayer plus tard.</p>
     <div v-else >
-      <p v-if="subscribed" class="text-center text-light">Vous êtes maintenant abonné(e) à notre newsletter. Merci !</p>
+      <p v-if="subscribed">Vous êtes maintenant abonné(e) à notre newsletter. Merci !</p>
       <div v-else>
-        <p class="text-center text-light">
+        <p class="text-center mb-5">
           Pour suivre le projet et recevoir nos actualités, inscrivez-vous à la newsletter !
         </p>
-        <div class="d-flex">
-          <form class="form-inline mx-auto d-flex align-items-start justify-content-center" @submit.prevent="onSubmit">
-            <div class="m-2">
-              <input id="email" v-model="email" :disabled="waiting" :class="inputClasses" type="email" placeholder="Entrez votre email">
-              <div v-if="errors" class="d-flex invalid-feedback">
+        <form class="py-2" @submit.prevent="onSubmit">
+          <div class="flex justify-center">
+            <div class="mx-3">
+              <input id="email" v-model="email" :disabled="waiting" class="p-2 rounded" type="email" placeholder="Entrez votre email">
+              <div v-if="errors" class="flex text-red-light text-sm mt-2">
                 <span v-for="(err, index) in errors.errors.email" :key="index">{{ err }} </span>
               </div>
             </div>
-            <button :disabled="waiting" type="submit" class="btn btn-primary m-2">
-              <span v-if="waiting">En cours</span>
+            <button :disabled="waiting" type="submit" class="mx-3 px-3 py-2 w-32 font-semibold rounded text-white bg-orange hover:bg-orange-light mb-auto">
+              <span v-if="waiting">En cours...</span>
               <span v-else>Inscription</span>
             </button>
-          </form>
-        </div>
+          </div>
+        </form>
       </div>
     </div>
   </div>
@@ -39,12 +39,7 @@ export default {
       waiting: false
     }
   },
-  computed: {
-    inputClasses () {
-      if (this.errors && this.errors.errors.hasOwnProperty('email')) return 'form-control is-invalid'
-      return 'form-control'
-    }
-  },
+
   methods: {
     onSubmit () {
       this.waiting = true

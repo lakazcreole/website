@@ -6,7 +6,7 @@
 @endsection
 
 @section('content')
-  <header v-sticky="{ zIndex: 1020, stickyTop: 0 }">
+{{--   <header v-sticky="{ zIndex: 1020, stickyTop: 0 }">
     @include('partials.navbar')
   </header>
   <section class="promo position-relative">
@@ -37,13 +37,10 @@
               </p>
               <footer class="blockquote-footer text-right">Laurane</footer>
             </blockquote>
-{{--             <p class="text-justify">
-              Je suis Laurane Boullay, jeune réunionnaise titulaire d'un master entrepreneuriat. Je vous invite à découvrir sur <strong>Paris</strong> une gastronomie exotique et savoureuse, faite maison. Je vous propose déjà mes services de <strong>traiteur et livraison</strong> pour vos déjeuners, dîners et apéros. Samoussas, bouchons, cari poulet, rougail saucisse et autres merveilles de <strong>l'Île de la Réunion</strong> vous attendent. Alors, n'hésitez plus !
-            </p> --}}
           </div>
         </div>
     </div>
   </section>
   @include('partials.menu')
-  @include('partials.footer')
+ --}}  @include('partials.footer')
 @endsection

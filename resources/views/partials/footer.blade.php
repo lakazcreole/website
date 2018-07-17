@@ -1,24 +1,22 @@
-<footer class="bg-dark pt-5 pb-3">
-    <div class="container">
-        <newsletter-form></newsletter-form>
-        <div class="text-center mt-5">
-            <ul class="list-inline">
-                <li class="list-inline-item">
-                    <a href="https://www.facebook.com/kazcreole/" target="_blank">
-                        <img src="{{ asset('/images/facebook.png') }}">
-                    </a>
+<footer class="bg-black p-5">
+    <div class="container mx-auto text-grey-light font-main">
+        <div class="my-5">
+            <newsletter-form></newsletter-form>
+        </div>
+        <div class="text-center text-grey-light">
+            <ul class="list-reset mb-5">
+                <li class="inline-block w-10">
+                    <a href="https://www.facebook.com/kazcreole/" target="_blank"><img src="{{ asset('/images/facebook.png') }}"></a>
                 </li>
-                <li class="list-inline-item">
-                    <a href="https://www.instagram.com/lakazcreole/" target="_blank">
-                        <img src="{{ asset('/images/instagram.png') }}">
-                    </a>
+                <li class="inline-block w-10">
+                    <a href="https://www.instagram.com/lakazcreole/" target="_blank"><img src="{{ asset('/images/instagram.png') }}"></a>
                 </li>
             </ul>
-            <p class="text-light">
-                <a href="#" @click.prevent="showContactModal = true">Signaler un bug</a>
+            <p class="mb-5">
+                <a href="#" @click.prevent="showContactModal = true" class="text-grey-light">Signaler un bug</a>
             </p>
-            <p class="text-light">
-                Made with <span class="color">&hearts;</span> by <a href="http://laurentcazanove.com" target="_blank">Laurent Cazanove</a>.
+            <p class="mb-5">
+                Made with <span class="text-orange">&hearts;</span> by <a href="http://laurentcazanove.com" target="_blank" class="text-grey-light">Laurent Cazanove</a>.
             </p>
         </div>
     </div>
