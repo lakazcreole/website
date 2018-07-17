@@ -40,7 +40,7 @@
           </div>
         </div>
     </div>
-  </section>
+  </section> --}}
   @include('partials.menu')
- --}}  @include('partials.footer')
+  @include('partials.footer')
 @endsection

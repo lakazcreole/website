@@ -46647,67 +46647,74 @@ var render = function() {
                     }
                   },
                   [
-                    _c("div", { staticClass: "flex justify-center" }, [
-                      _c("div", { staticClass: "mx-3" }, [
-                        _c("input", {
-                          directives: [
-                            {
-                              name: "model",
-                              rawName: "v-model",
-                              value: _vm.email,
-                              expression: "email"
-                            }
-                          ],
-                          staticClass: "p-2 rounded",
-                          attrs: {
-                            id: "email",
-                            disabled: _vm.waiting,
-                            type: "email",
-                            placeholder: "Entrez votre email"
-                          },
-                          domProps: { value: _vm.email },
-                          on: {
-                            input: function($event) {
-                              if ($event.target.composing) {
-                                return
-                              }
-                              _vm.email = $event.target.value
-                            }
-                          }
-                        }),
-                        _vm._v(" "),
-                        _vm.errors
-                          ? _c(
-                              "div",
+                    _c(
+                      "div",
+                      {
+                        staticClass: "flex flex-col sm:flex-row justify-center"
+                      },
+                      [
+                        _c("div", { staticClass: "mx-3" }, [
+                          _c("input", {
+                            directives: [
                               {
-                                staticClass: "flex text-red-light text-sm mt-2"
-                              },
-                              _vm._l(_vm.errors.errors.email, function(
-                                err,
-                                index
-                              ) {
-                                return _c("span", { key: index }, [
-                                  _vm._v(_vm._s(err) + " ")
-                                ])
-                              })
-                            )
-                          : _vm._e()
-                      ]),
-                      _vm._v(" "),
-                      _c(
-                        "button",
-                        {
-                          staticClass:
-                            "mx-3 px-3 py-2 w-32 font-semibold rounded text-white bg-orange hover:bg-orange-light mb-auto",
-                          attrs: { disabled: _vm.waiting, type: "submit" }
-                        },
-                        [
-                          _vm.waiting
-                            ? _c("span", [_vm._v("En cours...")])
-                            : _c("span", [_vm._v("Inscription")])
-                        ]
-                      )
-                    ])
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.email,
+                                expression: "email"
+                              }
+                            ],
+                            staticClass: "p-2 rounded",
+                            attrs: {
+                              id: "email",
+                              disabled: _vm.waiting,
+                              type: "email",
+                              placeholder: "Entrez votre email"
+                            },
+                            domProps: { value: _vm.email },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.email = $event.target.value
+                              }
+                            }
+                          }),
+                          _vm._v(" "),
+                          _vm.errors
+                            ? _c(
+                                "div",
+                                {
+                                  staticClass:
+                                    "text-center text-red-light text-sm mt-2"
+                                },
+                                _vm._l(_vm.errors.errors.email, function(
+                                  err,
+                                  index
+                                ) {
+                                  return _c("span", { key: index }, [
+                                    _vm._v(_vm._s(err) + " ")
+                                  ])
+                                })
+                              )
+                            : _vm._e()
+                        ]),
+                        _vm._v(" "),
+                        _c(
+                          "button",
+                          {
+                            staticClass:
+                              "mt-4 sm:mt-0 mx-auto sm:mx-3 px-3 py-2 w-32 font-semibold rounded text-white bg-orange hover:bg-orange-light mb-auto",
+                            attrs: { disabled: _vm.waiting, type: "submit" }
+                          },
+                          [
+                            _vm.waiting
+                              ? _c("span", [_vm._v("En cours...")])
+                              : _c("span", [_vm._v("Inscription")])
+                          ]
+                        )
+                      ]
+                    )
                   ]
                 )
               ])

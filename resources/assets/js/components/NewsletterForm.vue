@@ -8,14 +8,14 @@
           Pour suivre le projet et recevoir nos actualités, inscrivez-vous à la newsletter !
         </p>
         <form class="py-2" @submit.prevent="onSubmit">
-          <div class="flex justify-center">
+          <div class="flex flex-col sm:flex-row justify-center">
             <div class="mx-3">
               <input id="email" v-model="email" :disabled="waiting" class="p-2 rounded" type="email" placeholder="Entrez votre email">
-              <div v-if="errors" class="flex text-red-light text-sm mt-2">
+              <div v-if="errors" class="text-center text-red-light text-sm mt-2">
                 <span v-for="(err, index) in errors.errors.email" :key="index">{{ err }} </span>
               </div>
             </div>
-            <button :disabled="waiting" type="submit" class="mx-3 px-3 py-2 w-32 font-semibold rounded text-white bg-orange hover:bg-orange-light mb-auto">
+            <button :disabled="waiting" type="submit" class="mt-4 sm:mt-0 mx-auto sm:mx-3 px-3 py-2 w-32 font-semibold rounded text-white bg-orange hover:bg-orange-light mb-auto">
               <span v-if="waiting">En cours...</span>
               <span v-else>Inscription</span>
             </button>

@@ -66,3 +66,28 @@
  * @import "utilities/background-patterns";
  * @import "utilities/skew-transforms";
  */
+
+ .card-tag {
+    @apply .bg-orange .text-white .font-semibold .text-center .absolute;
+    width: 190px;
+    transform: rotate(45deg);
+    right: -37px;
+    top: 43px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    z-index: 1;
+}
+
+.zoom-wrapper {
+    overflow: hidden;
+    max-height: 300px;
+
+    img {
+        @apply .w-full;
+        height: 300px;
+        transition: transform .3s;
+        &:hover {
+            transform: scale(1.1);
+        }
+    }
+}

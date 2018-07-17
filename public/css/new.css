@@ -6397,6 +6397,41 @@ table {
  * @import "utilities/skew-transforms";
  */
 
+.card-tag {
+  background-color: #f6993f;
+  color: #fff;
+  font-weight: 600;
+  text-align: center;
+  position: absolute;
+  width: 190px;
+  -webkit-transform: rotate(45deg);
+          transform: rotate(45deg);
+  right: -37px;
+  top: 43px;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  z-index: 1;
+}
+
+.zoom-wrapper {
+  overflow: hidden;
+  max-height: 300px;
+}
+
+.zoom-wrapper img {
+  width: 100%;
+  height: 300px;
+  -webkit-transition: -webkit-transform .3s;
+  transition: -webkit-transform .3s;
+  transition: transform .3s;
+  transition: transform .3s, -webkit-transform .3s;
+}
+
+.zoom-wrapper img:hover {
+  -webkit-transform: scale(1.1);
+          transform: scale(1.1);
+}
+
 @media (min-width: 576px) {
   .sm\:list-reset {
     list-style: none;
