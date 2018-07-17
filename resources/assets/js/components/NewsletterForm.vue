@@ -15,7 +15,7 @@
                 <span v-for="(err, index) in errors.errors.email" :key="index">{{ err }} </span>
               </div>
             </div>
-            <button :disabled="waiting" type="submit" class="mt-4 sm:mt-0 mx-auto sm:mx-3 px-3 py-2 w-32 font-semibold rounded text-white bg-orange hover:bg-orange-light mb-auto">
+            <button :disabled="waiting" type="submit" class="mt-4 sm:mt-0 mx-auto sm:mx-3 px-3 py-2 w-32 rounded text-white bg-orange hover:bg-orange-light mb-auto">
               <span v-if="waiting">En cours...</span>
               <span v-else>Inscription</span>
             </button>

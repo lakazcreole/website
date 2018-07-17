@@ -1,4 +1,4 @@
-<section class="menu my-10  " id="la-carte">
+<section class="menu my-10" id="la-carte">
   <div class="container mx-auto">
     <h2 class="text-center font-title text-orange text-5xl font-normal mb-8">La carte</h2>
     <div class="flex flex-col md:flex-row">
@@ -49,13 +49,13 @@
             <li class="mb-1">Bonbons miel</li>
             <li class="mb-1">Gâteau patate</li>
             <li class="mb-1">Fruits exotiques</li>
+          </ul>
+          <p>Il reste toujours une place pour le dessert. 😉</p>
+        @endcomponent
       </div>
-        </ul>
-        <p>Il reste toujours une place pour le dessert. 😉</p>
-      @endcomponent
     </div>
     <div class="text-center mt-10">
-      <a class="inline-block mx-auto mx-3 px-3 py-3 w-48 font-semibold rounded-full text-white bg-orange hover:bg-orange-light no-underline" href="{{ route('order') }}">Commander</a>
+      <a class="inline-block mx-auto mx-3 px-3 py-3 w-48 rounded-full text-white bg-orange hover:bg-orange-light no-underline" href="{{ route('order') }}">Commander</a>
     </div>
   </div>
 </section>

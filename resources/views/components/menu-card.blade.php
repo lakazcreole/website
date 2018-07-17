@@ -1,5 +1,5 @@
 <div class="w-full px-3 sm:px-0 max-w-xs md:max-w-sm">
-  <div class="shadow-lg relative overflow-hidden">
+  <div class="bg-white rounded shadow-lg relative overflow-hidden">
     @isset($tag)
       <div class="card-tag">
         {{ $tag }}

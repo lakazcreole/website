@@ -3321,6 +3321,10 @@ table {
   height: 8rem;
 }
 
+.h-40 {
+  height: 10rem;
+}
+
 .h-48 {
   height: 12rem;
 }
@@ -6290,6 +6294,10 @@ table {
   width: 8rem;
 }
 
+.w-40 {
+  width: 10rem;
+}
+
 .w-48 {
   width: 12rem;
 }
@@ -6400,6 +6408,33 @@ table {
  * @import "utilities/background-patterns";
  * @import "utilities/skew-transforms";
  */
+
+.intro {
+  position: relative;
+  -webkit-box-shadow: 2px 2px 5px #ffa500b3;
+          box-shadow: 2px 2px 5px #ffa500b3;
+}
+
+.intro::before {
+  content: none;
+}
+
+@media (min-width: 576px) {
+  .intro::before {
+    content: "\A";
+    position: absolute;
+    background-color: #fff;
+    width: 2rem;
+    height: 2rem;
+    left: -15px;
+    top: 75px;
+    -webkit-box-shadow: 2px 2px 6px #ffa500b3;
+            box-shadow: 2px 2px 6px #ffa500b3;
+    -webkit-transform: rotate(45deg);
+            transform: rotate(45deg);
+    z-index: -1;
+  }
+}
 
 .card-tag {
   background-color: #f6993f;
@@ -9046,6 +9081,10 @@ table {
 
   .sm\:h-32 {
     height: 8rem;
+  }
+
+  .sm\:h-40 {
+    height: 10rem;
   }
 
   .sm\:h-48 {
@@ -12001,6 +12040,10 @@ table {
     width: 8rem;
   }
 
+  .sm\:w-40 {
+    width: 10rem;
+  }
+
   .sm\:w-48 {
     width: 12rem;
   }
@@ -14708,6 +14751,10 @@ table {
 
   .md\:h-32 {
     height: 8rem;
+  }
+
+  .md\:h-40 {
+    height: 10rem;
   }
 
   .md\:h-48 {
@@ -17663,6 +17710,10 @@ table {
     width: 8rem;
   }
 
+  .md\:w-40 {
+    width: 10rem;
+  }
+
   .md\:w-48 {
     width: 12rem;
   }
@@ -20370,6 +20421,10 @@ table {
 
   .lg\:h-32 {
     height: 8rem;
+  }
+
+  .lg\:h-40 {
+    height: 10rem;
   }
 
   .lg\:h-48 {
@@ -23325,6 +23380,10 @@ table {
     width: 8rem;
   }
 
+  .lg\:w-40 {
+    width: 10rem;
+  }
+
   .lg\:w-48 {
     width: 12rem;
   }
@@ -26032,6 +26091,10 @@ table {
 
   .xl\:h-32 {
     height: 8rem;
+  }
+
+  .xl\:h-40 {
+    height: 10rem;
   }
 
   .xl\:h-48 {
@@ -28985,6 +29048,10 @@ table {
 
   .xl\:w-32 {
     width: 8rem;
+  }
+
+  .xl\:w-40 {
+    width: 10rem;
   }
 
   .xl\:w-48 {
