@@ -229,6 +229,9 @@ module.exports = {
     ],
     'main': [
       'Open Sans'
+    ],
+    'title': [
+      'Kaushan Script'
     ]
   },
 

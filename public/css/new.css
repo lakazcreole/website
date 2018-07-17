@@ -3161,6 +3161,10 @@ table {
   font-family: Open Sans;
 }
 
+.font-title {
+  font-family: Kaushan Script;
+}
+
 .font-hairline {
   font-weight: 100;
 }
@@ -8884,6 +8888,10 @@ table {
     font-family: Open Sans;
   }
 
+  .sm\:font-title {
+    font-family: Kaushan Script;
+  }
+
   .sm\:font-hairline {
     font-weight: 100;
   }
@@ -14540,6 +14548,10 @@ table {
 
   .md\:font-main {
     font-family: Open Sans;
+  }
+
+  .md\:font-title {
+    font-family: Kaushan Script;
   }
 
   .md\:font-hairline {
@@ -20200,6 +20212,10 @@ table {
     font-family: Open Sans;
   }
 
+  .lg\:font-title {
+    font-family: Kaushan Script;
+  }
+
   .lg\:font-hairline {
     font-weight: 100;
   }
@@ -25856,6 +25872,10 @@ table {
 
   .xl\:font-main {
     font-family: Open Sans;
+  }
+
+  .xl\:font-title {
+    font-family: Kaushan Script;
   }
 
   .xl\:font-hairline {
