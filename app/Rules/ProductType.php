@@ -2,6 +2,7 @@
 
 namespace App\Rules;
 
+use App\Product;
 use Illuminate\Contracts\Validation\Rule;
 
 class ProductType implements Rule
@@ -15,7 +16,9 @@ class ProductType implements Rule
      */
     public function __construct()
     {
-        $this->types = ['starter', 'main', 'drink', 'side'];
+        $this->types = array_map(function($productType) {
+            return $productType['type'];
+        }, Product::TYPES);
     }
 
     /**

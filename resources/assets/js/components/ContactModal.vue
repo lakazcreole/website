@@ -11,28 +11,28 @@
       <div v-else>
         <div class="form-group">
           <label for="name">Nom</label>
-          <input v-model="name" type="text" :class="inputClasses('name')" id="name" placeholder="Nom" :disabled="waiting">
+          <input id="name" v-model="name" :class="inputClasses('name')" :disabled="waiting" type="text" placeholder="Nom">
           <div v-if="errors" class="invalid-feedback">
             <span v-for="(err, index) in errors.errors.name" :key="index">{{ err }} </span>
           </div>
         </div>
         <div class="form-group">
           <label for="email">E-mail</label>
-          <input v-model="email" type="email" :class="inputClasses('email')" id="email" placeholder="E-mail" :disabled="waiting">
+          <input id="email" v-model="email" :class="inputClasses('email')" :disabled="waiting" type="email" placeholder="E-mail">
           <div v-if="errors" class="invalid-feedback">
             <span v-for="(err, index) in errors.errors.email" :key="index">{{ err }} </span>
           </div>
         </div>
         <div class="form-group">
           <label for="subject">Objet</label>
-          <input v-model="subject" type="text" :class="inputClasses('subject')" id="subject" placeholder="Objet" :disabled="waiting">
+          <input id="subject" v-model="subject" :class="inputClasses('subject')" :disabled="waiting" type="text" placeholder="Objet">
           <div v-if="errors" class="invalid-feedback">
             <span v-for="(err, index) in errors.errors.subject" :key="index">{{ err }} </span>
           </div>
         </div>
         <div class="form-group">
           <label for="message">Message</label>
-          <textarea v-model="message" :class="inputClasses('message')" id="message" placeholder="Saisissez votre message..." rows="3" :disabled="waiting"/>
+          <textarea id="message" v-model="message" :class="inputClasses('message')" :disabled="waiting" placeholder="Saisissez votre message..." rows="3"/>
           <div v-if="errors" class="invalid-feedback">
             <span v-for="(err, index) in errors.errors.message" :key="index">{{ err }} </span>
           </div>
@@ -44,7 +44,7 @@
         <span v-if="sent">Fermer</span>
         <span v-else>Annuler</span>
       </button>
-      <button v-if="!serverError && !sent" type="button" class="btn btn-primary ml-2" @click="onSubmit" :disabled="waiting">
+      <button v-if="!serverError && !sent" :disabled="waiting" type="button" class="btn btn-primary ml-2" @click="onSubmit">
         <span v-if="waiting">En cours</span>
         <span v-else>Envoyer</span>
       </button>
@@ -53,7 +53,7 @@
 </template>
 
 <script>
-import axios from 'axios'
+import contact from '../api/contact'
 import Modal from './Modal'
 
 export default {
@@ -74,7 +74,7 @@ export default {
     }
   },
 
-  data() {
+  data () {
     return {
       name: '',
       email: '',
@@ -83,11 +83,11 @@ export default {
       serverError: false,
       errors: null,
       sent: false,
-      waiting: false,
+      waiting: false
     }
   },
 
-  mounted() {
+  mounted () {
     this.subject = this.initialSubject
     this.message = this.initialMessage
   },
@@ -100,26 +100,29 @@ export default {
     hide () {
       this.$modal.hide('contact-modal')
     },
-    onSubmit: function() {
+    onSubmit () {
       this.waiting = true
-      axios.post('/api/contacts', {
+      contact.send({
         name: this.name,
         email: this.email,
         subject: this.subject,
         message: this.message
-      }).then(() => {
-        this.waiting = false
-        this.sent = true
-      }).catch(error => {
-        this.waiting = false
-        if (error.response && error.response.status === 422) {
-          this.errors = error.response.data
-        } else {
-          this.serverError = true
-        }
       })
+        .then(() => {
+          this.sent = true
+        })
+        .catch((error) => {
+          if (error.status === 422) {
+            this.errors = error.data
+          } else {
+            this.serverError = true
+          }
+        })
+        .finally(() => {
+          this.waiting = false
+        })
     },
-    inputClasses: function(key) {
+    inputClasses (key) {
       if (this.errors && this.errors.errors.hasOwnProperty(key)) return 'form-control is-invalid'
       return 'form-control'
     }

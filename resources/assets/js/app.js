@@ -1,4 +1,5 @@
-//
+/* eslint-disable import/first */
+
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
@@ -23,6 +24,7 @@ const VueScrollTo = require('vue-scrollto') // eslint-disable-line no-unused-var
 
 import ContactButton from './components/ContactButton'
 import ContactModal from './components/ContactModal'
+import store from './store'
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -37,38 +39,39 @@ Vue.use(VTooltip) // eslint-disable-line no-undef
 
 // eslint-disable-next-line no-unused-vars, no-undef
 const app = new Vue({
-    el: '#app',
-    components: {
-        ContactButton,
-        ContactModal,
-        'newsletter-form': require('./components/NewsletterForm.vue').default,
-        'order-manager': require('./components/OrderManager.vue').default
+  el: '#app',
+  store,
+  components: {
+    ContactButton,
+    ContactModal,
+    'newsletter-form': require('./components/NewsletterForm.vue').default,
+    'order-manager': require('./components/OrderManager.vue').default
+  },
+  directives: {
+    'sticky': VueSticky
+  },
+  methods: {
+    openOrder: function () {
+      this.subject = 'Commande'
+      this.message = 'Cela a l\'air délicieux, je souhaiterais commander toute la carte !'
+      this.showContactModal = true
     },
-    directives: {
-        'sticky': VueSticky
-    },
-    methods: {
-        openOrder: function() {
-            this.subject = 'Commande'
-            this.message = 'Cela a l\'air délicieux, je souhaiterais commander toute la carte !'
-            this.showContactModal = true
+    scrollToMenu: function () {
+      const options = {
+        container: 'body',
+        easing: 'ease-in',
+        offset: -100,
+        cancelable: true,
+        onDone: function () {
+          // scrolling is done
         },
-        scrollToMenu: function() {
-            const options = {
-                container: 'body',
-                easing: 'ease-in',
-                offset: -100,
-                cancelable: true,
-                onDone: function() {
-                  // scrolling is done
-                },
-                onCancel: function() {
-                  // scrolling has been interrupted
-                },
-                x: false,
-                y: true
-            }
-            this.$scrollTo('#la-carte', 500, options)
-        }
+        onCancel: function () {
+          // scrolling has been interrupted
+        },
+        x: false,
+        y: true
+      }
+      this.$scrollTo('#la-carte', 500, options)
     }
-});
+  }
+})

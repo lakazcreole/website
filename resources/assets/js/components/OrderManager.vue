@@ -14,7 +14,7 @@
       <div v-if="showTimeSelector" style="height: 259px;" class="d-flex">
         <div class="my-auto w-100">
           <h2 class="mb-3">Livraison</h2>
-          <DeliveryTimeForm @submit="handleDeliveryTimeFormSubmit" :on-date-input="handleDateInput" :on-time-input="handleTimeInput"/>
+          <DeliveryTimeForm :on-date-input="handleDateInput" :on-time-input="handleTimeInput" @submit="handleDeliveryTimeFormSubmit"/>
         </div>
       </div>
       <div v-else>
@@ -25,8 +25,8 @@
             slot="body"
             :default-date="order.date"
             :default-time="order.time"
-            :on-date-input="value => { this.editedDate = value }"
-            :on-time-input="value => { this.editedTime = value }"
+            :on-date-input="value => { editedDate = value }"
+            :on-time-input="value => { editedTime = value }"
           />
           <div slot="footer" class="text-right">
             <button type="button" class="btn btn-secondary ml-2" @click="disableDeliveryTimeModal">Annuler</button>
@@ -36,39 +36,39 @@
         <OrderOffersMenu v-if="showMenu && productOffers.length" :offers="productOffers" @addProduct="addOrderLine"/>
         <div class="row">
           <div class="col-sm-6 col-lg-8">
-            <order-menu v-if="showMenu" :products="products" :handle-add="addOrderLine"/>
+            <OrderMenu v-if="showMenu" :products="products" @add="id => addOrderLine(products.find(product => product.id === id))"/>
             <delivery-form
               v-if="showDeliveryForm"
               :errors="order.errors"
-              :on-first-name-input="value => { this.order.customer.firstName = value }"
-              :on-last-name-input="value => { this.order.customer.lastName = value }"
-              :on-email-input="value => { this.order.customer.email = value }"
-              :on-phone-input="value => { this.order.customer.phone = value }"
-              :on-address-one-input="value => { this.order.address1 = value }"
-              :on-address-two-input="value => { this.order.address2 = value }"
-              :on-address-three-input="value => { this.order.address3 = value }"
-              :on-city-input="value => { this.order.city = value }"
-              :on-zip-input="value => { this.order.zip = value }"
+              :on-first-name-input="value => { order.customer.firstName = value }"
+              :on-last-name-input="value => { order.customer.lastName = value }"
+              :on-email-input="value => { order.customer.email = value }"
+              :on-phone-input="value => { order.customer.phone = value }"
+              :on-address-one-input="value => { order.address1 = value }"
+              :on-address-two-input="value => { order.address2 = value }"
+              :on-address-three-input="value => { order.address3 = value }"
+              :on-city-input="value => { order.city = value }"
+              :on-zip-input="value => { order.zip = value }"
             />
           </div>
           <div class="col-sm-6 col-lg-4">
-            <div v-if="showCart" v-sticky="{ zIndex: 1019, stickyTop: 115+38 }">
+            <div v-sticky="{ zIndex: 1019, stickyTop: 115+38 }" v-if="showCart">
               <div v-if="!showDeliveryForm" v-show="!showCartModal" class="d-block d-sm-none">
                 <div v-show="showFixedCartButton" class="fixed-bottom container text-center mb-3">
                   <transition name="fade">
-                    <cart-button :items="order.lines" @click="enableCartModal"/>
+                    <cart-button :items="orderLines" @click="enableCartModal"/>
                   </transition>
                 </div>
                 <div v-view="viewHandler" class="text-center mb-3">
-                  <cart-button :items="order.lines" @click="enableCartModal"/>
+                  <cart-button :items="orderLines" @click="enableCartModal"/>
                 </div>
               </div>
               <!-- Cart modal -->
               <modal name="cart-modal">
                 <h3 slot="header">Panier</h3>
-                <portal-target name="cart-modal" slot="body"/>
+                <portal-target slot="body" name="cart-modal"/>
                 <div slot="footer">
-                  <button v-if="showMenu" class="validate-cart btn btn-lg btn-block btn-primary" :disabled="!canOrder" @click="validateCart">Commander</button>
+                  <button v-if="showMenu" :disabled="!canOrder" class="validate-cart btn btn-lg btn-block btn-primary" @click="validateCart">Commander</button>
                   <button v-if="showDeliveryForm" class="btn btn-link btn-block" @click="editCart">Modifier</button>
                 </div>
               </modal>
@@ -80,7 +80,7 @@
                 <portal-target name="cart"/>
                 <portal :to="showCartModal ? 'cart-modal' : 'cart'">
                   <cart
-                    :items="order.lines"
+                    :items="orderLines"
                     :editable="showMenu"
                     @minimumReached="minimumReached = true"
                     @minimumDropped="minimumReached = false"
@@ -89,11 +89,7 @@
                   <div class="my-3">
                     <div v-if="showDeliveryForm || showCartModal " class="form-group">
                       <label for="inputInformation">Informations</label>
-                      <textarea
-                        class="form-control"
-                        placeholder="Allergies, etc."
-                        v-model="order.information"
-                      />
+                      <textarea v-model="order.information" class="form-control" placeholder="Allergies, etc."/>
                     </div>
                     <p class="mb-0 text-center">
                       Livraison le <a href="#" class="link" title="Modifier" @click.prevent="handleDeliveryTimeEdit()">{{ readableDate }} à {{ order.time }}</a>.<br>
@@ -101,10 +97,10 @@
                     </p>
                   </div>
                 </portal>
-                <button v-if="showMenu" class="validate-cart btn btn-lg btn-block btn-primary mt-3" :disabled="!canOrder" @click="validateCart">Commander</button>
+                <button v-if="showMenu" :disabled="!canOrder" class="validate-cart btn btn-lg btn-block btn-primary mt-3" @click="validateCart">Commander</button>
               </div>
               <div v-if="showDeliveryForm" class="mt-3">
-                <button class="btn btn-lg btn-block btn-primary" @click="handleOrder()" :disabled="!deliveryFormFilled">Commander</button>
+                <button :disabled="!deliveryFormFilled" class="btn btn-lg btn-block btn-primary" @click="handleOrder()">Commander</button>
                 <button class="d-block d-sm-none btn btn-block btn-link" @click.prevent="enableCartModal">Retour au panier</button>
                 <div v-if="order.serverError" class="mt-3 text-center">
                   <p class="mb-0 text-danger">Une erreur s'est produite. Veuillez réessayer plus tard.</p>
@@ -121,6 +117,7 @@
 <script>
 import axios from 'axios'
 import VueSticky from 'vue-sticky'
+import { mapState, mapGetters } from 'vuex'
 
 import Modal from './Modal'
 import OrderOffersMenu from './OrderOffersMenu'
@@ -147,17 +144,11 @@ export default {
     'sticky': VueSticky
   },
 
-  data() {
+  data () {
     return {
-      loadedProducts: false,
-      loadedOffers: false,
-      error: false,
-      products: null,
-      productOffers: null,
       editedDate: null,
       editedTime: null,
       order: {
-        lines: [],
         date: null,
         time: null,
         information: '',
@@ -173,7 +164,7 @@ export default {
         city: '',
         zip: '',
         errors: null,
-        serverError: false,
+        serverError: false
       },
       showTimeSelector: true,
       showCart: false,
@@ -185,116 +176,79 @@ export default {
       minimumReached: false
     }
   },
-  mounted() {
-    this.fetchProducts()
-    this.fetchProductOffers()
-  },
+
   computed: {
-    readableDate() {
+    ...mapState('products', {
+      products: 'all',
+      productOffers: 'offers',
+      loadedProducts: 'loadedProducts',
+      loadedOffers: 'loadedOffers',
+      error: 'error'
+    }),
+    ...mapGetters('cart', {
+      orderLines: 'items'
+    }),
+    readableDate () {
       return this.order.date.toLocaleDateString('fr-FR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })
     },
-    deliveryFormFilled() {
+    deliveryFormFilled () {
       return this.order.customer.firstName !== '' && this.order.customer.lastName !== '' && this.order.customer.email !== '' && this.order.customer.phone !== '' &&
         this.order.address1 !== '' && this.order.city !== '' && this.order.zip !== ''
     },
-    canOrder() {
-      return this.order.lines && this.minimumReached
+    canOrder () {
+      return this.orderLines && this.minimumReached
     }
   },
+
+  mounted () {
+    this.$store.dispatch('products/fetchProducts')
+    this.$store.dispatch('products/fetchOffers')
+  },
+
   methods: {
-    fetchProducts() {
-      axios.get('/api/products').then(response => {
-        if (response.status === 200) {
-          this.products = response.data.data
-          this.loadedProducts = true
-        }
-      }).catch(() => {
-        // console.log(error)
-        this.error = true
-      })
+    addOrderLine (product, side = null) {
+      this.$store.dispatch('cart/addProduct', product)
+      if (side) this.$store.dispatch('cart/addProduct', product)
     },
-    fetchProductOffers () {
-      axios.get('/api/products/offers').then(response => {
-        if (response.status === 200) {
-          this.productOffers = response.data.data
-          this.loadedOffers = true
-        }
-      }).catch(() => {
-        // console.log(error)
-        this.error = true
-      })
+    removeOrderLine (productId) {
+      this.$store.dispatch('cart/removeProduct', productId)
     },
-    addOrderLine(product, side = null) {
-      this.addProductLine(product)
-      if (side) this.addSideLine(side)
-    },
-    addProductLine(product) {
-      for (var i = this.order.lines.length - 1; i >= 0; i--) {
-        if (this.order.lines[i].id === product.id) {
-          this.order.lines[i].quantity++
-          return
-        }
-      }
-      this.order.lines.push({
-        id: product.id,
-        name: product.name,
-        price: Number(product.price),
-        quantity: 1
-      })
-    },
-    addSideLine(side) {
-      for (var i = this.order.lines.length - 1; i >= 0; i--) {
-        if (this.order.lines[i].id === side.id) {
-          this.order.lines[i].quantity++
-          return
-        }
-      }
-      this.order.lines.push({
-        id: side.id,
-        name: side.name,
-        price: Number(side.price),
-        quantity: 1
-      })
-    },
-    removeOrderLine(productId) {
-      this.order.lines.splice(this.order.lines.find((product) => product.id === productId), 1)
-    },
-    handleDateInput(value) {
+    handleDateInput (value) {
       this.order.date = value
     },
-    handleTimeInput(value) {
+    handleTimeInput (value) {
       this.order.time = value
     },
-    handleDeliveryTimeFormSubmit() {
+    handleDeliveryTimeFormSubmit () {
       this.showTimeSelector = false
       this.showMenu = true
       this.showCart = true
     },
-    handleDeliveryTimeEdit() {
+    handleDeliveryTimeEdit () {
       this.editedDate = this.order.date
       this.editedTime = this.order.time
       this.enableDeliveryTimeModal()
     },
-    handleDeliveryTimeModalSave() {
+    handleDeliveryTimeModalSave () {
       this.order.date = this.editedDate
       this.order.time = this.editedTime
       this.disableDeliveryTimeModal()
     },
-    validateCart() {
+    validateCart () {
       this.showMenu = false
       this.showDeliveryForm = true
       this.disableCartModal()
       // this.showCartModal = false
     },
-    editCart() {
+    editCart () {
       this.showMenu = true
       this.showDeliveryForm = false
       this.disableCartModal()
       // this.showCartModal = false
     },
-    handleOrder() {
+    handleOrder () {
       const order = {
-        orderLines: this.order.lines,
+        orderLines: this.orderLines,
         date: this.order.date.toLocaleDateString('fr-FR'),
         time: this.order.time,
         information: this.order.information,
@@ -310,7 +264,7 @@ export default {
           address3: this.order.address3,
           city: this.order.city,
           zip: this.order.zip
-        },
+        }
       }
       // console.log(order)
       axios.post('/api/orders', order)
@@ -333,17 +287,17 @@ export default {
         this.showFixedCartButton = false
       }
     },
-    enableDeliveryTimeModal() {
+    enableDeliveryTimeModal () {
       this.$modal.show('delivery-time-modal')
     },
-    disableDeliveryTimeModal() {
+    disableDeliveryTimeModal () {
       this.$modal.hide('delivery-time-modal')
     },
-    enableCartModal() {
+    enableCartModal () {
       this.showCartModal = true
       this.$modal.show('cart-modal')
     },
-    disableCartModal() {
+    disableCartModal () {
       this.showCartModal = false
       this.$modal.hide('cart-modal')
     }

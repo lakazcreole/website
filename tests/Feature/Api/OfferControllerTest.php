@@ -27,8 +27,8 @@ class OfferControllerTest extends TestCase
                 'data' => [
                     [
                         'id' => $offer->id,
-                        'begin_at' => $offer->begin_at,
-                        'end_at' => $offer->end_at,
+                        'begin_at' => $offer->begin_at->toDateTimeString(),
+                        'end_at' => $offer->end_at->toDateTimeString(),
                         'imageUrl' => $offer->imageUrl,
                         'enabled' => true,
                         'product' => [

@@ -11,13 +11,6 @@ use App\Http\Requests\UpdateOffer;
 
 class OfferController extends Controller
 {
-    protected $productTypes = [
-        [ 'type' => 'starter', 'title' => 'Entrées' ],
-        [ 'type' => 'main', 'title' => 'Plats' ],
-        [ 'type' => 'drink', 'title' => 'Boissons' ],
-        [ 'type' => 'side', 'title' => 'Accompagnements' ],
-    ];
-
     /**
      * Display a listing of the resource.
      *
@@ -37,7 +30,7 @@ class OfferController extends Controller
     {
         return view('offers.create')
             ->with('products', Product::all())
-            ->with('productTypes', $this->productTypes);
+            ->with('productTypes', Product::TYPES);
     }
 
     /**
@@ -87,7 +80,7 @@ class OfferController extends Controller
             ->with('enabled', $offer->enabled)
             ->with('imageUrl', $offer->imageUrl)
             ->with('products', Product::all())
-            ->with('productTypes', $this->productTypes);
+            ->with('productTypes', Product::TYPES);
     }
 
     /**

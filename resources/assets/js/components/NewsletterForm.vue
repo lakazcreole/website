@@ -8,14 +8,14 @@
           Pour suivre le projet et recevoir nos actualités, inscrivez-vous à la newsletter !
         </p>
         <div class="d-flex">
-          <form @submit.prevent="onSubmit" class="form-inline mx-auto d-flex align-items-start justify-content-center">
+          <form class="form-inline mx-auto d-flex align-items-start justify-content-center" @submit.prevent="onSubmit">
             <div class="m-2">
-              <input v-model="email" type="email" :class="inputClasses" id="email" placeholder="Entrez votre email" :disabled="waiting">
+              <input id="email" v-model="email" :disabled="waiting" :class="inputClasses" type="email" placeholder="Entrez votre email">
               <div v-if="errors" class="d-flex invalid-feedback">
                 <span v-for="(err, index) in errors.errors.email" :key="index">{{ err }} </span>
               </div>
             </div>
-            <button type="submit" class="btn btn-primary m-2" :disabled="waiting">
+            <button :disabled="waiting" type="submit" class="btn btn-primary m-2">
               <span v-if="waiting">En cours</span>
               <span v-else>Inscription</span>
             </button>
@@ -27,10 +27,10 @@
 </template>
 
 <script>
-import axios from 'axios'
+import newsletter from '../api/newsletter'
 
 export default {
-  data() {
+  data () {
     return {
       email: '',
       errors: null,
@@ -40,29 +40,29 @@ export default {
     }
   },
   computed: {
-    inputClasses() {
+    inputClasses () {
       if (this.errors && this.errors.errors.hasOwnProperty('email')) return 'form-control is-invalid'
       return 'form-control'
     }
   },
   methods: {
-    onSubmit() {
+    onSubmit () {
       this.waiting = true
-      axios.post('/api/subscriptions', {
-        email: this.email
-      }).then(() => {
-        this.subscribed = true
-        this.waiting = false
-      }).catch(error => {
-        this.waiting = false
-        if (error.response && error.response.status === 422) {
-          this.errors = error.response.data
-        } else {
-          this.serverError = true
-        }
-      })
+      newsletter.subscribe(this.email)
+        .then(() => {
+          this.subscribed = true
+        })
+        .catch((error) => {
+          if (error.status === 422) {
+            this.errors = error.data
+          } else {
+            this.serverError = true
+          }
+        })
+        .finally(() => {
+          this.waiting = false
+        })
     }
   }
 }
 </script>
-

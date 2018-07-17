@@ -1,8 +1,8 @@
 <template>
   <div class="card">
     <div class="btn-card">
-      <span v-if="description" v-tooltip="description" class="info position-absolute pin-r m-3 badge badge-pill badge-light">i</span>
-      <img class="card-img-top" style="height:300px" :src="imgSrc" :alt="name">
+      <span v-tooltip="description" v-if="description" class="info position-absolute pin-r m-3 badge badge-pill badge-light">i</span>
+      <img :src="imgSrc" :alt="name" class="card-img-top" style="height:300px">
       <div class="position-asbolute card-img-overlay"/>
       <div class="position-absolute card-img-header p-3 w-100">
         <div class="d-flex">
