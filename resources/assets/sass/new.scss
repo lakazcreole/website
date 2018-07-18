@@ -81,7 +81,10 @@
 // }
 
 @screen sm {
+
     .intro {
+    // z-index: 0;
+
         &::before {
             content: "\A";
             @apply .absolute .bg-white .w-8 .h-8;

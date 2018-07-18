@@ -15,11 +15,11 @@
     <div class="container mx-auto relative h-full flex">
       <div class="m-auto">
         <div class="text-center mb-10">
-          <h1 class="font-title text-grey-lightest text-6xl font-normal leading-tight mb-2" style="text-shadow: 2px 2px 3px black">Commander réunionnais en quelques clics</h1>
-          <p class="text-grey-lightest text-xl leading-tight" style="text-shadow: 2px 2px 3px black">Gastronomie réunionnaise disponible en traiteur et livraison à Paris.</p>
+          <h1 class="font-title text-grey-lightest text-5xl md:text-6xl font-normal leading-tight mb-2" style="text-shadow: 2px 2px 3px black">Commander réunionnais en quelques clics</h1>
+          <p class="text-grey-lightest text-lg md:text-xl leading-tight" style="text-shadow: 2px 2px 3px black">Gastronomie réunionnaise disponible en traiteur et livraison à Paris.</p>
         </div>
         <div class="flex flex-wrap justify-center items-baseline text-center">
-          <a class="mx-4 px-3 py-3 w-50 rounded-full text-white border-2 border-orange hover:border-orange-light bg-orange hover:bg-orange-light no-underline" href="{{ route('order') }}">Commander</a>
+          <a class="mb-3 sm:mb-0 mx-4 px-3 py-3 w-50 rounded-full text-white border-2 border-orange hover:border-orange-light bg-orange hover:bg-orange-light no-underline" href="{{ route('order') }}">Commander</a>
           <a class="mx-4 px-3 py-3 w-50 rounded-full text-white border-2 border-orange hover:border-orange-light hover:bg-orange-light no-underline" href="{{ asset('pdf/LaKazCreole.pdf') }}" target="_blank">Télécharger la carte</a>
         </div>
       </div>
