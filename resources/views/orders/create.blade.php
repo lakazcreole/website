@@ -1,14 +1,10 @@
 @extends('layouts.app')
 
-@section('modals')
-  @parent
+@push('modals')
   <contact-modal/>
-@endsection
+@endpush
 
 @section('content')
-  <header v-sticky="{ zIndex: 1020, stickyTop: 0 }">
-    @include('partials.navbar')
-  </header>
   <section>
     <div class="relative h-32">
       <div class="absolute z-0 w-full h-full" style="background-image: url('/images/order_header.jpg'); background-size: cover; background-position: center"></div>
@@ -25,5 +21,4 @@
       <order-manager></order-manager>
     </div>
   </section>
-  @include('partials.footer')
 @endsection

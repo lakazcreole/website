@@ -18,8 +18,10 @@
 
     <body>
         <div id="app" class="bg-grey-lighter">
+            @include('partials.header')
             @yield('content')
-            @yield('modals')
+            @include('partials.footer')
+            @stack('modals')
         </div>
         <script src="{{ mix('js/app.js') }}"></script>
         @env('production')
