@@ -19,6 +19,7 @@ import PortalVue from 'portal-vue'
 import CheckView from 'vue-check-view'
 import VueModal from 'vue-js-modal'
 import VTooltip from 'v-tooltip'
+require('vue2-animate/dist/vue2-animate.min.css')
 
 const VueScrollTo = require('vue-scrollto') // eslint-disable-line no-unused-vars
 
@@ -49,6 +50,11 @@ const app = new Vue({
   },
   directives: {
     'sticky': VueSticky
+  },
+  data () {
+    return {
+      showNav: false
+    }
   },
   methods: {
     openOrder: function () {

@@ -67,6 +67,9 @@
  * @import "utilities/skew-transforms";
  */
 
+// $animationDuration: 0.5s; // specify animation duration. Default value: 1s
+// @import "<PATH_TO_SOURCE>/src/sass/vue2-animate.scss";
+
 .intro {
     @apply .relative;
     box-shadow: 2px 2px 5px #ffa500b3;
