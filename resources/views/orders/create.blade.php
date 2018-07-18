@@ -6,7 +6,8 @@
 
 @section('content')
   <section>
-    <div class="relative h-32">
+    <Shop></Shop>
+{{--     <div class="relative h-32">
       <div class="absolute z-0 w-full h-full" style="background-image: url('/images/order_header.jpg'); background-size: cover; background-position: center"></div>
       <div class="absolute z-0 bg-black opacity-25 w-full h-full"></div>
       <div class="container mx-auto relative h-full text-grey-lightest">
@@ -19,6 +20,6 @@
     </div>
     <div class="order-manager container-fluid my-5 px-0">
       <order-manager></order-manager>
-    </div>
+    </div> --}}
   </section>
 @endsection
