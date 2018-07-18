@@ -1,4 +1,4 @@
-import axios from 'axios'
+import shop from '../../api/shop'
 
 export default {
   namespaced: true,
@@ -35,24 +35,24 @@ export default {
 
   actions: {
     fetchProducts ({ commit }) {
-      axios.get('/api/products?order=true').then(response => {
-        if (response.status === 200) {
-          commit('setProducts', response.data.data)
+      shop.getProducts()
+        .then(products => {
+          commit('setProducts', products)
           commit('fetchProductsSuccess')
-        }
-      }).catch(() => {
-        commit('fetchError')
-      })
+        })
+        .catch(() => {
+          commit('fetchError')
+        })
     },
     fetchOffers ({ commit }) {
-      axios.get('/api/products/offers').then(response => {
-        if (response.status === 200) {
-          commit('setOffers', response.data.data)
+      shop.getOffers()
+        .then(offers => {
+          commit('setOffers', offers)
           commit('fetchOffersSuccess')
-        }
-      }).catch(() => {
-        commit('fetchError')
-      })
+        })
+        .catch(() => {
+          commit('fetchError')
+        })
     }
   }
 }

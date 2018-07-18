@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import axios from 'axios'
+import newsletter from '../api/newsletter'
 
 export default {
   data () {
@@ -48,19 +48,20 @@ export default {
   methods: {
     onSubmit () {
       this.waiting = true
-      axios.post('/api/subscriptions', {
-        email: this.email
-      }).then(() => {
-        this.subscribed = true
-        this.waiting = false
-      }).catch(error => {
-        this.waiting = false
-        if (error.response && error.response.status === 422) {
-          this.errors = error.response.data
-        } else {
-          this.serverError = true
-        }
-      })
+      newsletter.subscribe(this.email)
+        .then(() => {
+          this.subscribed = true
+        })
+        .catch((error) => {
+          if (error.status === 422) {
+            this.errors = error.data
+          } else {
+            this.serverError = true
+          }
+        })
+        .finally(() => {
+          this.waiting = false
+        })
     }
   }
 }
