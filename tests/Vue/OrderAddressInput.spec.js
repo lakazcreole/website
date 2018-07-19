@@ -27,12 +27,6 @@ describe('OrderAddressInput', () => {
     expect(wrapper.find('input[type="search"]').exists()).toBe(true)
   })
 
-  it('emits a submit event when enter is pressed on input', () => {
-    const wrapper = factory()
-    wrapper.find('input[type="search"]').trigger('keyup.enter')
-    expect(wrapper.emitted().submit).toBeTruthy()
-  })
-
   // it('mutates the store address on field input', () => {
   //   const address = '53 Faubourg Saint-Vincent, Orléans, Centre-Val de Loire, France'
   //   const wrapper = factory()
@@ -43,15 +37,15 @@ describe('OrderAddressInput', () => {
 
   // it('mutates the store address when input changes', () => {
   //   const value = '53 Faubourg Saint-Vincent, Orléans, Centre-Val de Loire, France'
-  //   const address = {
-  //     administrative: 'Centre-Val de Loire',
-  //     city: 'Orléans',
-  //     country: 'France',
-  //     name: '53 Faubourg Saint-Vincent',
-  //     postcode: '45000',
-  //     type: 'address',
-  //     value: value
-  //   }
+    // const address = {
+    //   administrative: 'Centre-Val de Loire',
+    //   city: 'Orléans',
+    //   country: 'France',
+    //   name: '53 Faubourg Saint-Vincent',
+    //   postcode: '45000',
+    //   type: 'address',
+    //   value: value
+    // }
   //   const wrapper = factory()
   //   const childWrapper = wrapper.find('input[type="search"]')
   //   childWrapper.element.value = value

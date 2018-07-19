@@ -1,4 +1,4 @@
-import { shallow } from '@vue/test-utils'
+import { shallowMount } from '@vue/test-utils'
 import expect from 'expect'
 
 import OrderOffer from '../../resources/assets/js/components/OrderOffer'
@@ -25,7 +25,7 @@ const offersFactory = () => {
 }
 
 const factory = (props = {}) => {
-  return shallow(OrderOffersMenu, {
+  return shallowMount(OrderOffersMenu, {
     propsData: {
       ...props
     }
