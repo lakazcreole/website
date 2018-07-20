@@ -17,7 +17,7 @@
           </div>
           <div slot="bottom">
             <div v-show="!dateTimeFilled">
-              <OrderDateTimeInput :disabled="showAddressInput" class="mb-3" @filled="$emit('filled')"/>
+              <OrderDateTimeInput :disabled="showAddressInput" class="mb-3" @filled="checkFilled"/>
               <ShopAlert/>
             </div>
             <transition enter-active-class="fadeIn" leave-active-class="">
@@ -92,15 +92,24 @@ export default {
       if (value !== null && !_.isEmpty(this.$store.state.order.address)) {
         this.showAddressInput = false
         this.showDateTimeInput = true
+        this.checkFilled()
+        this.$emit('editedAddress')
       }
     },
     editAddress () {
       this.query = this.$store.state.order.address.query
       this.showAddressInput = true
+      this.$store.commit('order/setAddress', {})
+      this.$emit('editingAddress')
     },
     editDatetime () {
       this.$store.commit('order/setDateTimeFilled', false)
       this.showDateTimeInput = true
+    },
+    checkFilled () {
+      this.$emit('filled')
+      // if (!this.showAddressInput && !this.showDateTimeInput) {
+      // }
     }
   }
 }

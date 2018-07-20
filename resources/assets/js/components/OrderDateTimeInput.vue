@@ -92,11 +92,9 @@ export default {
 
   methods: {
     checkFilled () {
-      console.log('checkFilled')
       const filled = this.date !== null && this.time !== null
       this.$store.commit('order/setDateTimeFilled', filled)
       if (filled) {
-        console.log('emitting')
         this.$emit('filled')
       }
     }
