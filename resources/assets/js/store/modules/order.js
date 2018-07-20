@@ -1,4 +1,3 @@
-
 export default {
   namespaced: true,
 
@@ -20,6 +19,9 @@ export default {
     date (state) {
       if (state.date) return state.date.toLocaleDateString('fr-FR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })
       return null
+    },
+    deliveryInputFilled (state, getters) {
+      return state.dateTimeFilled && getters.address
     }
   },
 

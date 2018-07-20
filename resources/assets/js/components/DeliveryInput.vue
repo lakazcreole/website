@@ -17,7 +17,7 @@
           </div>
           <div slot="bottom">
             <div v-show="!dateTimeFilled">
-              <OrderDateTimeInput :disabled="showAddressInput" class="mb-3"/>
+              <OrderDateTimeInput :disabled="showAddressInput" class="mb-3" @filled="$emit('filled')"/>
               <ShopAlert/>
             </div>
             <transition enter-active-class="fadeIn" leave-active-class="">
@@ -99,7 +99,7 @@ export default {
       this.showAddressInput = true
     },
     editDatetime () {
-      this.$store.commit('order/setDeliveryInputFilled', false)
+      this.$store.commit('order/setDateTimeFilled', false)
       this.showDateTimeInput = true
     }
   }

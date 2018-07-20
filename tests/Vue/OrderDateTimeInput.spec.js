@@ -48,6 +48,7 @@ describe('OrderDateTimeInput', () => {
 
   it('has a help text when store time is null', () => {
     const wrapper = factory()
+    wrapper.vm.$store.state.order.time = null
     expect(wrapper.find('select option').text()).toBe('Choisir un horaire')
   })
 
@@ -75,5 +76,12 @@ describe('OrderDateTimeInput', () => {
     hours.morning.concat(hours.evening).forEach((hour) => {
       expect(wrapper.find('select').text()).toContain(hour)
     })
+  })
+
+  it('emits a filled event when both fields are filled', () => {
+    const wrapper = factory()
+    wrapper.find(DatePicker).vm.$emit('input', new Date())
+    wrapper.find('select').findAll('option').at(1).setSelected()
+    expect(wrapper.emitted().filled).toBeTruthy()
   })
 })

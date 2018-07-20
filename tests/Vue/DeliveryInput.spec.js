@@ -86,5 +86,15 @@ describe('DeliveryInput', () => {
     expect(wrapper.text()).toContain(wrapper.vm.$store.getters['order/date'])
   })
 
+  it('emits a filled event when OrderDateTimeInput emits a filled event', () => {
+    const wrapper = mount(DeliveryInput, {
+      mocks: {
+        $store: store
+      },
+      localVue
+    })
+    wrapper.find(OrderDateTimeInput).vm.$emit('filled')
+    expect(wrapper.emitted().filled).toBeTruthy()
+  })
 })
 

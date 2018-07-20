@@ -1,11 +1,11 @@
 <template>
   <div>
-    <div class="relative" style="height: 58vh">
+    <div :style="heightStyle" class="relative shrink-transition">
       <div class="z-0 w-full h-full" style="background-image: url('/images/order_header.jpg'); background-size: cover; background-position: center"/>
       <div class="absolute pin-t z-0 bg-black opacity-25 w-full h-full"/>
     </div>
     <div class="relative font-main">
-      <div class="absolute w-full -mt-120 flex justify-center">
+      <div :class="`absolute w-full flex justify-center ${marginClass} slide-transition`">
         <div class="mx-3 sm:mx-0 max-w-xs sm:max-w-sm w-full">
           <h1 class="text-center text-grey-lightest font-title font-normal text-5xl mb-3" style="text-shadow: 2px 2px 3px black">Commande</h1>
           <DeliveryInput/>
@@ -19,6 +19,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import DeliveryInput from './DeliveryInput'
 
 export default {
@@ -29,6 +30,28 @@ export default {
   data () {
     return {
     }
+  },
+
+  computed: {
+    ...mapGetters('order', [
+      'deliveryInputFilled'
+    ]),
+    heightStyle () {
+      return this.deliveryInputFilled ? 'height: 20vh' : 'height: 58vh'
+    },
+    marginClass () {
+      return this.deliveryInputFilled ? '-mt-40' : '-mt-120'
+    }
   }
 }
 </script>
+
+<style lang="scss">
+.shrink-transition {
+  transition: height 0.8s ease;
+}
+
+.slide-transition {
+  transition: margin 0.8s ease;
+}
+</style>

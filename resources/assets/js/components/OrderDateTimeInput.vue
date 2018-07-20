@@ -70,7 +70,7 @@ export default {
       },
       set (value) {
         this.$store.commit('order/setDate', value)
-        this.$store.commit('order/setDateTimeFilled', this.date !== null && this.time !== null)
+        this.checkFilled()
       }
     },
     time: {
@@ -79,7 +79,7 @@ export default {
       },
       set (value) {
         this.$store.commit('order/setTime', value)
-        this.$store.commit('order/setDateTimeFilled', this.date !== null && this.time !== null)
+        this.checkFilled()
       }
     },
     ...mapState('order', [
@@ -87,6 +87,18 @@ export default {
     ]),
     selectClass () {
       return this.time === null ? 'text-grey-dark' : ''
+    }
+  },
+
+  methods: {
+    checkFilled () {
+      console.log('checkFilled')
+      const filled = this.date !== null && this.time !== null
+      this.$store.commit('order/setDateTimeFilled', filled)
+      if (filled) {
+        console.log('emitting')
+        this.$emit('filled')
+      }
     }
   }
 }
