@@ -28,21 +28,23 @@
                     <OrderTimeInput :disabled="showAddressInput" class="mb-3"/>
                     <ShopAlert/>
                   </div>
-                  <div v-show="deliveryTimeFilled" class="flex">
-                    <div class="w-1/2">
-                      <div class="font-semibold text-grey-darkest text-sm mb-1">Date</div>
-                      <div class="text-grey-darker text-sm">{{ orderDate }}</div>
-                    </div>
-                    <div class="w-1/2 flex">
-                      <div class="w-full">
-                        <div class="font-semibold text-grey-darkest text-sm mb-1">Heure</div>
-                        <div class="text-grey-darker text-sm">{{ orderTime }}</div>
+                  <transition name="fade">
+                    <div v-show="deliveryTimeFilled" class="flex">
+                      <div class="w-1/2">
+                        <div class="font-semibold text-grey-darkest text-sm mb-1">Date</div>
+                        <div class="text-grey-darker text-sm">{{ orderDate }}</div>
                       </div>
-                      <button title="Modifier" class="ml-auto mb-auto text-orange-lighter hover:text-orange" @click="editDatetime">
-                        <i class="material-icons text-lg">edit</i>
-                      </button>
+                      <div class="w-1/2 flex">
+                        <div class="w-full">
+                          <div class="font-semibold text-grey-darkest text-sm mb-1">Heure</div>
+                          <div class="text-grey-darker text-sm">{{ orderTime }}</div>
+                        </div>
+                        <button title="Modifier" class="ml-auto mb-auto text-orange-lighter hover:text-orange" @click="editDatetime">
+                          <i class="material-icons text-lg">edit</i>
+                        </button>
+                      </div>
                     </div>
-                  </div>
+                  </transition>
                 </div>
               </div>
             </transition>
