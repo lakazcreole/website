@@ -1,3 +1,10 @@
 {
-    "/bundle.js": "/bundle.js"
+    "/js/app.js": "/js/app.js",
+    "/css/app.css": "/css/app.css",
+    "/css/dashboard.css": "/css/dashboard.css",
+    "/css/new.css": "/css/new.css",
+    "/js/dashboard.js": "/js/dashboard.js",
+    "/0.ca0ac0e57d0feaef7a5e.hot-update.js": "/0.ca0ac0e57d0feaef7a5e.hot-update.js",
+    "/0.c574feabb4644ede63de.hot-update.js": "/0.c574feabb4644ede63de.hot-update.js",
+    "/0.e4e0a5b5f7ce6a5ce327.hot-update.js": "/0.e4e0a5b5f7ce6a5ce327.hot-update.js"
 }

@@ -107,9 +107,9 @@ export default {
       this.showDateTimeInput = true
     },
     checkFilled () {
-      this.$emit('filled')
-      // if (!this.showAddressInput && !this.showDateTimeInput) {
-      // }
+      if (this.orderAddress && this.dateTimeFilled) {
+        this.$emit('filled')
+      }
     }
   }
 }
