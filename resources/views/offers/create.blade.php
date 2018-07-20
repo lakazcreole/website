@@ -40,11 +40,11 @@
       <div class="form-row">
         <div class="form-group col-md-6">
           <label for="begin_date">Date de début</label>
-          <Datepicker name="begin_date" language="fr" format="dd/MM/yyyy" :monday-first="true" :bootstrap-styling="true" id="begin_date" placeholder="Choisir une date" value="{{ old('begin_date') }}"/>
+          <Datepicker name="begin_date" format="dd/MM/yyyy" :monday-first="true" :bootstrap-styling="true" id="begin_date" placeholder="Choisir une date" value="{{ old('begin_date') }}"/>
         </div>
         <div class="form-group col-md-6">
           <label for="end_date">Date de fin</label>
-          <Datepicker name="end_date" language="fr" format="dd/MM/yyyy" :monday-first="true" :bootstrap-styling="true" id="end_date" placeholder="Choisir une date" value="{{ old('end_date') }}"/>
+          <Datepicker name="end_date" format="dd/MM/yyyy" :monday-first="true" :bootstrap-styling="true" id="end_date" placeholder="Choisir une date" value="{{ old('end_date') }}"/>
         </div>
       </div>
       <div class="form-group">
