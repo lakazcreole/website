@@ -2,7 +2,7 @@ import Vuex from 'vuex'
 import { shallowMount, mount, createLocalVue } from '@vue/test-utils'
 import expect from 'expect'
 
-import OrderTimeInput from '../../resources/assets/js/components/OrderTimeInput'
+import OrderDateTimeInput from '../../resources/assets/js/components/OrderDateTimeInput'
 import DatePicker from 'vuejs-datepicker'
 import store from '../../resources/assets/js/store'
 
@@ -10,7 +10,7 @@ const localVue = createLocalVue()
 localVue.use(Vuex)
 
 const factory = (props = {}) => {
-  return shallowMount(OrderTimeInput, {
+  return shallowMount(OrderDateTimeInput, {
     mocks: {
       $store: store
     },
@@ -21,7 +21,7 @@ const factory = (props = {}) => {
   })
 }
 
-describe('OrderTimeInput', () => {
+describe('OrderDateTimeInput', () => {
 
   it('has a date picker component', () => {
     const wrapper = factory()

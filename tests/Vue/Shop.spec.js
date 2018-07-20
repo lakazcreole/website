@@ -4,7 +4,7 @@ import expect from 'expect'
 
 import Shop from '../../resources/assets/js/components/Shop'
 import OrderAddressInput from '../../resources/assets/js/components/OrderAddressInput'
-import OrderTimeInput from '../../resources/assets/js/components/OrderTimeInput'
+import OrderDateTimeInput from '../../resources/assets/js/components/OrderDateTimeInput'
 import store from '../../resources/assets/js/store'
 
 const localVue = createLocalVue()
@@ -29,12 +29,12 @@ describe('Shop', () => {
     expect(wrapper.find(OrderAddressInput).isVisible()).toBe(true)
   })
 
-  it('initially hides the OrderTimeInput', () => {
+  it('initially hides the OrderDateTimeInput', () => {
     const wrapper = factory()
-    expect(wrapper.find(OrderTimeInput).isVisible()).toBe(false)
+    expect(wrapper.find(OrderDateTimeInput).isVisible()).toBe(false)
   })
 
-  it('hides OrderAddressInput and shows OrderTimeInput when address is defined', () => {
+  it('hides OrderAddressInput and shows OrderDateTimeInput when address is defined', () => {
     const wrapper = factory()
     wrapper.vm.$store.state.order.address = {
       administrative: 'Centre-Val de Loire',
@@ -47,6 +47,6 @@ describe('Shop', () => {
     }
     wrapper.find(OrderAddressInput).vm.$emit('change')
     expect(wrapper.find(OrderAddressInput).isVisible()).toBe(false)
-    // expect(wrapper.find(OrderTimeInput).isVisible()).toBe(true)
+    // expect(wrapper.find(OrderDateTimeInput).isVisible()).toBe(true)
   })
 })

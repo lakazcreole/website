@@ -1,9 +1,9 @@
-import { shallow } from '@vue/test-utils'
+import { shallowMount } from '@vue/test-utils'
 import CartItem from '../../resources/assets/js/components/CartItem.vue'
 import expect from 'expect'
 
 const factory = (props = {}) => {
-  return shallow(CartItem, {
+  return shallowMount(CartItem, {
     propsData: {
       id: 1,
       name: 'Test',

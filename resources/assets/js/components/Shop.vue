@@ -11,9 +11,9 @@
           <div v-show="showAddressInput">
             <OrderAddressInput v-model="query" @change="value => addressUpdated(value)"/>
           </div>
-          <div :class="showDatetimeInput ? '' : 'overflow-hidden'">
+          <div :class="showDateTimeInput ? '' : 'overflow-hidden'">
             <transition name="fade" enter-active-class="fadeInDown" leave-active-class="fadeOutUp">
-              <div v-show="showDatetimeInput">
+              <div v-show="showDateTimeInput">
                 <div v-show="!showAddressInput" class="bg-white px-4 pt-4 pb-3 shadow-lg rounded-t-lg z-10 flex">
                   <div class="w-full">
                     <div class="font-semibold text-grey-darkest text-sm mb-1">Adresse</div>
@@ -25,7 +25,7 @@
                 </div>
                 <div :class="`bg-white px-4 pb-4 shadow-lg rounded-b-lg z-20 ${bottomClass} slide-transition`">
                   <div v-show="!deliveryTimeFilled">
-                    <OrderTimeInput :disabled="showAddressInput" class="mb-3"/>
+                    <OrderDateTimeInput :disabled="showAddressInput" class="mb-3"/>
                     <ShopAlert/>
                   </div>
                   <transition name="fade">
@@ -60,7 +60,7 @@
 
 <script>
 import OrderAddressInput from './OrderAddressInput'
-import OrderTimeInput from './OrderTimeInput'
+import OrderDateTimeInput from './OrderDateTimeInput'
 import ShopAlert from './ShopAlert'
 import { mapState, mapGetters } from 'vuex'
 import _ from 'lodash'
@@ -68,7 +68,7 @@ import _ from 'lodash'
 export default {
   components: {
     OrderAddressInput,
-    OrderTimeInput,
+    OrderDateTimeInput,
     ShopAlert
   },
 
@@ -76,7 +76,7 @@ export default {
     return {
       query: '',
       showAddressInput: true,
-      showDatetimeInput: false
+      showDateTimeInput: false
     }
   },
 
@@ -98,7 +98,7 @@ export default {
     addressUpdated (value) {
       if (value !== null && !_.isEmpty(this.$store.state.order.address)) {
         this.showAddressInput = false
-        this.showDatetimeInput = true
+        this.showDateTimeInput = true
       }
     },
     editAddress () {
@@ -107,7 +107,7 @@ export default {
     },
     editDatetime () {
       this.$store.commit('order/setDeliveryTimeFilled', false)
-      this.showDatetimeInput = true
+      this.showDateTimeInput = true
     }
   }
 }
