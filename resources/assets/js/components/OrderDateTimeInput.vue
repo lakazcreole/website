@@ -70,7 +70,7 @@ export default {
       },
       set (value) {
         this.$store.commit('order/setDate', value)
-        this.$store.commit('order/setDeliveryTimeFilled', this.date !== null && this.time !== null)
+        this.$store.commit('order/setDateTimeFilled', this.date !== null && this.time !== null)
       }
     },
     time: {
@@ -79,7 +79,7 @@ export default {
       },
       set (value) {
         this.$store.commit('order/setTime', value)
-        this.$store.commit('order/setDeliveryTimeFilled', this.date !== null && this.time !== null)
+        this.$store.commit('order/setDateTimeFilled', this.date !== null && this.time !== null)
       }
     },
     ...mapState('order', [

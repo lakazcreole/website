@@ -5,6 +5,7 @@ import expect from 'expect'
 import DeliveryInput from '../../resources/assets/js/components/DeliveryInput'
 import OrderAddressInput from '../../resources/assets/js/components/OrderAddressInput'
 import OrderDateTimeInput from '../../resources/assets/js/components/OrderDateTimeInput'
+import SplittableCard from '../../resources/assets/js/components/SplittableCard'
 import store from '../../resources/assets/js/store'
 
 const localVue = createLocalVue()
@@ -29,13 +30,18 @@ describe('DeliveryInput', () => {
     expect(wrapper.find(OrderAddressInput).isVisible()).toBe(true)
   })
 
-  it('initially hides the OrderDateTimeInput', () => {
+  it('initially hides the SplittableCard', () => {
     const wrapper = factory()
-    expect(wrapper.find(OrderDateTimeInput).isVisible()).toBe(false)
+    expect(wrapper.find(SplittableCard).isVisible()).toBe(false)
   })
 
   it('hides OrderAddressInput and shows OrderDateTimeInput when address is defined', () => {
-    const wrapper = factory()
+    const wrapper = mount(DeliveryInput, {
+      mocks: {
+        $store: store
+      },
+      localVue
+    })
     wrapper.vm.$store.state.order.address = {
       administrative: 'Centre-Val de Loire',
       city: 'Orléans',
@@ -48,6 +54,36 @@ describe('DeliveryInput', () => {
     wrapper.find(OrderAddressInput).vm.$emit('change')
     expect(wrapper.find(OrderAddressInput).isVisible()).toBe(false)
     expect(wrapper.find(OrderDateTimeInput).isVisible()).toBe(true)
+  })
+
+  it('displays the address when OrderAddressInput is hidden', () => {
+    const wrapper = mount(DeliveryInput, {
+      mocks: {
+        $store: store
+      },
+      localVue
+    })
+    wrapper.vm.$store.state.order.address = {
+      value: '53 Faubourg Saint-Vincent, Orléans, Centre-Val de Loire, France'
+    }
+    wrapper.find(OrderAddressInput).vm.$emit('change')
+    expect(wrapper.find(OrderAddressInput).isVisible()).toBe(false)
+    expect(wrapper.text()).toContain(wrapper.vm.$store.state.order.address.value)
+  })
+
+  it('displays the date and time when OrderDateTimeInput is hidden', () => {
+    const wrapper = mount(DeliveryInput, {
+      mocks: {
+        $store: store
+      },
+      localVue
+    })
+    wrapper.vm.$store.state.order.date = new Date()
+    wrapper.vm.$store.state.order.time = '06:01'
+    wrapper.vm.$store.state.order.dateTimeFilled = true
+    expect(wrapper.find(OrderDateTimeInput).isVisible()).toBe(false)
+    expect(wrapper.text()).toContain(wrapper.vm.$store.state.order.time)
+    expect(wrapper.text()).toContain(wrapper.vm.$store.getters['order/date'])
   })
 
 })

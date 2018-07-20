@@ -10,7 +10,7 @@ export default {
       evening: ['19:45', '20:00', '20:15', '20:30', '20:45', '21:00']
     },
     address: {},
-    deliveryTimeFilled: false
+    dateTimeFilled: false
   },
 
   getters: {
@@ -33,17 +33,11 @@ export default {
     setAddress (state, address) {
       state.address = address
     },
-    setDeliveryTimeFilled (state, filled) {
-      state.deliveryTimeFilled = filled
+    setDateTimeFilled (state, filled) {
+      state.dateTimeFilled = filled
     }
   },
 
   actions: {
-    updateDeliveryTimeFilled ({ commit, state }) {
-      if (state.date !== null && state.time !== null) {
-      } else {
-        commit('set')
-      }
-    }
   }
 }

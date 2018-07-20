@@ -1,9 +1,9 @@
 <template>
   <div>
-    <div :class="`top bg-white px-4 pt-4 pb-3 shadow-lg rounded-t-lg ${topClass} z-10 flex`">
+    <div v-show="!split" :class="`top bg-white px-4 pt-4 pb-3 shadow-lg rounded-t-lg ${topClass}`">
       <slot name="top"/>
     </div>
-    <div :class="`bottom bg-white px-4 pb-4 shadow-lg rounded-b-lg z-20 ${bottomClass} ${splitClass} slide-transition`">
+    <div :class="`bottom bg-white px-4 pb-4 shadow-lg rounded-b-lg ${bottomClass} ${splitClass} split-transition`">
       <slot name="bottom"/>
     </div>
   </div>
@@ -35,7 +35,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.slide-transition {
+.split-transition {
   transition: padding 0.8s ease,
               opacity 0.25s ease,
               height 0.8s ease;
