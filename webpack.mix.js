@@ -18,8 +18,11 @@ mix
    .sass('resources/assets/sass/app.scss', 'public/css')
    .sass('resources/assets/sass/dashboard.scss', 'public/css')
    .sass('resources/assets/sass/new.scss', 'public/css')
+   // Necessary because processCssUrls is false
+   .copy('resources/assets/images', 'public/images', true)
+   .copy('resources/assets/images/icons', 'public/images/icons', true)
    .options({
-      processCssUrls: false,
+      processCssUrls: false, // necessary to enable tailwindcss because of unresolved issue in laravel-mix
       // purifyCss: true,
       postCss: [ tailwindcss('./tailwind.js') ],
     });

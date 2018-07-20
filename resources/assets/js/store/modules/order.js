@@ -1,3 +1,4 @@
+
 export default {
   namespaced: true,
 
@@ -12,7 +13,16 @@ export default {
   },
 
   getters: {
-
+    address (state) {
+      return state.address.value
+    },
+    date (state) {
+      if (state.date) return state.date.toLocaleDateString('fr-FR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })
+      return null
+    },
+    deliveryTimeFilled (state) {
+      return state.date !== null && state.time !== null
+    }
   },
 
   mutations: {

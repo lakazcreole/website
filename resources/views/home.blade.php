@@ -5,14 +5,14 @@
 @endpush
 
 @section('content')
-  <section class="h-120 relative">
+  <section class="h-120 relative font-main">
     <div class="absolute h-full w-full" style="background-image: url('/images/header.jpg'); background-size: cover;"></div>
     <div class="bg-black opacity-25 absolute h-full w-full"></div>
     <div class="container mx-auto relative h-full flex">
       <div class="m-auto">
         <div class="text-center mb-10">
-          <h1 class="font-title text-grey-lightest text-5xl md:text-6xl font-normal leading-tight mb-2" style="text-shadow: 2px 2px 3px black">Commander réunionnais en quelques clics</h1>
-          <p class="text-grey-lightest text-lg md:text-xl leading-tight" style="text-shadow: 2px 2px 3px black">Gastronomie réunionnaise disponible en traiteur et livraison à Paris.</p>
+          <h1 class="font-title text-grey-lightest text-5xl md:text-6xl font-normal leading-tight mb-2 mx-3" style="text-shadow: 2px 2px 3px black">Commander réunionnais en quelques clics</h1>
+          <p class="text-grey-lightest text-lg md:text-xl leading-tight mx-3" style="text-shadow: 2px 2px 3px black">Gastronomie réunionnaise disponible en traiteur et livraison à Paris.</p>
         </div>
         <div class="flex flex-wrap justify-center items-baseline text-center">
           <a class="mb-3 sm:mb-0 mx-4 px-3 py-3 w-50 rounded-full text-white border-2 border-orange hover:border-orange-light bg-orange hover:bg-orange-light no-underline" href="{{ route('order') }}">Commander</a>
@@ -21,7 +21,7 @@
       </div>
     </div>
   </section>
-  <section class="my-10">
+  <section class="my-10 font-main">
     <div class="container mx-auto">
       <div class="flex flex-col sm:flex-row flex-wrap justify-center mx-3">
         <div class="mb-5 sm:mb-0 flex w-full sm:w-1/4 lg:w-1/5">

@@ -1,4 +1,4 @@
-<header class="sticky pin-t z-10">
+<header class="sticky pin-t z-10 font-main">
   <div style="-webkit-box-shadow: 0 2px 3px #ab5c0c; box-shadow: 0 2px 3px #ab5c0c">
     {{-- <div class="banner">
     <div class="container d-flex align-items-baseline">

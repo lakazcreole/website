@@ -2,11 +2,10 @@
   <input
     ref="input"
     :value="value"
+    :class="className"
     type="search"
     placeholder="Entrez votre adresse"
-    class="inline-block w-full p-2 rounded border-0"
     @input="updateValue($event.target.value)"
-    @keyup.enter="submit"
   >
 </template>
 
@@ -24,12 +23,22 @@ export default {
     value: {
       type: String,
       default: ''
+    },
+    inputClass: {
+      type: String,
+      default: null
     }
   },
 
   data () {
     return {
       placesAutocomplete: null
+    }
+  },
+
+  computed: {
+    className () {
+      return this.inputClass || 'inline-block w-full p-4 rounded border-0'
     }
   },
 
@@ -44,7 +53,7 @@ export default {
     })
 
     this.placesAutocomplete.on('clear', () => {
-      this.$emit('change', {})
+      this.$emit('change', null)
       this.updateValue(null)
     })
   },
@@ -56,9 +65,6 @@ export default {
   methods: {
     updateValue (value) {
       this.$emit('input', value)
-    },
-    submit () {
-      this.$emit('submit')
     }
   }
 }
