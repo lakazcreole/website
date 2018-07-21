@@ -35,13 +35,15 @@ describe('DeliveryInput', () => {
     expect(wrapper.find(SplittableCard).isVisible()).toBe(false)
   })
 
-  it('hides AddressInput and shows DateTimeInput when address is defined', () => {
+  it('hides AddressInput and shows DateTimeInput when only address is defined', () => {
     const wrapper = mount(DeliveryInput, {
       mocks: {
         $store: store
       },
       localVue
     })
+    wrapper.vm.$store.state.order.date = null
+    wrapper.vm.$store.state.order.time = null
     wrapper.vm.$store.state.order.address = {
       administrative: 'Centre-Val de Loire',
       city: 'Orléans',
