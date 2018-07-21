@@ -26,7 +26,7 @@
             <li class="inline mx-4">
               <contact-button/>
             </li>
-            <li class="inline mx-4">
+            <li class="inline mr-3">
               <a class="inline-block px-5 py-3 rounded-full text-white border-2 border-orange hover:border-orange-light bg-orange hover:bg-orange-light no-underline" href="{{ route('order') }}">Commander</a>
             </li>
           </ul>

@@ -5879,16 +5879,20 @@ table {
   height: 20vh;
 }
 
-.h-28vh {
-  height: 28vh;
+.h-24vh {
+  height: 24vh;
 }
 
 .h-34vh {
   height: 34vh;
 }
 
-.h-43vh {
-  height: 43vh;
+.h-42vh {
+  height: 42vh;
+}
+
+.h-52vh {
+  height: 52vh;
 }
 
 .h-53vh {
@@ -5901,14 +5905,6 @@ table {
 
 .h-67vh {
   height: 67vh;
-}
-
-.h-70vh {
-  height: 70vh;
-}
-
-.h-80vh {
-  height: 80vh;
 }
 
 .h-82vh {
@@ -5985,6 +5981,10 @@ table {
 
 .m-32 {
   margin: 8rem;
+}
+
+.m-36 {
+  margin: 9rem;
 }
 
 .m-auto {
@@ -6133,6 +6133,16 @@ table {
 .mx-32 {
   margin-left: 8rem;
   margin-right: 8rem;
+}
+
+.my-36 {
+  margin-top: 9rem;
+  margin-bottom: 9rem;
+}
+
+.mx-36 {
+  margin-left: 9rem;
+  margin-right: 9rem;
 }
 
 .my-auto {
@@ -6377,6 +6387,22 @@ table {
 
 .ml-32 {
   margin-left: 8rem;
+}
+
+.mt-36 {
+  margin-top: 9rem;
+}
+
+.mr-36 {
+  margin-right: 9rem;
+}
+
+.mb-36 {
+  margin-bottom: 9rem;
+}
+
+.ml-36 {
+  margin-left: 9rem;
 }
 
 .mt-auto {
@@ -11982,16 +12008,20 @@ table {
     height: 20vh;
   }
 
-  .sm\:h-28vh {
-    height: 28vh;
+  .sm\:h-24vh {
+    height: 24vh;
   }
 
   .sm\:h-34vh {
     height: 34vh;
   }
 
-  .sm\:h-43vh {
-    height: 43vh;
+  .sm\:h-42vh {
+    height: 42vh;
+  }
+
+  .sm\:h-52vh {
+    height: 52vh;
   }
 
   .sm\:h-53vh {
@@ -12004,14 +12034,6 @@ table {
 
   .sm\:h-67vh {
     height: 67vh;
-  }
-
-  .sm\:h-70vh {
-    height: 70vh;
-  }
-
-  .sm\:h-80vh {
-    height: 80vh;
   }
 
   .sm\:h-82vh {
@@ -12088,6 +12110,10 @@ table {
 
   .sm\:m-32 {
     margin: 8rem;
+  }
+
+  .sm\:m-36 {
+    margin: 9rem;
   }
 
   .sm\:m-auto {
@@ -12236,6 +12262,16 @@ table {
   .sm\:mx-32 {
     margin-left: 8rem;
     margin-right: 8rem;
+  }
+
+  .sm\:my-36 {
+    margin-top: 9rem;
+    margin-bottom: 9rem;
+  }
+
+  .sm\:mx-36 {
+    margin-left: 9rem;
+    margin-right: 9rem;
   }
 
   .sm\:my-auto {
@@ -12480,6 +12516,22 @@ table {
 
   .sm\:ml-32 {
     margin-left: 8rem;
+  }
+
+  .sm\:mt-36 {
+    margin-top: 9rem;
+  }
+
+  .sm\:mr-36 {
+    margin-right: 9rem;
+  }
+
+  .sm\:mb-36 {
+    margin-bottom: 9rem;
+  }
+
+  .sm\:ml-36 {
+    margin-left: 9rem;
   }
 
   .sm\:mt-auto {
@@ -18004,16 +18056,20 @@ table {
     height: 20vh;
   }
 
-  .md\:h-28vh {
-    height: 28vh;
+  .md\:h-24vh {
+    height: 24vh;
   }
 
   .md\:h-34vh {
     height: 34vh;
   }
 
-  .md\:h-43vh {
-    height: 43vh;
+  .md\:h-42vh {
+    height: 42vh;
+  }
+
+  .md\:h-52vh {
+    height: 52vh;
   }
 
   .md\:h-53vh {
@@ -18026,14 +18082,6 @@ table {
 
   .md\:h-67vh {
     height: 67vh;
-  }
-
-  .md\:h-70vh {
-    height: 70vh;
-  }
-
-  .md\:h-80vh {
-    height: 80vh;
   }
 
   .md\:h-82vh {
@@ -18110,6 +18158,10 @@ table {
 
   .md\:m-32 {
     margin: 8rem;
+  }
+
+  .md\:m-36 {
+    margin: 9rem;
   }
 
   .md\:m-auto {
@@ -18258,6 +18310,16 @@ table {
   .md\:mx-32 {
     margin-left: 8rem;
     margin-right: 8rem;
+  }
+
+  .md\:my-36 {
+    margin-top: 9rem;
+    margin-bottom: 9rem;
+  }
+
+  .md\:mx-36 {
+    margin-left: 9rem;
+    margin-right: 9rem;
   }
 
   .md\:my-auto {
@@ -18502,6 +18564,22 @@ table {
 
   .md\:ml-32 {
     margin-left: 8rem;
+  }
+
+  .md\:mt-36 {
+    margin-top: 9rem;
+  }
+
+  .md\:mr-36 {
+    margin-right: 9rem;
+  }
+
+  .md\:mb-36 {
+    margin-bottom: 9rem;
+  }
+
+  .md\:ml-36 {
+    margin-left: 9rem;
   }
 
   .md\:mt-auto {
@@ -24026,16 +24104,20 @@ table {
     height: 20vh;
   }
 
-  .lg\:h-28vh {
-    height: 28vh;
+  .lg\:h-24vh {
+    height: 24vh;
   }
 
   .lg\:h-34vh {
     height: 34vh;
   }
 
-  .lg\:h-43vh {
-    height: 43vh;
+  .lg\:h-42vh {
+    height: 42vh;
+  }
+
+  .lg\:h-52vh {
+    height: 52vh;
   }
 
   .lg\:h-53vh {
@@ -24048,14 +24130,6 @@ table {
 
   .lg\:h-67vh {
     height: 67vh;
-  }
-
-  .lg\:h-70vh {
-    height: 70vh;
-  }
-
-  .lg\:h-80vh {
-    height: 80vh;
   }
 
   .lg\:h-82vh {
@@ -24132,6 +24206,10 @@ table {
 
   .lg\:m-32 {
     margin: 8rem;
+  }
+
+  .lg\:m-36 {
+    margin: 9rem;
   }
 
   .lg\:m-auto {
@@ -24280,6 +24358,16 @@ table {
   .lg\:mx-32 {
     margin-left: 8rem;
     margin-right: 8rem;
+  }
+
+  .lg\:my-36 {
+    margin-top: 9rem;
+    margin-bottom: 9rem;
+  }
+
+  .lg\:mx-36 {
+    margin-left: 9rem;
+    margin-right: 9rem;
   }
 
   .lg\:my-auto {
@@ -24524,6 +24612,22 @@ table {
 
   .lg\:ml-32 {
     margin-left: 8rem;
+  }
+
+  .lg\:mt-36 {
+    margin-top: 9rem;
+  }
+
+  .lg\:mr-36 {
+    margin-right: 9rem;
+  }
+
+  .lg\:mb-36 {
+    margin-bottom: 9rem;
+  }
+
+  .lg\:ml-36 {
+    margin-left: 9rem;
   }
 
   .lg\:mt-auto {
@@ -30048,16 +30152,20 @@ table {
     height: 20vh;
   }
 
-  .xl\:h-28vh {
-    height: 28vh;
+  .xl\:h-24vh {
+    height: 24vh;
   }
 
   .xl\:h-34vh {
     height: 34vh;
   }
 
-  .xl\:h-43vh {
-    height: 43vh;
+  .xl\:h-42vh {
+    height: 42vh;
+  }
+
+  .xl\:h-52vh {
+    height: 52vh;
   }
 
   .xl\:h-53vh {
@@ -30070,14 +30178,6 @@ table {
 
   .xl\:h-67vh {
     height: 67vh;
-  }
-
-  .xl\:h-70vh {
-    height: 70vh;
-  }
-
-  .xl\:h-80vh {
-    height: 80vh;
   }
 
   .xl\:h-82vh {
@@ -30154,6 +30254,10 @@ table {
 
   .xl\:m-32 {
     margin: 8rem;
+  }
+
+  .xl\:m-36 {
+    margin: 9rem;
   }
 
   .xl\:m-auto {
@@ -30302,6 +30406,16 @@ table {
   .xl\:mx-32 {
     margin-left: 8rem;
     margin-right: 8rem;
+  }
+
+  .xl\:my-36 {
+    margin-top: 9rem;
+    margin-bottom: 9rem;
+  }
+
+  .xl\:mx-36 {
+    margin-left: 9rem;
+    margin-right: 9rem;
   }
 
   .xl\:my-auto {
@@ -30546,6 +30660,22 @@ table {
 
   .xl\:ml-32 {
     margin-left: 8rem;
+  }
+
+  .xl\:mt-36 {
+    margin-top: 9rem;
+  }
+
+  .xl\:mr-36 {
+    margin-right: 9rem;
+  }
+
+  .xl\:mb-36 {
+    margin-bottom: 9rem;
+  }
+
+  .xl\:ml-36 {
+    margin-left: 9rem;
   }
 
   .xl\:mt-auto {

@@ -14,7 +14,7 @@ window.Vue = require('vue')
  * My imports
  */
 
-import VueSticky from 'vue-sticky'
+// import VueSticky from 'vue-sticky'
 import PortalVue from 'portal-vue'
 import CheckView from 'vue-check-view'
 import VueModal from 'vue-js-modal'
@@ -50,7 +50,7 @@ const app = new Vue({
     'order-manager': require('./components/OrderManager.vue').default
   },
   directives: {
-    'sticky': VueSticky
+    // 'sticky': VueSticky
   },
   data () {
     return {
