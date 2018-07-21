@@ -7,7 +7,7 @@ export default {
         // editing datetime
         if (!this.deliveryInputFilled) return 'h-82vh sm:h-67vh lg:h-43vh'
         // not editing
-        return 'h-34vh lg:h-20vh'
+        return 'h-34vh lg:h-28vh'
       }
       // Values when menu is not shown
       return this.deliveryInputFilled ? 'h-20vh' : 'h-82vh lg:h-67vh xl:h-58vh' // sm:h-70vh
