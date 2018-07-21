@@ -22,7 +22,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import DeliveryInput from './DeliveryInput'
+import DeliveryInput from '../components/shop/DeliveryInput'
 import orderClass from '../mixins/orderClass'
 
 export default {

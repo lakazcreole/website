@@ -24,7 +24,7 @@ const VueScrollTo = require('vue-scrollto') // eslint-disable-line no-unused-var
 
 import ContactButton from './components/ContactButton'
 import ContactModal from './components/ContactModal'
-import Shop from './components/Shop'
+import Shop from './views/Shop'
 import store from './store'
 
 /**
