@@ -11,9 +11,11 @@
           <DeliveryInput @filled="inputFilled" @editingAddress="editingAddress = showMenu" @editedAddress="editingAddress = false"/>
         </div>
       </div>
-      <div class="h-64">
-        Yo
-      </div>
+      <transition name="slide" enter-active-class="slideInUp" leave-active-class="slideOutDown">
+        <div v-show="showMenu" class="py-20">
+          Yo
+        </div>
+      </transition>
     </div>
   </div>
 </template>
