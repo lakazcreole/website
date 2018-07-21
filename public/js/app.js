@@ -62335,31 +62335,37 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 
   computed: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["b" /* mapGetters */])('order', ['deliveryInputFilled']), {
-    heightStyle: function heightStyle() {
+    heightClass: function heightClass() {
       if (this.showMenu) {
         // editing address
-        if (this.editingAddress) return 'height: 34vh';
+        if (this.editingAddress) return 'h-53vh lg:h-34vh';
         // editing datetime
-        if (!this.deliveryInputFilled) return 'height: 22vh';
+        if (!this.deliveryInputFilled) return 'h-82vh sm:h-67vh lg:h-43vh';
         // not editing
-        return 'height: 20vh';
+        return 'h-34vh md:h-28vh lg:h-20vh';
       }
       // Values when menu is not shown
-      return this.deliveryInputFilled ? 'height: 20vh' : 'height: 58vh';
+      return this.deliveryInputFilled ? 'h-20vh' : 'h-82vh lg:h-67vh xl:h-58vh'; // sm:h-70vh
     },
     marginClass: function marginClass() {
       if (this.showMenu) {
         // editing address
         if (this.editingAddress) return '-mt-68';
         // editing datetime
-        if (!this.deliveryInputFilled) return '-mt-92';
+        if (!this.deliveryInputFilled) return '-mt-108 sm:-mt-88 lg:-mt-92';
         // not editing
         return '-mt-40';
       }
       // Values when menu is not shown
-      return this.deliveryInputFilled ? '-mt-40' : '-mt-120';
+      return this.deliveryInputFilled ? '-mt-40' : '-mt-112 sm:-mt-108 lg:-mt-104 xl:-mt-120';
     }
-  })
+  }),
+
+  methods: {
+    inputFilled: function inputFilled() {
+      this.showMenu = true;
+    }
+  }
 });
 
 /***/ }),
@@ -62482,9 +62488,9 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
       this.showDateTimeInput = true;
     },
     checkFilled: function checkFilled() {
-      this.$emit('filled');
-      // if (!this.showAddressInput && !this.showDateTimeInput) {
-      // }
+      if (this.orderAddress && this.dateTimeFilled) {
+        this.$emit('filled');
+      }
     }
   }
 });
@@ -82538,24 +82544,20 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
-    _c(
-      "div",
-      { staticClass: "relative shrink-transition", style: _vm.heightStyle },
-      [
-        _c("div", {
-          staticClass: "z-0 w-full h-full",
-          staticStyle: {
-            "background-image": "url('/images/order_header.jpg')",
-            "background-size": "cover",
-            "background-position": "center"
-          }
-        }),
-        _vm._v(" "),
-        _c("div", {
-          staticClass: "absolute pin-t z-0 bg-black opacity-25 w-full h-full"
-        })
-      ]
-    ),
+    _c("div", { class: "relative shrink-transition " + _vm.heightClass }, [
+      _c("div", {
+        staticClass: "z-0 w-full h-full",
+        staticStyle: {
+          "background-image": "url('/images/order_header.jpg')",
+          "background-size": "cover",
+          "background-position": "center"
+        }
+      }),
+      _vm._v(" "),
+      _c("div", {
+        staticClass: "absolute pin-t z-0 bg-black opacity-25 w-full h-full"
+      })
+    ]),
     _vm._v(" "),
     _c("div", { staticClass: "relative font-main" }, [
       _c(
@@ -82583,9 +82585,7 @@ var render = function() {
               _vm._v(" "),
               _c("DeliveryInput", {
                 on: {
-                  filled: function($event) {
-                    _vm.showMenu = true
-                  },
+                  filled: _vm.inputFilled,
                   editingAddress: function($event) {
                     _vm.editingAddress = _vm.showMenu
                   },
@@ -82598,9 +82598,7 @@ var render = function() {
             1
           )
         ]
-      ),
-      _vm._v(" "),
-      _c("div", { staticClass: "h-64" }, [_vm._v("\n      Yo\n    ")])
+      )
     ])
   ])
 }

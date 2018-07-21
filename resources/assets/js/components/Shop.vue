@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div :style="heightStyle" class="relative shrink-transition">
+    <div :class="`relative shrink-transition ${heightClass}`">
       <div class="z-0 w-full h-full" style="background-image: url('/images/order_header.jpg'); background-size: cover; background-position: center"/>
       <div class="absolute pin-t z-0 bg-black opacity-25 w-full h-full"/>
     </div>
@@ -38,29 +38,29 @@ export default {
     ...mapGetters('order', [
       'deliveryInputFilled'
     ]),
-    heightStyle () {
+    heightClass () {
       if (this.showMenu) {
         // editing address
-        if (this.editingAddress) return 'height: 34vh'
+        if (this.editingAddress) return 'h-53vh lg:h-34vh'
         // editing datetime
-        if (!this.deliveryInputFilled) return 'height: 43vh'
+        if (!this.deliveryInputFilled) return 'h-82vh sm:h-67vh lg:h-43vh'
         // not editing
-        return 'height: 20vh'
+        return 'h-34vh lg:h-20vh'
       }
       // Values when menu is not shown
-      return this.deliveryInputFilled ? 'height: 20vh' : 'height: 58vh'
+      return this.deliveryInputFilled ? 'h-20vh' : 'h-82vh lg:h-67vh xl:h-58vh' // sm:h-70vh
     },
     marginClass () {
       if (this.showMenu) {
         // editing address
         if (this.editingAddress) return '-mt-68'
         // editing datetime
-        if (!this.deliveryInputFilled) return '-mt-92'
+        if (!this.deliveryInputFilled) return '-mt-108 sm:-mt-88 lg:-mt-92'
         // not editing
         return '-mt-40'
       }
       // Values when menu is not shown
-      return this.deliveryInputFilled ? '-mt-40' : '-mt-120'
+      return this.deliveryInputFilled ? '-mt-40' : '-mt-112 sm:-mt-108 lg:-mt-104 xl:-mt-120'
     }
   },
 
