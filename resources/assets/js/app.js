@@ -18,7 +18,6 @@ window.Vue = require('vue')
 import PortalVue from 'portal-vue'
 import CheckView from 'vue-check-view'
 import VueModal from 'vue-js-modal'
-import VTooltip from 'v-tooltip'
 
 const VueScrollTo = require('vue-scrollto') // eslint-disable-line no-unused-vars
 
@@ -36,7 +35,6 @@ import store from './store'
 Vue.use(PortalVue) // eslint-disable-line no-undef
 Vue.use(CheckView) // eslint-disable-line no-undef
 Vue.use(VueModal, { componentName: 'vue-modal' }) // eslint-disable-line no-undef
-Vue.use(VTooltip) // eslint-disable-line no-undef
 
 // eslint-disable-next-line no-unused-vars, no-undef
 const app = new Vue({
@@ -48,9 +46,6 @@ const app = new Vue({
     Shop,
     'newsletter-form': require('./components/NewsletterForm.vue').default,
     'order-manager': require('./components/OrderManager.vue').default
-  },
-  directives: {
-    // 'sticky': VueSticky
   },
   data () {
     return {

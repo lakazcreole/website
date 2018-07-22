@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div :class="`sticky pin-t shrink-transition ${headerHeightClass} shadow-md`">
+    <div :class="`z-40 sticky pin-t shrink-transition ${headerHeightClass} shadow-md`">
       <div class="z-0 w-full h-full" style="background-image: url('/images/order_header.jpg'); background-size: cover; background-position: center"/>
       <div class="absolute pin-t z-0 bg-black opacity-25 w-full h-full"/>
       <!-- Delivery input modal -->
