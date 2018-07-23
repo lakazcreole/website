@@ -5,7 +5,7 @@
       :content="productDescription"
       class="absolute pin-r m-3 bg-grey-lightest text-black w-6 h-6 py-1 rounded-full text-center text-sm font-semibold italic z-10"
     />
-    <img :src="imgSrc" :alt="productName" class="h-32 sm:h-full">
+    <img :src="imgSrc" :alt="productName" class="h-64 sm:h-full">
     <div class="absolute bg-black opacity-25 group-hover:opacity-75 h-full w-full z-0 opacity-transition"/>
     <div class="absolute p-3 h-full w-full flex">
       <div class="mt-auto text-grey-lightest">

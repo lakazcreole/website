@@ -9,7 +9,7 @@
         "prod": "npm run production",
         "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
         "lint": "eslint --ext .js,.vue resources/assets/js",
-        "test": "cross-env NODE_ENV=testing mocha-webpack --webpack-config node_modules/laravel-mix/setup/webpack.config.js --require tests/Vue/setup.js tests/Vue/**/*.spec.js",
+        "test": "cross-env NODE_ENV=testing mocha-webpack --webpack-config node_modules/laravel-mix/setup/webpack.config.js --require tests/Vue/setup.js 'tests/Vue/**/*.spec.js'",
         "watch-test": "npm run test -- --watch"
     },
     "pre-commit": [
