@@ -30,7 +30,12 @@
             <optgroup label="{{ $productType['title'] }}">
               @foreach($products as $product)
                 @if($product->type == $productType['type'])
-                  <option value="{{ $product->id }}">{{ $product->name }}</option>
+                  <option value="{{ $product->id }}">
+                    {{ $product->name }}
+                    @if($product->disabled)
+                      &nbsp;- Désactivé
+                    @endif
+                  </option>
                 @endif
               @endforeach
             </optgroup>
