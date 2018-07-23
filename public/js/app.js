@@ -1273,10 +1273,10 @@ function applyToTag (styleElement, obj) {
 "use strict";
 /* unused harmony export Store */
 /* unused harmony export install */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return mapState; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return mapState; });
 /* unused harmony export mapMutations */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return mapGetters; });
-/* unused harmony export mapActions */
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return mapGetters; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return mapActions; });
 /* unused harmony export createNamespacedHelpers */
 /**
  * vuex v3.0.1
@@ -62353,7 +62353,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
   },
 
 
-  computed: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["b" /* mapGetters */])('order', ['deliveryInputFilled']), {
+  computed: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["c" /* mapGetters */])('order', ['deliveryInputFilled']), {
     headerHeightClass: function headerHeightClass() {
       if (this.showMenu) {
         // editing datetime
@@ -62469,10 +62469,10 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
   },
 
 
-  computed: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["c" /* mapState */])('order', {
+  computed: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["d" /* mapState */])('order', {
     orderTime: 'time',
     dateTimeFilled: 'dateTimeFilled'
-  }), Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["b" /* mapGetters */])({
+  }), Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["c" /* mapGetters */])({
     orderAddress: 'order/address',
     orderDate: 'order/date'
   }), {
@@ -64120,7 +64120,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
         this.checkFilled();
       }
     }
-  }, Object(__WEBPACK_IMPORTED_MODULE_2_vuex__["c" /* mapState */])('order', ['deliveryHours']), {
+  }, Object(__WEBPACK_IMPORTED_MODULE_2_vuex__["d" /* mapState */])('order', ['deliveryHours']), {
     selectClass: function selectClass() {
       return this.time === null ? 'text-grey-dark' : '';
     }
@@ -64173,24 +64173,14 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
     OffersListItem: __WEBPACK_IMPORTED_MODULE_1__OffersListItem__["a" /* default */]
   },
 
-  computed: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["c" /* mapState */])('products', {
+  computed: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["d" /* mapState */])('products', {
     offers: 'offers',
     loaded: 'loadedOffers'
   })),
 
-  methods: {
-    // ...mapActions('cart', {
-    //   add: 'addProduct'
-    // })
-    add: function add(product) {
-      var _this = this;
-
-      this.$store.dispatch('cart/addProduct', product).then(function () {
-        console.log('done');
-        console.log(_this.$store.state.cart.items);
-      });
-    }
-  }
+  methods: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["b" /* mapActions */])('cart', {
+    add: 'addProduct'
+  }))
 });
 
 /***/ }),
@@ -64563,13 +64553,13 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
   },
 
 
-  computed: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_2_vuex__["c" /* mapState */])('products', {
+  computed: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_2_vuex__["d" /* mapState */])('products', {
     products: 'all',
     productOffers: 'offers',
     loadedProducts: 'loadedProducts',
     loadedOffers: 'loadedOffers',
     error: 'error'
-  }), Object(__WEBPACK_IMPORTED_MODULE_2_vuex__["b" /* mapGetters */])('cart', {
+  }), Object(__WEBPACK_IMPORTED_MODULE_2_vuex__["c" /* mapGetters */])('cart', {
     orderLines: 'items'
   }), {
     readableDate: function readableDate() {
@@ -82899,44 +82889,46 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "container mx-auto" }, [
-    _c(
-      "h2",
-      {
-        staticClass:
-          "mx-3 mb-5 uppercase font-semibold text-grey text-base tracking-normal"
-      },
-      [_vm._v("Offres du moment")]
-    ),
-    _vm._v(" "),
-    _c(
-      "div",
-      { staticClass: "flex flex-wrap justify-around" },
-      _vm._l(_vm.offers, function(offer, index) {
-        return _c(
+  return _vm.loaded && _vm.offers.length
+    ? _c("div", { staticClass: "container mx-auto" }, [
+        _c(
+          "h2",
+          {
+            staticClass:
+              "mx-3 mb-5 uppercase font-semibold text-grey text-base tracking-normal"
+          },
+          [_vm._v("Offres du moment")]
+        ),
+        _vm._v(" "),
+        _c(
           "div",
-          { key: index, class: "sm:w-1/2 md:w-1/3 mb-3 md:mb-0 px-3" },
-          [
-            _c("OffersListItem", {
-              attrs: {
-                "product-id": offer.product.id,
-                "product-name": offer.product.name,
-                "product-price": Number(offer.product.price),
-                "product-description": offer.product.description,
-                "img-src": offer.imageUrl
-              },
-              on: {
-                add: function($event) {
-                  _vm.add(offer.product)
-                }
-              }
-            })
-          ],
-          1
+          { staticClass: "flex flex-wrap justify-around" },
+          _vm._l(_vm.offers, function(offer, index) {
+            return _c(
+              "div",
+              { key: index, class: "sm:w-1/2 md:w-1/3 mb-3 md:mb-0 px-3" },
+              [
+                _c("OffersListItem", {
+                  attrs: {
+                    "product-id": offer.product.id,
+                    "product-name": offer.product.name,
+                    "product-price": Number(offer.product.price),
+                    "product-description": offer.product.description,
+                    "img-src": offer.imageUrl
+                  },
+                  on: {
+                    add: function($event) {
+                      _vm.add(offer.product)
+                    }
+                  }
+                })
+              ],
+              1
+            )
+          })
         )
-      })
-    )
-  ])
+      ])
+    : _vm._e()
 }
 var staticRenderFns = []
 render._withStripped = true
