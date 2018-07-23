@@ -1,5 +1,5 @@
 <template>
-  <div class="container mx-auto">
+  <div v-if="loaded && offers.length" class="container mx-auto">
     <h2 class="mx-3 mb-5 uppercase font-semibold text-grey text-base tracking-normal">Offres du moment</h2>
     <div class="flex flex-wrap justify-around">
       <div v-for="(offer, index) in offers" :class="`sm:w-1/2 md:w-1/3 mb-3 md:mb-0 px-3`" :key="index">
@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 import OffersListItem from './OffersListItem'
 
 export default {
@@ -32,14 +32,10 @@ export default {
     })
   },
 
-  mounted () {
-    this.$store.dispatch('products/fetchOffers')
-  },
-
   methods: {
-    add (product) {
-      this.$store.dispatch('cart/addProduct', product)
-    }
+    ...mapActions('cart', {
+      add: 'addProduct'
+    })
   }
 }
 </script>

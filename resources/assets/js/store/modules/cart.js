@@ -7,13 +7,13 @@ export default {
 
   getters: {
     items (state, getters, rootState) {
-      return state.items.map(({ id, quantity }) => {
-        const product = rootState.products.all.find(product => product.id === id)
+      return state.items.map((item) => {
+        const product = rootState.products.all.find(product => product.id === item.id)
         return {
           id: product.id,
           name: product.name,
           price: product.price,
-          quantity
+          quantity: item.quantity
         }
       })
     }
@@ -39,7 +39,7 @@ export default {
     addProduct ({ state, commit }, product) {
       const cartItem = state.items.find(item => item.id === product.id)
       if (!cartItem) {
-        commit('addItem', { id: product.id })
+        commit('addItem', product)
       } else {
         commit('incrementItemQuantity', cartItem)
       }

@@ -208,7 +208,7 @@ export default {
   methods: {
     addOrderLine (product, side = null) {
       this.$store.dispatch('cart/addProduct', product)
-      if (side) this.$store.dispatch('cart/addProduct', product)
+      if (side) this.$store.dispatch('cart/addProduct', side)
     },
     removeOrderLine (productId) {
       this.$store.dispatch('cart/removeProduct', productId)

@@ -68,6 +68,11 @@ export default {
     }
   },
 
+  mounted () {
+    this.$store.dispatch('products/fetchProducts')
+    this.$store.dispatch('products/fetchOffers')
+  },
+
   methods: {
     inputFilled () {
       this.showMenu = true

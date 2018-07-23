@@ -47,6 +47,7 @@ describe('OffersList', () => {
   it('displays all the products', () => {
     const wrapper = factory()
     wrapper.vm.$store.state.products.offers = offersFactory()
+    wrapper.vm.$store.state.products.loadedOffers = true
     expect(wrapper.findAll(OffersListItem).length).toBe(wrapper.vm.$store.state.products.offers.length)
   })
 
@@ -56,6 +57,7 @@ describe('OffersList', () => {
     })
     const childWrapper = wrapper.find(OffersListItem)
     wrapper.vm.$store.state.cart.items = []
+    wrapper.vm.$store.state.products.loadedOffers = true
     childWrapper.vm.$emit('add')
     expect(wrapper.vm.$store.state.cart.items.filter((item) => item.id === childWrapper.props().productId)).not.toEqual([])
   })
