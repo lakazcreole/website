@@ -122,7 +122,7 @@ import { mapState, mapGetters } from 'vuex'
 import Modal from './Modal'
 // import OrderOffersMenu from './OrderOffersMenu'
 import OrderMenu from './OrderMenu'
-import Cart from './Cart'
+// import Cart from './Cart'
 import CartButton from './CartButton'
 import DeliveryForm from './DeliveryForm'
 import DeliveryTimeForm from './DeliveryTimeForm'
@@ -133,7 +133,7 @@ export default {
     Modal,
     OrderMenu,
     // OrderOffersMenu,
-    Cart,
+    // Cart,
     CartButton,
     DeliveryForm,
     DeliveryTimeForm,

@@ -30,6 +30,7 @@ class Product extends Model
      */
     protected $casts = [
         'disabled' => 'boolean',
+        'price' => 'float',
     ];
 
     public function isStarter()
