@@ -23,6 +23,7 @@ const VueScrollTo = require('vue-scrollto') // eslint-disable-line no-unused-var
 
 import ContactButton from './components/ContactButton'
 import ContactModal from './components/ContactModal'
+import OrderButton from './components/OrderButton'
 import Shop from './views/Shop'
 import store from './store'
 
@@ -43,6 +44,7 @@ const app = new Vue({
   components: {
     ContactButton,
     ContactModal,
+    OrderButton,
     Shop,
     'newsletter-form': require('./components/NewsletterForm.vue').default,
     'order-manager': require('./components/OrderManager.vue').default

@@ -72,11 +72,9 @@ export default {
 
   computed: {
     ...mapGetters('cart', [
-      'items'
+      'items',
+      'totalPrice'
     ]),
-    totalPrice () {
-      return this.items.reduce((accumulator, item) => accumulator + item.quantity * item.price, 0)
-    },
     deliveryPrice () {
       if (this.totalPrice === 0 || this.totalPrice >= 15) return 0
       else if (this.totalPrice <= 13) return 2

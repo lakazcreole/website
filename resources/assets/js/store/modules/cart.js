@@ -16,6 +16,9 @@ export default {
           quantity: item.quantity
         }
       })
+    },
+    totalPrice (state, getters) {
+      return getters.items.reduce((accumulator, item) => accumulator + item.quantity * item.price, 0)
     }
   },
 

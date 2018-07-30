@@ -16,14 +16,14 @@
     </div>
     <transition name="slide" enter-active-class="slideInUp" leave-active-class="slideOutDown">
       <div v-show="showMenu" class="container mx-auto py-20 md:py-16 flex">
-        <div class="w-2/3">
+        <div class="w-full sm:w-2/3">
           <OffersList/>
           <div class="h-64">Things</div>
           <div class="h-64">Things</div>
           <div class="h-64">Things</div>
           <div class="h-64">Things</div>
         </div>
-        <div class="w-1/3">
+        <div class="hidden sm:block w-1/3">
           <Cart :editable="editingCart" class="sticky" style="top: 250px" />
         </div>
       </div>
