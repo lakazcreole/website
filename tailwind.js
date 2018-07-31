@@ -475,6 +475,7 @@ module.exports = {
   */
 
   width: {
+    '0': '0',
     'auto': 'auto',
     'px': '1px',
     '1': '0.25rem',
@@ -525,6 +526,7 @@ module.exports = {
   */
 
   height: {
+    '0': '0',
     'auto': 'auto',
     'px': '1px',
     '1': '0.25rem',

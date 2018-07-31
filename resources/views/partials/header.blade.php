@@ -26,23 +26,6 @@
           </ul>
         </div>
       </div>
-{{--       <div class="absolute w-full overflow-hidden">
-        <transition name="slide" enter-active-class="slideInDown" leave-active-class="slideOutUp">
-          <ul v-show="showNav" class="p-3 bg-grey-lightest list-reset">
-            @if(Request::is('/'))
-              <li class="mb-4">
-                <a class="text-grey-dark no-underline" href="#" @click.prevent="scrollToMenu">La carte</a>
-              </li>
-            @endif
-            <li class="mb-4">
-              <contact-button/>
-            </li>
-            <li class="">
-              <a class="text-grey-dark no-underline" href="{{ route('order') }}">Commander</a>
-            </li>
-          </ul>
-        </transition>
-      </div> --}}
     </nav>
   </div>
 </header>

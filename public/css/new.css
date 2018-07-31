@@ -6114,6 +6114,10 @@ table {
   font-weight: 900;
 }
 
+.h-0 {
+  height: 0;
+}
+
 .h-1 {
   height: .25rem;
 }
@@ -9481,6 +9485,10 @@ table {
   white-space: nowrap;
 }
 
+.w-0 {
+  width: 0;
+}
+
 .w-1 {
   width: .25rem;
 }
@@ -12471,6 +12479,10 @@ table {
 
   .sm\:focus\:font-black:focus {
     font-weight: 900;
+  }
+
+  .sm\:h-0 {
+    height: 0;
   }
 
   .sm\:h-1 {
@@ -15824,6 +15836,10 @@ table {
     white-space: nowrap;
   }
 
+  .sm\:w-0 {
+    width: 0;
+  }
+
   .sm\:w-1 {
     width: .25rem;
   }
@@ -18749,6 +18765,10 @@ table {
 
   .md\:focus\:font-black:focus {
     font-weight: 900;
+  }
+
+  .md\:h-0 {
+    height: 0;
   }
 
   .md\:h-1 {
@@ -22102,6 +22122,10 @@ table {
     white-space: nowrap;
   }
 
+  .md\:w-0 {
+    width: 0;
+  }
+
   .md\:w-1 {
     width: .25rem;
   }
@@ -25027,6 +25051,10 @@ table {
 
   .lg\:focus\:font-black:focus {
     font-weight: 900;
+  }
+
+  .lg\:h-0 {
+    height: 0;
   }
 
   .lg\:h-1 {
@@ -28380,6 +28408,10 @@ table {
     white-space: nowrap;
   }
 
+  .lg\:w-0 {
+    width: 0;
+  }
+
   .lg\:w-1 {
     width: .25rem;
   }
@@ -31305,6 +31337,10 @@ table {
 
   .xl\:focus\:font-black:focus {
     font-weight: 900;
+  }
+
+  .xl\:h-0 {
+    height: 0;
   }
 
   .xl\:h-1 {
@@ -34656,6 +34692,10 @@ table {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+  }
+
+  .xl\:w-0 {
+    width: 0;
   }
 
   .xl\:w-1 {

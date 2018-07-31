@@ -9,7 +9,8 @@ export default {
       evening: ['19:45', '20:00', '20:15', '20:30', '20:45', '21:00']
     },
     address: {},
-    dateTimeFilled: false
+    dateTimeFilled: false,
+    showMobileCart: false
   },
 
   getters: {
@@ -37,9 +38,15 @@ export default {
     },
     setDateTimeFilled (state, filled) {
       state.dateTimeFilled = filled
+    },
+    setShowMobileCart (state, show) {
+      state.showMobileCart = show
     }
   },
 
   actions: {
+    toggleMobileCart ({ state, commit }) {
+      commit('setShowMobileCart', !state.showMobileCart)
+    }
   }
 }

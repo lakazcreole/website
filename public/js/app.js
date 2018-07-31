@@ -62320,12 +62320,25 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
     }
   },
 
-  computed: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["c" /* mapGetters */])('cart', ['items']), {
+  computed: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["c" /* mapGetters */])('cart', ['items', 'totalPrice']), Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["d" /* mapState */])('order', {
+    canToggle: 'dateTimeFilled'
+  }), {
+    totalInFrench: function totalInFrench() {
+      return this.totalPrice.toFixed(2).toString().replace('.', ',');
+    },
     linkClass: function linkClass() {
-      if (this.items.length) return 'hidden sm:inline-block';
-      return 'inline-block';
+      if (!this.order) return 'inline-block';
+      return 'hidden sm:inline-block';
     }
-  })
+  }),
+
+  methods: {
+    onClick: function onClick() {
+      if (this.canToggle) {
+        this.$store.dispatch('order/toggleMobileCart');
+      }
+    }
+  }
 });
 
 /***/ }),
@@ -62341,6 +62354,15 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__components_shop_Cart__ = __webpack_require__(179);
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -62402,7 +62424,13 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
   },
 
 
-  computed: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["c" /* mapGetters */])('order', ['deliveryInputFilled']), {
+  computed: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["d" /* mapState */])('order', ['showMobileCart']), Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["c" /* mapGetters */])('order', ['deliveryInputFilled']), {
+    contentWidthClass: function contentWidthClass() {
+      return this.showMobileCart ? 'h-0' : 'h-full';
+    },
+    drawerWidthClass: function drawerWidthClass() {
+      return this.showMobileCart ? 'h-full' : 'h-0';
+    },
     headerHeightClass: function headerHeightClass() {
       if (this.showMenu) {
         // editing datetime
@@ -64415,12 +64443,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
     }
   },
 
-  computed: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["c" /* mapGetters */])('cart', ['items']), {
-    totalPrice: function totalPrice() {
-      return this.items.reduce(function (accumulator, item) {
-        return accumulator + item.quantity * item.price;
-      }, 0);
-    },
+  computed: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["c" /* mapGetters */])('cart', ['items', 'totalPrice']), {
     deliveryPrice: function deliveryPrice() {
       if (this.totalPrice === 0 || this.totalPrice >= 15) return 0;else if (this.totalPrice <= 13) return 2;else return 15 - this.totalPrice;
     },
@@ -68046,24 +68069,32 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "inline-flex" }, [
-    !_vm.order
-      ? _c(
-          "a",
-          {
-            staticClass:
-              "inline-block text-grey-lightest no-underline px-5 py-3 rounded-full border-2 border-orange hover:border-orange-light bg-orange hover:bg-orange-light",
-            attrs: { href: _vm.url }
-          },
-          [_vm._v("Commander")]
-        )
-      : _vm._e(),
+    _c(
+      "a",
+      {
+        class:
+          _vm.linkClass +
+          " text-grey-lightest no-underline px-3 py-2 sm:px-5 sm:py-3 rounded-full border-2 border-orange hover:border-orange-light bg-orange hover:bg-orange-light",
+        attrs: { href: _vm.url }
+      },
+      [_vm._v("Commander")]
+    ),
     _vm._v(" "),
     _vm.order
-      ? _c("button", { staticClass: "inline-flex sm:hidden" }, [
-          _c("i", { staticClass: "material-icons text-orange" }, [
-            _vm._v("shopping_cart")
-          ])
-        ])
+      ? _c(
+          "button",
+          {
+            staticClass:
+              "inline-flex sm:hidden rounded-lg border-2 border-orange px-4 py-2 items-center text-orange-light",
+            on: { click: _vm.onClick }
+          },
+          [
+            _vm._v("\n    " + _vm._s(_vm.totalInFrench) + " € "),
+            _c("i", { staticClass: "material-icons text-orange ml-3" }, [
+              _vm._v("shopping_cart")
+            ])
+          ]
+        )
       : _vm._e()
   ])
 }
@@ -68171,7 +68202,7 @@ exports = module.exports = __webpack_require__(9)(false);
 
 
 // module
-exports.push([module.i, "\n.shrink-transition {\n  -webkit-transition: height .8s ease;\n  transition: height .8s ease;\n}\n.slide-transition {\n  -webkit-transition: margin .8s ease;\n  transition: margin .8s ease;\n}\n", ""]);
+exports.push([module.i, "\n.shrink-transition {\n  -webkit-transition: height .8s ease, width .8s ease;\n  transition: height .8s ease, width .8s ease;\n}\n.slide-transition {\n  -webkit-transition: margin .8s ease;\n  transition: margin .8s ease;\n}\n", ""]);
 
 // exports
 
@@ -83496,76 +83527,15 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
+    {},
     [
-      _c(
-        "div",
-        {
-          class:
-            "z-40 sticky pin-t shrink-transition " +
-            _vm.headerHeightClass +
-            " shadow-md"
-        },
-        [
-          _c("div", {
-            staticClass: "z-0 w-full h-full",
-            staticStyle: {
-              "background-image": "url('/images/order_header.jpg')",
-              "background-size": "cover",
-              "background-position": "center"
-            }
-          }),
-          _vm._v(" "),
-          _c("div", {
-            staticClass: "absolute pin-t z-0 bg-black opacity-25 w-full h-full"
-          }),
-          _vm._v(" "),
-          _c(
-            "div",
-            { staticClass: "absolute pin-t mt-10 w-full flex justify-center" },
-            [
-              _c(
-                "div",
-                {
-                  staticClass:
-                    "mx-3 sm:mx-0 max-w-xs sm:max-w-sm w-full font-main"
-                },
-                [
-                  _c(
-                    "h1",
-                    {
-                      staticClass:
-                        "text-center text-grey-lightest font-title font-normal text-5xl mb-3",
-                      staticStyle: { "text-shadow": "2px 2px 3px black" }
-                    },
-                    [_vm._v("Commande")]
-                  ),
-                  _vm._v(" "),
-                  _c("DeliveryInput", {
-                    on: {
-                      filled: _vm.inputFilled,
-                      editingAddress: function($event) {
-                        _vm.editingAddress = _vm.showMenu
-                      },
-                      editedAddress: function($event) {
-                        _vm.editingAddress = false
-                      }
-                    }
-                  })
-                ],
-                1
-              )
-            ]
-          )
-        ]
-      ),
-      _vm._v(" "),
       _c(
         "transition",
         {
           attrs: {
-            name: "slide",
-            "enter-active-class": "slideInUp",
-            "leave-active-class": "slideOutDown"
+            "enter-active-class": "fadeInRight",
+            "leave-active-class": "fadeOutRight",
+            duration: "800"
           }
         },
         [
@@ -83576,43 +83546,177 @@ var render = function() {
                 {
                   name: "show",
                   rawName: "v-show",
-                  value: _vm.showMenu,
-                  expression: "showMenu"
+                  value: _vm.showMobileCart,
+                  expression: "showMobileCart"
                 }
               ],
-              staticClass: "container mx-auto py-20 md:py-16 flex"
+              class:
+                "shrink-transition overflow-hidden " +
+                _vm.drawerWidthClass +
+                " bg-black text-white"
+            },
+            [_vm._v("\n      Cartzzzz\n    ")]
+          )
+        ]
+      ),
+      _vm._v(" "),
+      _c(
+        "transition",
+        {
+          attrs: {
+            "enter-active-class": "fadeInLeft",
+            "leave-active-class": "fadeOutLeft",
+            duration: "800"
+          }
+        },
+        [
+          _c(
+            "div",
+            {
+              directives: [
+                {
+                  name: "show",
+                  rawName: "v-show",
+                  value: !_vm.showMobileCart,
+                  expression: "!showMobileCart"
+                }
+              ],
+              class: "shrink-transition " + _vm.contentWidthClass
             },
             [
               _c(
                 "div",
-                { staticClass: "w-full sm:w-2/3" },
+                {
+                  class:
+                    "z-30 sticky pin-t shrink-transition " +
+                    _vm.headerHeightClass +
+                    " shadow-md"
+                },
                 [
-                  _c("OffersList"),
+                  _c("div", {
+                    staticClass: "z-0 w-full h-full",
+                    staticStyle: {
+                      "background-image": "url('/images/order_header.jpg')",
+                      "background-size": "cover",
+                      "background-position": "center"
+                    }
+                  }),
                   _vm._v(" "),
-                  _c("div", { staticClass: "h-64" }, [_vm._v("Things")]),
+                  _c("div", {
+                    staticClass:
+                      "absolute pin-t z-0 bg-black opacity-25 w-full h-full"
+                  }),
                   _vm._v(" "),
-                  _c("div", { staticClass: "h-64" }, [_vm._v("Things")]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "h-64" }, [_vm._v("Things")]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "h-64" }, [_vm._v("Things")])
-                ],
-                1
+                  _c(
+                    "div",
+                    {
+                      staticClass:
+                        "absolute pin-t mt-10 w-full flex justify-center"
+                    },
+                    [
+                      _c(
+                        "div",
+                        {
+                          staticClass:
+                            "mx-3 sm:mx-0 max-w-xs sm:max-w-sm w-full font-main"
+                        },
+                        [
+                          _c(
+                            "h1",
+                            {
+                              staticClass:
+                                "text-center text-grey-lightest font-title font-normal text-5xl mb-3",
+                              staticStyle: {
+                                "text-shadow": "2px 2px 3px black"
+                              }
+                            },
+                            [_vm._v("Commande")]
+                          ),
+                          _vm._v(" "),
+                          _c("DeliveryInput", {
+                            on: {
+                              filled: _vm.inputFilled,
+                              editingAddress: function($event) {
+                                _vm.editingAddress = _vm.showMenu
+                              },
+                              editedAddress: function($event) {
+                                _vm.editingAddress = false
+                              }
+                            }
+                          })
+                        ],
+                        1
+                      )
+                    ]
+                  )
+                ]
               ),
               _vm._v(" "),
               _c(
-                "div",
-                { staticClass: "hidden sm:block w-1/3" },
+                "transition",
+                {
+                  attrs: {
+                    name: "slide",
+                    "enter-active-class": "slideInUp",
+                    "leave-active-class": "slideOutDown"
+                  }
+                },
                 [
-                  _c("Cart", {
-                    staticClass: "sticky",
-                    staticStyle: { top: "250px" },
-                    attrs: { editable: _vm.editingCart }
-                  })
-                ],
-                1
+                  _c(
+                    "div",
+                    {
+                      directives: [
+                        {
+                          name: "show",
+                          rawName: "v-show",
+                          value: _vm.showMenu,
+                          expression: "showMenu"
+                        }
+                      ],
+                      staticClass: "container mx-auto py-20 md:py-16 flex"
+                    },
+                    [
+                      _c(
+                        "div",
+                        { staticClass: "w-full sm:w-2/3" },
+                        [
+                          _c("OffersList"),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "h-64" }, [
+                            _vm._v("Things")
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "h-64" }, [
+                            _vm._v("Things")
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "h-64" }, [
+                            _vm._v("Things")
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "h-64" }, [_vm._v("Things")])
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        { staticClass: "hidden sm:block w-1/3" },
+                        [
+                          _c("Cart", {
+                            staticClass: "sticky",
+                            staticStyle: { top: "250px" },
+                            attrs: { editable: _vm.editingCart }
+                          })
+                        ],
+                        1
+                      )
+                    ]
+                  )
+                ]
               )
-            ]
+            ],
+            1
           )
         ]
       )
@@ -83791,6 +83895,11 @@ module.exports = __webpack_require__(69).polyfill();
           quantity: item.quantity
         };
       });
+    },
+    totalPrice: function totalPrice(state, getters) {
+      return getters.items.reduce(function (accumulator, item) {
+        return accumulator + item.quantity * item.price;
+      }, 0);
     }
   },
 
@@ -83858,7 +83967,8 @@ module.exports = __webpack_require__(69).polyfill();
       evening: ['19:45', '20:00', '20:15', '20:30', '20:45', '21:00']
     },
     address: {},
-    dateTimeFilled: false
+    dateTimeFilled: false,
+    showMobileCart: false
   },
 
   getters: {
@@ -83886,10 +83996,20 @@ module.exports = __webpack_require__(69).polyfill();
     },
     setDateTimeFilled: function setDateTimeFilled(state, filled) {
       state.dateTimeFilled = filled;
+    },
+    setShowMobileCart: function setShowMobileCart(state, show) {
+      state.showMobileCart = show;
     }
   },
 
-  actions: {}
+  actions: {
+    toggleMobileCart: function toggleMobileCart(_ref) {
+      var state = _ref.state,
+          commit = _ref.commit;
+
+      commit('setShowMobileCart', !state.showMobileCart);
+    }
+  }
 });
 
 /***/ }),

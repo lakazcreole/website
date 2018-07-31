@@ -9,7 +9,7 @@
     <div class="absolute bg-black opacity-25 group-hover:opacity-75 h-full w-full z-0 opacity-transition"/>
     <div class="absolute p-3 h-full w-full flex">
       <div class="mt-auto text-grey-lightest">
-        <div class="text-2xl mb-2">{{ productName }}</div>
+        <div class="text-xl xl:text-2xl mb-2">{{ productName }}</div>
         <div class="ml-auto my-auto">{{ productPriceInFrench }} €</div>
       </div>
     </div>
