@@ -16,8 +16,8 @@ window.Vue = require('vue')
 
 // import VueSticky from 'vue-sticky'
 import PortalVue from 'portal-vue'
-import CheckView from 'vue-check-view'
 import VueModal from 'vue-js-modal'
+import VueScrollactive from 'vue-scrollactive'
 
 const VueScrollTo = require('vue-scrollto') // eslint-disable-line no-unused-vars
 
@@ -34,8 +34,8 @@ import store from './store'
  */
 
 Vue.use(PortalVue) // eslint-disable-line no-undef
-Vue.use(CheckView) // eslint-disable-line no-undef
 Vue.use(VueModal, { componentName: 'vue-modal' }) // eslint-disable-line no-undef
+Vue.use(VueScrollactive) // eslint-disable-line no-undef
 
 // eslint-disable-next-line no-unused-vars, no-undef
 const app = new Vue({

@@ -8436,10 +8436,6 @@ vm-browserify@0.0.4:
   dependencies:
     indexof "0.0.1"
 
-vue-check-view@^0.2.3:
-  version "0.2.3"
-  resolved "https://registry.yarnpkg.com/vue-check-view/-/vue-check-view-0.2.3.tgz#0bb8175908eee6e0975c63de71cfc445d251d97a"
-
 vue-drawer-layout@^0.3.1:
   version "0.3.1"
   resolved "https://registry.yarnpkg.com/vue-drawer-layout/-/vue-drawer-layout-0.3.1.tgz#c585f0e29892fafc0549de676ae88bde047a1d43"
@@ -8502,6 +8498,12 @@ vue-loader@^14.2.2:
 vue-resize@^0.4.3:
   version "0.4.4"
   resolved "https://registry.yarnpkg.com/vue-resize/-/vue-resize-0.4.4.tgz#dee9b8dd1b189e7e3f6ec47f86c60694a241bb17"
+
+vue-scrollactive@^0.6.1:
+  version "0.6.1"
+  resolved "https://registry.yarnpkg.com/vue-scrollactive/-/vue-scrollactive-0.6.1.tgz#2091bf25364ad37f32dfee2d9ead47d2005d3f28"
+  dependencies:
+    bezier-easing "^2.0.3"
 
 vue-scrollto@^2.8.0:
   version "2.11.0"

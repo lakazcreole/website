@@ -8,7 +8,7 @@ export default {
   getters: {
     items (state, getters, rootState) {
       return state.items.map((item) => {
-        const product = rootState.products.all.find(product => product.id === item.id)
+        const product = rootState.products.all.find(p => p.id === item.id)
         return {
           id: product.id,
           name: product.name,

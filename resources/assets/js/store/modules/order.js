@@ -31,7 +31,7 @@ export default {
     setDeliveryDays (state) {
       for (let i = 0; i < 7; i++) {
         const day = new Date()
-        day.setDate(day.getDate() + (i+1))
+        day.setDate(day.getDate() + (i + 1))
         state.deliveryDays[i] = {
           string: i === 0 ? 'Demain' : day.toLocaleDateString('fr-FR', { weekday: 'long', month: 'long', day: 'numeric' }).replace(/^\w/, c => c.toUpperCase()),
           value: day

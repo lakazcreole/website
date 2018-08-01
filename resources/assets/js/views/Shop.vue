@@ -25,10 +25,16 @@
           <div v-show="showMenu" class="container mx-auto py-20 md:py-16 flex">
             <div class="w-full sm:w-2/3">
               <OffersList/>
-              <div class="h-64">Things</div>
-              <div class="h-64">Things</div>
-              <div class="h-64">Things</div>
-              <div class="h-64">Things</div>
+              <div class="flex mx-3 mt-8">
+                <div class="hidden sm:block w-1/3">
+                  <div class="sticky" style="top: 250px">
+                    <ProductsListNav/>
+                  </div>
+                </div>
+                <div class="w-full sm:w-2/3">
+                  <ProductsList/>
+                </div>
+              </div>
             </div>
             <div class="hidden sm:block w-1/3">
               <Cart :editable="editingCart" class="sticky" style="top: 250px" />
@@ -45,12 +51,16 @@ import { mapState, mapGetters } from 'vuex'
 import VueSticky from 'vue-sticky'
 
 import DeliveryInput from '../components/shop/DeliveryInput'
+import ProductsList from '../components/shop/ProductsList'
+import ProductsListNav from '../components/shop/ProductsListNav'
 import OffersList from '../components/shop/OffersList'
 import Cart from '../components/shop/Cart'
 
 export default {
   components: {
     DeliveryInput,
+    ProductsList,
+    ProductsListNav,
     OffersList,
     Cart
   },
@@ -97,6 +107,8 @@ export default {
   mounted () {
     this.$store.dispatch('products/fetchProducts')
     this.$store.dispatch('products/fetchOffers')
+    this.$store.dispatch('products/fetchTypes')
+    this.$store.dispatch('order/fetchDeliveryDays')
   },
 
   methods: {
@@ -110,7 +122,7 @@ export default {
 <style lang="scss">
 .shrink-transition {
   transition: height 0.8s ease,
-              width 0.8s ease
+              width 0.8s ease,
               padding 0.8s ease;
 }
 

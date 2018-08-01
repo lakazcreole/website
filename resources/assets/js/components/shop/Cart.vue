@@ -48,7 +48,7 @@
         </div>
       </div>
     </div>
-    <div v-show="items.length > 0 && !minimumReached" class="minimum-warning text-red-light text-sm mx-3 p-4 mb-3">
+    <div v-show="items.length > 0 && !minimumReached" class="minimum-warning text-center text-red-light text-sm mx-3 p-4 mb-3">
       Minimum de commande (8 €) non atteint.
     </div>
   </div>

@@ -7,7 +7,7 @@
       <div class="font-semibold">
         {{ name }}
       </div>
-      <div class="ml-auto text-orange-light text-sm price">
+      <div class="ml-auto text-orange-light text-sm price flex-no-shrink">
         <div v-if="price">{{ totalPriceInFrench }} €</div>
         <div v-else>Offert</div>
       </div>
