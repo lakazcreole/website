@@ -23,45 +23,46 @@ const factory = (props = {}) => {
 
 describe('DateTimeInput', () => {
 
-  it('has a date picker component', () => {
+  it('has a select for date delivery', () => {
     const wrapper = factory()
-    expect(wrapper.find(DatePicker).exists()).toBe(true)
+    expect(wrapper.find('select.date').exists()).toBe(true)
   })
 
   it('defaults to the store date value', () => {
     const wrapper = factory()
-    expect(wrapper.find(DatePicker).props().value).toBe(wrapper.vm.$store.state.order.date)
+    wrapper.vm.$store.commit('order/setDeliveryDays')
+    wrapper.vm.$store.commit('order/setDate', wrapper.vm.$store.state.order.deliveryDays[0].value)
+    expect(wrapper.find('select.date option:selected').text()).toBe('Demain')
   })
 
-  it('mutates the store date when date picker emits an input event', () => {
-    const date = new Date()
+  it('mutates the store date when date select changes', () => {
     const wrapper = factory()
-    const childWrapper = wrapper.find(DatePicker)
-    childWrapper.vm.$emit('input', date)
-    expect(wrapper.vm.$store.state.order.date).toBe(date)
+    const optionsWrapper = wrapper.find('select.date').findAll('option')
+    optionsWrapper.at(1).setSelected()
+    expect(wrapper.vm.$store.state.order.date).toBe(wrapper.vm.$store.state.order.deliveryDays[1].value)
   })
 
   it('has a select for time delivery', () => {
     const wrapper = factory()
-    expect(wrapper.find('select').exists()).toBe(true)
+    expect(wrapper.find('select.time').exists()).toBe(true)
   })
 
   it('has a help text when store time is null', () => {
     const wrapper = factory()
     wrapper.vm.$store.state.order.time = null
-    expect(wrapper.find('select option').text()).toBe('Choisir un horaire')
+    expect(wrapper.find('select.time option').text()).toBe('Choisir un horaire')
   })
 
   it('defaults to the store time value if is different from null', () => {
     const time = '12:15'
     const wrapper = factory()
     wrapper.vm.$store.state.order.time = time
-    expect(wrapper.find('select option:selected').text()).toBe(time)
+    expect(wrapper.find('select.time option:selected').text()).toBe(time)
   })
 
-  it('mutates the store time when select emits an input event', () => {
+  it('mutates the store time when time select changes', () => {
     const wrapper = factory()
-    const optionsWrapper = wrapper.find('select').findAll('option')
+    const optionsWrapper = wrapper.find('select.time').findAll('option')
     optionsWrapper.at(1).setSelected()
     expect(wrapper.vm.$store.state.order.time).toBe(optionsWrapper.at(1).element.value)
   })
@@ -74,14 +75,14 @@ describe('DateTimeInput', () => {
     }
     wrapper.vm.$store.state.order.deliveryHours = hours
     hours.morning.concat(hours.evening).forEach((hour) => {
-      expect(wrapper.find('select').text()).toContain(hour)
+      expect(wrapper.find('select.time').text()).toContain(hour)
     })
   })
 
   it('emits a filled event when both fields are filled', () => {
     const wrapper = factory()
-    wrapper.find(DatePicker).vm.$emit('input', new Date())
-    wrapper.find('select').findAll('option').at(1).setSelected()
+    wrapper.find('select.date').findAll('option').at(1).setSelected()
+    wrapper.find('select.time').findAll('option').at(1).setSelected()
     expect(wrapper.emitted().filled).toBeTruthy()
   })
 })

@@ -2,23 +2,13 @@
   <div class="flex items-baseline">
     <div class="w-1/2 mr-2">
       <label for="inputDate" class="block font-semibold text-grey-darkest text-sm mb-1">Date</label>
-      <DatePicker
-        id="inputDate"
-        v-model="date"
-        :disabled="disabled"
-        :full-month-name="true"
-        :monday-first="true"
-        :disabled-dates="disabledDates"
-        :highlighted="highlightedDates"
-        :bootstrap-styling="false"
-        :language="language"
-        input-class="w-full p-2 h-10 rounded border border-grey-light text-grey-darkest"
-        placeholder="Choisir une date"
-      />
+      <select v-model="date" :disabled="disabled" class="date w-full p-2 h-10 bg-transparent rounded border border-grey-light text-grey-darkest">
+        <option v-for="(day, index) in deliveryDays" :value="day.value" :key="index" class="mb-1">{{ day.string }}</option>
+      </select>
     </div>
     <div class="w-1/2 ml-2">
       <label for="inputTime" class="block font-semibold text-grey-darkest text-sm mb-1">Heure</label>
-      <select v-model="time" :disabled="disabled" :class="`w-full p-2 h-10 bg-transparent rounded border border-grey-light ${selectClass}`">
+      <select v-model="time" :disabled="disabled" :class="`time w-full p-2 h-10 bg-transparent rounded border border-grey-light ${selectClass}`">
         <option v-if="time === null" :value="null" class="text-grey-darkest">Choisir un horaire</option>
         <optgroup label="Midi" class="text-grey-darkest mt-3 mb-2">
           <option v-for="(hour, index) in deliveryHours.morning" :value="hour" :key="index" class="mb-1">{{ hour }}</option>
@@ -83,6 +73,7 @@ export default {
       }
     },
     ...mapState('order', [
+      'deliveryDays',
       'deliveryHours'
     ]),
     selectClass () {
