@@ -1,12 +1,12 @@
 <template>
   <div>
-    <div class="flex mx-3 mb-5">
-      <h2 class="uppercase font-semibold text-grey text-base tracking-normal">Panier</h2>
+    <div class="flex mb-5">
+      <h2 class="uppercase font-semibold text-grey text-base tracking-wide">Panier</h2>
       <!--       <button v-show="editable" title="Modifier" class="ml-auto text-orange-lighter hover:text-orange flex">
         <i class="material-icons text-lg">edit</i>
       </button> -->
     </div>
-    <div class="rounded-lg bg-white overflow-hidden shadow-lg mx-3 text-grey-darker">
+    <div class="rounded-lg bg-white overflow-hidden shadow-lg text-grey-darker">
       <div class="px-4 pt-4">
         <div v-show="items.length">
           <transition-group name="fadeRight">
@@ -48,7 +48,7 @@
         </div>
       </div>
     </div>
-    <div v-show="items.length > 0 && !minimumReached" class="minimum-warning text-center text-red-light text-sm mx-3 p-4 mb-3">
+    <div v-show="items.length > 0 && !minimumReached" class="minimum-warning text-center text-red-light text-sm p-4 mb-3">
       Minimum de commande (8 €) non atteint.
     </div>
   </div>

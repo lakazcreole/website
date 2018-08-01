@@ -1,4 +1,4 @@
-@import url(https://fonts.googleapis.com/css?family=Kaushan+Script);@import url(https://fonts.googleapis.com/css?family=Open+Sans:400,600);@import url(https://fonts.googleapis.com/icon?family=Material+Icons);/**
+@import url(https://fonts.googleapis.com/css?family=Kaushan+Script);@import url(https://fonts.googleapis.com/css?family=Raleway:400,600);@import url(https://fonts.googleapis.com/css?family=Open+Sans:400,600);@import url(https://fonts.googleapis.com/icon?family=Material+Icons);/**
  * Tailwind's base styles
  */
 
@@ -5999,7 +5999,7 @@ table {
 }
 
 .font-main {
-  font-family: Open Sans;
+  font-family: Raleway;
 }
 
 .font-title {
@@ -12658,7 +12658,7 @@ table {
   }
 
   .sm\:font-main {
-    font-family: Open Sans;
+    font-family: Raleway;
   }
 
   .sm\:font-title {
@@ -19236,7 +19236,7 @@ table {
   }
 
   .md\:font-main {
-    font-family: Open Sans;
+    font-family: Raleway;
   }
 
   .md\:font-title {
@@ -25814,7 +25814,7 @@ table {
   }
 
   .lg\:font-main {
-    font-family: Open Sans;
+    font-family: Raleway;
   }
 
   .lg\:font-title {
@@ -32392,7 +32392,7 @@ table {
   }
 
   .xl\:font-main {
-    font-family: Open Sans;
+    font-family: Raleway;
   }
 
   .xl\:font-title {

@@ -228,7 +228,8 @@ module.exports = {
       'monospace',
     ],
     'main': [
-      'Open Sans'
+      'Raleway',
+      // 'Open Sans'
     ],
     'title': [
       'Kaushan Script'

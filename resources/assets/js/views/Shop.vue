@@ -22,22 +22,18 @@
           </div>
         </div>
         <transition name="slide" enter-active-class="slideInUp" leave-active-class="slideOutDown">
-          <div v-show="showMenu" class="container mx-auto py-20 md:py-16 flex">
-            <div class="w-full sm:w-2/3">
-              <OffersList/>
-              <div class="flex mx-3 mt-8">
-                <div class="hidden sm:block w-1/3">
-                  <div class="sticky" style="top: 250px">
-                    <ProductsListNav/>
-                  </div>
-                </div>
-                <div class="w-full sm:w-2/3">
-                  <ProductsList/>
-                </div>
+          <div v-show="showMenu" class="container mx-auto py-20 md:py-16">
+            <OffersList/>
+            <div class="flex mt-8 justify-end">
+              <div class="hidden sm:block flex-1">
+                <ProductsListNav class="sticky mr-5 " style="top: 250px"/>
               </div>
-            </div>
-            <div class="hidden sm:block w-1/3">
-              <Cart :editable="editingCart" class="sticky" style="top: 250px" />
+              <div class="w-full sm:max-w-sm flex-none">
+                <ProductsList/>
+              </div>
+              <div class="hidden sm:block flex-1">
+                <Cart :editable="editingCart" class="sticky ml-5 mr-3" style="top: 250px"/>
+              </div>
             </div>
           </div>
         </transition>

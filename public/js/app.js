@@ -62403,10 +62403,6 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 //
 //
 //
-//
-//
-//
-//
 
 
 
@@ -85767,7 +85763,7 @@ var render = function() {
     "div",
     {
       staticClass:
-        "text-right mx-3 px-4 text-sm uppercase font-semibold tracking-wide text-grey"
+        "text-right text-sm uppercase font-semibold tracking-wide text-grey"
     },
     [
       _c(
@@ -86288,7 +86284,7 @@ var render = function() {
       "div",
       {
         staticClass:
-          "rounded-lg bg-white overflow-hidden shadow-lg mx-3 text-grey-darker"
+          "rounded-lg bg-white overflow-hidden shadow-lg text-grey-darker"
       },
       [
         _c("div", { staticClass: "px-4 pt-4" }, [
@@ -86444,7 +86440,7 @@ var render = function() {
           }
         ],
         staticClass:
-          "minimum-warning text-center text-red-light text-sm mx-3 p-4 mb-3"
+          "minimum-warning text-center text-red-light text-sm p-4 mb-3"
       },
       [_vm._v("\n    Minimum de commande (8 €) non atteint.\n  ")]
     )
@@ -86455,7 +86451,7 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "flex mx-3 mb-5" }, [
+    return _c("div", { staticClass: "flex mb-5" }, [
       _c(
         "h2",
         {
@@ -86636,56 +86632,46 @@ var render = function() {
                           expression: "showMenu"
                         }
                       ],
-                      staticClass: "container mx-auto py-20 md:py-16 flex"
+                      staticClass: "container mx-auto py-20 md:py-16"
                     },
                     [
-                      _c(
-                        "div",
-                        { staticClass: "w-full sm:w-2/3" },
-                        [
-                          _c("OffersList"),
-                          _vm._v(" "),
-                          _c("div", { staticClass: "flex mx-3 mt-8" }, [
-                            _c(
-                              "div",
-                              { staticClass: "hidden sm:block w-1/3" },
-                              [
-                                _c(
-                                  "div",
-                                  {
-                                    staticClass: "sticky",
-                                    staticStyle: { top: "250px" }
-                                  },
-                                  [_c("ProductsListNav")],
-                                  1
-                                )
-                              ]
-                            ),
-                            _vm._v(" "),
-                            _c(
-                              "div",
-                              { staticClass: "w-full sm:w-2/3" },
-                              [_c("ProductsList")],
-                              1
-                            )
-                          ])
-                        ],
-                        1
-                      ),
+                      _c("OffersList"),
                       _vm._v(" "),
-                      _c(
-                        "div",
-                        { staticClass: "hidden sm:block w-1/3" },
-                        [
-                          _c("Cart", {
-                            staticClass: "sticky",
-                            staticStyle: { top: "250px" },
-                            attrs: { editable: _vm.editingCart }
-                          })
-                        ],
-                        1
-                      )
-                    ]
+                      _c("div", { staticClass: "flex mt-8 justify-end" }, [
+                        _c(
+                          "div",
+                          { staticClass: "hidden sm:block flex-1" },
+                          [
+                            _c("ProductsListNav", {
+                              staticClass: "sticky mr-5 ",
+                              staticStyle: { top: "250px" }
+                            })
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          { staticClass: "w-full sm:max-w-sm flex-none" },
+                          [_c("ProductsList")],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          { staticClass: "hidden sm:block flex-1" },
+                          [
+                            _c("Cart", {
+                              staticClass: "sticky ml-5 mr-3",
+                              staticStyle: { top: "250px" },
+                              attrs: { editable: _vm.editingCart }
+                            })
+                          ],
+                          1
+                        )
+                      ])
+                    ],
+                    1
                   )
                 ]
               )

@@ -1,5 +1,5 @@
 <template>
-  <div class="text-right mx-3 px-4 text-sm uppercase font-semibold tracking-wide text-grey">
+  <div class="text-right text-sm uppercase font-semibold tracking-wide text-grey">
     <scrollactive :offset="250" active-class="text-orange-light">
       <a v-for="type in types" :href="`#${type.key}`" :class="`block text-grey no-underline scrollactive-item mb-5`" :key="type.key">
         {{ type.name }}
