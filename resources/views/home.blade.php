@@ -5,7 +5,7 @@
 @endpush
 
 @section('content')
-  <section class="h-120 relative font-main">
+  <section class="h-120 relative font-sans">
     <div class="absolute h-full w-full" style="background-image: url('/images/header.jpg'); background-size: cover;"></div>
     <div class="bg-black opacity-25 absolute h-full w-full"></div>
     <div class="container mx-auto relative h-full flex">
@@ -21,7 +21,7 @@
       </div>
     </div>
   </section>
-  <section class="my-10 font-main">
+  <section class="my-10 font-sans">
     <div class="container mx-auto">
       <div class="flex flex-col sm:flex-row flex-wrap justify-center mx-3">
         <div class="mb-5 sm:mb-0 flex w-full sm:w-1/4 lg:w-1/5">

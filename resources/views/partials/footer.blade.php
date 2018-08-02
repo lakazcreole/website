@@ -1,5 +1,5 @@
 <footer class="bg-black p-5">
-    <div class="container mx-auto text-grey-light font-main">
+    <div class="container mx-auto text-grey-light font-sans">
         <div class="my-5">
             <newsletter-form></newsletter-form>
         </div>

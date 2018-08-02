@@ -1,4 +1,4 @@
-<header class="sticky pin-t z-50 font-main">
+<header class="sticky pin-t z-50 font-sans">
   <div style="-webkit-box-shadow: 0 2px 3px #ab5c0c; box-shadow: 0 2px 3px #ab5c0c">
     <nav class="sm:text-lg relative">
       <div class="bg-grey-lightest">

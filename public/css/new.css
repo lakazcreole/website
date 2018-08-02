@@ -1,4 +1,4 @@
-@import url(https://fonts.googleapis.com/css?family=Kaushan+Script);@import url(https://fonts.googleapis.com/css?family=Raleway:400,600);@import url(https://fonts.googleapis.com/css?family=Open+Sans:400,600);@import url(https://fonts.googleapis.com/icon?family=Material+Icons);/**
+@import url(https://fonts.googleapis.com/css?family=Kaushan+Script);@import url(https://fonts.googleapis.com/css?family=Montserrat|Raleway:400,600);@import url(https://fonts.googleapis.com/icon?family=Material+Icons);/**
  * Tailwind's base styles
  */
 
@@ -5987,7 +5987,7 @@ table {
 }
 
 .font-sans {
-  font-family: system-ui, BlinkMacSystemFont, -apple-system, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  font-family: Montserrat, system-ui, BlinkMacSystemFont, -apple-system, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 }
 
 .font-serif {
@@ -5996,10 +5996,6 @@ table {
 
 .font-mono {
   font-family: Menlo, Monaco, Consolas, Liberation Mono, Courier New, monospace;
-}
-
-.font-main {
-  font-family: Raleway;
 }
 
 .font-title {
@@ -12646,7 +12642,7 @@ table {
   }
 
   .sm\:font-sans {
-    font-family: system-ui, BlinkMacSystemFont, -apple-system, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+    font-family: Montserrat, system-ui, BlinkMacSystemFont, -apple-system, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
   }
 
   .sm\:font-serif {
@@ -12655,10 +12651,6 @@ table {
 
   .sm\:font-mono {
     font-family: Menlo, Monaco, Consolas, Liberation Mono, Courier New, monospace;
-  }
-
-  .sm\:font-main {
-    font-family: Raleway;
   }
 
   .sm\:font-title {
@@ -19224,7 +19216,7 @@ table {
   }
 
   .md\:font-sans {
-    font-family: system-ui, BlinkMacSystemFont, -apple-system, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+    font-family: Montserrat, system-ui, BlinkMacSystemFont, -apple-system, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
   }
 
   .md\:font-serif {
@@ -19233,10 +19225,6 @@ table {
 
   .md\:font-mono {
     font-family: Menlo, Monaco, Consolas, Liberation Mono, Courier New, monospace;
-  }
-
-  .md\:font-main {
-    font-family: Raleway;
   }
 
   .md\:font-title {
@@ -25802,7 +25790,7 @@ table {
   }
 
   .lg\:font-sans {
-    font-family: system-ui, BlinkMacSystemFont, -apple-system, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+    font-family: Montserrat, system-ui, BlinkMacSystemFont, -apple-system, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
   }
 
   .lg\:font-serif {
@@ -25811,10 +25799,6 @@ table {
 
   .lg\:font-mono {
     font-family: Menlo, Monaco, Consolas, Liberation Mono, Courier New, monospace;
-  }
-
-  .lg\:font-main {
-    font-family: Raleway;
   }
 
   .lg\:font-title {
@@ -32380,7 +32364,7 @@ table {
   }
 
   .xl\:font-sans {
-    font-family: system-ui, BlinkMacSystemFont, -apple-system, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+    font-family: Montserrat, system-ui, BlinkMacSystemFont, -apple-system, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
   }
 
   .xl\:font-serif {
@@ -32389,10 +32373,6 @@ table {
 
   .xl\:font-mono {
     font-family: Menlo, Monaco, Consolas, Liberation Mono, Courier New, monospace;
-  }
-
-  .xl\:font-main {
-    font-family: Raleway;
   }
 
   .xl\:font-title {

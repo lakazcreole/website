@@ -85641,10 +85641,10 @@ var render = function() {
       return _vm.shouldDisplay(type.key)
         ? _c("div", { key: type.key }, [
             _c(
-              "h3",
+              "h2",
               {
                 staticClass:
-                  "uppercase font-semibold text-grey text-base tracking-normal mb-5",
+                  "uppercase font-semibold text-grey text-base tracking-wide mb-5",
                 attrs: { id: type.key }
               },
               [_vm._v("\n      " + _vm._s(type.name) + "\n    ")]
@@ -86456,7 +86456,7 @@ var staticRenderFns = [
         "h2",
         {
           staticClass:
-            "uppercase font-semibold text-grey text-base tracking-normal"
+            "uppercase font-semibold text-grey text-base tracking-wide"
         },
         [_vm._v("Panier")]
       )
@@ -86577,7 +86577,7 @@ var render = function() {
                         "div",
                         {
                           staticClass:
-                            "mx-3 sm:mx-0 max-w-xs sm:max-w-sm w-full font-main"
+                            "mx-3 sm:mx-0 max-w-xs sm:max-w-sm w-full font-sans"
                         },
                         [
                           _c(

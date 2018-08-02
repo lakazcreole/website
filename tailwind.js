@@ -194,6 +194,9 @@ module.exports = {
 
   fonts: {
     'sans': [
+      'Montserrat',
+      // 'Raleway',
+      // 'Open Sans',
       'system-ui',
       'BlinkMacSystemFont',
       '-apple-system',
@@ -226,10 +229,6 @@ module.exports = {
       'Liberation Mono',
       'Courier New',
       'monospace',
-    ],
-    'main': [
-      'Raleway',
-      // 'Open Sans'
     ],
     'title': [
       'Kaushan Script'

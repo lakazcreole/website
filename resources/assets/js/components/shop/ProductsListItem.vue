@@ -34,7 +34,7 @@
               </select>
             </div>
           </div>
-          <button class="add w-full font-semibold border border-orange-light text-orange hover:bg-orange-light hover:text-grey-lightest rounded-full p-2 mt-4" @click="add">
+          <button class="add w-full border border-orange-light text-orange hover:bg-orange-light hover:text-grey-lightest rounded-full p-2 mt-4" @click="add">
             Ajouter
           </button>
         </div>

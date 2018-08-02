@@ -11,7 +11,7 @@
           <div class="z-0 w-full h-full" style="background-image: url('/images/order_header.jpg'); background-size: cover; background-position: center"/>
           <div class="absolute pin-t z-0 bg-black opacity-25 w-full h-full"/>
           <div class="absolute pin-t mt-10 w-full flex justify-center">
-            <div class="mx-3 sm:mx-0 max-w-xs sm:max-w-sm w-full font-main">
+            <div class="mx-3 sm:mx-0 max-w-xs sm:max-w-sm w-full font-sans">
               <h1 class="text-center text-grey-lightest font-title font-normal text-5xl mb-3" style="text-shadow: 2px 2px 3px black">Commande</h1>
               <DeliveryInput
                 @filled="inputFilled"

@@ -1,4 +1,4 @@
-<section class="menu my-10 font-main" id="la-carte">
+<section class="menu my-10 font-sans" id="la-carte">
   <div class="container mx-auto">
     <h2 class="text-center font-title text-orange text-5xl font-normal mb-8">La carte</h2>
     <div class="flex flex-col md:flex-row">
