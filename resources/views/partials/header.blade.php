@@ -14,7 +14,7 @@
           <ul class="list-reset flex items-center">
             @if(Request::is('/'))
               <li class="hidden sm:inline mr-4">
-                <a class="text-grey-dark no-underline" href="#" @click.prevent="scrollToMenu">La carte</a>
+                <button class="text-grey-dark no-underline" v-scroll-to="'#la-carte'">La carte</button>
               </li>
             @endif
             <li class="inline mr-4">

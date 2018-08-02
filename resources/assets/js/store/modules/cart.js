@@ -19,6 +19,14 @@ export default {
     },
     totalPrice (state, getters) {
       return getters.items.reduce((accumulator, item) => accumulator + item.quantity * item.price, 0)
+    },
+    deliveryPrice (state, getters) {
+      if (getters.totalPrice === 0 || getters.totalPrice >= 15) return 0
+      else if (getters.totalPrice <= 13) return 2
+      else return 15 - getters.totalPrice
+    },
+    minimumReached (state, getters) {
+      return getters.totalPrice + getters.deliveryPrice >= 8
     }
   },
 

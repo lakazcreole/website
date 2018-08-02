@@ -4,6 +4,14 @@ export default {
   state: {
     date: null,
     time: null,
+    customer: {
+      firstName: '',
+      lastName: '',
+      email: '',
+      phone: ''
+    },
+    allergies: '',
+    informations: '',
     deliveryDays: [],
     deliveryHours: {
       morning: ['11:30', '11:45', '12:00', '12:15', '12:30', '12:45', '13:00'],
@@ -28,6 +36,24 @@ export default {
   },
 
   mutations: {
+    setCustomerFirstName (state, firstName) {
+      state.customer.firstName = firstName
+    },
+    setCustomerLastName (state, lastName) {
+      state.customer.lastName = lastName
+    },
+    setCustomerEmail (state, email) {
+      state.customer.email = email
+    },
+    setCustomerPhone (state, phone) {
+      state.customer.phone = phone
+    },
+    setAllergies (state, allergies) {
+      state.allergies = allergies
+    },
+    setInformations (state, informations) {
+      state.informations = informations
+    },
     setDeliveryDays (state) {
       for (let i = 0; i < 7; i++) {
         const day = new Date()

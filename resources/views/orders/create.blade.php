@@ -5,7 +5,7 @@
 @endpush
 
 @section('content')
-  <section>
+  <section class="font-sans">
     <Shop></Shop>
 {{--     <div class="relative h-32">
       <div class="absolute z-0 w-full h-full" style="background-image: url('/images/order_header.jpg'); background-size: cover; background-position: center"></div>

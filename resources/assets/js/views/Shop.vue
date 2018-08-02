@@ -1,38 +1,74 @@
 <template>
-  <div class="">
-    <transition enter-active-class="fadeInRight" leave-active-class="fadeOutRight" duration="800">
-      <div v-show="showMobileCart" :class="`shrink-transition overflow-hidden ${drawerWidthClass} bg-black text-white`">
-        <Cart :editable="editingCart"/>
+  <div>
+    <transition enter-active-class="slideInDown" leave-active-class="slideOutUp" duration="800">
+      <div v-show="showMobileCart" :class="`shrink-transition overflow-hidden ${mobileCartHeightClass} bg-black text-white px-3`">
+        <Cart id="mobile-cart" :editable="editingCart" @edit="editCart"/>
+        <div v-show="showAllergiesInput" class="mt-5">
+          <label for="allergies" class="block font-semibold text-grey text-sm mb-3">Allergies</label>
+          <textarea
+            id="allergies"
+            v-model="allergies"
+            placeholder="Ajouter un commentaire"
+            rows="2"
+            class="p-4 w-full rounded-lg shadow-lg text-sm text-grey-darker"
+          />
+        </div>
+        <PrimaryButton :disabled="!canOrder" class="mt-6 w-full" @click="checkout">Commander</PrimaryButton>
       </div>
     </transition>
-    <transition enter-active-class="fadeInLeft" leave-active-class="fadeOutLeft" duration="800">
-      <div v-show="!showMobileCart" :class="`shrink-transition ${contentWidthClass}`" >
+    <transition enter-active-class="fadeInUp" leave-active-class="fadeOutDown" duration="800">
+      <div v-show="!showMobileCart">
         <div :class="`z-30 sticky pin-t shrink-transition ${headerHeightClass} shadow-md`">
           <div class="z-0 w-full h-full" style="background-image: url('/images/order_header.jpg'); background-size: cover; background-position: center"/>
           <div class="absolute pin-t z-0 bg-black opacity-25 w-full h-full"/>
           <div class="absolute pin-t mt-10 w-full flex justify-center">
-            <div class="mx-3 sm:mx-0 max-w-xs sm:max-w-sm w-full font-sans">
+            <div class="mx-3 sm:mx-0 max-w-xs sm:max-w-sm w-full">
               <h1 class="text-center text-grey-lightest font-title font-normal text-5xl mb-3" style="text-shadow: 2px 2px 3px black">Commande</h1>
               <DeliveryInput
                 @filled="inputFilled"
-                @editingAddress="editingAddress = showMenu"
-                @editedAddress="editingAddress = false"
+                @editingAddress="editAddress()"
+                @editedAddress="editedAddress()"
               />
             </div>
           </div>
         </div>
         <transition name="slide" enter-active-class="slideInUp" leave-active-class="slideOutDown">
-          <div v-show="showMenu" class="container mx-auto py-20 md:py-16">
-            <OffersList/>
-            <div class="flex mt-8 justify-end">
+          <div v-show="deliveryStepDone" class="container mx-auto py-20 md:py-16">
+            <OffersList v-show="showMenu" class="mb-8"/>
+            <div class="flex justify-end">
               <div class="hidden sm:block flex-1">
-                <ProductsListNav class="sticky mr-5 " style="top: 250px"/>
+                <transition enter-active-class="fadeInLeft" leave-active-class="fadeOutLeft">
+                  <ProductsListNav v-show="showMenu" class="sticky mr-5 " style="top: 250px"/>
+                </transition>
               </div>
-              <div class="w-full sm:max-w-sm flex-none">
-                <ProductsList/>
+              <div class="px-3 sm:px-0 w-full sm:max-w-sm flex-none">
+                <transition-group enter-active-class="fadeInLeft" leave-active-class="fadeOutLeft">
+                  <div v-show="showCheckOut" key="checkout">
+                    <CustomerInput/>
+                    <PrimaryButton class="mt-10 w-full">Commander</PrimaryButton>
+                  </div>
+                  <ProductsList v-show="showMenu" key="products"/>
+                </transition-group>
               </div>
               <div class="hidden sm:block flex-1">
-                <Cart :editable="editingCart" class="sticky ml-5 mr-3" style="top: 250px"/>
+                <div :style="cartStyle" class="sticky ml-5 mr-3">
+                  <Cart :editable="editingCart" @edit="editCart">
+                    <Alert v-show="showCheckOut && allergies.length" color="blue" class="mb-5">
+                      <p>{{ allergies }}</p>
+                    </Alert>
+                  </Cart>
+                  <div v-show="showMenu && showAllergiesInput" class="mt-5">
+                    <label for="allergies" class="block font-semibold text-grey text-sm mb-3">Allergies</label>
+                    <textarea
+                      id="allergies"
+                      v-model="allergies"
+                      placeholder="Ajouter un commentaire"
+                      rows="2"
+                      class="p-4 w-full rounded-lg shadow-lg text-sm text-grey-darker"
+                    />
+                  </div>
+                  <PrimaryButton v-show="showMenu" :disabled="!canOrder" class="mt-6 w-full" @click="checkout">Commander</PrimaryButton>
+                </div>
               </div>
             </div>
           </div>
@@ -46,7 +82,11 @@
 import { mapState, mapGetters } from 'vuex'
 import VueSticky from 'vue-sticky'
 
+import Alert from '../components/Alert'
+import PrimaryButton from '../components/PrimaryButton'
+
 import DeliveryInput from '../components/shop/DeliveryInput'
+import CustomerInput from '../components/shop/CustomerInput'
 import ProductsList from '../components/shop/ProductsList'
 import ProductsListNav from '../components/shop/ProductsListNav'
 import OffersList from '../components/shop/OffersList'
@@ -54,7 +94,10 @@ import Cart from '../components/shop/Cart'
 
 export default {
   components: {
+    Alert,
+    PrimaryButton,
     DeliveryInput,
+    CustomerInput,
     ProductsList,
     ProductsListNav,
     OffersList,
@@ -67,9 +110,11 @@ export default {
 
   data () {
     return {
-      showMenu: false,
+      deliveryStepDone: false,
       editingAddress: false,
-      editingCart: true
+      editingCart: true,
+      showMenu: false,
+      showCheckOut: false
     }
   },
 
@@ -77,17 +122,32 @@ export default {
     ...mapState('order', [
       'showMobileCart'
     ]),
-    ...mapGetters('order', [
-      'deliveryInputFilled'
-    ]),
-    contentWidthClass () {
+    ...mapGetters({
+      deliveryInputFilled: 'order/deliveryInputFilled',
+      canOrder: 'cart/minimumReached'
+    }),
+    allergies: {
+      get () {
+        return this.$store.state.order.allergies
+      },
+      set (value) {
+        this.$store.commit('order/setAllergies', value)
+      }
+    },
+    showAllergiesInput () {
+      return this.$store.state.cart.items.length
+    },
+    contentHeightClass () {
       return this.showMobileCart ? 'h-0' : 'h-full'
     },
-    drawerWidthClass () {
-      return this.showMobileCart ? 'h-82vh md:h-52vh xl:h-58vh py-10' : 'h-0'
+    mobileCartHeightClass () {
+      return this.showMobileCart ? 'h-full py-10' : 'h-0'
+    },
+    cartStyle () {
+      return this.showCheckOut ? '' : 'top: 250px'
     },
     headerHeightClass () {
-      if (this.showMenu) {
+      if (this.deliveryStepDone) {
         // editing datetime
         if (!this.deliveryInputFilled) return 'h-82vh sm:h-67vh lg:h-52vh xl:h-42vh'
         // editing address
@@ -109,7 +169,32 @@ export default {
 
   methods: {
     inputFilled () {
+      this.deliveryStepDone = true
+      if (!this.showCheckOut) {
+        this.showMenu = true
+      }
+    },
+    editAddress () {
+      this.editingAddress = this.deliveryStepDone
+    },
+    editedAddress () {
+      this.editingAddress = false
+    },
+    checkout () {
+      if (this.showMobileCart) {
+        this.$store.dispatch('order/toggleMobileCart')
+      }
+      this.showMenu = false
+      this.editingCart = false
+      this.showCheckOut = true
+    },
+    editCart () {
+      if (this.showMobileCart) {
+        this.$store.dispatch('order/toggleMobileCart')
+      }
       this.showMenu = true
+      this.editingCart = true
+      this.showCheckOut = false
     }
   }
 }
@@ -120,9 +205,5 @@ export default {
   transition: height 0.8s ease,
               width 0.8s ease,
               padding 0.8s ease;
-}
-
-.slide-transition {
-  transition: margin 0.8s ease;
 }
 </style>

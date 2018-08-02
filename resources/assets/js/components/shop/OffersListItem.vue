@@ -14,7 +14,7 @@
       </div>
     </div>
     <div class="hidden group-hover:flex absolute h-full w-full">
-      <button class="m-auto px-5 py-3 rounded-full text-white border-2 border-orange hover:border-orange-light bg-orange hover:bg-orange-light" @click="add">
+      <button class="m-auto px-5 py-3 w-32 rounded-full text-white border-2 border-orange hover:border-orange-light bg-orange hover:bg-orange-light" @click="add">
         Ajouter
       </button>
     </div>

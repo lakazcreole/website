@@ -18,15 +18,17 @@
           <div slot="bottom">
             <div v-show="!dateTimeFilled">
               <DateTimeInput :disabled="showAddressInput" class="mb-3" @filled="checkFilled"/>
-              <DeliveryAlert/>
+              <Alert color="green">
+                <p>Chaque commande est préparée par mes soins de l'achat des marchandises à la livraison chez vous. C'est pour cela qu'il n'est pas <em class="italic">encore</em> possible de commander pour le jour même.</p>
+              </Alert>
             </div>
             <transition enter-active-class="fadeIn" leave-active-class="">
               <div v-show="dateTimeFilled" class="flex">
-                <div class="w-1/2">
+                <div class="w-1/2 mr-2">
                   <div class="font-semibold text-grey-darkest text-sm mb-1">Date</div>
                   <div class="text-grey-darker text-sm">{{ orderDate }}</div>
                 </div>
-                <div class="w-1/2 flex">
+                <div class="w-1/2 flex ml-2">
                   <div class="w-full">
                     <div class="font-semibold text-grey-darkest text-sm mb-1">Heure</div>
                     <div class="text-grey-darker text-sm">{{ orderTime }}</div>
@@ -48,21 +50,18 @@
 import { mapState, mapGetters } from 'vuex'
 import _ from 'lodash'
 
+import Alert from '../Alert'
+
 import SplittableCard from '../SplittableCard'
 import AddressInput from './AddressInput'
 import DateTimeInput from './DateTimeInput'
-import DeliveryAlert from './DeliveryAlert'
 
 export default {
   components: {
+    Alert,
     SplittableCard,
     AddressInput,
-    DateTimeInput,
-    DeliveryAlert
-  },
-
-  props: {
-
+    DateTimeInput
   },
 
   data () {

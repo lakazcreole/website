@@ -2,9 +2,9 @@
   <div>
     <div class="flex mb-5">
       <h2 class="uppercase font-semibold text-grey text-base tracking-wide">Panier</h2>
-      <!--       <button v-show="editable" title="Modifier" class="ml-auto text-orange-lighter hover:text-orange flex">
+      <button v-show="!editable" title="Modifier" class="ml-auto text-orange-lighter hover:text-orange flex" @click="edit">
         <i class="material-icons text-lg">edit</i>
-      </button> -->
+      </button>
     </div>
     <div class="rounded-lg bg-white overflow-hidden shadow-lg text-grey-darker">
       <div class="px-4 pt-4">
@@ -36,6 +36,10 @@
               </div>
             </div>
           </div>
+          <Alert v-show="items.length > 0 && !minimumReached" color="red" class="my-5">
+            <p>Minimum de commande (8 €) non atteint.</p>
+          </Alert>
+          <slot/>
         </div>
         <div v-show="items.length === 0" class="mb-3">
           Votre panier est vide.
@@ -48,18 +52,17 @@
         </div>
       </div>
     </div>
-    <div v-show="items.length > 0 && !minimumReached" class="minimum-warning text-center text-red-light text-sm p-4 mb-3">
-      Minimum de commande (8 €) non atteint.
-    </div>
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
+import Alert from '../Alert'
 import CartItem from './CartItem'
 
 export default {
   components: {
+    Alert,
     CartItem
   },
 
@@ -73,16 +76,10 @@ export default {
   computed: {
     ...mapGetters('cart', [
       'items',
-      'totalPrice'
+      'totalPrice',
+      'deliveryPrice',
+      'minimumReached'
     ]),
-    deliveryPrice () {
-      if (this.totalPrice === 0 || this.totalPrice >= 15) return 0
-      else if (this.totalPrice <= 13) return 2
-      else return 15 - this.totalPrice
-    },
-    minimumReached () {
-      return this.totalPrice + this.deliveryPrice >= 8
-    },
     deliveryPriceInFrench () {
       return this.deliveryPrice.toFixed(2).toString().replace('.', ',')
     },
@@ -92,6 +89,9 @@ export default {
   },
 
   methods: {
+    edit () {
+      this.$emit('edit')
+    },
     remove (item) {
       this.$store.dispatch('cart/removeProduct', item.id)
     }

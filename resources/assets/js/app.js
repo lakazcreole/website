@@ -17,9 +17,10 @@ window.Vue = require('vue')
 // import VueSticky from 'vue-sticky'
 import PortalVue from 'portal-vue'
 import VueModal from 'vue-js-modal'
+import VueScrollTo from 'vue-scrollto'
 import VueScrollactive from 'vue-scrollactive'
 
-const VueScrollTo = require('vue-scrollto') // eslint-disable-line no-unused-vars
+// const VueScrollTo = require('vue-scrollto') // eslint-disable-line no-unused-vars
 
 import ContactButton from './components/ContactButton'
 import ContactModal from './components/ContactModal'
@@ -35,6 +36,18 @@ import store from './store'
 
 Vue.use(PortalVue) // eslint-disable-line no-undef
 Vue.use(VueModal, { componentName: 'vue-modal' }) // eslint-disable-line no-undef
+Vue.use(VueScrollTo, { // eslint-disable-line no-undef
+  container: 'body',
+  duration: 500,
+  easing: 'ease',
+  offset: -100,
+  cancelable: true,
+  onStart: false,
+  onDone: false,
+  onCancel: false,
+  x: false,
+  y: true
+})
 Vue.use(VueScrollactive) // eslint-disable-line no-undef
 
 // eslint-disable-next-line no-unused-vars, no-undef
