@@ -10,7 +10,7 @@
       <div class="flex mb-5 text-grey-darker">
         <div class="w-1/2 flex items-center">
           <i class="material-icons text-grey">date_range</i>
-          <div class="ml-2">{{ date }}</div>
+          <div class="ml-2">{{ date.replace(/^\w/, c => c.toUpperCase()) }}</div>
         </div>
         <div class="w-1/2 flex items-center">
           <i class="material-icons text-grey">schedule</i>
