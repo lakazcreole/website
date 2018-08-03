@@ -1,5 +1,5 @@
 <template>
-  <a class="nav-link" href="#" @click.prevent="showContactModal">
+  <a class="text-grey-dark no-underline" href="#" @click.prevent="showContactModal">
     Contact
   </a>
 </template>

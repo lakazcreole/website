@@ -14,7 +14,7 @@ class OfferControllerTest extends TestCase
 
     public function testIndex()
     {
-        $product = factory(Product::class)->create();
+        $product = factory(Product::class)->create(['disabled' => false]);
         $offer = factory(Offer::class)->create([
             'begin_at' => now()->subDay(),
             'end_at' => now()->addDay(),
@@ -47,7 +47,7 @@ class OfferControllerTest extends TestCase
     /** @test */
     public function index_only_show_current_offers()
     {
-        $product = factory(Product::class)->create();
+        $product = factory(Product::class)->create(['disabled' => false]);
         factory(Offer::class)->create([
             'begin_at' => now()->subDays(3),
             'end_at' => now()->subDays(1),
@@ -59,6 +59,22 @@ class OfferControllerTest extends TestCase
             'end_at' => now()->addDay(),
             'product_id' => $product->id,
             'enabled' => false,
+        ]);
+        $this->json('GET', '/api/products/offers')
+            ->assertExactJson([
+                'data' => []
+            ]);
+    }
+
+    /** @test */
+    public function index_does_not_show_disabled_products()
+    {
+        $product = factory(Product::class)->create(['disabled' => true]);
+        factory(Offer::class)->create([
+            'begin_at' => now()->subDay(),
+            'end_at' => now()->addDay(),
+            'product_id' => $product->id,
+            'enabled' => true,
         ]);
         $this->json('GET', '/api/products/offers')
             ->assertExactJson([

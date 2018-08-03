@@ -6,6 +6,8 @@ export default {
   state: {
     all: [],
     offers: [],
+    types: [],
+    currentCategory: null,
     loadedProducts: false,
     loadedOffers: false,
     error: false
@@ -21,6 +23,12 @@ export default {
     },
     setOffers (state, offers) {
       state.offers = offers
+    },
+    setTypes (state, types) {
+      state.types = types
+    },
+    setCurrentCategory (state, currentCategory) {
+      state.currentCategory = currentCategory
     },
     fetchProductsSuccess (state) {
       state.loadedProducts = true
@@ -53,6 +61,23 @@ export default {
         .catch(() => {
           commit('fetchError')
         })
+    },
+    fetchTypes ({ commit }) {
+      const types = [{
+        key: 'starter',
+        name: 'Entrées'
+      }, {
+        key: 'main',
+        name: 'Plats'
+      }, {
+        key: 'desert',
+        name: 'Desserts'
+      },
+      {
+        key: 'drink',
+        name: 'Boissons'
+      }]
+      commit('setTypes', types)
     }
   }
 }
