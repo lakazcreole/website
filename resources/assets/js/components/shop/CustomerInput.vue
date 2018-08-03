@@ -4,21 +4,21 @@
     <div class="bg-white shadow-lg rounded-lg p-4">
       <div class="flex mb-5">
         <div class="w-1/2 mr-2">
-          <FormInput v-model="firstName" name="firstName" label="Prénom" placeholder="Dimitri"/>
+          <FormInput v-model="firstName" :errors="errors['customer.firstName']" name="firstName" label="Prénom" placeholder="Dimitri"/>
         </div>
         <div class="w-1/2 ml-2">
-          <FormInput v-model="lastName" name="lastName" label="Nom" placeholder="Payet"/>
+          <FormInput v-model="lastName" :errors="errors['customer.lastName']" name="lastName" label="Nom" placeholder="Payet"/>
         </div>
       </div>
       <div class="flex mb-5">
         <div class="w-1/2 mr-2">
-          <FormInput v-model="email" name="email" type="email" label="E-mail" placeholder="dimitri974@email.fr"/>
+          <FormInput v-model="email" :errors="errors['customer.email']" name="email" type="email" label="E-mail" placeholder="dimitri974@email.fr"/>
         </div>
         <div class="w-1/2 ml-2">
-          <FormInput v-model="phone" name="phone" type="phone" label="Téléphone" placeholder="06 ..."/>
+          <FormInput v-model="phone" :errors="errors['customer.phone']" name="phone" type="phone" label="Téléphone" placeholder="06 ..."/>
         </div>
       </div>
-      <FormInput v-model="informations" name="informations" label="Informations de livraison" placeholder="Code, interphone ou information utile"/>
+      <FormInput v-model="information" :errors="errors['information']" name="information" label="Informations de livraison" placeholder="Code, interphone ou information utile"/>
     </div>
   </div>
 </template>
@@ -64,13 +64,16 @@ export default {
         this.$store.commit('order/setCustomerPhone', value)
       }
     },
-    informations: {
+    information: {
       get () {
-        return this.$store.state.order.informations
+        return this.$store.state.order.information
       },
       set (value) {
-        this.$store.commit('order/setInformations', value)
+        this.$store.commit('order/setInformation', value)
       }
+    },
+    errors () {
+      return this.$store.state.order.errors
     }
   }
 }

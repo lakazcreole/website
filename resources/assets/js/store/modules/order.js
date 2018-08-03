@@ -2,6 +2,7 @@ export default {
   namespaced: true,
 
   state: {
+    address: {},
     date: null,
     time: null,
     customer: {
@@ -11,13 +12,15 @@ export default {
       phone: ''
     },
     allergies: '',
-    informations: '',
+    information: '',
+    errors: [],
+    serverError: false,
+    completed: false,
     deliveryDays: [],
     deliveryHours: {
       morning: ['11:30', '11:45', '12:00', '12:15', '12:30', '12:45', '13:00'],
       evening: ['19:45', '20:00', '20:15', '20:30', '20:45', '21:00']
     },
-    address: {},
     dateTimeFilled: false,
     showMobileCart: false
   },
@@ -36,6 +39,15 @@ export default {
   },
 
   mutations: {
+    setDate (state, date) {
+      state.date = date
+    },
+    setTime (state, time) {
+      state.time = time
+    },
+    setAddress (state, address) {
+      state.address = address
+    },
     setCustomerFirstName (state, firstName) {
       state.customer.firstName = firstName
     },
@@ -51,8 +63,17 @@ export default {
     setAllergies (state, allergies) {
       state.allergies = allergies
     },
-    setInformations (state, informations) {
-      state.informations = informations
+    setInformation (state, information) {
+      state.information = information
+    },
+    setErrors (state, errors) {
+      state.errors = errors
+    },
+    serverError (state) {
+      state.serverError = true
+    },
+    completed (state) {
+      state.completed = true
     },
     setDeliveryDays (state) {
       for (let i = 0; i < 7; i++) {
@@ -63,15 +84,6 @@ export default {
           value: day
         }
       }
-    },
-    setDate (state, date) {
-      state.date = date
-    },
-    setTime (state, time) {
-      state.time = time
-    },
-    setAddress (state, address) {
-      state.address = address
     },
     setDateTimeFilled (state, filled) {
       state.dateTimeFilled = filled

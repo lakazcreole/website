@@ -25,7 +25,7 @@
           <div class="text-grey mb-5 delivery">
             <div class="flex items-end">
               <div>
-                <div class="font-semibold">Livraison</div>
+                <div class="font-semibold">Frais de livraison</div>
                 <div v-show="deliveryPrice > 0" class="text-sm mt-3">Offert à partir de 15 € de commande (hors frais).</div>
               </div>
               <div class="ml-auto mb-auto text-sm flex-no-shrink">

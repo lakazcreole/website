@@ -4,7 +4,7 @@
       <div class="w-6 mr-3 quantity">
         <div class="flex w-6 h-6 text-sm rounded-full bg-orange-light text-white font-semibold justify-around p-1">{{ quantity }}</div>
       </div>
-      <div class="font-semibold">
+      <div :class="nameClass">
         {{ name }}
       </div>
       <div class="ml-auto text-orange-light text-sm price flex-no-shrink">
@@ -42,8 +42,11 @@ export default {
     },
     editable: {
       type: Boolean,
-      required: false,
       default: false
+    },
+    nameClass: {
+      type: String,
+      default: 'font-semibold'
     }
   },
 

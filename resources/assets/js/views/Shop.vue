@@ -1,90 +1,101 @@
 <template>
   <div>
-    <transition enter-active-class="slideInDown" leave-active-class="slideOutUp" duration="800">
-      <div v-show="showMobileCart" :class="`shrink-transition overflow-hidden ${mobileCartHeightClass} bg-black text-white px-3`">
-        <Cart id="mobile-cart" :editable="editingCart" @edit="editCart"/>
-        <div v-show="showAllergiesInput" class="mt-5">
-          <label for="allergies" class="block font-semibold text-grey text-sm mb-3">Allergies</label>
-          <textarea
-            id="allergies"
-            v-model="allergies"
-            placeholder="Ajouter un commentaire"
-            rows="2"
-            class="p-4 w-full rounded-lg shadow-lg text-sm text-grey-darker"
-          />
+    <div v-if="completed">
+      <div class="flex" style="background-image: url('/images/order_header.jpg'); background-size: cover; background-position: center">
+        <div class="mx-auto w-full max-w-sm px-3 sm:px-0 my-20">
+          <OrderCompleted/>
         </div>
-        <PrimaryButton :disabled="!canOrder" class="mt-6 w-full" @click="checkout">Commander</PrimaryButton>
       </div>
-    </transition>
-    <transition enter-active-class="fadeInUp" leave-active-class="fadeOutDown" duration="800">
-      <div v-show="!showMobileCart">
-        <div :class="`z-30 sticky pin-t shrink-transition ${headerHeightClass} shadow-md`">
-          <div class="z-0 w-full h-full" style="background-image: url('/images/order_header.jpg'); background-size: cover; background-position: center"/>
-          <div class="absolute pin-t z-0 bg-black opacity-25 w-full h-full"/>
-          <div class="absolute pin-t mt-10 w-full flex justify-center">
-            <div class="mx-3 sm:mx-0 max-w-xs sm:max-w-sm w-full">
-              <h1 class="text-center text-grey-lightest font-title font-normal text-5xl mb-3" style="text-shadow: 2px 2px 3px black">Commande</h1>
-              <DeliveryInput
-                @filled="inputFilled"
-                @editingAddress="editAddress()"
-                @editedAddress="editedAddress()"
-              />
+    </div>
+    <div v-else>
+      <transition enter-active-class="slideInDown" leave-active-class="slideOutUp" duration="800">
+        <div v-show="showMobileCart" :class="`shrink-transition overflow-hidden ${mobileCartHeightClass} bg-black text-white px-3`">
+          <Cart id="mobile-cart" :editable="editingCart" @edit="editCart"/>
+          <div v-show="showAllergiesInput" class="mt-5">
+            <label for="allergies" class="block font-semibold text-grey text-sm mb-3">Allergies</label>
+            <textarea
+              id="allergies"
+              v-model="allergies"
+              placeholder="Ajouter un commentaire"
+              rows="2"
+              class="p-4 w-full rounded-lg shadow-lg text-sm text-grey-darker"
+            />
+          </div>
+          <PrimaryButton :disabled="!canOrder" class="mt-6 w-full" @click="checkout">Commander</PrimaryButton>
+        </div>
+      </transition>
+      <transition enter-active-class="fadeInUp" leave-active-class="fadeOutDown" duration="800">
+        <div v-show="!showMobileCart">
+          <div :class="`z-30 sticky pin-t shrink-transition ${headerHeightClass} shadow-md`">
+            <div class="z-0 w-full h-full" style="background-image: url('/images/order_header.jpg'); background-size: cover; background-position: center"/>
+            <div class="absolute pin-t z-0 bg-black opacity-25 w-full h-full"/>
+            <div class="absolute pin-t mt-10 w-full flex justify-center">
+              <div class="mx-3 sm:mx-0 max-w-xs sm:max-w-sm w-full">
+                <h1 class="text-center text-grey-lightest font-title font-normal text-5xl mb-3" style="text-shadow: 2px 2px 3px black">Commande</h1>
+                <DeliveryInput
+                  @filled="inputFilled"
+                  @editingAddress="editAddress()"
+                  @editedAddress="editedAddress()"
+                />
+              </div>
             </div>
           </div>
-        </div>
-        <transition name="slide" enter-active-class="slideInUp" leave-active-class="slideOutDown">
-          <div v-show="deliveryStepDone" class="container mx-auto py-20 md:py-16">
-            <OffersList v-show="showMenu" class="mb-8"/>
-            <div class="flex justify-end">
-              <div class="hidden sm:block flex-1">
-                <transition enter-active-class="fadeInLeft" leave-active-class="fadeOutLeft">
-                  <ProductsListNav v-show="showMenu" class="sticky mr-5 " style="top: 250px"/>
-                </transition>
-              </div>
-              <div class="px-3 sm:px-0 w-full sm:max-w-sm flex-none">
-                <transition-group enter-active-class="fadeInLeft" leave-active-class="fadeOutLeft">
-                  <div v-show="showCheckOut" key="checkout">
-                    <CustomerInput/>
-                    <PrimaryButton class="mt-10 w-full">Commander</PrimaryButton>
+          <transition name="slide" enter-active-class="slideInUp" leave-active-class="slideOutDown">
+            <div v-show="deliveryStepDone" class="container mx-auto py-20 md:py-16">
+              <OffersList v-show="showMenu" class="mb-8"/>
+              <div class="flex justify-end">
+                <div class="hidden sm:block flex-1">
+                  <transition enter-active-class="fadeInLeft" leave-active-class="fadeOutLeft">
+                    <ProductsListNav v-show="showMenu" class="sticky mr-5 " style="top: 250px"/>
+                  </transition>
+                </div>
+                <div class="px-3 sm:px-0 w-full sm:max-w-sm flex-none">
+                  <transition-group enter-active-class="fadeInLeft" leave-active-class="fadeOutLeft">
+                    <div v-show="showCheckOut" key="checkout">
+                      <CustomerInput/>
+                      <PrimaryButton class="mt-10 w-full" @click="handleOrder">Commander</PrimaryButton>
+                    </div>
+                    <ProductsList v-show="showMenu" key="products"/>
+                  </transition-group>
+                </div>
+                <div class="hidden sm:block flex-1">
+                  <div :style="cartStyle" class="sticky ml-5 mr-3">
+                    <Cart :editable="editingCart" @edit="editCart">
+                      <Alert v-show="showCheckOut && allergies.length" color="blue" class="mb-5">
+                        <p>{{ allergies }}</p>
+                      </Alert>
+                    </Cart>
+                    <div v-show="showMenu && showAllergiesInput" class="mt-5">
+                      <label for="allergies" class="block font-semibold text-grey text-sm mb-3">Allergies</label>
+                      <textarea
+                        id="allergies"
+                        v-model="allergies"
+                        placeholder="Ajouter un commentaire"
+                        rows="2"
+                        class="p-4 w-full rounded-lg shadow-lg text-sm text-grey-darker"
+                      />
+                    </div>
+                    <PrimaryButton v-show="showMenu" :disabled="!canOrder" class="mt-6 w-full" @click="checkout">Commander</PrimaryButton>
                   </div>
-                  <ProductsList v-show="showMenu" key="products"/>
-                </transition-group>
-              </div>
-              <div class="hidden sm:block flex-1">
-                <div :style="cartStyle" class="sticky ml-5 mr-3">
-                  <Cart :editable="editingCart" @edit="editCart">
-                    <Alert v-show="showCheckOut && allergies.length" color="blue" class="mb-5">
-                      <p>{{ allergies }}</p>
-                    </Alert>
-                  </Cart>
-                  <div v-show="showMenu && showAllergiesInput" class="mt-5">
-                    <label for="allergies" class="block font-semibold text-grey text-sm mb-3">Allergies</label>
-                    <textarea
-                      id="allergies"
-                      v-model="allergies"
-                      placeholder="Ajouter un commentaire"
-                      rows="2"
-                      class="p-4 w-full rounded-lg shadow-lg text-sm text-grey-darker"
-                    />
-                  </div>
-                  <PrimaryButton v-show="showMenu" :disabled="!canOrder" class="mt-6 w-full" @click="checkout">Commander</PrimaryButton>
                 </div>
               </div>
             </div>
-          </div>
-        </transition>
-      </div>
-    </transition>
+          </transition>
+        </div>
+      </transition>
+    </div>
   </div>
 </template>
 
 <script>
 import { mapState, mapGetters } from 'vuex'
 import VueSticky from 'vue-sticky'
+import axios from 'axios'
 
 import Alert from '../components/Alert'
 import PrimaryButton from '../components/PrimaryButton'
 
+import OrderCompleted from '../components/shop/OrderCompleted'
 import DeliveryInput from '../components/shop/DeliveryInput'
 import CustomerInput from '../components/shop/CustomerInput'
 import ProductsList from '../components/shop/ProductsList'
@@ -96,6 +107,7 @@ export default {
   components: {
     Alert,
     PrimaryButton,
+    OrderCompleted,
     DeliveryInput,
     CustomerInput,
     ProductsList,
@@ -120,7 +132,8 @@ export default {
 
   computed: {
     ...mapState('order', [
-      'showMobileCart'
+      'showMobileCart',
+      'completed'
     ]),
     ...mapGetters({
       deliveryInputFilled: 'order/deliveryInputFilled',
@@ -195,6 +208,40 @@ export default {
       this.showMenu = true
       this.editingCart = true
       this.showCheckOut = false
+    },
+    handleOrder () {
+      const order = {
+        orderLines: this.$store.getters['cart/items'],
+        date: this.$store.state.order.date.toLocaleDateString('fr-FR'),
+        time: this.$store.state.order.time,
+        information: this.$store.state.order.allergies,
+        customer: {
+          firstName: this.$store.state.order.customer.firstName,
+          lastName: this.$store.state.order.customer.lastName,
+          email: this.$store.state.order.customer.email,
+          phone: this.$store.state.order.customer.phone
+        },
+        address: {
+          address1: this.$store.state.order.address.name,
+          address2: null,
+          address3: this.$store.state.order.information,
+          city: this.$store.state.order.address.city,
+          zip: this.$store.state.order.address.postcode
+        }
+      }
+      console.log(order)
+      // console.log(order)
+      axios.post('/api/orders', order)
+        .then(() => {
+          this.$store.commit('order/completed')
+        })
+        .catch((error) => {
+          if (error.response && error.response.status === 422) {
+            this.$store.commit('order/setErrors', error.response.data.errors)
+          } else {
+            this.$store.commit('order/serverError')
+          }
+        })
     }
   }
 }
