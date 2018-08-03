@@ -4,6 +4,7 @@ import Vuex from 'vuex'
 
 import Cart from '../../../resources/assets/js/components/shop/Cart.vue'
 import CartItem from '../../../resources/assets/js/components/shop/CartItem.vue'
+import Alert from '../../../resources/assets/js/components/Alert.vue'
 import store from '../../../resources/assets/js/store'
 
 const localVue = createLocalVue()
@@ -81,7 +82,7 @@ describe('Cart', () => {
     wrapper.vm.$store.state.products.all = productsFactory()
     wrapper.vm.$store.state.cart.items = [{ id: 1, quantity: 15}]
     expect(wrapper.find('.delivery').text()).not.toContain('Offert à partir de 15 € de commande (hors frais).')
-    expect(wrapper.find('.delivery').text()).toContain('Livraison Offert')
+    expect(wrapper.find('.delivery').text()).toContain('Frais de livraison Offert')
   })
 
   it('adjust the delivery cost for total prices between 13 and 15', () => {
@@ -95,7 +96,9 @@ describe('Cart', () => {
     const wrapper = factory()
     wrapper.vm.$store.state.products.all = productsFactory()
     wrapper.vm.$store.state.cart.items = [{ id: 1, quantity: 1 }]
-    expect(wrapper.find('.minimum-warning').isVisible()).toBe(true)
+    const alertWrapper = wrapper.find(Alert)
+    expect(alertWrapper.props().color).toBe('red')
+    expect(alertWrapper.isVisible()).toBe(true)
   })
 
   it('does not display a message when full price is above 8', () => {
@@ -104,7 +107,9 @@ describe('Cart', () => {
     wrapper.vm.$store.state.cart.items = [{ id: 1, quantity: 1 }]
     console.log('items', wrapper.vm.items)
     console.log('minimum reached', wrapper.vm.minimumReached)
-    expect(wrapper.find('.minimum-warning').isVisible()).toBe(false)
+    const alertWrapper = wrapper.find(Alert)
+    expect(alertWrapper.props().color).toBe('red')
+    expect(wrapper.find(Alert).isVisible()).toBe(false)
   })
 
   it('removes the item from the cart when CartItem emits a remove event', () => {
