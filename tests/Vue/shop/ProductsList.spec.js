@@ -80,7 +80,6 @@ describe('ProductsList', () => {
     wrapper.vm.$store.state.cart.items = []
     const childWrapper = wrapper.find(ProductsListItem)
     childWrapper.vm.$emit('add', childWrapper.props().id)
-    console.log(wrapper.vm.$store.state.cart.items)
     expect(wrapper.vm.$store.state.cart.items.find(i => i.id === childWrapper.props().id)).not.toBe(undefined)
   })
 })
