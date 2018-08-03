@@ -11,7 +11,9 @@
         <slot name="header">
           Header
         </slot>
-        <button type="button" class="close ml-auto mb-auto" @click="hide">&times;</button>
+        <button type="button" class="flex close ml-auto mb-auto" @click="hide">
+          <i class="material-icons text-grey-dark hover:text-red-light">close</i>
+        </button>
       </div>
       <div>
         <slot name="body">

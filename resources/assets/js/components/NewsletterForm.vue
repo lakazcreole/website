@@ -48,9 +48,13 @@ export default {
           this.subscribed = true
         })
         .catch((error) => {
-          if (error.status === 422) {
-            this.errors = error.data
-          } else {
+          if (error.response) {
+            if (error.response.status === 422) {
+              this.errors = error.response.data
+            } else {
+              this.serverError = true
+            }
+          } else if (error.request) { // error with the request, like network error
             this.serverError = true
           }
         })

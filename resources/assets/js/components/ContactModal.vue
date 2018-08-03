@@ -1,5 +1,5 @@
 <template>
-  <modal name="contact-modal">
+  <modal name="contact-modal" class="font-sans text-grey-darker">
     <div slot="header" class="text-2xl text-orange mb-3">Contact</div>
     <div v-if="serverError" slot="body">
       <p class="text-justify">Une erreur s'est produite. Veuillez réessayer plus tard.</p>
@@ -93,10 +93,6 @@ export default {
   },
 
   methods: {
-    // show () {
-    //   console.log('ContactModal.show()') // eslint-disable-line no-console
-    //   this.$modal.show('contact-modal')
-    // },
     hide () {
       this.$modal.hide('contact-modal')
     },
@@ -112,19 +108,19 @@ export default {
           this.sent = true
         })
         .catch((error) => {
-          if (error.status === 422) {
-            this.errors = error.data
-          } else {
+          if (error.response) {
+            if (error.response.status === 422) {
+              this.errors = error.response.data
+            } else {
+              this.serverError = true
+            }
+          } else if (error.request) { // error with the request, like network error
             this.serverError = true
           }
         })
         .finally(() => {
           this.waiting = false
         })
-    },
-    inputClasses (key) {
-      if (this.errors && this.errors.errors.hasOwnProperty(key)) return 'form-control is-invalid'
-      return 'form-control'
     }
   }
 }

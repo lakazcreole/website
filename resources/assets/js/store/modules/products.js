@@ -44,6 +44,7 @@ export default {
   actions: {
     fetchProducts ({ commit }) {
       shop.getProducts()
+        .then(response => response.data.data)
         .then(products => {
           commit('setProducts', products)
           commit('fetchProductsSuccess')
@@ -54,6 +55,7 @@ export default {
     },
     fetchOffers ({ commit }) {
       shop.getOffers()
+        .then(response => response.data.data)
         .then(offers => {
           commit('setOffers', offers)
           commit('fetchOffersSuccess')

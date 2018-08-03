@@ -1,19 +1,11 @@
-import axios from 'axios'
+import http from '../http'
 
 export default {
   getProducts () {
-    return new Promise((resolve, reject) => {
-      axios.get('/api/products?order=true')
-        .then(response => resolve(response.data.data))
-        .catch(error => reject(error.response))
-    })
+    return http.get('/api/products?order=true')
   },
 
   getOffers () {
-    return new Promise((resolve, reject) => {
-      axios.get('/api/products/offers')
-        .then(response => resolve(response.data.data))
-        .catch(error => reject(error.response))
-    })
+    return http.get('/api/products/offers')
   }
 }
