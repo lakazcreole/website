@@ -59,8 +59,7 @@ const app = new Vue({
     ContactModal,
     OrderButton,
     Shop,
-    'newsletter-form': require('./components/NewsletterForm.vue').default,
-    'order-manager': require('./components/OrderManager.vue').default
+    'newsletter-form': require('./components/NewsletterForm.vue').default
   },
   data () {
     return {

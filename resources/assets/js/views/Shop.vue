@@ -1,13 +1,15 @@
 <template>
   <div>
-    <div v-if="completed">
-      <div class="flex" style="background-image: url('/images/order_header.jpg'); background-size: cover; background-position: center">
-        <div class="mx-auto w-full max-w-sm px-3 sm:px-0 my-20">
-          <OrderCompleted/>
+    <transition enter-active-class="fadeInDown">
+      <div v-if="completed">
+        <div class="flex" style="background-image: url('/images/order_header.jpg'); background-size: cover; background-position: center">
+          <div class="mx-auto w-full max-w-sm px-3 sm:px-0 my-20">
+            <OrderCompleted/>
+          </div>
         </div>
       </div>
-    </div>
-    <div v-else>
+    </transition>
+    <div v-if="!completed">
       <transition enter-active-class="slideInDown" leave-active-class="slideOutUp" duration="800">
         <div v-show="showMobileCart" :class="`shrink-transition overflow-hidden ${mobileCartHeightClass} bg-black text-white px-3`">
           <Cart id="mobile-cart" :editable="editingCart" @edit="editCart"/>

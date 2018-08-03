@@ -1,3 +1,18 @@
 {
-    "/bundle.js": "/bundle.js"
+    "/js/app.js": "/js/app.js",
+    "/css/app.css": "/css/app.css",
+    "/css/dashboard.css": "/css/dashboard.css",
+    "/css/new.css": "/css/new.css",
+    "/js/dashboard.js": "/js/dashboard.js",
+    "/0.c585e9e9aa75176caee6.hot-update.js": "/0.c585e9e9aa75176caee6.hot-update.js",
+    "/0.07129cd02cf79f6de82a.hot-update.js": "/0.07129cd02cf79f6de82a.hot-update.js",
+    "/0.ac50c20cdec6afb1b351.hot-update.js": "/0.ac50c20cdec6afb1b351.hot-update.js",
+    "/0.fe6e324c012636d52e63.hot-update.js": "/0.fe6e324c012636d52e63.hot-update.js",
+    "/0.4b4181ca49d43dad5a31.hot-update.js": "/0.4b4181ca49d43dad5a31.hot-update.js",
+    "/0.2ce5d695a185236264c0.hot-update.js": "/0.2ce5d695a185236264c0.hot-update.js",
+    "/0.857e1547700ae41c4b34.hot-update.js": "/0.857e1547700ae41c4b34.hot-update.js",
+    "/0.2e3a4d81b7ede57b2ecc.hot-update.js": "/0.2e3a4d81b7ede57b2ecc.hot-update.js",
+    "/0.763ed0a099a9c3fde23f.hot-update.js": "/0.763ed0a099a9c3fde23f.hot-update.js",
+    "/0.05d503d221c7bf2036fb.hot-update.js": "/0.05d503d221c7bf2036fb.hot-update.js",
+    "/0.837aba9dd3688a888548.hot-update.js": "/0.837aba9dd3688a888548.hot-update.js"
 }

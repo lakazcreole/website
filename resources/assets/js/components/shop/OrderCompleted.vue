@@ -1,7 +1,7 @@
 <template>
   <div>
     <h1 class="text-center text-grey-lightest font-title font-normal text-5xl mb-10" style="text-shadow: 2px 2px 3px black">Commande effectuée !</h1>
-    <div class="bg-grey-lightest rounded-lg shadow-lg p-4">
+    <div class="bg-grey-lightest rounded-lg shadow-lg p-5">
       <h2 class="uppercase font-semibold text-grey text-base  mb-5">Livraison</h2>
       <div class="mb-5 text-grey-darker flex items-center">
         <i class="material-icons text-grey">place</i>

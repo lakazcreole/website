@@ -11,7 +11,7 @@
         <div v-if="price">{{ totalPriceInFrench }} €</div>
         <div v-else>Offert</div>
       </div>
-      <button v-show="editable" type="button" class="hover:bg-red-light w-4 h-4 rounded-full text-red-lighter hover:text-grey-lightest ml-3" @click="remove">&times;</button>
+      <button v-show="editable" type="button" class="flex-no-shrink hover:bg-red-light w-4 h-4 rounded-full text-red-lighter hover:text-grey-lightest ml-3" @click="remove">&times;</button>
     </div>
     <!--     <div class="flex items-center text-grey-light text-sm mt-2">
       <button class="flex text-xs"><i class="material-icons text-grey-light">remove_circle_outline</i></button>
@@ -46,7 +46,7 @@ export default {
     },
     nameClass: {
       type: String,
-      default: 'font-semibold'
+      default: 'font-semibold overflow-hidden'
     }
   },
 
