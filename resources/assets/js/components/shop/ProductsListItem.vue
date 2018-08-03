@@ -44,13 +44,7 @@
 </template>
 
 <script>
-import InformationTooltip from '../InformationTooltip'
-
 export default {
-  components: {
-    InformationTooltip
-  },
-
   props: {
     id: {
       type: Number,

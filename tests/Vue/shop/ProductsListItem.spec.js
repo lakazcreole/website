@@ -91,7 +91,7 @@ describe('ProductsListItem', () => {
   it('emits an add event when add button is clicked', () => {
     const wrapper = factory()
     wrapper.find('button.add').trigger('click')
-    expect(wrapper.emitted('add')[0]).toEqual([wrapper.vm.id])
+    expect(wrapper.emitted('add')[0]).toEqual([wrapper.props().id])
   })
 
   it('renders a select per option when there are options', () => {
@@ -123,7 +123,7 @@ describe('ProductsListItem', () => {
     ]})
     wrapper.setData({ optionsValue: [99, 100] })
     wrapper.find('button.add').trigger('click')
-    expect(wrapper.emitted('add')[0]).toEqual([1])
+    expect(wrapper.emitted('add')[0]).toEqual([wrapper.props().id])
     expect(wrapper.emitted('add')[1]).toEqual([99])
     expect(wrapper.emitted('add')[2]).toEqual([100])
   })

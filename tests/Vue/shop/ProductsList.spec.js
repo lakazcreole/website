@@ -79,8 +79,8 @@ describe('ProductsList', () => {
     wrapper.vm.$store.state.products.types = productTypesFactory()
     wrapper.vm.$store.state.cart.items = []
     const childWrapper = wrapper.find(ProductsListItem)
-    childWrapper.vm.$emit('add', childWrapper.id)
-    expect(wrapper.vm.$store.state.cart.items.find(i => i.id === childWrapper.id)).toBe(null)
-    expect(wrapper.emitted('add')[0]).toEqual([childWrapper.id])
+    childWrapper.vm.$emit('add', childWrapper.props().id)
+    console.log(wrapper.vm.$store.state.cart.items)
+    expect(wrapper.vm.$store.state.cart.items.find(i => i.id === childWrapper.props().id)).not.toBe(undefined)
   })
 })

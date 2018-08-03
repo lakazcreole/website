@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex'
+import { mapState } from 'vuex'
 import ProductsListItem from './ProductsListItem'
 
 export default {
@@ -62,11 +62,8 @@ export default {
   },
 
   methods: {
-    ...mapActions('cart', {
-      addToCart: 'addProduct'
-    }),
     add (productId) {
-      this.addToCart(this.products.find(product => product.id === productId))
+      this.$store.dispatch('cart/addProduct', this.products.find(product => product.id === productId))
     },
     shouldDisplay (type) {
       return this.products.filter(product => product.type === type).length
