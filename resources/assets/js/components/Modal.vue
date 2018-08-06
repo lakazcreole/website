@@ -6,7 +6,7 @@
     height="auto"
     transition="modal"
   >
-    <div class="shadow-lg rounded bg-white p-4">
+    <div class="shadow-lg rounded-lg bg-white p-4">
       <div class="flex py-2">
         <slot name="header">
           Header

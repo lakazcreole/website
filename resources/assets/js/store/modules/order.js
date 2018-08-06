@@ -13,7 +13,7 @@ export default {
     },
     allergies: '',
     information: '',
-    errors: [],
+    errors: {},
     serverError: false,
     completed: false,
     deliveryDays: [],

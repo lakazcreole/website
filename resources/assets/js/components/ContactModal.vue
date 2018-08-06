@@ -9,34 +9,10 @@
         Votre message a bien été envoyé. Je reviendrai vers vous dès que possible !
       </p>
       <div v-else>
-        <div class="mb-3">
-          <label class="block font-semibold text-grey-darkest mb-2" for="name">Nom</label>
-          <input id="name" v-model="name" :disabled="waiting" class="w-full p-2 rounded border border-orange-light" type="text" placeholder="Nom">
-          <div v-if="errors" class="text-red-light text-sm mt-2">
-            <span v-for="(err, index) in errors.errors.name" :key="index">{{ err }} </span>
-          </div>
-        </div>
-        <div class="mb-3">
-          <label class="block font-semibold text-grey-darkest mb-2" for="email">E-mail</label>
-          <input id="email" v-model="email" :disabled="waiting" class="w-full p-2 rounded border border-orange-light" type="email" placeholder="E-mail">
-          <div v-if="errors" class="text-red-light text-sm mt-2">
-            <span v-for="(err, index) in errors.errors.email" :key="index">{{ err }} </span>
-          </div>
-        </div>
-        <div class="mb-3">
-          <label class="block font-semibold text-grey-darkest mb-2" for="subject">Objet</label>
-          <input id="subject" v-model="subject" :disabled="waiting" class="w-full p-2 rounded border border-orange-light" type="text" placeholder="Objet">
-          <div v-if="errors" class="text-red-light text-sm mt-2">
-            <span v-for="(err, index) in errors.errors.subject" :key="index">{{ err }} </span>
-          </div>
-        </div>
-        <div class="mb-3">
-          <label class="block font-semibold text-grey-darkest mb-2" for="message">Message</label>
-          <textarea id="message" v-model="message" :disabled="waiting" class="w-full p-2 rounded border border-orange-light" placeholder="Saisissez votre message..." rows="3"/>
-          <div v-if="errors" class="text-red-light text-sm mt-2">
-            <span v-for="(err, index) in errors.errors.message" :key="index">{{ err }} </span>
-          </div>
-        </div>
+        <FormInput v-model="name" :errors="errors.name" :disabled="waiting" name="name" label="Nom" placeholder="Nom" class="mb-3"/>
+        <FormInput v-model="email" :errors="errors.email" :disabled="waiting" name="email" label="E-mail" type="email" placeholder="E-mail" class="mb-3"/>
+        <FormInput v-model="subject" :errors="errors.subject" :disabled="waiting" name="subject" label="Objet" placeholder="Objet" class="mb-3"/>
+        <FormInput v-model="message" :errors="errors.message" :disabled="waiting" name="message" label="Message" type="textarea" placeholder="Saisissez votre message..." class="mb-3"/>
       </div>
     </div>
     <div slot="footer" class="text-right">
@@ -55,10 +31,12 @@
 <script>
 import contact from '../api/contact'
 import Modal from './Modal'
+import FormInput from './FormInput'
 
 export default {
   components: {
-    Modal
+    Modal,
+    FormInput
   },
 
   props: {
@@ -81,7 +59,7 @@ export default {
       subject: '',
       message: '',
       serverError: false,
-      errors: null,
+      errors: {},
       sent: false,
       waiting: false
     }
@@ -110,7 +88,7 @@ export default {
         .catch((error) => {
           if (error.response) {
             if (error.response.status === 422) {
-              this.errors = error.response.data
+              this.errors = error.response.data.errors
             } else {
               this.serverError = true
             }

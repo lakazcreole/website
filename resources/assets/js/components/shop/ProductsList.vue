@@ -1,7 +1,7 @@
 <template>
   <div>
     <div v-for="type in types" v-if="shouldDisplay(type.key)" :key="type.key">
-      <h2 :id="type.key" class="uppercase font-semibold text-grey text-base tracking-wide mb-5">
+      <h2 :id="type.name.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase()" class="uppercase font-semibold text-grey text-base tracking-wide mb-5">
         {{ type.name }}
       </h2>
       <div class="bg-white rounded-lg shadow-lg mb-8 p-4">
