@@ -6,6 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
 {
+    const TYPES = [
+        [ 'type' => 'starter', 'title' => 'Entrées' ],
+        [ 'type' => 'main', 'title' => 'Plats' ],
+        [ 'type' => 'desert', 'title' => 'Desserts'],
+        [ 'type' => 'drink', 'title' => 'Boissons' ],
+        [ 'type' => 'side', 'title' => 'Accompagnements' ],
+    ];
+
     /**
      * The attributes that are mass assignable.
      *
@@ -22,6 +30,7 @@ class Product extends Model
      */
     protected $casts = [
         'disabled' => 'boolean',
+        'price' => 'float',
     ];
 
     public function isStarter()

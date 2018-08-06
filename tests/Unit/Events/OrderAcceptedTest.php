@@ -30,9 +30,21 @@ class OrderAcceptedTest extends TestCase
         ]);
         $listener = new SendOrderAcceptedMail();
         $listener->handle(new OrderAccepted($order));
-        Mail::assertSent(OrderAcceptedMail::class, function ($mail) use ($order) {
+        Mail::assertQueued(OrderAcceptedMail::class, function ($mail) use ($order) {
             $mail->build();
             return $mail->hasTo($order->customer->email);
         });
+    }
+
+    public function testDoesNotSendOrderAcceptedMailWhenNotifyIsFalse()
+    {
+        Mail::fake();
+        $order = factory(Order::class)->create([
+            'customer_id' => factory(Customer::class)->create()->id,
+            'notifyAccept' => false
+        ]);
+        $listener = new SendOrderAcceptedMail();
+        $listener->handle(new OrderAccepted($order));
+        Mail::assertNotQueued(OrderAcceptedMail::class);
     }
 }

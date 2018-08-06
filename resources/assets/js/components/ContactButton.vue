@@ -1,7 +1,7 @@
 <template>
-  <a class="nav-link" href="#" @click.prevent="showContactModal">
+  <button class="text-grey-dark no-underline" @click="showContactModal">
     Contact
-  </a>
+  </button>
 </template>
 
 <script>
@@ -13,7 +13,7 @@ export default {
   },
 
   methods: {
-    showContactModal() {
+    showContactModal () {
       this.$modal.show('contact-modal')
     }
   }

@@ -1,47 +1,61 @@
-<section class="menu my-5" id="la-carte">
-  <div class="container">
-    <h2 class="text-center mb-4">La carte</h2>
-    <div class="card-deck">
-      <div class="card">
-        <img class="card-img-top" style="height:300px" src="{{ asset('/images/bouchons.jpg') }}" alt="Bonbons porc Réunion"/>
-        <div class="card-body">
-          <h3 class="card-title">Entrées</h3>
-          <ul>
-            <li>Bouchons</li>
-            <li>Samoussas</li>
-            <li>Bonbons piment</li>
+<section class="menu my-10 font-sans" id="la-carte">
+  <div class="container mx-auto">
+    <h2 class="text-center font-title text-orange text-5xl font-normal mb-8">La carte</h2>
+    <div class="flex flex-col md:flex-row">
+      <div class="sm:w-1/3 mx-auto sm:mx-4 mb-8 md:mb-0">
+        @component('components.menu-card')
+          @slot('image')
+            <img src="{{ asset('/images/bouchons.jpg') }}" alt="Bouchons porc Réunion"/>
+          @endslot
+          @slot('title')
+            Entrées
+          @endslot
+          <ul class="mb-3">
+            <li class="mb-1">Bouchons</li>
+            <li class="mb-1">Samoussas</li>
+            <li class="mb-1">Bonbons piment</li>
           </ul>
-          <p class="card-text">Aussi disponibles en plateau apéritif.</p>
-        </div>
+          <p>Aussi disponibles en plateau apéritif.</p>
+        @endcomponent
       </div>
-      <div class="card">
-        <img class="card-img-top" style="height:300px" src="{{ asset('/images/cari-poulet.jpg') }}" alt="Cari poulet Paris">
-        <div class="card-body">
-          <h3 class="card-title">Plats</h3>
-          <ul>
-            <li>Cari poulet</li>
-            <li>Rougail saucisse</li>
-            <li>Shop suey de légumes</li>
+      <div class="sm:w-1/3 mx-auto sm:mx-4 mb-8 md:mb-0">
+        @component('components.menu-card')
+          @slot('image')
+            <img src="{{ asset('/images/cari-poulet.jpg') }}" alt="Cari poulet Paris">
+          @endslot
+          @slot('title')
+            Plats
+          @endslot
+          <ul class="mb-3">
+            <li class="mb-1">Cari poulet</li>
+            <li class="mb-1">Rougail saucisse</li>
+            <li class="mb-1">Shop suey de légumes</li>
           </ul>
-          <p class="card-text">... et bien d'autres !</p>
-        </div>
+          <p>... et bien d'autres !</p>
+        @endcomponent
       </div>
-      <div class="card">
-        <div class="tag text-center">Bientôt disponible</div>
-        <img class="card-img-top" style="height:300px" src="./images/gateau-patate.jpg" alt="Gâteau patate maison">
-        <div class="card-body">
-          <h3 class="card-title">Desserts</h3>
-          <ul>
-            <li>Bonbons miel</li>
-            <li>Gâteau patate</li>
-            <li>Fruits exotiques</li>
+      <div class="sm:w-1/3 mx-auto sm:mx-4">
+        @component('components.menu-card')
+          @slot('tag')
+            Bientôt disponible
+          @endslot
+          @slot('image')
+            <img src="./images/gateau-patate.jpg" alt="Gâteau patate maison">
+          @endslot
+          @slot('title')
+            Desserts
+          @endslot
+          <ul class="mb-3">
+            <li class="mb-1">Bonbons miel</li>
+            <li class="mb-1">Gâteau patate</li>
+            <li class="mb-1">Fruits exotiques</li>
           </ul>
-          <p class="card-text">Il reste toujours une place pour le dessert. 😉</p>
-        </div>
+          <p>Il reste toujours une place pour le dessert. 😉</p>
+        @endcomponent
       </div>
     </div>
-    <div class="text-center my-5">
-      <a class="btn btn-rounded btn-lg btn-primary" href="{{ route('order') }}">Commander</a>
+    <div class="text-center mt-10">
+      <a class="inline-block mx-auto mx-3 px-3 py-3 w-48 rounded-full text-white bg-orange hover:bg-orange-light no-underline" href="{{ route('order') }}" @click.prevent="showShopClosedModal">Commander</a>
     </div>
   </div>
 </section>

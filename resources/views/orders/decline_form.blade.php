@@ -26,7 +26,7 @@
                 <li>Date : {{ $date }} à {{ $time }}</li>
             </ul>
         </p>
-        <h2>Action</h2>
+        <h2>Mail</h2>
         @if ($errors->any())
             <div class="alert alert-danger">
                 <ul>
@@ -39,7 +39,7 @@
         <form method="POST" action="{{ $postUrl }}" accept-charset="UTF-8">
             {{ csrf_field() }}
             <div class="form-group">
-                <label for="message">Motif de refus</label>
+                <label for="message">Personnaliser</label>
                 <textarea class="form-control" name="message" id="message" rows="8">
 Bonjour,
 
@@ -48,6 +48,27 @@ Je vous remercie de votre commande et espère que vous recommanderez bientôt !
 
 Cordialement,
                 </textarea>
+                <div>
+                    <div class="collapse" id="collapse">
+                        <small>
+                            {{ config('app.name') }}
+                        </small>
+                    </div>
+                    <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse" aria-expanded="false" aria-controls="collapse">
+                        Ce mail sera complété par cette signature.
+                    </button>
+                </div>
+            </div>
+            <div class="form-group">
+                Notifier le client par email :
+                <div class="form-check form-check-inline ml-2">
+                  <input class="form-check-input" type="radio" name="notify" id="enabled" value="1" checked>
+                  <label class="form-check-label" for="enabled">Oui</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="notify" id="disabled" value="0">
+                  <label class="form-check-label" for="disabled">Non</label>
+                </div>
             </div>
             <button type="submit" class="btn btn-lg btn-block btn-danger">Refuser</button>
         </form>

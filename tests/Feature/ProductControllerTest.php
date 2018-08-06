@@ -12,22 +12,15 @@ class ProductControllerTest extends TestCase
 {
     use RefreshDatabase;
 
-    protected $productTypes = [
-        [ 'type' => 'starter', 'title' => 'Entrées' ],
-        [ 'type' => 'main', 'title' => 'Plats' ],
-        [ 'type' => 'drink', 'title' => 'Boissons' ],
-        [ 'type' => 'side', 'title' => 'Accompagnements' ],
-    ];
-
     public function testIndex()
     {
         $user = factory(User::class)->create(['admin' => true]);
         $this->actingAs($user)
-            ->get(route('dashboard.products'))
+            ->get(route('dashboard.products.index'))
             ->assertStatus(200)
             ->assertViewIs('products.index')
-            ->assertViewHas('productTypes', $this->productTypes)
-            ->assertViewHas('products', Product::all())
+            ->assertViewHas('productTypes', Product::TYPES)
+            ->assertViewHas('products', Product::orderBy('name')->get())
             ->assertViewHas('apiToken', $user->api_token);
     }
 
@@ -38,7 +31,7 @@ class ProductControllerTest extends TestCase
             ->get(route('dashboard.products.create'))
             ->assertStatus(200)
             ->assertViewIs('products.create')
-            ->assertViewHas('productTypes', $this->productTypes);
+            ->assertViewHas('productTypes', Product::TYPES);
     }
 
     public function testStore()
@@ -77,13 +70,14 @@ class ProductControllerTest extends TestCase
             ->get(route('dashboard.products.edit', ['product' => $product]))
             ->assertStatus(200)
             ->assertViewIs('products.edit')
+            ->assertViewHas('id', $product->id)
             ->assertViewHas('name', $product->name)
             ->assertViewHas('type', $product->type)
             ->assertViewHas('pieces', $product->pieces)
             ->assertViewHas('description', $product->description)
             ->assertViewHas('price', $product->price)
             ->assertViewHas('disabled', $product->disabled)
-            ->assertViewHas('productTypes', $this->productTypes);
+            ->assertViewHas('productTypes', Product::TYPES);
     }
 
     public function testUpdate()

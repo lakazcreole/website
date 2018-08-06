@@ -23,11 +23,20 @@
           @foreach($products as $product)
             @if($product->type === $productType['type'])
               <li class="list-group-item">
-                <product-editor
-                  :id="{{ $product->id }}" name="{{ $product->name }}" :disabled="{{ $product->disabled ? 'true' : 'false' }}"
+                <div class="d-flex">
+                  {{ $product->name }}
+                  <div class="ml-auto ">
+                    @if($product->disabled)
+                      <small class="text-muted">Indisponible</small>
+                    @endif
+                    <a href="{{ route('dashboard.products.edit', ['product' => $product]) }}" class="btn btn-outline-secondary btn-sm">Modifier</a>
+                  </div>
+                </div>
+{{--                 <product-editor
+                  :id="{{ $product->id }}" name="{{ $product->name }}" :initial-disabled="{{ $product->disabled ? 'true' : 'false' }}"
                   api-token="{{ $apiToken }}"
                   >
-                </product-editor>
+                </product-editor> --}}
               </li>
             @endif
           @endforeach

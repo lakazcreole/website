@@ -1,73 +1,81 @@
 
 // Fonts
 @import url('https://fonts.googleapis.com/css?family=Kaushan+Script');
-@import url('https://fonts.googleapis.com/css?family=Open+Sans:400,600');
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,600');
 @import url('https://fonts.googleapis.com/icon?family=Material+Icons');
 
-// Variables
-@import "variables";
+/**
+ * Tailwind's base styles
+ */
+@tailwind preflight;
 
-// Bootstrap
-@import '~bootstrap/scss/bootstrap';
+/**
+ * Component classes registered by plugins.
+ */
+@tailwind components;
 
-// Bootstrap customization
-@media (max-width: 991.98px) {
-    .navbar-expand-lg > .container {
-        padding-left: 15px !important;
-        padding-right: 15px !important;
-        padding-bottom: 15px !important;
-    }
-}
+/**
+ * Custom components
+ */
+@import "~vue2-animate/src/sass/vue2-animate.scss";
 
-@import "buttons";
+@import "tooltips";
 
-/*
- **********************************************************************
- * General
- **********************************************************************
+/**
+ * Tailwind's utility classes
+ */
+@tailwind utilities;
+
+/**
+ * Custom utilities
  */
 
-body {
-    $font-family: "Open Sans";
-}
-
-nav.navbar {
-    padding: 0;
-    box-shadow: 0px 2px 3px $section-shadow;
-    font-size: 1.125rem;
-
-    .navbar-brand {
-        padding: 0;
+.intro {
+    @apply .relative;
+    box-shadow: 2px 2px 5px #ffa500b3;
+    &::before {
+        content: none;
     }
 }
 
-p, ul li {
-    color: $text-color;
-}
+@screen sm {
 
-img.logo
-{
-    width: 100px;
-    height: 100px;
+    .intro {
+    // z-index: 0;
 
-    &:hover {
-        transform: scale(1.05);
-        -webkit-filter: drop-shadow(0px 5px 5px #rgba(0,0,0,0));
-        filter: drop-shadow(0px 5px 5px rgba(0,0,0,0.2));
+        &::before {
+            content: "\A";
+            @apply .absolute .bg-white .w-8 .h-8;
+            left: -15px;
+            top: 75px;
+            box-shadow: 2px 2px 6px #ffa500b3;
+            transform: rotate(45deg);
+            z-index: -1;
+        }
     }
 }
 
-img.portrait {
-    width: 150px;
-    height: 150px;
-    border-radius: 50%;
+.card-tag {
+    @apply .bg-orange .text-white .font-semibold .text-center .absolute;
+    width: 190px;
+    transform: rotate(45deg);
+    right: -38px;
+    top: 48px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    z-index: 1;
 }
 
-// Home page
-@import "home";
+.zoom-wrapper {
+    overflow: hidden;
+    max-height: 300px;
 
-// Order page
-@import "order";
-
-// Footer
-@import "footer";
+    img {
+        @apply .w-full;
+        height: 300px;
+        transition: transform .3s;
+        &:hover {
+            transform: scale(1.1);
+        }
+    }
+}

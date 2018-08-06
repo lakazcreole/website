@@ -22,17 +22,31 @@ Auth::routes();
 Route::prefix('/dashboard')->middleware('can:access-dashboard')->group(function () {
     Route::get('/', 'DashboardController')->name('dashboard');
 
+    // Logs
+    Route::get('/logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index')->name('dashboard.logs');
+
     // Orders
-    Route::get('/orders/{order}/accept', 'OrderController@accept')->middleware('can:accept,order');
-    Route::get('/orders/{order}/decline', 'OrderController@getDeclineForm')->middleware('can:decline,order');
+    Route::get('/orders', 'OrderController@index')->name('dashboard.orders.index');
+    Route::get('/orders/{order}/accept', 'OrderController@getAcceptForm')->middleware('can:accept,order')->name('dashboard.orders.accept');
+    Route::post('/orders/{order}/accept', 'OrderController@accept')->middleware('can:accept,order');
+    Route::get('/orders/{order}/decline', 'OrderController@getDeclineForm')->middleware('can:decline,order')->name('dashboard.orders.decline');
     Route::post('/orders/{order}/decline', 'OrderController@decline')->middleware('can:decline,order');
+    Route::post('/orders/{order}/cancel', 'OrderController@cancel')->middleware('can:cancel,order')->name('dashboard.orders.cancel');
 
     // Products
-    Route::get('/products', 'ProductController@index')->name('dashboard.products');
+    Route::get('/products', 'ProductController@index')->name('dashboard.products.index');
     Route::get('/products/create', 'ProductController@create')->name('dashboard.products.create');
     Route::post('/products/create', 'ProductController@store')->name('dashboard.products.store');
     Route::get('/products/{product}/edit', 'ProductController@edit')->name('dashboard.products.edit');
     Route::post('/products/{product}/edit', 'ProductController@update')->name('dashboard.products.update');
+
+    // Offers
+    Route::get('/offers', 'OfferController@index')->name('dashboard.offers.index');
+    Route::get('/offers/create', 'OfferController@create')->name('dashboard.offers.create');
+    Route::post('/offers/create', 'OfferController@store')->name('dashboard.offers.store');
+    Route::get('/offers/{offer}/edit', 'OfferController@edit')->name('dashboard.offers.edit');
+    Route::post('/offers/{offer}/edit', 'OfferController@update')->name('dashboard.offers.update');
+    Route::get('/offers/{offer}/destroy', 'OfferController@destroy')->name('dashboard.offers.destroy');
 });
 
 

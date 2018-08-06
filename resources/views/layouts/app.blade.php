@@ -7,6 +7,7 @@
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
         <link href="{{ asset('css/app.css') }}" rel="stylesheet" type="text/css">
+        <link rel="icon" href="{{ asset('images/favicon.png') }}" type="image/png" sizes="196x196">
 
         <title>
             @section('title')
@@ -16,9 +17,11 @@
     </head>
 
     <body>
-        <div id="app">
+        <div id="app" class="bg-grey-lighter">
+            @include('partials.header')
             @yield('content')
-            @yield('modals')
+            @include('partials.footer')
+            @stack('modals')
         </div>
         <script src="{{ mix('js/app.js') }}"></script>
         @env('production')

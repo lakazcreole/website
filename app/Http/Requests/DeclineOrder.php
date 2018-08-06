@@ -25,6 +25,7 @@ class DeclineOrder extends FormRequest
     {
         return [
             'message' => 'required',
+            'notify' => 'required|boolean',
         ];
     }
 }

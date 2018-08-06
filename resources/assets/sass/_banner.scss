@@ -1,0 +1,18 @@
+.banner {
+    background-color: $orange300;
+    font-weight: bold;
+    padding-top: 5px;
+    padding-bottom: 5px;
+
+    color: white;
+
+    .btn-outline-light.cta {
+        border-color: white;
+        font-weight: bold;
+        &:hover {
+            // border-color: $orange500;
+            // background-color: $orange500;
+            color: $orange500;
+        }
+    }
+}

@@ -21,6 +21,16 @@ class ProductControllerTest extends TestCase
             ]);
     }
 
+    public function testIndexCanBeOrdered()
+    {
+        factory(Product::class)->create(['name' => 'B', 'disabled' => false]);
+        factory(Product::class)->create(['name' => 'A', 'disabled' => false]);
+        $res = $this->json('GET', '/api/products?order=true')
+            ->assertStatus(200);
+        $data = $res->json()['data'];
+        $this->assertTrue(strcmp($data[0]['name'], $data[1]['name']) < 0);
+    }
+
     public function testStandardUserCannotUpdate()
     {
         $user = factory(User::class)->create(['admin' => false]);
@@ -42,7 +52,11 @@ class ProductControllerTest extends TestCase
                     'disabled' => true
                 ]
             ]);
-        $this->assertTrue(Product::find($product->id)->disabled);
+        // $this->assertTrue(Product::find($product->id)->disabled);
+        $this->assertDatabaseHas('products', [
+            'id' => $product->id,
+            'disabled' => true
+        ]);
     }
 
     public function testUpdateValidatesRequest()

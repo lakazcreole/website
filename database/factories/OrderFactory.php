@@ -12,5 +12,8 @@ $factory->define(App\Order::class, function (Faker $faker) {
         'date' => $faker->date(),
         'time' => $faker->time(),
         'information' => $faker->sentence(3),
+        'notifyAccept' => true,
+        'notifyDecline' => true,
+        'notifyCancel' => false,
     ];
 });

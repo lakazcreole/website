@@ -3,6 +3,7 @@
 /public/storage
 /database/*.sqlite
 /storage/*.key
+/storage/app
 /vendor
 /.idea
 /.vagrant

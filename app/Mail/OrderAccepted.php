@@ -8,7 +8,7 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class OrderAccepted extends Mailable
+class OrderAccepted extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
 
@@ -47,7 +47,8 @@ class OrderAccepted extends Mailable
                 'time' => date('H:i', strtotime($this->order->time)),
                 'deliveryPrice' => $this->order->deliveryPrice,
                 'totalPrice' => $this->order->totalPrice,
-                'fullPrice' => $this->order->fullPrice
+                'fullPrice' => $this->order->fullPrice,
+                'message' => $this->order->acceptMessage,
             ]);
     }
 }

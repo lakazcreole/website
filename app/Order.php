@@ -31,7 +31,17 @@ class Order extends Model
         'date',
         'created_at',
         'updated_at',
-        'deleted_at'
+        'deleted_at',
+        'canceled_at'
+    ];
+
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'notifyAccept' => 'boolean',
     ];
 
     /**
@@ -65,13 +75,16 @@ class Order extends Model
 
     public function getTotalPriceAttribute()
     {
-        $this->load('lines');
+        if (!$this->relationLoaded('lines'))
+        {
+            $this->load('lines');
+        }
         return $this->lines->sum('totalPrice');
     }
 
     public function getAcceptUrlAttribute()
     {
-        return action('OrderController@accept', ['order' => $this->id]);
+        return action('OrderController@getAcceptForm', ['order' => $this->id]);
     }
 
     public function getDeclineUrlAttribute()
@@ -93,11 +106,26 @@ class Order extends Model
         return $this->totalPrice + $this->deliveryPrice;
     }
 
-    public function accept()
+    public function accept($message)
     {
         $this->accepted_at = Carbon::now();
+        $this->acceptMessage = $message;
         $this->save();
         event(new OrderAccepted($this));
+    }
+
+    public function decline($message)
+    {
+        $this->declined_at = Carbon::now();
+        $this->declineMessage = $message;
+        $this->save();
+        event(new OrderDeclined($this));
+    }
+
+    public function cancel()
+    {
+        $this->canceled_at = Carbon::now();
+        $this->save();
     }
 
     public function isAccepted()
@@ -110,11 +138,13 @@ class Order extends Model
         return $this->declined_at !== null;
     }
 
-    public function decline($message)
+    public function isCanceled()
     {
-        $this->declined_at = Carbon::now();
-        $this->declineMessage = $message;
-        $this->save();
-        event(new OrderDeclined($this));
+        return $this->canceled_at !== null;
+    }
+
+    public function isWaiting()
+    {
+        return $this->accepted_at === null && $this->declined_at === null && $this->canceled_at === null;
     }
 }

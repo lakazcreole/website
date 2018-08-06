@@ -6,7 +6,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         <link href="{{ asset('css/dashboard.css') }}" rel="stylesheet" type="text/css">
+        @yield('styles')
 
         <title>
             @section('title')
@@ -21,6 +23,7 @@
             @yield('modals')
             @yield('content')
         </div>
+        @yield('scripts')
         <script src="{{ mix('js/dashboard.js') }}"></script>
     </body>
 </html>
