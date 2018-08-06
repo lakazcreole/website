@@ -14,16 +14,21 @@ window.Vue = require('vue')
  * My imports
  */
 
-import VueSticky from 'vue-sticky'
+// import VueSticky from 'vue-sticky'
 import PortalVue from 'portal-vue'
-import CheckView from 'vue-check-view'
 import VueModal from 'vue-js-modal'
-import VTooltip from 'v-tooltip'
+import VueScrollTo from 'vue-scrollto'
+import VueScrollactive from 'vue-scrollactive'
 
-const VueScrollTo = require('vue-scrollto') // eslint-disable-line no-unused-vars
+// const VueScrollTo = require('vue-scrollto') // eslint-disable-line no-unused-vars
 
 import ContactButton from './components/ContactButton'
 import ContactModal from './components/ContactModal'
+import ShopClosedModal from './components/ShopClosedModal'
+import OrderButton from './components/OrderButton'
+import NewsletterForm from './components/NewsletterForm'
+import Shop from './views/Shop'
+
 import store from './store'
 
 /**
@@ -33,9 +38,20 @@ import store from './store'
  */
 
 Vue.use(PortalVue) // eslint-disable-line no-undef
-Vue.use(CheckView) // eslint-disable-line no-undef
 Vue.use(VueModal, { componentName: 'vue-modal' }) // eslint-disable-line no-undef
-Vue.use(VTooltip) // eslint-disable-line no-undef
+Vue.use(VueScrollTo, { // eslint-disable-line no-undef
+  container: 'body',
+  duration: 500,
+  easing: 'ease',
+  offset: -100,
+  cancelable: true,
+  onStart: false,
+  onDone: false,
+  onCancel: false,
+  x: false,
+  y: true
+})
+Vue.use(VueScrollactive) // eslint-disable-line no-undef
 
 // eslint-disable-next-line no-unused-vars, no-undef
 const app = new Vue({
@@ -44,18 +60,17 @@ const app = new Vue({
   components: {
     ContactButton,
     ContactModal,
-    'newsletter-form': require('./components/NewsletterForm.vue').default,
-    'order-manager': require('./components/OrderManager.vue').default
+    ShopClosedModal,
+    OrderButton,
+    NewsletterForm,
+    Shop
   },
-  directives: {
-    'sticky': VueSticky
+  data () {
+    return {
+      showNav: false
+    }
   },
   methods: {
-    openOrder: function () {
-      this.subject = 'Commande'
-      this.message = 'Cela a l\'air délicieux, je souhaiterais commander toute la carte !'
-      this.showContactModal = true
-    },
     scrollToMenu: function () {
       const options = {
         container: 'body',
@@ -72,6 +87,9 @@ const app = new Vue({
         y: true
       }
       this.$scrollTo('#la-carte', 500, options)
+    },
+    showShopClosedModal () {
+      this.$modal.show('shop-closed-modal')
     }
   }
 })

@@ -22,7 +22,7 @@ import Datepicker from 'vuejs-datepicker'
 const app = new Vue({
   el: '#app',
   components: {
-    Datepicker,
-    'product-editor': require('./components/ProductEditor.vue').default
+    Datepicker
+    // 'product-editor': require('./components/ProductEditor.vue').default
   }
 })

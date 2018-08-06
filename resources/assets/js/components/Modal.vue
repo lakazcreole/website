@@ -6,19 +6,21 @@
     height="auto"
     transition="modal"
   >
-    <div class="card">
-      <div class="card-header py-3 d-flex">
+    <div class="shadow-lg rounded-lg bg-white p-4">
+      <div class="flex py-2">
         <slot name="header">
           Header
         </slot>
-        <button type="button" class="close ml-auto mb-auto" @click="hide">&times;</button>
+        <button type="button" class="flex close ml-auto mb-auto" @click="hide">
+          <i class="material-icons text-grey-dark hover:text-red-light">close</i>
+        </button>
       </div>
-      <div class="card-body">
+      <div>
         <slot name="body">
           Body
         </slot>
       </div>
-      <div class="card-footer">
+      <div class="mt-3">
         <slot name="footer">
           Footer
         </slot>

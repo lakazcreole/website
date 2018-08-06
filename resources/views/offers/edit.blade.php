@@ -31,7 +31,12 @@
             <optgroup label="{{ $productType['title'] }}">
               @foreach($products as $product)
                 @if($product->type == $productType['type'])
-                  <option value="{{ $product->id }}">{{ $product->name }}</option>
+                  <option value="{{ $product->id }}">
+                    {{ $product->name }}
+                    @if($product->disabled)
+                      &nbsp;- Désactivé
+                    @endif
+                  </option>
                 @endif
               @endforeach
             </optgroup>
@@ -41,11 +46,11 @@
       <div class="form-row">
         <div class="form-group col-md-6">
           <label for="begin_date">Date de début</label>
-          <Datepicker name="begin_date" language="fr" format="dd/MM/yyyy" :monday-first="true" :bootstrap-styling="true" id="begin_date" placeholder="Choisir une date" value="{{ old('begin_date') ?? $begin_date }}"/>
+          <Datepicker name="begin_date" format="dd/MM/yyyy" :monday-first="true" :bootstrap-styling="true" id="begin_date" placeholder="Choisir une date" value="{{ old('begin_date') ?? $begin_date }}"/>
         </div>
         <div class="form-group col-md-6">
           <label for="end_date">Date de fin</label>
-          <Datepicker name="end_date" language="fr" format="dd/MM/yyyy" :monday-first="true" :bootstrap-styling="true" id="end_date" placeholder="Choisir une date" value="{{ old('end_date') ?? $end_date }}"/>
+          <Datepicker name="end_date" format="dd/MM/yyyy" :monday-first="true" :bootstrap-styling="true" id="end_date" placeholder="Choisir une date" value="{{ old('end_date') ?? $end_date }}"/>
         </div>
       </div>
       <div class="form-group">
