@@ -22,34 +22,14 @@
 </template>
 
 <script>
-import DatePicker from 'vuejs-datepicker'
-import { fr } from 'vuejs-datepicker/dist/locale'
 import { mapState } from 'vuex'
 
 export default {
-  components: {
-    DatePicker
-  },
 
   props: {
     disabled: {
       type: Boolean,
       default: false
-    }
-  },
-
-  data () {
-    return {
-      disabledDates: {
-        to: new Date()
-      },
-      highlightedDates: {
-        dates: [
-          new Date()
-        ],
-        includeDisabled: true
-      },
-      language: fr
     }
   },
 

@@ -55,7 +55,12 @@ describe('DateTimeInput', () => {
 
   it('defaults to the store time value if is different from null', () => {
     const time = '12:15'
+    const hours = {
+      morning: ['08:59', '12:15', '12:37'],
+      evening: ['17:06', '23:01']
+    }
     const wrapper = factory()
+    wrapper.vm.$store.state.order.deliveryHours = hours
     wrapper.vm.$store.state.order.time = time
     expect(wrapper.find('select.time option:selected').text()).toBe(time)
   })
