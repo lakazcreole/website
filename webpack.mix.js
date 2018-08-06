@@ -12,6 +12,10 @@ let tailwindcss = require('tailwindcss');
  |
  */
 
+if (mix.inProduction()) {
+    mix.version();
+}
+
 mix
    .js('resources/assets/js/app.js', 'public/js')
    .js('resources/assets/js/dashboard.js', 'public/js')
