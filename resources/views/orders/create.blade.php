@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @push('modals')
-  <contact-modal/>
+  <contact-modal></contact-modal>
 @endpush
 
 @section('content')

@@ -22,6 +22,6 @@ mix
    .copy('resources/assets/images/icons', 'public/images/icons', true)
    .options({
       processCssUrls: false, // necessary to enable tailwindcss because of unresolved issue in laravel-mix
-      purifyCss: true,
+      // purifyCss: true,
       postCss: [ tailwindcss('./tailwind.js') ],
     });

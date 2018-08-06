@@ -1,6 +1,6 @@
 <template>
   <div class="inline-flex">
-    <a :href="url" :class="`${linkClass} text-grey-lightest no-underline px-3 py-2 sm:px-5 sm:py-3 rounded-full border-2 border-orange hover:border-orange-light bg-orange hover:bg-orange-light`">Commander</a>
+    <a :href="url" :class="`${linkClass} text-grey-lightest no-underline px-3 py-2 sm:px-5 sm:py-3 rounded-full border-2 border-orange hover:border-orange-light bg-orange hover:bg-orange-light`" @click.prevent="showShopClosedModal">Commander</a>
     <button
       v-scroll-to="{ el: '#mobile-cart', offset: -100 }"
       v-if="order"
@@ -52,6 +52,9 @@ export default {
       if (this.canToggle) {
         this.$store.dispatch('order/toggleMobileCart')
       }
+    },
+    showShopClosedModal () {
+      this.$modal.show('shop-closed-modal')
     }
   }
 }

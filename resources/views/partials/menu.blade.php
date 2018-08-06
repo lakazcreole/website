@@ -55,7 +55,7 @@
       </div>
     </div>
     <div class="text-center mt-10">
-      <a class="inline-block mx-auto mx-3 px-3 py-3 w-48 rounded-full text-white bg-orange hover:bg-orange-light no-underline" href="{{ route('order') }}">Commander</a>
+      <a class="inline-block mx-auto mx-3 px-3 py-3 w-48 rounded-full text-white bg-orange hover:bg-orange-light no-underline" href="{{ route('order') }}" @click.prevent="showShopClosedModal">Commander</a>
     </div>
   </div>
 </section>

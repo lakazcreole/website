@@ -24,8 +24,11 @@ import VueScrollactive from 'vue-scrollactive'
 
 import ContactButton from './components/ContactButton'
 import ContactModal from './components/ContactModal'
+import ShopClosedModal from './components/ShopClosedModal'
 import OrderButton from './components/OrderButton'
+import NewsletterForm from './components/NewsletterForm'
 import Shop from './views/Shop'
+
 import store from './store'
 
 /**
@@ -57,9 +60,10 @@ const app = new Vue({
   components: {
     ContactButton,
     ContactModal,
+    ShopClosedModal,
     OrderButton,
-    Shop,
-    'newsletter-form': require('./components/NewsletterForm.vue').default
+    NewsletterForm,
+    Shop
   },
   data () {
     return {
@@ -67,11 +71,6 @@ const app = new Vue({
     }
   },
   methods: {
-    openOrder: function () {
-      this.subject = 'Commande'
-      this.message = 'Cela a l\'air délicieux, je souhaiterais commander toute la carte !'
-      this.showContactModal = true
-    },
     scrollToMenu: function () {
       const options = {
         container: 'body',
@@ -88,6 +87,9 @@ const app = new Vue({
         y: true
       }
       this.$scrollTo('#la-carte', 500, options)
+    },
+    showShopClosedModal () {
+      this.$modal.show('shop-closed-modal')
     }
   }
 })
