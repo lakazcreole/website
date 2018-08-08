@@ -48,7 +48,7 @@ class OrderController extends Controller
             'zip' => $order->zip,
             'date' => strftime('%A %d %B %Y', strtotime($order->date)),
             'time' => date('H:i', strtotime($order->time)),
-            'totalPrice' => $order->totalPrice,
+            'totalProductsPrice' => $order->totalProductsPrice,
             'deliveryPrice' => $order->deliveryPrice,
             'fullPrice' => $order->fullPrice,
             'postUrl' => action('OrderController@accept', [$order->id]),
@@ -69,7 +69,7 @@ class OrderController extends Controller
             'zip' => $order->zip,
             'date' => $order->date,
             'time' => $order->time,
-            'totalPrice' => $order->totalPrice,
+            'totalProductsPrice' => $order->totalProductsPrice,
         ]);
     }
 
@@ -84,7 +84,7 @@ class OrderController extends Controller
             'address' => "{$order->address1} {$order->address2} {$order->address3}",
             'date' => $order->date,
             'time' => $order->time,
-            'totalPrice' => $order->totalPrice,
+            'totalProductsPrice' => $order->totalProductsPrice,
             'postUrl' => action('OrderController@decline', [$order->id]),
         ]);
     }
@@ -102,7 +102,7 @@ class OrderController extends Controller
             'address' => "{$order->address1} {$order->address2} {$order->address3}",
             'date' => $order->date,
             'time' => $order->time,
-            'totalPrice' => $order->totalPrice,
+            'totalProductsPrice' => $order->totalProductsPrice,
             'declineMessage' => $order->declineMessage,
         ]);
     }

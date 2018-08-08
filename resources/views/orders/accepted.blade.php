@@ -14,7 +14,7 @@
                     <li>{{ $line->quantity }} {{ $line->product->pieces > 1 ? "portion(s) de {$line->product->pieces}" : "" }} {{ $line->product->name }} ({{ $line->totalPrice }} €)</li>
                 @endforeach
             </ul>
-            Soit un total de <strong>{{ $totalPrice }} €</strong>.
+            Soit un total de <strong>{{ $totalProductsPrice }} €</strong>.
         </p>
         <h2>Informations</h2>
         <p>

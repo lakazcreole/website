@@ -9,5 +9,5 @@
 @if($deliveryPrice > 0)
 | <em>Livraison</em> | <em>{{ number_format($deliveryPrice, 2) }} €</em>
 @endif
-| <strong>Total</strong> | <strong>{{ number_format($fullPrice, 2) }} €</strong>
+| <strong>Total</strong> | <strong>{{ number_format($finalPrice, 2) }} €</strong>
 @endcomponent

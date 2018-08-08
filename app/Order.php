@@ -73,15 +73,6 @@ class Order extends Model
         ]));
     }
 
-    public function getTotalPriceAttribute()
-    {
-        if (!$this->relationLoaded('lines'))
-        {
-            $this->load('lines');
-        }
-        return $this->lines->sum('totalPrice');
-    }
-
     public function getAcceptUrlAttribute()
     {
         return action('OrderController@getAcceptForm', ['order' => $this->id]);
@@ -92,18 +83,27 @@ class Order extends Model
         return action('OrderController@getDeclineForm', ['order' => $this->id]);
     }
 
-    public function getDeliveryPriceAttribute()
+    public function getTotalProductsPriceAttribute()
     {
-        if ($this->totalPrice < 13)
-            return 2;
-        if ($this->totalPrice >= 15)
-            return 0;
-        return 15 - $this->totalPrice;
+        if (!$this->relationLoaded('lines'))
+        {
+            $this->load('lines');
+        }
+        return $this->lines->sum('totalPrice');
     }
 
-    public function getFullPriceAttribute()
+    public function getDeliveryPriceAttribute()
     {
-        return $this->totalPrice + $this->deliveryPrice;
+        if ($this->totalProductsPrice < 13)
+            return 2;
+        if ($this->totalProductsPrice >= 15)
+            return 0;
+        return 15 - $this->totalProductsPrice;
+    }
+
+    public function getFinalPriceAttribute()
+    {
+        return $this->totalProductsPrice + $this->deliveryPrice;
     }
 
     public function accept($message)

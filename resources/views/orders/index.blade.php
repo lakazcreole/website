@@ -39,7 +39,7 @@
               <em>Livraison</em> <em class="ml-auto">{{ number_format($order->deliveryPrice, 2) }} €</em>
             </div>
             <div class="d-flex flex-row align-items-center">
-              <strong>Total</strong> <strong class="ml-auto">{{ number_format($order->fullPrice, 2) }} €</strong>
+              <strong>Total</strong> <strong class="ml-auto">{{ number_format($order->finalPrice, 2) }} €</strong>
             </div>
         </div>
         <div class="card-footer">

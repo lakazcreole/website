@@ -49,15 +49,26 @@ class OrderTest extends TestCase
         ]);
     }
 
-    public function testHasTotalPriceAttribute()
+    /** @test */
+    public function it_has_a_total_products_price_attribute()
     {
         $order = factory(Order::class)->create([
             'customer_id' => factory(Customer::class)->create()->id
         ]);
         $order->addProduct(factory(Product::class)->create(['price' => 2]), 2);
         $order->addProduct(factory(Product::class)->create(['price' => 6]));
-        $this->assertEquals(10, $order->totalPrice);
+        $this->assertEquals(10, $order->totalProductsPrice);
     }
+
+    // public function testHasTotalPriceAttribute()
+    // {
+    //     $order = factory(Order::class)->create([
+    //         'customer_id' => factory(Customer::class)->create()->id
+    //     ]);
+    //     $order->addProduct(factory(Product::class)->create(['price' => 2]), 2);
+    //     $order->addProduct(factory(Product::class)->create(['price' => 6]));
+    //     $this->assertEquals(10, $order->totalPrice);
+    // }
 
     public function testHasAcceptUrlAttribute()
     {
@@ -113,14 +124,15 @@ class OrderTest extends TestCase
         $this->assertEquals(0, $order->deliveryPrice);
     }
 
-    public function testHasFullPriceAttribute()
+    /** @test */
+    public function it_has_a_final_price_attribute()
     {
         $order = factory(Order::class)->create([
             'customer_id' => factory(Customer::class)->create()->id
         ]);
         $order->addProduct(factory(Product::class)->create(['price' => 14]));
-        $this->assertNotNull($order->fullPrice);
-        $this->assertEquals(15, $order->fullPrice);
+        $this->assertNotNull($order->finalPrice);
+        $this->assertEquals(15, $order->finalPrice);
     }
 
     public function testIsAccepted()
