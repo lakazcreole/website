@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Promotion;
 use Illuminate\Database\Eloquent\Model;
 
 class PromoCode extends Model
@@ -17,6 +18,11 @@ class PromoCode extends Model
     public static function findByName($name)
     {
         return self::where('name', $name)->first();
+    }
+
+    public function promotion()
+    {
+        return $this->belongsTo(Promotion::class, 'promotion_id');
     }
 
     public function isValid()

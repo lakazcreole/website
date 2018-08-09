@@ -4,6 +4,7 @@ namespace App;
 
 use App\Customer;
 use App\OrderLine;
+use App\PromoCode;
 use App\Promotion;
 use Carbon\Carbon;
 use App\Events\OrderCreated;
@@ -154,23 +155,24 @@ class Order extends Model
         return $this->accepted_at === null && $this->declined_at === null && $this->canceled_at === null;
     }
 
-    public function promotion()
+    public function promoCode()
     {
-        return $this->belongsTo(Promotion::class, 'promotion_id');
+        return $this->belongsTo(PromoCode::class, 'promoCode_id');
     }
 
-    public function apply(Promotion $promo)
+    public function applyPromoCode(PromoCode $promoCode)
     {
-        $this->promotion()->associate($promo);
+        $this->promoCode()->associate($promoCode);
         $this->save();
+    }
+
+    public function getPromotionAttribute()
+    {
+        return $this->promoCode ? $this->promoCode->promotion : null;
     }
 
     public function getDiscountAttribute()
     {
-        if ($this->promotion)
-        {
-            return $this->promotion->generateDiscount($this->lines, $this->deliveryPrice);
-        }
-        return 0;
+        return $this->promotion ? $this->promotion->generateDiscount($this->lines, $this->deliveryPrice) : 0;
     }
 }

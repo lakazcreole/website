@@ -23,6 +23,16 @@ class PromoCodeTest extends TestCase
     }
 
     /** @test */
+    public function it_has_a_promotion_relationship()
+    {
+        $promo = factory(PromoCode::class)->create([
+            'name' => 'TEST',
+            'promotion_id' => factory(Promotion::class)->create()->id,
+        ]);
+        $this->assertEquals($promo->promotion_id, $promo->promotion->id);
+    }
+
+    /** @test */
     public function it_has_an_is_valid_method()
     {
         $promotion = factory(Promotion::class)->create();

@@ -6,6 +6,7 @@ use App\Order;
 use App\Product;
 use App\Customer;
 use App\OrderLine;
+use App\PromoCode;
 use App\Promotion;
 use Tests\TestCase;
 use App\Events\OrderCreated;
@@ -238,14 +239,32 @@ class OrderTest extends TestCase
     }
 
     /** @test */
-    public function it_can_be_applied_a_promotion()
+    public function it_can_be_applied_a_promo_code()
     {
         $order = factory(Order::class)->create([
             'customer_id' => factory(Customer::class)->create()->id
         ]);
-        $promo = factory(Promotion::class)->create();
-        $order->apply($promo);
-        $this->assertEquals($promo->id, $order->fresh()->promotion->id);
+        $promotion = factory(Promotion::class)->create();
+        $promoCode = factory(PromoCode::class)->create([
+            'promotion_id' => $promotion->id,
+        ]);
+        $order->applyPromoCode($promoCode);
+        $this->assertEquals($promoCode->id, $order->fresh()->promoCode->id);
+    }
+
+    /** @test */
+    public function it_has_a_promotion_attribute()
+    {
+        $order = factory(Order::class)->create([
+            'customer_id' => factory(Customer::class)->create()->id
+        ]);
+        $promotion = factory(Promotion::class)->create();
+        $promoCode = factory(PromoCode::class)->create([
+            'promotion_id' => $promotion->id,
+        ]);
+        $this->assertEquals(null, $order->promotion);
+        $order->applyPromoCode($promoCode);
+        $this->assertEquals($promoCode->promotion->id, $order->promotion->id);
     }
 
     /** @test */
@@ -255,8 +274,10 @@ class OrderTest extends TestCase
             'customer_id' => factory(Customer::class)->create()->id
         ]);
         $order->addProduct(factory(Product::class)->create(['price' => 15]));
-        $order->apply(factory(Promotion::class)->create([
-            'final_percentage' => 100
+        $order->applyPromoCode(factory(PromoCode::class)->create([
+            'promotion_id' => factory(Promotion::class)->create([
+                'final_percentage' => 100
+            ]),
         ]));
         $this->assertEquals(15, $order->priceBeforePromotion);
     }
@@ -269,8 +290,10 @@ class OrderTest extends TestCase
         ]);
         $order->addProduct(factory(Product::class)->create(['price' => 15]));
         $this->assertEquals(0, $order->discount);
-        $order->apply(factory(Promotion::class)->create([
-            'final_percentage' => 50
+        $order->applyPromoCode(factory(PromoCode::class)->create([
+            'promotion_id' => factory(Promotion::class)->create([
+                'final_percentage' => 50
+            ]),
         ]));
         $this->assertEquals(7.5, $order->fresh()->discount);
     }
