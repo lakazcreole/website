@@ -39,7 +39,8 @@ class StoreOrder extends FormRequest
             'orderLines' => 'required',
             'orderLines.*.id' => 'required|exists:products,id',
             'orderLines.*.quantity' => 'required|numeric|min:1',
-            'information' => 'max:255'
+            'information' => 'max:255',
+            'promoCode' => 'exists:promo_codes,name'
         ];
     }
 }

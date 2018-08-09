@@ -198,7 +198,21 @@ class OrderControllerTest extends TestCase
         $this->assertDatabaseHas('orders', [
             'id' => $response->json()['data']['id'],
             'promoCode_id' => $promoCode->id,
-            'promotion_id' => $promotion->id,
         ]);
+    }
+
+    /** @test */
+    public function store_validates_promo_code_when_present()
+    {
+        $this->json('POST', '/api/orders', [
+            'promoCode' => 'FAKECODE'
+        ])
+            ->assertStatus(422)
+            ->assertJson([
+                'message' => 'The given data was invalid.',
+                'errors' => [
+                    'promoCode' => []
+                ]
+            ]);
     }
 }
