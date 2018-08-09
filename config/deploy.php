@@ -102,7 +102,7 @@ return [
         ],
         'keep_releases' => 3,
         'writable_mode' => 'chmod',
-        'writable_chmod_recursive' => true,
+        'writable_chmod_recursive' => false,
     ],
 
     /*
