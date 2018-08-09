@@ -100,7 +100,7 @@ return [
         'env' => [
             'PATH' => '/home/deployer/bin:/home/deployer/.local/bin:/home/deployer/.nvm/versions/node/v9.3.0/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/home/deployer/bin'
         ],
-        'keep_releaseses' => 3,
+        'keep_releases' => 3,
     ],
 
     /*
