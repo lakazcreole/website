@@ -13,13 +13,14 @@ let tailwindcss = require('tailwindcss');
  */
 
 mix
+   // Necessary because processCssUrls is false
+   .copy('resources/assets/images', 'public/images', true)
+   .copy('resources/assets/images/icons', 'public/images/icons', true)
    .js('resources/assets/js/app.js', 'public/js')
    .js('resources/assets/js/dashboard.js', 'public/js')
    .sass('resources/assets/sass/app.scss', 'public/css')
    .sass('resources/assets/sass/dashboard.scss', 'public/css')
-   // Necessary because processCssUrls is false
-   .copy('resources/assets/images', 'public/images', true)
-   .copy('resources/assets/images/icons', 'public/images/icons', true)
+   .version()
    .options({
       processCssUrls: false, // necessary to enable tailwindcss because of unresolved issue in laravel-mix
       purifyCss: true,
