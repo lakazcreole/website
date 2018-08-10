@@ -2,8 +2,8 @@
 
 namespace Tests\Feature\Api;
 
+use App\Discount;
 use App\PromoCode;
-use App\Promotion;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -15,10 +15,10 @@ class PromoCodeControllerTest extends TestCase
     /** @test */
     public function it_can_validate_a_code_name()
     {
-        $promotion = factory(Promotion::class)->create();
+        $discount = factory(Discount::class)->create();
         $promoCode = factory(PromoCode::class)->create([
             'name' => 'HELLO',
-            'promotion_id' => $promotion->id,
+            'discount_id' => $discount->id,
             'uses' => 0,
             'max_uses' => 1,
             'begin_at' => now()->subDay(),
@@ -27,7 +27,7 @@ class PromoCodeControllerTest extends TestCase
         $this->json('GET', "/api/promocodes/validate/{$promoCode->name}")
             ->assertStatus(200)
             ->assertExactJson([
-                'promotion_id' => $promotion->id,
+                'discount_id' => $discount->id,
                 'is_valid' => $promoCode->isValid()
             ]);
     }

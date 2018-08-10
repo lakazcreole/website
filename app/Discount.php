@@ -20,12 +20,17 @@ class Discount extends Model
             ->withPivot(['percent', 'required']);
     }
 
-    public function addProduct(Product $product, $percentage = 100, $required = true)
+    public function addProduct(Product $product, $percentage, $required = true)
     {
         $this->products()->attach($product->id, [
             'percent' => $percentage,
             'required' => $required
         ]);
+    }
+
+    public function addFreeProduct(Product $product, $required = true)
+    {
+        $this->addProduct($product, 100, $required);
     }
 
     public function getValueAttribute()

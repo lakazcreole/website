@@ -7,12 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class PromoCode extends Model
 {
-    protected $visible = ['promotion_id', 'is_valid'];
+    protected $visible = ['discount_id', 'is_valid'];
 
     protected $appends = ['is_valid'];
 
     protected $casts = [
-        'promotion_id' => 'integer'
+        'discount_id' => 'integer'
     ];
 
     public static function findByName($name)

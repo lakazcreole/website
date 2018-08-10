@@ -3,17 +3,18 @@
 namespace Tests\Feature\Api;
 
 use App\Product;
+use App\Discount;
 use App\PromoCode;
-use App\Promotion;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
-class OrderControllerTest extends TestCase
+class OrderControllerStoreTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function testStore()
+    /** @test */
+    public function it_stores_order_customer_and_order_lines()
     {
         $product1 = factory(Product::class)->create();
         $product2 = factory(Product::class)->create();
@@ -48,7 +49,8 @@ class OrderControllerTest extends TestCase
         $this->assertDatabaseHas('order_lines', array_merge([ 'product_id' => $product2->id, 'quantity' => 3 ], ['order_id' => $response->json()['data']['id']]));
     }
 
-    public function testStoreValidatesids()
+    /** @test */
+    public function it_validates_ids()
     {
         $data = [
             'customer' => [
@@ -74,13 +76,37 @@ class OrderControllerTest extends TestCase
         $response = $this->json('POST', '/api/orders', $data)->assertStatus(422);
     }
 
-    public function testStoreValidatesFields()
+    /** @test */
+    public function it_validates_fields_presence()
     {
         $this->json('POST', '/api/orders', [])->assertStatus(422);
         $this->json('POST', '/api/orders', ['customer' => [], 'address' => [], 'orderLines' => []])->assertStatus(422);
     }
 
-    public function testStoreValidatesDeliveryHours()
+    /** @test */
+    public function it_validates_all_required_fields()
+    {
+        $this->json('POST', '/api/orders', [])
+            ->assertStatus(422)
+            ->assertJson([
+                'message' => 'The given data was invalid.',
+                'errors' => [
+                    'customer.firstName' => [],
+                    'customer.lastName' => [],
+                    'customer.email' => [],
+                    'customer.phone' => [],
+                    'address.address1' => [],
+                    'address.city' => [],
+                    'address.zip' => [],
+                    'date' => [],
+                    'time' => [],
+                    'orderLines' => []
+                ]
+            ]);
+    }
+
+    /** @test */
+    public function it_validates_delivery_hours()
     {
         $product = factory(Product::class)->create();
         $data = [
@@ -107,28 +133,8 @@ class OrderControllerTest extends TestCase
         $this->json('POST', '/api/orders', $data)->assertStatus(422);
     }
 
-    public function testStoreValidatesAllRequiredFields()
-    {
-        $this->json('POST', '/api/orders', [])
-            ->assertStatus(422)
-            ->assertJson([
-                'message' => 'The given data was invalid.',
-                'errors' => [
-                    'customer.firstName' => [],
-                    'customer.lastName' => [],
-                    'customer.email' => [],
-                    'customer.phone' => [],
-                    'address.address1' => [],
-                    'address.city' => [],
-                    'address.zip' => [],
-                    'date' => [],
-                    'time' => [],
-                    'orderLines' => []
-                ]
-            ]);
-    }
-
-    public function testCanStoreTwoOrdersWithSameEmail()
+    /** @test */
+    public function it_accepts_orders_with_same_email()
     {
         $product = factory(Product::class)->create();
         $data = [
@@ -163,14 +169,13 @@ class OrderControllerTest extends TestCase
     /** @test */
     public function it_stores_orders_with_promo_code()
     {
-        $promotion = factory(Promotion::class)->create([
-            'final_percentage' => 50
-        ]);
+        $product = factory(Product::class)->create();
+        $discount = factory(Discount::class)->create();
+        $discount->addFreeProduct($product);
         $promoCode = factory(PromoCode::class)->create([
             'name' => 'TESTCODE',
-            'promotion_id' => $promotion->id
+            'discount_id' => $discount->id
         ]);
-        $product = factory(Product::class)->create();
         $data = [
             'customer' => [
                 'firstName' => 'Sally',
@@ -202,7 +207,7 @@ class OrderControllerTest extends TestCase
     }
 
     /** @test */
-    public function store_validates_promo_code_when_present()
+    public function it_validates_promo_code_when_present()
     {
         $this->json('POST', '/api/orders', [
             'promoCode' => 'FAKECODE'

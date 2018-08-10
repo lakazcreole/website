@@ -19,7 +19,7 @@ class DiscountTest extends TestCase
         $product = factory(Product::class)->create();
         $product2 = factory(Product::class)->create();
         $discount = factory(Discount::class)->create();
-        $discount->addProduct($product);
+        $discount->addProduct($product, 100);
         $discount->addProduct($product2, 20, false);
         $this->assertDatabaseHas('discount_product', [
             'discount_id' => $discount->id,
@@ -31,6 +31,20 @@ class DiscountTest extends TestCase
             'discount_id' => $discount->id,
             'product_id' => $product2->id,
             'percent' => 20,
+            'required' => false
+        ]);
+    }
+
+    /** @test */
+    public function it_has_an_add_free_product_method()
+    {
+        $product = factory(Product::class)->create();
+        $discount = factory(Discount::class)->create();
+        $discount->addFreeProduct($product, false);
+        $this->assertDatabaseHas('discount_product', [
+            'discount_id' => $discount->id,
+            'product_id' => $product->id,
+            'percent' => 100,
             'required' => false
         ]);
     }

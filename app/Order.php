@@ -5,7 +5,6 @@ namespace App;
 use App\Customer;
 use App\OrderLine;
 use App\PromoCode;
-use App\Promotion;
 use Carbon\Carbon;
 use App\Events\OrderCreated;
 use App\Events\OrderAccepted;
@@ -103,14 +102,18 @@ class Order extends Model
         return 15 - $this->totalProductsPrice;
     }
 
-    public function getPriceBeforePromotionAttribute()
+    public function getPriceBeforeDiscountAttribute()
     {
         return $this->totalProductsPrice + $this->deliveryPrice;
     }
 
     public function getFinalPriceAttribute()
     {
-        return $this->priceBeforePromotion;
+        if ($this->discount)
+        {
+            return $this->priceBeforeDiscount - $this->discount->value;
+        }
+        return $this->priceBeforeDiscount;
     }
 
     public function accept($message)
@@ -166,13 +169,13 @@ class Order extends Model
         $this->save();
     }
 
-    public function getPromotionAttribute()
-    {
-        return $this->promoCode ? $this->promoCode->promotion : null;
-    }
-
     public function getDiscountAttribute()
     {
-        return $this->promotion ? $this->promotion->generateDiscount($this->lines, $this->deliveryPrice) : 0;
+        return $this->promoCode ? $this->promoCode->discount : null;
+    }
+
+    public function getDiscountValueAttribute()
+    {
+        return $this->discount ? $this->discount->generateDiscount($this->lines, $this->deliveryPrice) : 0;
     }
 }
