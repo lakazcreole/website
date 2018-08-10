@@ -2,7 +2,7 @@
 
 namespace App;
 
-use App\Promotion;
+use App\Discount;
 use Illuminate\Database\Eloquent\Model;
 
 class PromoCode extends Model
@@ -20,9 +20,9 @@ class PromoCode extends Model
         return self::where('name', $name)->first();
     }
 
-    public function promotion()
+    public function discount()
     {
-        return $this->belongsTo(Promotion::class, 'promotion_id');
+        return $this->belongsTo(Discount::class);
     }
 
     public function isValid()
