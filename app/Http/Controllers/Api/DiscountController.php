@@ -2,20 +2,20 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Promotion;
+use App\Discount;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-class PromotionController extends Controller
+class DiscountController extends Controller
 {
     /**
      * Display the specified resource.
      *
-     * @param  \App\Promotion  $promotion
+     * @param  \App\Discount  $discount
      * @return \Illuminate\Http\Response
      */
-    public function show(Promotion $promotion)
+    public function show(Discount $discount)
     {
-        return $promotion->toJson();
+        return $discount->loadMissing('products')->toJson();
     }
 }
