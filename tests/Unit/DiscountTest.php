@@ -14,13 +14,20 @@ class DiscountTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
+    public function it_can_be_found_by_name()
+    {
+        $discount = factory(Discount::class)->create(['name' => 'TEST']);
+        $this->assertEquals($discount->id, Discount::findByName('TEST')->id);
+    }
+
+    /** @test */
     public function it_has_an_add_product_method()
     {
         $product = factory(Product::class)->create();
         $product2 = factory(Product::class)->create();
         $discount = factory(Discount::class)->create();
-        $discount->addProduct($product, 100);
-        $discount->addProduct($product2, 20, false);
+        $discount->addProduct($product->id, 100);
+        $discount->addProduct($product2->id, 20, false);
         $this->assertDatabaseHas('discount_product', [
             'discount_id' => $discount->id,
             'product_id' => $product->id,
@@ -40,7 +47,7 @@ class DiscountTest extends TestCase
     {
         $product = factory(Product::class)->create();
         $discount = factory(Discount::class)->create();
-        $discount->addFreeProduct($product, false);
+        $discount->addFreeProduct($product->id, false);
         $this->assertDatabaseHas('discount_product', [
             'discount_id' => $discount->id,
             'product_id' => $product->id,
@@ -54,8 +61,8 @@ class DiscountTest extends TestCase
     {
         $product = factory(Product::class)->create(['price' => 15]);
         $discount = factory(Discount::class)->create();
-        $discount->addProduct($product, 100);
-        $discount->addProduct($product, 50);
+        $discount->addProduct($product->id, 100);
+        $discount->addProduct($product->id, 50);
         $this->assertEquals(15 + 7.5, $discount->value);
     }
 
@@ -65,8 +72,8 @@ class DiscountTest extends TestCase
         $requiredProduct = factory(Product::class)->create();
         $notRequiredProduct = factory(Product::class)->create();
         $discount = factory(Discount::class)->create();
-        $discount->addProduct($requiredProduct, 100, true);
-        $discount->addProduct($notRequiredProduct, 100, false);
+        $discount->addProduct($requiredProduct->id, 100, true);
+        $discount->addProduct($notRequiredProduct->id, 100, false);
         $this->assertTrue($discount->requiredProducts->contains($requiredProduct));
         $this->assertFalse($discount->requiredProducts->contains($notRequiredProduct));
     }

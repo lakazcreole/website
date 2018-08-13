@@ -220,4 +220,49 @@ class OrderControllerStoreTest extends TestCase
                 ]
             ]);
     }
+
+    // /** @test */
+    // public function it_validates_promo_code_required_products()
+    // {
+    //     $product1 = factory(Product::class)->create();
+    //     $product2 = factory(Product::class)->create();
+    //     $discount = factory(Discount::class)->create();
+    //     $discount->addFreeProduct($product1);
+    //     $promoCode = factory(PromoCode::class)->create([
+    //         'name' => 'TESTCODE',
+    //         'discount_id' => $discount->id
+    //     ]);
+    //     $data = [
+    //         'customer' => [
+    //             'firstName' => 'Sally',
+    //             'lastName' => 'Holman',
+    //             'email' => 'sally@email.com',
+    //             'phone' => '0123456789'
+    //         ],
+    //         'address' => [
+    //             'address1' => '3 rue de Paris',
+    //             'address2' => 'Bâtiment B, étage 4, appartement 21',
+    //             'address3' => 'Code 0000, interphone 21',
+    //             'city' => 'Paris',
+    //             'zip' => '75001'
+    //         ],
+    //         'orderLines' => [
+    //             ['id' => $product2->id, 'quantity' => 2]
+    //         ],
+    //         'date' => date('d/m/Y', strtotime('tomorrow')),
+    //         'time' => '12:00',
+    //         'information' => 'allergic to everything',
+    //         'promoCode' => 'TESTCODE',
+
+    //     ];
+    //     $this->json('POST', '/api/orders', $data)->assertStatus(201)
+    //         ->assertStatus(422)
+    //         ->assertExactJson([
+    //             'errors' => [
+    //                 'promoCode' => [
+
+    //                 ]
+    //             ]
+    //         ]);
+    // }
 }

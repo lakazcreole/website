@@ -209,6 +209,20 @@ class OrderTest extends TestCase
         $this->assertEquals($promoCode->id, $order->fresh()->promoCode->id);
     }
 
+    // /** @test */
+    // public function it_does_not_apply_promo_code_if_required_products_are_missing()
+    // {
+    //     $product = factory(Product::class)->create();
+    //     $order = factory(Order::class)->create([
+    //         'customer_id' => factory(Customer::class)->create()->id
+    //     ]);
+    //     $discount = factory(Discount::class)->create();
+    //     $promoCode = factory(PromoCode::class)->create([
+    //         'discount_id' => $discount->id,
+    //     ]);
+    //     $order->applyPromoCode($promoCode);
+    // }
+
     /** @test */
     public function it_has_a_discount_attribute()
     {

@@ -6,15 +6,12 @@
       <h1 class="align-self-center">Offres</h1>
       <a href="{{ route('dashboard.offers.create') }}" class="ml-auto btn btn-success align-self-center">Ajouter</a>
     </div>
-    @if(isset($success))
-      <div class="alert alert-success alert-dismissible fade show" role="alert">
-        {{ $success }}
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
+    @if(session('success'))
+      @component('dashboard.components.alert-success')
+        {{ session('success') }}
+      @endcomponent
     @endif
-    <h2>Offres actives</h2>
+    <h2>Actives</h2>
     <div class="row">
       @foreach($offers as $offer)
         @if($offer->enabled)
@@ -43,7 +40,7 @@
         @endif
       @endforeach
     </div>
-    <h2>Offres inactives</h2>
+    <h2>Inactives</h2>
     <div class="row">
       @foreach($offers as $offer)
         @if($offer->enabled == false)

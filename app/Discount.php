@@ -9,6 +9,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class Discount extends Model
 {
+    protected $fillable = ['name'];
+
+    public static function findByName($name)
+    {
+        return self::where('name', $name)->first();
+    }
+
     public function promoCodes()
     {
         return $this->hasMany(PromoCode::class);
@@ -20,17 +27,17 @@ class Discount extends Model
             ->withPivot(['percent', 'required']);
     }
 
-    public function addProduct(Product $product, $percentage, $required = true)
+    public function addProduct($productId, $percentage, $required = true)
     {
-        $this->products()->attach($product->id, [
+        $this->products()->attach($productId, [
             'percent' => $percentage,
             'required' => $required
         ]);
     }
 
-    public function addFreeProduct(Product $product, $required = true)
+    public function addFreeProduct($productId, $required = true)
     {
-        $this->addProduct($product, 100, $required);
+        $this->addProduct($productId, 100, $required);
     }
 
     public function getValueAttribute()

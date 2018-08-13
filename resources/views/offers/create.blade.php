@@ -62,7 +62,7 @@
           <label class="form-check-label" for="disabled">Inactive</label>
         </div>
       </div>
-      <a href="{{ route('dashboard.products.index') }}" class="btn btn-outline-secondary">Annuler</a>
+      <a href="{{ route('dashboard.offers.index') }}" class="btn btn-outline-secondary">Annuler</a>
       <button type="submit" class="btn btn-primary">Ajouter</button>
     </form>
   </div>

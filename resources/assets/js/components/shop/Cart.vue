@@ -44,6 +44,7 @@
         <div v-show="items.length === 0" class="mb-3">
           Votre panier est vide.
         </div>
+        <PromoCode class="mt-5 mb-3"/>
       </div>
       <div class="bg-grey-lighter px-4 py-5">
         <div class="flex items-end">
@@ -59,11 +60,13 @@
 import { mapGetters } from 'vuex'
 import Alert from '../Alert'
 import CartItem from './CartItem'
+import PromoCode from './PromoCode'
 
 export default {
   components: {
     Alert,
-    CartItem
+    CartItem,
+    PromoCode
   },
 
   props: {

@@ -105,8 +105,6 @@ describe('Cart', () => {
     const wrapper = factory()
     wrapper.vm.$store.state.products.all = [{ id: 1, name: 'Thing', price: 6 }]
     wrapper.vm.$store.state.cart.items = [{ id: 1, quantity: 1 }]
-    console.log('items', wrapper.vm.items)
-    console.log('minimum reached', wrapper.vm.minimumReached)
     const alertWrapper = wrapper.find(Alert)
     expect(alertWrapper.props().color).toBe('red')
     expect(wrapper.find(Alert).isVisible()).toBe(false)
