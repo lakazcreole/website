@@ -20,9 +20,12 @@ mix
    .js('resources/assets/js/dashboard.js', 'public/js')
    .sass('resources/assets/sass/app.scss', 'public/css')
    .sass('resources/assets/sass/dashboard.scss', 'public/css')
-   .version()
    .options({
       processCssUrls: false, // necessary to enable tailwindcss because of unresolved issue in laravel-mix
       purifyCss: true,
       postCss: [ tailwindcss('./tailwind.js') ],
     });
+
+if (mix.inProduction()) {
+   mix.version()
+}
