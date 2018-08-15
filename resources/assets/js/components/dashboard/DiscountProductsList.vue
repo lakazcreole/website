@@ -1,28 +1,32 @@
 <template>
   <div>
     <!-- Discount products -->
-    <div v-for="type in types" v-if="shouldDisplay(type.type)" class="card mb-3">
+    <div v-for="(type, index) in types" v-if="shouldDisplay(type.type)" :key="index" class="card mb-3">
       <div class="card-header">{{ type.title }}</div>
       <ul class="list-group list-group-flush">
-        <li v-for="(product, i) in discountProducts.filter(p => p.type === type.type)" class="list-group-item">
+        <li v-for="(product, i) in discountProducts.filter(p => p.type === type.type)" :key="i" class="list-group-item">
           <div class="form-inline d-flex">
             <div class="mr-auto">
               {{ product.name }}
               <button type="button" class="btn btn-sm btn-outline-danger ml-3" @click="removeProduct(product.id)">Supprimer</button>
             </div>
-            <input hidden type="number" :name="`products[${i}][id]`" :value="product.id">
+            <input :name="`products[${i}][id]`" :value="product.id" hidden type="number">
             <div class="form-group">
               <label :for="`percent-${i}`">Pourcentage</label>
-              <input :id="`percent-${i}`" :name="`products[${i}][percent]`" type="number" class="form-control ml-3" min="0" max="100">
+              <input :id="`percent-${i}`" :name="`products[${i}][percent]`" :value="product.pivot ? product.pivot.percent : 100" type="number" class="form-control ml-3" min="0" max="100">
+            </div>
+            <div class="form-group ml-3">
+              <label :for="`max_items-${i}`">Nombre max.</label>
+              <input :id="`max_items-${i}`" :name="`products[${i}][max_items]`" :value="product.pivot ? product.pivot.max_items : 1" type="number" class="form-control ml-3" min="1" max="100">
             </div>
             <div class="form-group ml-3">
               <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" :name="`products[${i}][required]`" :id="`required-${i}`" value="1" checked>
-                <label class="form-check-label" :for="`required-${i}`">Requis</label>
+                <input :id="`required-${i}`" :name="`products[${i}][required]`" :checked="product.pivot ? product.pivot.required : true" class="form-check-input" type="radio" value="1">
+                <label :for="`required-${i}`" class="form-check-label">Requis</label>
               </div>
               <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" :name="`products[${i}][required]`" :id="`not-required-${i}`" value="0">
-                <label class="form-check-label" :for="`not-required-${i}`">Non requis</label>
+                <input :id="`not-required-${i}`" :name="`products[${i}][required]`" :checked="product.pivot ? !product.pivot.required : false" class="form-check-input" type="radio" value="0">
+                <label :for="`not-required-${i}`" class="form-check-label">Non requis</label>
               </div>
             </div>
           </div>
@@ -33,8 +37,8 @@
     <div class="input-group">
       <select v-model="productId" class="custom-select">
         <option :value="null">Ajouter un produit</option>
-        <optgroup v-for="type in types" :label="type.title">
-          <option v-for="product in products.filter(p => p.type === type.type)" :value="product.id">
+        <optgroup v-for="(type, i) in types" :label="type.title" :key="i">
+          <option v-for="product in products.filter(p => p.type === type.type)" :value="product.id" :key="product.id">
             {{ product.name }} <span v-if="product.disabled" class="text-muted">- Désactivé</span>
           </option>
         </optgroup>

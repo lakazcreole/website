@@ -19,6 +19,7 @@ class CreateDiscountProductTable extends Migration
             $table->integer('discount_id')->unsigned();
             $table->foreign('discount_id')->references('id')->on('discounts')->onDelete('cascade');
             $table->integer('percent')->unsigned();
+            $table->integer('max_items');
             $table->boolean('required');
         });
     }

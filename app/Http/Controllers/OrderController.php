@@ -13,10 +13,6 @@ class OrderController extends Controller
 {
     public function create()
     {
-        if (app()->environment('production')) // disable orders
-        {
-            return redirect()->route('home');
-        }
         return view('orders.create');
     }
 

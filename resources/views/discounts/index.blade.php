@@ -17,14 +17,18 @@
           {{ $discount->name }}
           <div class="ml-auto">
             <a href="{{ route('dashboard.discounts.edit', ['discount' => $discount]) }}" class="btn btn-sm btn-outline-secondary">Modifier</a>
-            <a href="{{ route('dashboard.discounts.destroy', ['discount' => $discount]) }}" class="ml-2 btn btn-sm btn-outline-danger">Supprimer</a>
+            <form action="{{ route('dashboard.discounts.destroy', ['discount' => $discount]) }}" method="POST" class="d-inline-block">
+                @method('DELETE')
+                @csrf
+                <button class="ml-2 btn btn-sm btn-outline-danger">Supprimer</button>
+            </form>
           </div>
         </div>
         <div class="card-body">
           <ul class="mb-0">
             @foreach($discount->products as $product)
               <li>
-                {{ $product->pivot->percent }} % sur {{ $product->name }}
+                {{ $product->pivot->percent }} % sur {{ $product->name }} <small class="text-muted text-uppercase">({{ $product->pivot->max_items }} maximum)</small>
                 @if($product->pivot->required)
                   <small class="text-muted text-uppercase">Requis</small>
                 @endif

@@ -12,6 +12,10 @@ let tailwindcss = require('tailwindcss');
  |
  */
 
+if (mix.inProduction()) {
+   mix.version()
+}
+
 mix
    // Necessary because processCssUrls is false
    .copy('resources/assets/images', 'public/images', true)

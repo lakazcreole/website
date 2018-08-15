@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreDiscount extends FormRequest
+class UpdateDiscount extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,7 +24,7 @@ class StoreDiscount extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|unique:discounts,name',
+            'name' => 'required|unique:discounts,name' . $this->discount->id,
             'products' => 'required|array',
             'products.*.id' => 'exists:products,id',
             'products.*.percent' => 'numeric|min:0|max:100',
