@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class PromoCode extends Model
 {
+    protected $fillable = ['name', 'discount_id', 'uses', 'max_uses', 'begin_at', 'end_at'];
+
     protected $visible = ['discount_id', 'is_valid'];
 
     protected $appends = ['is_valid'];

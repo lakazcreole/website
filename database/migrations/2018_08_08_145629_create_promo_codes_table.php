@@ -18,7 +18,7 @@ class CreatePromoCodesTable extends Migration
             $table->string('name')->unique();
             $table->integer('discount_id')->unsigned();
             $table->foreign('discount_id')->references('id')->on('discounts')->onDelete('cascade');
-            $table->integer('uses')->unsigned();
+            $table->integer('uses')->unsigned()->default(0);
             $table->integer('max_uses')->unsigned();
             $table->dateTime('begin_at');
             $table->dateTime('end_at');
