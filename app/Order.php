@@ -167,6 +167,8 @@ class Order extends Model
     {
         $this->promoCode()->associate($promoCode);
         $this->save();
+        $promoCode->uses++;
+        $promoCode->save();
     }
 
     public function getDiscountAttribute()

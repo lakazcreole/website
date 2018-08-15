@@ -1,6 +1,15 @@
 <template>
-  <div>
-    <div v-if="addMode">
+  <div v-if="serverError" class="text-sm">
+    Erreur serveur. Veuillez réessayer plus tard.
+  </div>
+  <div v-else>
+    <div v-if="isValid">
+      <div>
+        <div class="font-semibold text-green-light">Code promotionnel</div>
+        <div class="text-sm mt-3 text-green-light">{{ codeDescription }}</div>
+      </div>
+    </div>
+    <div v-else-if="addMode">
       <label for="code" class="block font-semibold text-grey-darker text-sm mb-2">Code promotionnel</label>
       <div class="flex">
         <input
@@ -24,7 +33,7 @@
 </template>
 
 <script>
-import promoCode from '../../api/promoCode'
+import discount from '../../api/discount'
 import FormInput from '../FormInput'
 
 export default {
@@ -36,6 +45,7 @@ export default {
     return {
       addMode: false,
       code: '',
+      codeDescription: '',
       isValid: false,
       invalidCode: false,
       waiting: false,
@@ -56,11 +66,20 @@ export default {
   methods: {
     onSubmit () {
       this.waiting = true
-      promoCode.validate(this.code)
+      discount.validateCode(this.code)
         .then(response => response.data)
         .then(data => {
           if (data.is_valid) {
             this.isValid = true
+            discount.get(data.discount_id)
+              .then(response => response.data)
+              .then(data => {
+                this.codeDescription = data.description
+              })
+              .catch(err => {
+                console.log(err)
+                this.serverError = true
+              })
           } else {
             this.invalidCode = true
           }

@@ -204,6 +204,10 @@ class OrderControllerStoreTest extends TestCase
             'id' => $response->json()['data']['id'],
             'promoCode_id' => $promoCode->id,
         ]);
+        $this->assertDatabaseHas('promo_codes', [
+            'id' => $promoCode->id,
+            'uses' => 1,
+        ]);
     }
 
     /** @test */

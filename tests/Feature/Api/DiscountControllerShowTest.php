@@ -17,17 +17,19 @@ class DiscountControllerShowTest extends TestCase
     {
         $product = factory(Product::class)->create();
         $discount = factory(Discount::class)->create();
-        $discount->addProduct($product, 100, true);
+        $discount->addProduct($product, 100, 12, true);
         $this->json('GET', "api/discounts/{$discount->id}")
             ->assertStatus(200)
             ->assertJson([
                 'id' => $discount->id,
+                'description' => $discount->description,
                 'products' => [
                     [
                         'id' => $product->id,
                         'pivot' => [
                             'product_id' => $product->id,
                             'percent' => 100,
+                            'max_items' => 12,
                             'required' => true
                         ]
                     ]
