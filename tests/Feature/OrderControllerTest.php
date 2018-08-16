@@ -6,6 +6,8 @@ use App\User;
 use App\Order;
 use App\Product;
 use App\Customer;
+use App\Discount;
+use App\PromoCode;
 use Tests\TestCase;
 use App\Mail\OrderAccepted;
 use App\Mail\OrderDeclined;
@@ -37,17 +39,29 @@ class OrderControllerTest extends TestCase
         $order = factory(Order::class)->create([
             'customer_id' => factory(Customer::class)->create()->id
         ]);
+        $order->applyPromoCode(factory(PromoCode::class)->create([
+            'discount_id' => factory(Discount::class)->create()->id
+        ]));
         $admin = factory(User::class)->make(['admin' => true]);
         $this->actingAs($admin)
             ->get(route('dashboard.orders.accept', $order))
+            ->assertStatus(200)
             ->assertViewIs('orders.accept_form')
-            ->assertViewHas('address1', $order->address1)
-            ->assertViewHas('address2', $order->address2)
-            ->assertViewHas('address3', $order->address3)
-            ->assertViewHas('zip', $order->zip)
-            ->assertViewHas('deliveryPrice', $order->deliveryPrice)
-            ->assertViewHas('fullPrice', $order->fullPrice)
-            ->assertStatus(200);
+            ->assertViewHasAll([
+                'customerFirstName' => $order->customer->firstName,
+                'customerLastName' => $order->customer->lastName,
+                'customerEmail' => $order->customer->email,
+                'customerPhone' => $order->customer->phone,
+                'address1' => $order->address1,
+                'address2' => $order->address2,
+                'address3' => $order->address3,
+                'zip' => $order->zip,
+                'city' => $order->city,
+                'deliveryPrice' => $order->deliveryPrice,
+                'totalProductsPrice' => $order->totalProductsPrice,
+                'finalPrice' => $order->finalPrice,
+                'discountDescription' => $order->discount->description,
+            ]);
     }
 
     public function testAccept()
@@ -59,9 +73,8 @@ class OrderControllerTest extends TestCase
         $admin = factory(User::class)->make(['admin' => true]);
         $this->actingAs($admin)
             ->post(route('dashboard.orders.accept', $order), ['message' => 'Okay cya l8er.', 'notify' => true])
-            ->assertViewIs('orders.accepted')
-            ->assertViewHas('address', "{$order->address1} {$order->address2} {$order->address3}")
-            ->assertStatus(200);
+            ->assertRedirect(route('dashboard.orders.index'))
+            ->assertSessionHas('success', "La commande #{$order->id} a été acceptée.");
         $order = Order::find($order->id);
         $this->assertTrue($order->isAccepted());
         $this->assertEquals('Okay cya l8er.', $order->acceptMessage);
@@ -80,9 +93,8 @@ class OrderControllerTest extends TestCase
         $admin = factory(User::class)->make(['admin' => true]);
         $this->actingAs($admin)
             ->post(route('dashboard.orders.accept', $order), ['message' => 'Okay cya l8er.', 'notify' => false])
-            ->assertViewIs('orders.accepted')
-            ->assertViewHas('address', "{$order->address1} {$order->address2} {$order->address3}")
-            ->assertStatus(200);
+            ->assertRedirect(route('dashboard.orders.index'))
+            ->assertSessionHas('success', "La commande #{$order->id} a été acceptée.");
         $order = Order::find($order->id);
         $this->assertTrue($order->isAccepted());
         $this->assertEquals('Okay cya l8er.', $order->acceptMessage);
@@ -106,12 +118,29 @@ class OrderControllerTest extends TestCase
         $order = factory(Order::class)->create([
             'customer_id' => factory(Customer::class)->create()->id
         ]);
+        $order->applyPromoCode(factory(PromoCode::class)->create([
+            'discount_id' => factory(Discount::class)->create()->id
+        ]));
         $admin = factory(User::class)->make(['admin' => true]);
         $this->actingAs($admin)
             ->get(route('dashboard.orders.decline', $order))
             ->assertViewIs('orders.decline_form')
-            ->assertViewHas('address', "{$order->address1} {$order->address2} {$order->address3}")
-            ->assertStatus(200);
+            ->assertStatus(200)
+            ->assertViewHasAll([
+                'customerFirstName' => $order->customer->firstName,
+                'customerLastName' => $order->customer->lastName,
+                'customerEmail' => $order->customer->email,
+                'customerPhone' => $order->customer->phone,
+                'address1' => $order->address1,
+                'address2' => $order->address2,
+                'address3' => $order->address3,
+                'zip' => $order->zip,
+                'city' => $order->city,
+                'deliveryPrice' => $order->deliveryPrice,
+                'totalProductsPrice' => $order->totalProductsPrice,
+                'finalPrice' => $order->finalPrice,
+                'discountDescription' => $order->discount->description,
+            ]);
     }
 
     public function testDecline()
@@ -123,9 +152,8 @@ class OrderControllerTest extends TestCase
         $admin = factory(User::class)->make(['admin' => true]);
         $this->actingAs($admin)
             ->post(route('dashboard.orders.decline', $order), ['message' => 'No.', 'notify' => true])
-            ->assertViewIs('orders.declined')
-            ->assertViewHas('address', "{$order->address1} {$order->address2} {$order->address3}")
-            ->assertStatus(200);
+            ->assertRedirect(route('dashboard.orders.index'))
+            ->assertSessionHas('success', "La commande #{$order->id} a été refusée.");
         $order = Order::find($order->id);
         $this->assertTrue($order->isDeclined());
         $this->assertEquals('No.', $order->declineMessage);
@@ -144,9 +172,8 @@ class OrderControllerTest extends TestCase
         $admin = factory(User::class)->make(['admin' => true]);
         $this->actingAs($admin)
             ->post(route('dashboard.orders.decline', $order), ['message' => 'No.', 'notify' => false])
-            ->assertViewIs('orders.declined')
-            ->assertViewHas('address', "{$order->address1} {$order->address2} {$order->address3}")
-            ->assertStatus(200);
+            ->assertRedirect(route('dashboard.orders.index'))
+            ->assertSessionHas('success', "La commande #{$order->id} a été refusée.");
         $order = Order::find($order->id);
         $this->assertTrue($order->isDeclined());
         $this->assertEquals('No.', $order->declineMessage);
@@ -173,7 +200,8 @@ class OrderControllerTest extends TestCase
         $admin = factory(User::class)->make(['admin' => true]);
         $this->actingAs($admin)
             ->post(route('dashboard.orders.cancel', $order))
-            ->assertStatus(200);
+            ->assertRedirect(route('dashboard.orders.index'))
+            ->assertSessionHas('success', "La commande #{$order->id} a été annulée.");
         $order = Order::find($order->id);
         $this->assertTrue($order->isCanceled());
     }

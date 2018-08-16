@@ -62,6 +62,7 @@ if (App::environment('local')) {
             'customer_id' => factory(App\Customer::class)->create()->id
         ]);
         $product = App\Product::find(1);
+        $order->applyPromoCode(factory(App\PromoCode::class)->create(['discount_id' => factory(App\Discount::class)->create()->id]));
         $order->lines()->save(App\OrderLine::create([
             'order_id' => $order->id,
             'product_id' => $product->id,
@@ -76,6 +77,7 @@ if (App::environment('local')) {
             'information' => 'MI MANGE PAS PIMENT GARS'
         ]);
         $product = App\Product::find(1);
+        $order->applyPromoCode(factory(App\PromoCode::class)->create(['discount_id' => factory(App\Discount::class)->create()->id]));
         $order->lines()->save(App\OrderLine::create([
             'order_id' => $order->id,
             'product_id' => $product->id,

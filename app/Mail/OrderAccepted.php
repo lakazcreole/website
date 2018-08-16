@@ -35,7 +35,8 @@ class OrderAccepted extends Mailable implements ShouldQueue
         return $this->subject("Confirmation de votre commande")
             ->markdown('emails.orders.accepted')
             ->with([
-                'customerName' => $this->order->customer->firstName,
+                'customerFirstName' => $this->order->customer->firstName,
+                'customerLastName' => $this->order->customer->lastName,
                 'customerEmail' => $this->order->customer->email,
                 'customerPhone' => $this->order->customer->phone,
                 'lines' => $this->order->lines,
@@ -43,11 +44,13 @@ class OrderAccepted extends Mailable implements ShouldQueue
                 'address2' => $this->order->address2,
                 'address3' => $this->order->address3,
                 'zip' => $this->order->zip,
+                'city' => $this->order->city,
                 'date' => strftime('%A %d %B %Y', strtotime($this->order->date)),
                 'time' => date('H:i', strtotime($this->order->time)),
                 'deliveryPrice' => $this->order->deliveryPrice,
                 'totalProductsPrice' => $this->order->totalProductsPrice,
                 'finalPrice' => $this->order->finalPrice,
+                'discountDescription' => $this->order->discount ? $this->order->discount->description : null,
                 'message' => $this->order->acceptMessage,
             ]);
     }

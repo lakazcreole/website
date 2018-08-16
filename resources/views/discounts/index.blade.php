@@ -6,11 +6,7 @@
       <h1 class="align-self-center">Réductions</h1>
       <a href="{{ route('dashboard.discounts.create') }}" class="ml-auto btn btn-success align-self-center">Ajouter</a>
     </div>
-    @if(session('success'))
-      @component('dashboard.components.alert-success')
-        {{ session('success') }}
-      @endcomponent
-    @endif
+    @include('dashboard.partials.session_alert')
     @foreach($discounts as $discount)
       <div class="card mb-3">
         <div class="card-header d-flex">
