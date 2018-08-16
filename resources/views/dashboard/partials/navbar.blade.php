@@ -1,3 +1,4 @@
+@if(Auth::check() && Auth::user()->admin)
 <nav class="navbar sticky-top navbar-expand-lg navbar-light bg-light border-bottom border-dark mb-3">
   <div class="container">
     <a class="navbar-brand" href="{{ route('dashboard') }}">Dashboard</a>
@@ -26,12 +27,18 @@
       <div class="navbar-nav">
         <a class="nav-link" href="{{ route('home') }}" target="_blank">
           Site
+          <i class="material-icons" style="font-size: 0.9rem; vertical-align: middle;">open_in_new</i>
         </a>
         <a class="nav-link" href="https://docs.google.com/spreadsheets/d/1Bt-5V-Gp-d4asQOb6XLwaTbxZTJEHzoCRtlBlZ5rRa8/edit?usp=sharing" target="_blank">
           Stocks
-          <i class="material-icons" style="font-size: 0.9rem; vertical-align: middle;">launch</i>
+          <i class="material-icons" style="font-size: 0.9rem; vertical-align: middle;">open_in_new</i>
         </a>
-        <a class="nav-link" href="https://www.messenger.com/t/laurent.cazanove.3" target="_blank"><i class="material-icons">help</i></a>
+        <a class="nav-link" href="{{ url('/logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+          <i class="material-icons">input</i>
+        </a>
+        <form id="logout-form" action="{{ url('/logout') }}" method="POST">
+          @csrf
+        </form>
       </div>
 {{--       <form class="form-inline my-2 my-lg-0">
         <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
@@ -40,3 +47,4 @@
     </div>
   </div>
 </nav>
+@endif

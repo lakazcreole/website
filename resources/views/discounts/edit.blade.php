@@ -12,8 +12,9 @@
         </ul>
       </div>
     @endif
-    <form action="{{ route('dashboard.discounts.update', ['discount' => $id]) }}" method="PUT" enctype="multipart/form-data">
-      <input type="hidden" name="_token" value="{{ csrf_token() }}">
+    <form action="{{ route('dashboard.discounts.update', ['discount' => $id]) }}" method="POST" enctype="multipart/form-data">
+      @method('PUT')
+      @csrf
       <div class="form-group">
         <label for="name">Nom</label>
         <input type="text" name="name" class="form-control" id="name" placeholder="Entrez le nom" value="{{ old('name') ?? $name }}" required>
