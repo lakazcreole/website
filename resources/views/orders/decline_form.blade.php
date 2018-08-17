@@ -3,41 +3,14 @@
 @section('content')
     <div class="container">
         <h1>Refuser la commande #{{ $id }}</h1>
-        <p>
-            Vous êtes sur le point de refuser la commande de {{ $customerName }}.
-        </p>
-        <h2>Récapitulatif</h2>
-        <p>
-            Détail de la commande :
-            <ul>
-                @foreach($lines as $line)
-                    <li>{{ $line->quantity }} {{ $line->product->name }} ({{ $line->totalPrice }} €)</li>
-                @endforeach
-            </ul>
-            Soit un total de <strong>{{ $totalPrice }} €</strong>.
-        </p>
-        <h2>Informations</h2>
-        <p>
-            <ul>
-                <li>Client : {{ $customerName }}</li>
-                <li>Email : {{ $customerEmail }}</li>
-                <li>Tél. : {{ $customerPhone }}</li>
-                <li>Addresse : {{ $address }}</li>
-                <li>Date : {{ $date }} à {{ $time }}</li>
-            </ul>
-        </p>
+        @component('dashboard.components.alert', ['type' => 'warning'])
+          Vous êtes sur le point de refuser la commande de {{ $customerFirstName }}.
+        @endcomponent
+        @include('dashboard.partials.order')
         <h2>Mail</h2>
-        @if ($errors->any())
-            <div class="alert alert-danger">
-                <ul>
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
+        @include('dashboard.partials.validation_errors')
         <form method="POST" action="{{ $postUrl }}" accept-charset="UTF-8">
-            {{ csrf_field() }}
+            @csrf
             <div class="form-group">
                 <label for="message">Personnaliser</label>
                 <textarea class="form-control" name="message" id="message" rows="8">

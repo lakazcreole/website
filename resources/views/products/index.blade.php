@@ -6,14 +6,7 @@
       <h1 class="align-self-center">Produits</h1>
       <a href="{{ route('dashboard.products.create') }}" class="ml-auto btn btn-success align-self-center">Ajouter</a>
     </div>
-    @if(isset($success))
-      <div class="alert alert-success alert-dismissible fade show" role="alert">
-        {{ $success }}
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-    @endif
+    @include('dashboard.partials.session_alert')
     @foreach($productTypes as $productType)
       <div class="card my-3">
         <div class="card-header">

@@ -25,6 +25,8 @@ Route::post('/subscriptions', 'Api\SubscriptionController@store');
 Route::get('/products', 'Api\ProductController@index');
 Route::get('/products/offers', 'Api\OfferController@index');
 Route::post('/orders', 'Api\OrderController@store');
+Route::get('/promocodes/validate/{name}', 'Api\PromoCodeController@validateName');
+Route::get('/discounts/{discount}', 'Api\DiscountController@show');
 
 // Dashboard
 Route::middleware(['auth:api', 'can:access-dashboard'])->group(function () {

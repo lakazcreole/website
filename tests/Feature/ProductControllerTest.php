@@ -12,22 +12,29 @@ class ProductControllerTest extends TestCase
 {
     use RefreshDatabase;
 
+    protected $admin;
+
+    public function setUp()
+    {
+        parent::setUp();
+        $this->admin = factory(User::class)->create(['admin' => true]);
+    }
+
     public function testIndex()
     {
-        $user = factory(User::class)->create(['admin' => true]);
-        $this->actingAs($user)
+        $this->actingAs($this->admin)
             ->get(route('dashboard.products.index'))
             ->assertStatus(200)
             ->assertViewIs('products.index')
-            ->assertViewHas('productTypes', Product::TYPES)
-            ->assertViewHas('products', Product::orderBy('name')->get())
-            ->assertViewHas('apiToken', $user->api_token);
+            ->assertViewHasAll([
+                'productTypes' => Product::TYPES,
+                'products' => Product::orderBy('name')->get()
+            ]);
     }
 
     public function testCreate()
     {
-        $user = factory(User::class)->create(['admin' => true]);
-        $this->actingAs($user)
+        $this->actingAs($this->admin)
             ->get(route('dashboard.products.create'))
             ->assertStatus(200)
             ->assertViewIs('products.create')
@@ -44,19 +51,16 @@ class ProductControllerTest extends TestCase
             'price' => 7.5,
             'disabled' => false
         ];
-        $user = factory(User::class)->create(['admin' => true]);
-        $this->actingAs($user)
+        $this->actingAs($this->admin)
             ->post(route('dashboard.products.store'), $data)
-            ->assertStatus(200)
-            ->assertViewIs('products.index')
-            ->assertViewHas('success', "Le produit {$data['name']} a été créé avec succès !");
+            ->assertRedirect(route('dashboard.products.index'))
+            ->assertSessionHas('success', "Le produit {$data['name']} a été créé.");
         $this->assertDatabaseHas('products', $data);
     }
 
     public function testStoreValidatesData()
     {
-        $user = factory(User::class)->create(['admin' => true]);
-        $this->actingAs($user)
+        $this->actingAs($this->admin)
             ->post(route('dashboard.products.store'), [])
             ->assertStatus(302)
             ->assertSessionHasErrors(['name', 'type', 'price', 'disabled']);
@@ -64,20 +68,21 @@ class ProductControllerTest extends TestCase
 
     public function testEdit()
     {
-        $user = factory(User::class)->create(['admin' => true]);
         $product = factory(Product::class)->create();
-        $this->actingAs($user)
+        $this->actingAs($this->admin)
             ->get(route('dashboard.products.edit', ['product' => $product]))
             ->assertStatus(200)
             ->assertViewIs('products.edit')
-            ->assertViewHas('id', $product->id)
-            ->assertViewHas('name', $product->name)
-            ->assertViewHas('type', $product->type)
-            ->assertViewHas('pieces', $product->pieces)
-            ->assertViewHas('description', $product->description)
-            ->assertViewHas('price', $product->price)
-            ->assertViewHas('disabled', $product->disabled)
-            ->assertViewHas('productTypes', Product::TYPES);
+            ->assertViewHasAll([
+                'id' =>  $product->id,
+                'name' =>  $product->name,
+                'type' =>  $product->type,
+                'pieces' =>  $product->pieces,
+                'description' =>  $product->description,
+                'price' =>  $product->price,
+                'disabled' =>  $product->disabled,
+                'productTypes' =>  Product::TYPES,
+            ]);
     }
 
     public function testUpdate()
@@ -90,19 +95,16 @@ class ProductControllerTest extends TestCase
             'price' => 7.5,
             'disabled' => false
         ];
-        $user = factory(User::class)->create(['admin' => true]);
         $product = factory(Product::class)->create();
-        $this->actingAs($user)
+        $this->actingAs($this->admin)
             ->post(route('dashboard.products.update', ['product' => $product]), $data)
-            ->assertStatus(200)
-            ->assertViewIs('products.index')
-            ->assertViewHas('success', "Le produit #{$product->id} ({$data['name']}) a été modifié avec succès !");
+            ->assertRedirect(route('dashboard.products.index'))
+            ->assertSessionHas('success', "Le produit {$data['name']} a été modifié.");
         $this->assertDatabaseHas('products', $data);
     }
 
     public function testUpdateWithSameName()
     {
-        $user = factory(User::class)->create(['admin' => true]);
         $product = factory(Product::class)->create();
         $data = [
             'name' => $product->name,
@@ -112,11 +114,10 @@ class ProductControllerTest extends TestCase
             'price' => 7.5,
             'disabled' => false
         ];
-        $this->actingAs($user)
+        $this->actingAs($this->admin)
             ->post(route('dashboard.products.update', ['product' => $product]), $data)
-            ->assertStatus(200)
-            ->assertViewIs('products.index')
-            ->assertViewHas('success', "Le produit #{$product->id} ({$data['name']}) a été modifié avec succès !");
+            ->assertRedirect(route('dashboard.products.index'))
+            ->assertSessionHas('success', "Le produit {$data['name']} a été modifié.");
         $this->assertDatabaseHas('products', $data);
     }
 }
