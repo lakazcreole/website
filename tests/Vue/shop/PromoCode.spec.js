@@ -25,12 +25,18 @@ describe('PromoCode', () => {
 
   it('initially displays a Add Code button', () => {
     const wrapper = factory()
-    expect(wrapper.find('button').text()).toContain('Code promotionnel')
+    expect(wrapper.find('button.add').text()).toContain('Code promo')
   })
 
-  it('initially displays an input field', () => {
+  it('initially has an hidden input field', () => {
     const wrapper = factory()
-    expect(wrapper.find(FormInput).exists()).toBe(true)
+    expect(wrapper.find('input').isVisible()).toBe(false)
+  })
+
+  it('displays the input field when the Add button is pressed', () => {
+    const wrapper = factory()
+    wrapper.find('button.add').trigger('click')
+    expect(wrapper.find('input').isVisible()).toBe(true)
   })
 
 })

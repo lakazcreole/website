@@ -3,13 +3,16 @@
     Erreur serveur. Veuillez réessayer plus tard.
   </div>
   <div v-else>
-    <div v-if="isValid">
+    <button v-show="!isValid && !addMode" class="add px-3 py-2 border border-green-light rounded text-green-light hover:bg-green-light hover:text-grey-lightest w-full uppercase" @click="addMode = true">
+      Code promo
+    </button>
+    <div v-show="isValid">
       <div>
         <div class="font-semibold text-green-light">Code promotionnel</div>
         <div class="text-sm mt-3 text-green-light">{{ codeDescription }}</div>
       </div>
     </div>
-    <div v-else-if="addMode">
+    <div v-show="!isValid && addMode">
       <label for="code" class="block font-semibold text-grey-darker text-sm mb-2">Code promotionnel</label>
       <div class="flex">
         <input
@@ -26,9 +29,6 @@
       </div>
       <div v-show="invalidCode" class="mt-2 text-sm text-red-light">Ce code promotionnel est erroné.</div>
     </div>
-    <button v-else class="px-3 py-2 border border-green-light rounded text-green-light hover:bg-green-light hover:text-grey-lightest w-full uppercase" @click="addMode = true">
-      Code promo
-    </button>
   </div>
 </template>
 
