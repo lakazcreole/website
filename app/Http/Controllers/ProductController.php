@@ -45,11 +45,8 @@ class ProductController extends Controller
     {
         $product = Product::create($request->only(['name', 'type', 'pieces', 'description', 'price', 'disabled']));
         Log::notice("{$product->name} was added to the products list");
-        return view('products.index')
-            ->with('productTypes', Product::TYPES)
-            ->with('products', Product::all())
-            ->with('apiToken', Auth::user()->api_token)
-            ->with('success', "Le produit {$product->name} a été créé avec succès !");
+        return redirect()->route('dashboard.products.index')
+            ->with('success', "Le produit {$product->name} a été créé.");
     }
 
     /**
@@ -95,11 +92,8 @@ class ProductController extends Controller
         $product->fill($request->only(['name', 'type', 'pieces', 'description', 'price', 'disabled']));
         $product->save();
         Log::notice("Product #{$product->id} was updated");
-        return view('products.index')
-            ->with('productTypes', Product::TYPES)
-            ->with('products', Product::all())
-            ->with('apiToken', Auth::user()->api_token)
-            ->with('success', "Le produit #{$product->id} ({$product->name}) a été modifié avec succès !");
+        return redirect()->route('dashboard.products.index')
+            ->with('success', "Le produit {$product->name} a été modifié.");
     }
 
     /**

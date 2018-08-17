@@ -4,6 +4,7 @@ namespace App;
 
 use App\Customer;
 use App\OrderLine;
+use App\PromoCode;
 use Carbon\Carbon;
 use App\Events\OrderCreated;
 use App\Events\OrderAccepted;
@@ -73,15 +74,6 @@ class Order extends Model
         ]));
     }
 
-    public function getTotalPriceAttribute()
-    {
-        if (!$this->relationLoaded('lines'))
-        {
-            $this->load('lines');
-        }
-        return $this->lines->sum('totalPrice');
-    }
-
     public function getAcceptUrlAttribute()
     {
         return action('OrderController@getAcceptForm', ['order' => $this->id]);
@@ -92,18 +84,36 @@ class Order extends Model
         return action('OrderController@getDeclineForm', ['order' => $this->id]);
     }
 
-    public function getDeliveryPriceAttribute()
+    public function getTotalProductsPriceAttribute()
     {
-        if ($this->totalPrice < 13)
-            return 2;
-        if ($this->totalPrice >= 15)
-            return 0;
-        return 15 - $this->totalPrice;
+        if (!$this->relationLoaded('lines'))
+        {
+            $this->load('lines');
+        }
+        return $this->lines->sum('totalPrice');
     }
 
-    public function getFullPriceAttribute()
+    public function getDeliveryPriceAttribute()
     {
-        return $this->totalPrice + $this->deliveryPrice;
+        if ($this->totalProductsPrice < 13)
+            return 2;
+        if ($this->totalProductsPrice >= 15)
+            return 0;
+        return 15 - $this->totalProductsPrice;
+    }
+
+    public function getPriceBeforeDiscountAttribute()
+    {
+        return $this->totalProductsPrice + $this->deliveryPrice;
+    }
+
+    public function getFinalPriceAttribute()
+    {
+        if ($this->discount)
+        {
+            return $this->priceBeforeDiscount - $this->discount->value;
+        }
+        return $this->priceBeforeDiscount;
     }
 
     public function accept($message)
@@ -146,5 +156,28 @@ class Order extends Model
     public function isWaiting()
     {
         return $this->accepted_at === null && $this->declined_at === null && $this->canceled_at === null;
+    }
+
+    public function promoCode()
+    {
+        return $this->belongsTo(PromoCode::class, 'promoCode_id');
+    }
+
+    public function applyPromoCode(PromoCode $promoCode)
+    {
+        $this->promoCode()->associate($promoCode);
+        $this->save();
+        $promoCode->uses++;
+        $promoCode->save();
+    }
+
+    public function getDiscountAttribute()
+    {
+        return $this->promoCode ? $this->promoCode->discount : null;
+    }
+
+    public function getDiscountValueAttribute()
+    {
+        return $this->discount ? $this->discount->generateDiscount($this->lines, $this->deliveryPrice) : 0;
     }
 }

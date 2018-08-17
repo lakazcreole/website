@@ -34,7 +34,8 @@ class OrderController extends Controller
         setlocale (LC_TIME, 'fr_FR.utf8', 'fra');
         return view('orders.accept_form')->with([
             'id' => $order->id,
-            'customerName' => $order->customer->firstName,
+            'customerFirstName' => $order->customer->firstName,
+            'customerLastName' => $order->customer->lastName,
             'customerEmail' => $order->customer->email,
             'customerPhone' => $order->customer->phone,
             'lines' => $order->lines,
@@ -42,12 +43,15 @@ class OrderController extends Controller
             'address2' => $order->address2,
             'address3' => $order->address3,
             'zip' => $order->zip,
+            'city' => $order->city,
             'date' => strftime('%A %d %B %Y', strtotime($order->date)),
             'time' => date('H:i', strtotime($order->time)),
-            'totalPrice' => $order->totalPrice,
+            'totalProductsPrice' => $order->totalProductsPrice,
             'deliveryPrice' => $order->deliveryPrice,
-            'fullPrice' => $order->fullPrice,
+            'finalPrice' => $order->finalPrice,
             'postUrl' => action('OrderController@accept', [$order->id]),
+            'discountName' => $order->discount ? $order->discount->name : null,
+            'discountDescription' => $order->discount ? $order->discount->description : null,
         ]);
     }
 
@@ -55,33 +59,32 @@ class OrderController extends Controller
     {
         $order->notifyAccept = $request->input('notify');
         $order->accept(nl2br($request->input('message')));
-        return view('orders.accepted')->with([
-            'id' => $order->id,
-            'customerName' => $order->customer->firstName,
-            'customerEmail' => $order->customer->email,
-            'customerPhone' => $order->customer->phone,
-            'lines' => $order->lines,
-            'address' => "{$order->address1} {$order->address2} {$order->address3}",
-            'zip' => $order->zip,
-            'date' => $order->date,
-            'time' => $order->time,
-            'totalPrice' => $order->totalPrice,
-        ]);
+        return redirect()->route('dashboard.orders.index')
+            ->with('success', "La commande #{$order->id} a été acceptée.");
     }
 
     public function getDeclineForm(Order $order)
     {
         return view('orders.decline_form')->with([
             'id' => $order->id,
-            'customerName' => $order->customer->firstName,
+            'customerFirstName' => $order->customer->firstName,
+            'customerLastName' => $order->customer->lastName,
             'customerEmail' => $order->customer->email,
             'customerPhone' => $order->customer->phone,
             'lines' => $order->lines,
-            'address' => "{$order->address1} {$order->address2} {$order->address3}",
-            'date' => $order->date,
-            'time' => $order->time,
-            'totalPrice' => $order->totalPrice,
+            'address1' => $order->address1,
+            'address2' => $order->address2,
+            'address3' => $order->address3,
+            'zip' => $order->zip,
+            'city' => $order->city,
+            'date' => strftime('%A %d %B %Y', strtotime($order->date)),
+            'time' => date('H:i', strtotime($order->time)),
+            'totalProductsPrice' => $order->totalProductsPrice,
+            'deliveryPrice' => $order->deliveryPrice,
+            'finalPrice' => $order->finalPrice,
             'postUrl' => action('OrderController@decline', [$order->id]),
+            'discountName' => $order->discount ? $order->discount->name : null,
+            'discountDescription' => $order->discount ? $order->discount->description : null,
         ]);
     }
 
@@ -89,22 +92,14 @@ class OrderController extends Controller
     {
         $order->notifyDecline = $request->input('notify');
         $order->decline(nl2br($request->input('message')));
-        return view('orders.declined')->with([
-            'id' => $order->id,
-            'customerName' => $order->customer->firstName,
-            'customerEmail' => $order->customer->email,
-            'customerPhone' => $order->customer->phone,
-            'lines' => $order->lines,
-            'address' => "{$order->address1} {$order->address2} {$order->address3}",
-            'date' => $order->date,
-            'time' => $order->time,
-            'totalPrice' => $order->totalPrice,
-            'declineMessage' => $order->declineMessage,
-        ]);
+        return redirect()->route('dashboard.orders.index')
+            ->with('success', "La commande #{$order->id} a été refusée.");
     }
 
     public function cancel(Order $order, CancelOrder $request)
     {
         $order->cancel();
+        return redirect()->route('dashboard.orders.index')
+            ->with('success', "La commande #{$order->id} a été annulée.");
     }
 }
