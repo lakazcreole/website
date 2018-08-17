@@ -61,6 +61,7 @@ class OrderControllerTest extends TestCase
                 'totalProductsPrice' => $order->totalProductsPrice,
                 'finalPrice' => $order->finalPrice,
                 'discountDescription' => $order->discount->description,
+                'postUrl' => action('OrderController@accept', [$order->id]),
             ]);
     }
 
@@ -140,6 +141,7 @@ class OrderControllerTest extends TestCase
                 'totalProductsPrice' => $order->totalProductsPrice,
                 'finalPrice' => $order->finalPrice,
                 'discountDescription' => $order->discount->description,
+                'postUrl' => action('OrderController@decline', [$order->id]),
             ]);
     }
 
