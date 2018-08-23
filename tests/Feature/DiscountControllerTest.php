@@ -115,7 +115,8 @@ class DiscountControllerTest extends TestCase
                 'productTypes' => Product::TYPES,
                 'indexRoute' => 'dashboard.discounts.index',
                 'updateRoute' => 'dashboard.discounts.update',
-                'updateRouteParameter' => 'discount'
+                'destroyRoute' => 'dashboard.discounts.destroy',
+                'routeParameter' => 'discount'
             ]);
     }
 

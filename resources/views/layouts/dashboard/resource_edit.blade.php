@@ -2,11 +2,16 @@
 
 @section('content')
   <div class="container">
-    <h1 class="mb-3">
+    <h1 class="d-flex mb-3">
       @yield('title')
+      <form action="{{ route($destroyRoute, [$routeParameter => $id]) }}" method="POST" class="ml-auto d-inline-flex">
+        @method('DELETE')
+        @csrf
+        <button class="my-auto btn btn-sm btn-outline-danger">Supprimer</button>
+      </form>
     </h1>
     @include('partials.dashboard.validation_errors')
-    <form action="{{ route($updateRoute, [$updateRouteParameter => $id]) }}" method="POST" enctype="multipart/form-data">
+    <form action="{{ route($updateRoute, [$routeParameter => $id]) }}" method="POST" enctype="multipart/form-data">
       @method('PUT')
       @csrf
       @yield('fields')

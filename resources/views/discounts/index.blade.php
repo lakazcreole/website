@@ -7,14 +7,7 @@
       <div class="card mb-3">
         <div class="card-header d-flex">
           {{ $discount->name }}
-          <div class="ml-auto">
-            <a href="{{ route($editRoute, ['discount' => $discount]) }}" class="btn btn-sm btn-outline-secondary">Modifier</a>
-            <form action="{{ route($destroyRoute, ['discount' => $discount]) }}" method="POST" class="d-inline-block">
-                @method('DELETE')
-                @csrf
-                <button class="ml-2 btn btn-sm btn-outline-danger">Supprimer</button>
-            </form>
-          </div>
+          <a href="{{ route($editRoute, ['discount' => $discount]) }}" class="ml-auto btn btn-sm btn-outline-secondary">Modifier</a>
         </div>
         <div class="card-body">
           <ul class="mb-0">
