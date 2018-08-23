@@ -2,11 +2,11 @@ import Vuex from 'vuex'
 import { shallowMount, mount, createLocalVue } from '@vue/test-utils'
 import expect from 'expect'
 
-import DeliveryInput from '../../../resources/assets/js/components/shop/DeliveryInput'
-import AddressInput from '../../../resources/assets/js/components/shop/AddressInput'
-import DateTimeInput from '../../../resources/assets/js/components/shop/DateTimeInput'
-import SplittableCard from '../../../resources/assets/js/components/SplittableCard'
-import store from '../../../resources/assets/js/store'
+import DeliveryInput from '../../../resources/js/components/shop/DeliveryInput'
+import AddressInput from '../../../resources/js/components/shop/AddressInput'
+import DateTimeInput from '../../../resources/js/components/shop/DateTimeInput'
+import SplittableCard from '../../../resources/js/components/SplittableCard'
+import store from '../../../resources/js/store'
 
 const localVue = createLocalVue()
 localVue.use(Vuex)

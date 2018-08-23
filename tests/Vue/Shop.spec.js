@@ -2,8 +2,8 @@ import Vuex from 'vuex'
 import { shallowMount, mount, createLocalVue } from '@vue/test-utils'
 import expect from 'expect'
 
-import Shop from '../../resources/assets/js/views/Shop'
-import store from '../../resources/assets/js/store'
+import Shop from '../../resources/js/views/Shop'
+import store from '../../resources/js/store'
 
 const localVue = createLocalVue()
 localVue.use(Vuex)

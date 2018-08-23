@@ -2,10 +2,10 @@ import { shallowMount, mount, createLocalVue } from '@vue/test-utils'
 import expect from 'expect'
 import Vuex from 'vuex'
 
-import Cart from '../../../resources/assets/js/components/shop/Cart.vue'
-import CartItem from '../../../resources/assets/js/components/shop/CartItem.vue'
-import Alert from '../../../resources/assets/js/components/Alert.vue'
-import store from '../../../resources/assets/js/store'
+import Cart from '../../../resources/js/components/shop/Cart.vue'
+import CartItem from '../../../resources/js/components/shop/CartItem.vue'
+import Alert from '../../../resources/js/components/Alert.vue'
+import store from '../../../resources/js/store'
 
 const localVue = createLocalVue()
 localVue.use(Vuex)

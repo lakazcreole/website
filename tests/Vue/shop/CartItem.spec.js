@@ -1,5 +1,5 @@
 import { shallowMount } from '@vue/test-utils'
-import CartItem from '../../../resources/assets/js/components/shop/CartItem.vue'
+import CartItem from '../../../resources/js/components/shop/CartItem.vue'
 import expect from 'expect'
 
 const factory = (props = {}) => {

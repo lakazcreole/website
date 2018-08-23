@@ -1,7 +1,7 @@
 import { shallowMount } from '@vue/test-utils'
 import expect from 'expect'
 
-import SplittableCard from '../../resources/assets/js/components/SplittableCard'
+import SplittableCard from '../../resources/js/components/SplittableCard'
 
 const factory = (props = {}) => {
   return shallowMount(SplittableCard, {

@@ -2,9 +2,9 @@ import Vuex from 'vuex'
 import { shallowMount, mount, createLocalVue } from '@vue/test-utils'
 import expect from 'expect'
 
-import DateTimeInput from '../../../resources/assets/js/components/shop/DateTimeInput'
+import DateTimeInput from '../../../resources/js/components/shop/DateTimeInput'
 import DatePicker from 'vuejs-datepicker'
-import store from '../../../resources/assets/js/store'
+import store from '../../../resources/js/store'
 
 const localVue = createLocalVue()
 localVue.use(Vuex)
