@@ -18,7 +18,12 @@ class DiscountController extends Controller
     public function index()
     {
         return view('discounts.index')
-            ->with('discounts', Discount::all());
+            ->with([
+                'discounts' => Discount::all(),
+                'createRoute' => 'dashboard.discounts.create',
+                'editRoute' => 'dashboard.discounts.edit',
+                'destroyRoute' => 'dashboard.discounts.destroy'
+            ]);
     }
 
     /**
@@ -29,8 +34,12 @@ class DiscountController extends Controller
     public function create()
     {
         return view('discounts.create')
-            ->with('products', Product::all())
-            ->with('productTypes', Product::TYPES);
+            ->with([
+                'products' => Product::all(),
+                'productTypes' => Product::TYPES,
+                'indexRoute' => 'dashboard.discounts.index',
+                'storeRoute' => 'dashboard.discounts.store',
+            ]);
     }
 
     /**
@@ -61,12 +70,17 @@ class DiscountController extends Controller
     public function edit(Discount $discount)
     {
         return view('discounts.edit')
-            ->with('id', $discount->id)
-            ->with('name', $discount->name)
-            ->with('description', $discount->description)
-            ->with('discountProducts', $discount->products)
-            ->with('products', Product::all())
-            ->with('productTypes', Product::TYPES);
+            ->with([
+                'id' => $discount->id,
+                'name' => $discount->name,
+                'description' => $discount->description,
+                'discountProducts' => $discount->products,
+                'products' => Product::all(),
+                'productTypes' => Product::TYPES,
+                'indexRoute' => 'dashboard.discounts.index',
+                'updateRoute' => 'dashboard.discounts.update',
+                'updateRouteParameter' => 'discount'
+            ]);
     }
 
     /**

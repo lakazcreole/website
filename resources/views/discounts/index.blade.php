@@ -1,19 +1,15 @@
-@extends('layouts.dashboard')
+@extends('layouts.dashboard.resource_index')
 
-@section('content')
-  <div class="container">
-    <div class="d-flex d-flex-row">
-      <h1 class="align-self-center">Réductions</h1>
-      <a href="{{ route('dashboard.discounts.create') }}" class="ml-auto btn btn-success align-self-center">Ajouter</a>
-    </div>
-    @include('dashboard.partials.session_alert')
+@section('title', 'Réductions')
+
+@section('list')
     @foreach($discounts as $discount)
       <div class="card mb-3">
         <div class="card-header d-flex">
           {{ $discount->name }}
           <div class="ml-auto">
-            <a href="{{ route('dashboard.discounts.edit', ['discount' => $discount]) }}" class="btn btn-sm btn-outline-secondary">Modifier</a>
-            <form action="{{ route('dashboard.discounts.destroy', ['discount' => $discount]) }}" method="POST" class="d-inline-block">
+            <a href="{{ route($editRoute, ['discount' => $discount]) }}" class="btn btn-sm btn-outline-secondary">Modifier</a>
+            <form action="{{ route($destroyRoute, ['discount' => $discount]) }}" method="POST" class="d-inline-block">
                 @method('DELETE')
                 @csrf
                 <button class="ml-2 btn btn-sm btn-outline-danger">Supprimer</button>

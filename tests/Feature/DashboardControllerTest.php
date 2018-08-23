@@ -16,22 +16,22 @@ class DashboardController extends TestCase
     {
         $user = factory(User::class)->create(['admin' => true]);
         $this->actingAs($user)
-            ->get('/dashboard')
+            ->get(route('dashboard'))
             ->assertStatus(200)
-            ->assertViewIs('dashboard.home');
+            ->assertViewIs('dashboard');
     }
 
     public function testStandardUserCannotAccessDashboard()
     {
         $user = factory(User::class)->create(['admin' => false]);
         $this->actingAs($user)
-            ->get('/dashboard')
+            ->get(route('dashboard'))
             ->assertStatus(403);
     }
 
     public function testGuestIsRedirectedToLogin()
     {
-        $this->get('dashboard')
+        $this->get(route('dashboard'))
             ->assertRedirect(route('login'));
     }
 }
