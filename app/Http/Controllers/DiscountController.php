@@ -17,12 +17,10 @@ class DiscountController extends Controller
      */
     public function index()
     {
-        return view('discounts.index')
-            ->with([
+        return view('discounts.index', [
                 'discounts' => Discount::all(),
                 'createRoute' => 'dashboard.discounts.create',
                 'editRoute' => 'dashboard.discounts.edit',
-                'destroyRoute' => 'dashboard.discounts.destroy'
             ]);
     }
 
@@ -33,8 +31,7 @@ class DiscountController extends Controller
      */
     public function create()
     {
-        return view('discounts.create')
-            ->with([
+        return view('discounts.create', [
                 'products' => Product::all(),
                 'productTypes' => Product::TYPES,
                 'indexRoute' => 'dashboard.discounts.index',
@@ -69,8 +66,7 @@ class DiscountController extends Controller
      */
     public function edit(Discount $discount)
     {
-        return view('discounts.edit')
-            ->with([
+        return view('discounts.edit', [
                 'id' => $discount->id,
                 'name' => $discount->name,
                 'description' => $discount->description,

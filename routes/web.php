@@ -42,12 +42,7 @@ Route::prefix('/dashboard')->middleware('can:access-dashboard')->group(function 
         Route::post('/products/{product}/edit', 'ProductController@update')->name('products.update');
 
         // Offers
-        Route::get('/offers', 'OfferController@index')->name('offers.index');
-        Route::get('/offers/create', 'OfferController@create')->name('offers.create');
-        Route::post('/offers/create', 'OfferController@store')->name('offers.store');
-        Route::get('/offers/{offer}/edit', 'OfferController@edit')->name('offers.edit');
-        Route::post('/offers/{offer}/edit', 'OfferController@update')->name('offers.update');
-        Route::get('/offers/{offer}/destroy', 'OfferController@destroy')->name('offers.destroy');
+        Route::resource('offers', 'OfferController')->except(['show']);
 
         // Discounts
         Route::resource('discounts', 'DiscountController')->except(['show']);

@@ -1,73 +1,40 @@
-@extends('layouts.dashboard')
+@extends('layouts.dashboard.resource_index')
 
-@section('content')
-  <div class="container">
-    <div class="d-flex d-flex-row">
-      <h1 class="align-self-center">Offres</h1>
-      <a href="{{ route('dashboard.offers.create') }}" class="ml-auto btn btn-success align-self-center">Ajouter</a>
-    </div>
-    @if(session('success'))
-      @component('dashboard.components.alert-success')
-        {{ session('success') }}
-      @endcomponent
-    @endif
-    <h2>Actives</h2>
-    <div class="row">
-      @foreach($offers as $offer)
-        @if($offer->enabled)
-          <div class="col-md-4 mb-4">
-            <div class="card">
-              <img class="card-img-top" style="height:300px" src="{{ asset($offer->imageUrl) }}">
-              <div class="card-body">
-                <div class="d-flex">
-                  <strong>{{ $offer->name }}</strong>
-                  @if($offer->product->disabled)
-                    <span class="text-warning ml-auto">Produit désactivé</span>
-                  @endif
-                </div>
-                <small>Du {{ $offer->begin_at }} au {{ $offer->end_at }}</small>
-                <div class="row">
-                  <div class="col-md-6">
-                    <a href="{{ route('dashboard.offers.edit', ['offer' => $offer]) }}" class="mt-2 btn btn-sm btn-outline-secondary btn-block">Modifier</a>
-                  </div>
-                  <div class="col-md-6">
-                    <a href="{{ route('dashboard.offers.destroy', ['offer' => $offer]) }}" class="mt-2 btn btn-sm btn-outline-danger btn-block">Supprimer</a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        @endif
-      @endforeach
-    </div>
-    <h2>Inactives</h2>
-    <div class="row">
-      @foreach($offers as $offer)
-        @if($offer->enabled == false)
-          <div class="col-md-4 mb-4">
-            <div class="card">
-              <img class="card-img-top" style="height:300px" src="{{ asset($offer->imageUrl) }}">
-              <div class="card-body">
-                <div class="d-flex">
-                  <strong>{{ $offer->name }}</strong>
-                  @if($offer->product->disabled)
-                    <span class="text-warning ml-auto">Produit désactivé</span>
-                  @endif
-                </div>
-                <small>Du {{ $offer->begin_at }} au {{ $offer->end_at }}</small>
-                <div class="row">
-                  <div class="col-md-6">
-                    <a href="{{ route('dashboard.offers.edit', ['offer' => $offer]) }}" class="mt-2 btn btn-sm btn-outline-secondary btn-block">Modifier</a>
-                  </div>
-                  <div class="col-md-6">
-                    <a href="{{ route('dashboard.offers.destroy', ['offer' => $offer]) }}" class="mt-2 btn btn-sm btn-outline-danger btn-block">Supprimer</a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        @endif
-      @endforeach
-    </div>
+@section('title', 'Offres')
+
+@section('list')
+  <h2 class="mb-3">Actives</h2>
+  <div class="row">
+    @foreach($offers as $offer)
+      @if($offer->enabled)
+        @component('components.dashboard.offer', [
+          'id' => $offer->id,
+          'name' => $offer->name,
+          'imageUrl' => $offer->imageUrl,
+          'productDisabled' => $offer->product->disabled,
+          'beginAt' => date('D M Y', strtotime($offer->begin_at)),
+          'endAt' => date('D M Y', strtotime($offer->end_at)),
+          'editRoute' => $editRoute
+          ])
+        @endcomponent
+      @endif
+    @endforeach
+  </div>
+  <h2 class="mb-3">Inactives</h2>
+  <div class="row">
+    @foreach($offers as $offer)
+      @if($offer->enabled == false)
+        @component('components.dashboard.offer', [
+          'id' => $offer->id,
+          'name' => $offer->name,
+          'imageUrl' => $offer->imageUrl,
+          'productDisabled' => $offer->product->disabled,
+          'beginAt' => date('D M Y', strtotime($offer->begin_at)),
+          'endAt' => date('D M Y', strtotime($offer->end_at)),
+          'editRoute' => $editRoute
+          ])
+        @endcomponent
+      @endif
+    @endforeach
   </div>
 @endsection

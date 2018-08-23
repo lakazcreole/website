@@ -35,19 +35,27 @@ class OfferControllerTest extends TestCase
     {
         $this->actingAs($this->admin)
             ->get(route('dashboard.offers.index'))
-            ->assertStatus(200)
             ->assertViewIs('offers.index')
-            ->assertViewHas('offers', Offer::all());
+            ->assertStatus(200)
+            ->assertViewHasAll([
+                'offers' => Offer::all(),
+                'createRoute' => 'dashboard.offers.create',
+                'editRoute' => 'dashboard.offers.edit',
+            ]);
     }
 
     public function testCreate()
     {
         $this->actingAs($this->admin)
             ->get(route('dashboard.offers.create'))
-            ->assertStatus(200)
             ->assertViewIs('offers.create')
-            ->assertViewHas('products', Product::all())
-            ->assertViewHas('productTypes', Product::TYPES);
+            ->assertStatus(200)
+            ->assertViewHasAll([
+                'products' => Product::all(),
+                'productTypes' => Product::TYPES,
+                'indexRoute' => 'dashboard.offers.index',
+                'storeRoute' => 'dashboard.offers.store',
+            ]);
     }
 
     public function testStore()
@@ -89,17 +97,23 @@ class OfferControllerTest extends TestCase
         $offer = factory(Offer::class)->create(['product_id' => factory(Product::class)->create()->id]);
         $this->actingAs($this->admin)
             ->get(route('dashboard.offers.edit', ['offer' => $offer]))
-            ->assertStatus(200)
             ->assertViewIs('offers.edit')
-            ->assertViewHas('id', $offer->id)
-            ->assertViewHas('name', $offer->name)
-            ->assertViewHas('product', $offer->product_id)
-            ->assertViewHas('begin_date', $offer->begin_at)
-            ->assertViewHas('end_date', $offer->end_at)
-            ->assertViewHas('enabled', $offer->enabled)
-            ->assertViewHas('imageUrl', $offer->imageUrl)
-            ->assertViewHas('products', Product::all())
-            ->assertViewHas('productTypes', Product::TYPES);
+            ->assertStatus(200)
+            ->assertViewHasAll([
+                'id' => $offer->id,
+                'name' => $offer->name,
+                'product' => $offer->product_id,
+                'begin_date' => $offer->begin_at,
+                'end_date' => $offer->end_at,
+                'enabled' => $offer->enabled,
+                'imageUrl' => $offer->imageUrl,
+                'products' => Product::all(),
+                'productTypes' => Product::TYPES,
+                'indexRoute' => 'dashboard.offers.index',
+                'updateRoute' => 'dashboard.offers.update',
+                'destroyRoute' => 'dashboard.offers.destroy',
+                'routeParameter' => 'offer'
+            ]);
     }
 
     public function testUpdate()

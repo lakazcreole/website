@@ -31,8 +31,7 @@ class DiscountControllerTest extends TestCase
             ->assertViewHasAll([
                 'discounts' => Discount::all(),
                 'createRoute' => 'dashboard.discounts.create',
-                'editRoute' => 'dashboard.discounts.edit',
-                'destroyRoute' => 'dashboard.discounts.destroy'
+                'editRoute' => 'dashboard.discounts.edit'
             ]);
     }
 

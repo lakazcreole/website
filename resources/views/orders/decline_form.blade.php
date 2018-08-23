@@ -3,12 +3,12 @@
 @section('content')
     <div class="container">
         <h1>Refuser la commande #{{ $id }}</h1>
-        @component('dashboard.components.alert', ['type' => 'warning'])
+        @component('components.dashboard.alert', ['type' => 'warning'])
           Vous êtes sur le point de refuser la commande de {{ $customerFirstName }}.
         @endcomponent
-        @include('dashboard.partials.order')
+        @include('partials.dashboard.order')
         <h2>Mail</h2>
-        @include('dashboard.partials.validation_errors')
+        @include('partials.dashboard.validation_errors')
         <form method="POST" action="{{ $postUrl }}" accept-charset="UTF-8">
             @csrf
             <div class="form-group">

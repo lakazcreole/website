@@ -19,7 +19,7 @@
 
     <body>
         <div id="app">
-            @include('dashboard.partials.navbar')
+            @include('partials.dashboard.navbar')
             @yield('modals')
             @yield('content')
         </div>

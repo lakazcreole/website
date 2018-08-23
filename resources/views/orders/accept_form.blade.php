@@ -3,10 +3,10 @@
 @section('content')
   <div class="container">
     <h1>Accepter la commande #{{ $id }}</h1>
-    @component('dashboard.components.alert', ['type' => 'warning'])
+    @component('components.dashboard.alert', ['type' => 'warning'])
       Vous êtes sur le point d'accepter la commande de {{ $customerFirstName }}.
     @endcomponent
-    @include('dashboard.partials.order')
+    @include('partials.dashboard.order')
     <h2>Mail</h2>
       @if ($errors->any())
         <div class="alert alert-danger">

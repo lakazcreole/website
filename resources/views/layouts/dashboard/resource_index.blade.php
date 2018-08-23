@@ -10,7 +10,7 @@
     </div>
     <div class="mb-3">
       @if(session('success'))
-        @component('dashboard.components.alert', ['type' => 'success'])
+        @component('components.dashboard.alert', ['type' => 'success'])
           {{ session('success') }}
         @endcomponent
       @endif

@@ -6,7 +6,7 @@
       <h1 class="align-self-center">Produits</h1>
       <a href="{{ route('dashboard.products.create') }}" class="ml-auto btn btn-success align-self-center">Ajouter</a>
     </div>
-    @include('dashboard.partials.session_alert')
+    @include('partials.dashboard.session_alert')
     @foreach($productTypes as $productType)
       <div class="card my-3">
         <div class="card-header">

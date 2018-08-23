@@ -2,7 +2,7 @@
 
 @section('content')
   <div class="container">
-    @include('dashboard.partials.session_alert')
+    @include('partials.dashboard.session_alert')
     @foreach($orders as $order)
       <div class="card my-3">
         <div class="card-header d-flex flex-row">
