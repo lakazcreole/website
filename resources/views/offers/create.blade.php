@@ -45,11 +45,11 @@
   </div>
   <div class="form-group">
     <div class="form-check form-check-inline">
-      <input class="form-check-input" type="radio" name="enabled" id="enabled" value="1" checked>
+      <input class="form-check-input" type="radio" name="enabled" id="enabled" value="1">
       <label class="form-check-label" for="enabled">Active</label>
     </div>
     <div class="form-check form-check-inline">
-      <input class="form-check-input" type="radio" name="enabled" id="disabled" value="0">
+      <input class="form-check-input" type="radio" name="enabled" id="disabled" value="0" checked>
       <label class="form-check-label" for="disabled">Inactive</label>
     </div>
   </div>

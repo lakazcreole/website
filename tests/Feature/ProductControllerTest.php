@@ -28,7 +28,9 @@ class ProductControllerTest extends TestCase
             ->assertViewIs('products.index')
             ->assertViewHasAll([
                 'productTypes' => Product::TYPES,
-                'products' => Product::orderBy('name')->get()
+                'products' => Product::orderBy('name')->get(),
+                'createRoute' => 'dashboard.products.create',
+                'editRoute' => 'dashboard.products.edit',
             ]);
     }
 
@@ -38,7 +40,11 @@ class ProductControllerTest extends TestCase
             ->get(route('dashboard.products.create'))
             ->assertStatus(200)
             ->assertViewIs('products.create')
-            ->assertViewHas('productTypes', Product::TYPES);
+            ->assertViewHasAll([
+                'productTypes' => Product::TYPES,
+                'indexRoute' => 'dashboard.products.index',
+                'storeRoute' => 'dashboard.products.store',
+            ]);
     }
 
     public function testStore()
@@ -82,6 +88,9 @@ class ProductControllerTest extends TestCase
                 'price' =>  $product->price,
                 'disabled' =>  $product->disabled,
                 'productTypes' =>  Product::TYPES,
+                'indexRoute' => 'dashboard.products.index',
+                'updateRoute' => 'dashboard.products.update',
+                'routeParameter' => 'products'
             ]);
     }
 

@@ -35,15 +35,9 @@ Route::prefix('/dashboard')->middleware('can:access-dashboard')->group(function 
         Route::post('/orders/{order}/cancel', 'OrderController@cancel')->middleware('can:cancel,order')->name('orders.cancel');
 
         // Products
-        Route::get('/products', 'ProductController@index')->name('products.index');
-        Route::get('/products/create', 'ProductController@create')->name('products.create');
-        Route::post('/products/create', 'ProductController@store')->name('products.store');
-        Route::get('/products/{product}/edit', 'ProductController@edit')->name('products.edit');
-        Route::post('/products/{product}/edit', 'ProductController@update')->name('products.update');
-
+        Route::resource('products', 'ProductController')->except(['show', 'destroy']);
         // Offers
         Route::resource('offers', 'OfferController')->except(['show']);
-
         // Discounts
         Route::resource('discounts', 'DiscountController')->except(['show']);
     });

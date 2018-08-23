@@ -18,10 +18,12 @@ class ProductController extends Controller
      */
     public function index()
     {
-        return view('products.index')
-            ->with('productTypes', Product::TYPES)
-            ->with('products', Product::orderBy('name')->get())
-            ->with('apiToken', Auth::user()->api_token);
+        return view('products.index', [
+            'productTypes' => Product::TYPES,
+            'products' => Product::orderBy('name')->get(),
+            'createRoute' => 'dashboard.products.create',
+            'editRoute' => 'dashboard.products.edit',
+        ]);
     }
 
     /**
@@ -31,8 +33,11 @@ class ProductController extends Controller
      */
     public function create()
     {
-        return view('products.create')
-            ->with('productTypes', Product::TYPES);
+        return view('products.create', [
+            'productTypes' => Product::TYPES,
+            'indexRoute' => 'dashboard.products.index',
+            'storeRoute' => 'dashboard.products.store',
+        ]);
     }
 
     /**
@@ -47,17 +52,6 @@ class ProductController extends Controller
         Log::notice("{$product->name} was added to the products list");
         return redirect()->route('dashboard.products.index')
             ->with('success', "Le produit {$product->name} a été créé.");
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Product  $product
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Product $product)
-    {
-        //
     }
 
     /**
@@ -76,7 +70,10 @@ class ProductController extends Controller
             'description' => $product->description,
             'price' => $product->price,
             'disabled' => $product->disabled,
-            'productTypes' => Product::TYPES
+            'productTypes' => Product::TYPES,
+            'indexRoute' => 'dashboard.products.index',
+            'updateRoute' => 'dashboard.products.update',
+            'routeParameter' => 'products'
         ]);
     }
 
