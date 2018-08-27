@@ -31,14 +31,14 @@
             <li class="mb-1">Rougail saucisse</li>
             <li class="mb-1">Shop suey de légumes</li>
           </ul>
-          <p>... et bien d'autres !</p>
+          <p>... et bientôt d'autres !</p>
         @endcomponent
       </div>
       <div class="sm:w-1/3 mx-auto sm:mx-4">
         @component('components.menu-card')
-          @slot('tag')
+{{--           @slot('tag')
             Bientôt disponible
-          @endslot
+          @endslot --}}
           @slot('image')
             <img src="./images/gateau-patate.jpg" alt="Gâteau patate maison">
           @endslot

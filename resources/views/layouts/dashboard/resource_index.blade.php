@@ -6,6 +6,7 @@
       <h1 class="align-self-center mb-0">
         @yield('title')
       </h1>
+      @yield('actions')
       @isset($createRoute)
         <a href="{{ route($createRoute) }}" class="ml-auto btn btn-success align-self-center">Ajouter</a>
       @endisset
