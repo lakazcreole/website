@@ -18,10 +18,10 @@ class DiscountController extends Controller
     public function index()
     {
         return view('discounts.index', [
-                'discounts' => Discount::all(),
-                'createRoute' => 'dashboard.discounts.create',
-                'editRoute' => 'dashboard.discounts.edit',
-            ]);
+            'discounts' => Discount::all(),
+            'createRoute' => 'dashboard.discounts.create',
+            'editRoute' => 'dashboard.discounts.edit',
+        ]);
     }
 
     /**
@@ -32,11 +32,11 @@ class DiscountController extends Controller
     public function create()
     {
         return view('discounts.create', [
-                'products' => Product::all(),
-                'productTypes' => Product::TYPES,
-                'indexRoute' => 'dashboard.discounts.index',
-                'storeRoute' => 'dashboard.discounts.store',
-            ]);
+            'products' => Product::all(),
+            'productTypes' => Product::TYPES,
+            'indexRoute' => 'dashboard.discounts.index',
+            'storeRoute' => 'dashboard.discounts.store',
+        ]);
     }
 
     /**
@@ -67,17 +67,17 @@ class DiscountController extends Controller
     public function edit(Discount $discount)
     {
         return view('discounts.edit', [
-                'id' => $discount->id,
-                'name' => $discount->name,
-                'description' => $discount->description,
-                'discountProducts' => $discount->products,
-                'products' => Product::all(),
-                'productTypes' => Product::TYPES,
-                'indexRoute' => 'dashboard.discounts.index',
-                'updateRoute' => 'dashboard.discounts.update',
-                'destroyRoute' => 'dashboard.discounts.destroy',
-                'routeParameter' => 'discount'
-            ]);
+            'id' => $discount->id,
+            'name' => $discount->name,
+            'description' => $discount->description,
+            'discountProducts' => $discount->products,
+            'products' => Product::all(),
+            'productTypes' => Product::TYPES,
+            'indexRoute' => 'dashboard.discounts.index',
+            'updateRoute' => 'dashboard.discounts.update',
+            'destroyRoute' => 'dashboard.discounts.destroy',
+            'routeParameter' => 'discount'
+        ]);
     }
 
     /**

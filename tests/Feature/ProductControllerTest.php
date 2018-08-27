@@ -106,7 +106,7 @@ class ProductControllerTest extends TestCase
         ];
         $product = factory(Product::class)->create();
         $this->actingAs($this->admin)
-            ->post(route('dashboard.products.update', ['product' => $product]), $data)
+            ->put(route('dashboard.products.update', ['product' => $product]), $data)
             ->assertRedirect(route('dashboard.products.index'))
             ->assertSessionHas('success', "Le produit {$data['name']} a été modifié.");
         $this->assertDatabaseHas('products', $data);
@@ -124,7 +124,7 @@ class ProductControllerTest extends TestCase
             'disabled' => false
         ];
         $this->actingAs($this->admin)
-            ->post(route('dashboard.products.update', ['product' => $product]), $data)
+            ->put(route('dashboard.products.update', ['product' => $product]), $data)
             ->assertRedirect(route('dashboard.products.index'))
             ->assertSessionHas('success', "Le produit {$data['name']} a été modifié.");
         $this->assertDatabaseHas('products', $data);

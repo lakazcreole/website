@@ -15,9 +15,9 @@
   </div>
   <div class="form-group">
     <div class="mb-2">Produits concernés</div>
-    <div class="alert alert-warning" role="alert">
+    @component('components.dashboard.alert', ['type' => 'warning', 'closeable' => false])
       Cette fonctionnalité est en cours de développement. Pour l'instant, c'est à vous d'ajouter les éléments gratuits à la commande du client.
-    </div>
+    @endcomponent
     <discount-products-list
       :types="{{ json_encode($productTypes) }}"
       :products="{{ json_encode($products) }}"

@@ -130,7 +130,7 @@ class OfferControllerTest extends TestCase
         ];
 
         $this->actingAs($this->admin)
-            ->post(route('dashboard.offers.update', ['offer' => $offer]), $data)
+            ->put(route('dashboard.offers.update', ['offer' => $offer]), $data)
             ->assertRedirect(route('dashboard.offers.index'))
             ->assertSessionHas('success', "L'offre {$data['name']} a été modifiée avec succès !");
         $this->assertDatabaseHas('offers', [
@@ -148,7 +148,7 @@ class OfferControllerTest extends TestCase
     {
         $offer = factory(Offer::class)->create(['product_id' => factory(Product::class)->create()->id]);
         $this->actingAs($this->admin)
-            ->post(route('dashboard.offers.update', ['offer' => $offer]), [])
+            ->put(route('dashboard.offers.update', ['offer' => $offer]), [])
             ->assertStatus(302)
             ->assertSessionHasErrors(['name', 'product', 'begin_date', 'end_date', 'enabled']);
     }
@@ -157,7 +157,7 @@ class OfferControllerTest extends TestCase
     {
         $offer = factory(Offer::class)->create(['product_id' => factory(Product::class)->create()->id]);
         $this->actingAs($this->admin)
-            ->get(route('dashboard.offers.destroy', ['offer' => $offer]))
+            ->delete(route('dashboard.offers.destroy', ['offer' => $offer]))
             ->assertRedirect(route('dashboard.offers.index'))
             ->assertSessionHas('success', "L'offre {$offer->name} a été supprimée avec succès !");
         $this->assertDatabaseMissing('offers', ['id' => $offer->id]);
