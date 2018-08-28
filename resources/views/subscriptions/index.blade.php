@@ -13,7 +13,7 @@
   @endforeach
   </ul>
   <p>
-    CSV:
+    CSV:<br/>
     @foreach($subscriptions as $subscription)
       <span>{{ $subscription->email }},</span>
     @endforeach
