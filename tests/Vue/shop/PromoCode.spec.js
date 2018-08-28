@@ -2,9 +2,9 @@ import { shallowMount, mount, createLocalVue } from '@vue/test-utils'
 import expect from 'expect'
 import Vuex from 'vuex'
 
-import PromoCode from '../../../resources/assets/js/components/shop/PromoCode.vue'
-import FormInput from '../../../resources/assets/js/components/FormInput.vue'
-import store from '../../../resources/assets/js/store'
+import PromoCode from '../../../resources/js/components/shop/PromoCode.vue'
+import FormInput from '../../../resources/js/components/FormInput.vue'
+import store from '../../../resources/js/store'
 
 const localVue = createLocalVue()
 localVue.use(Vuex)

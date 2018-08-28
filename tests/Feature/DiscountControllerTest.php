@@ -28,7 +28,11 @@ class DiscountControllerTest extends TestCase
             ->get(route('dashboard.discounts.index'))
             ->assertStatus(200)
             ->assertViewIs('discounts.index')
-            ->assertViewHas('discounts', Discount::all());
+            ->assertViewHasAll([
+                'discounts' => Discount::all(),
+                'createRoute' => 'dashboard.discounts.create',
+                'editRoute' => 'dashboard.discounts.edit'
+            ]);
     }
 
     /** @test */
@@ -38,8 +42,12 @@ class DiscountControllerTest extends TestCase
             ->get(route('dashboard.discounts.create'))
             ->assertStatus(200)
             ->assertViewIs('discounts.create')
-            ->assertViewHas('products', Product::all())
-            ->assertViewHas('productTypes', Product::TYPES);
+            ->assertViewHasAll([
+                'products' => Product::all(),
+                'productTypes' => Product::TYPES,
+                'indexRoute' => 'dashboard.discounts.index',
+                'storeRoute' => 'dashboard.discounts.store',
+            ]);
     }
 
     /** @test */
@@ -97,10 +105,18 @@ class DiscountControllerTest extends TestCase
             ->get(route('dashboard.discounts.edit', ['discount' => $discount]))
             ->assertStatus(200)
             ->assertViewIs('discounts.edit')
-            ->assertViewHas('name', $discount->name)
-            ->assertViewHas('discountProducts', $discount->products)
-            ->assertViewHas('products', Product::all())
-            ->assertViewHas('productTypes', Product::TYPES);
+            ->assertViewHasAll([
+                'id' => $discount->id,
+                'name' => $discount->name,
+                'description' => $discount->description,
+                'discountProducts' => $discount->products,
+                'products' =>  Product::all(),
+                'productTypes' => Product::TYPES,
+                'indexRoute' => 'dashboard.discounts.index',
+                'updateRoute' => 'dashboard.discounts.update',
+                'destroyRoute' => 'dashboard.discounts.destroy',
+                'routeParameter' => 'discount'
+            ]);
     }
 
     /** @test */

@@ -2,8 +2,8 @@ import { shallowMount, createLocalVue } from '@vue/test-utils'
 import expect from 'expect'
 
 import Vuex from 'vuex'
-import AddressInput from '../../../resources/assets/js/components/shop/AddressInput'
-import store from '../../../resources/assets/js/store'
+import AddressInput from '../../../resources/js/components/shop/AddressInput'
+import store from '../../../resources/js/store'
 
 const localVue = createLocalVue()
 localVue.use(Vuex)

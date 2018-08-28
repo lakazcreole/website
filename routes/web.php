@@ -35,22 +35,13 @@ Route::prefix('/dashboard')->middleware('can:access-dashboard')->group(function 
         Route::post('/orders/{order}/cancel', 'OrderController@cancel')->middleware('can:cancel,order')->name('orders.cancel');
 
         // Products
-        Route::get('/products', 'ProductController@index')->name('products.index');
-        Route::get('/products/create', 'ProductController@create')->name('products.create');
-        Route::post('/products/create', 'ProductController@store')->name('products.store');
-        Route::get('/products/{product}/edit', 'ProductController@edit')->name('products.edit');
-        Route::post('/products/{product}/edit', 'ProductController@update')->name('products.update');
-
+        Route::resource('products', 'ProductController')->except(['show', 'destroy']);
         // Offers
-        Route::get('/offers', 'OfferController@index')->name('offers.index');
-        Route::get('/offers/create', 'OfferController@create')->name('offers.create');
-        Route::post('/offers/create', 'OfferController@store')->name('offers.store');
-        Route::get('/offers/{offer}/edit', 'OfferController@edit')->name('offers.edit');
-        Route::post('/offers/{offer}/edit', 'OfferController@update')->name('offers.update');
-        Route::get('/offers/{offer}/destroy', 'OfferController@destroy')->name('offers.destroy');
-
+        Route::resource('offers', 'OfferController')->except(['show']);
         // Discounts
         Route::resource('discounts', 'DiscountController')->except(['show']);
+        // Subscriptions
+        Route::get('/subscriptions', 'SubscriptionController@index')->name('subscriptions.index');
     });
 });
 

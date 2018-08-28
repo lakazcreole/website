@@ -32,7 +32,7 @@ class OrderController extends Controller
     public function getAcceptForm(Order $order)
     {
         setlocale (LC_TIME, 'fr_FR.utf8', 'fra');
-        return view('orders.accept_form')->with([
+        return view('orders.accept_form', [
             'id' => $order->id,
             'customerFirstName' => $order->customer->firstName,
             'customerLastName' => $order->customer->lastName,
@@ -49,9 +49,10 @@ class OrderController extends Controller
             'totalProductsPrice' => $order->totalProductsPrice,
             'deliveryPrice' => $order->deliveryPrice,
             'finalPrice' => $order->finalPrice,
-            'postUrl' => action('OrderController@accept', [$order->id]),
             'discountName' => $order->discount ? $order->discount->name : null,
             'discountDescription' => $order->discount ? $order->discount->description : null,
+            'postUrl' => action('OrderController@accept', [$order->id]),
+            'declineUrl' => action('OrderController@decline', [$order->id]),
         ]);
     }
 
@@ -83,6 +84,7 @@ class OrderController extends Controller
             'deliveryPrice' => $order->deliveryPrice,
             'finalPrice' => $order->finalPrice,
             'postUrl' => action('OrderController@decline', [$order->id]),
+            'acceptUrl' => action('OrderController@accept', [$order->id]),
             'discountName' => $order->discount ? $order->discount->name : null,
             'discountDescription' => $order->discount ? $order->discount->description : null,
         ]);

@@ -2,11 +2,16 @@
 
 @section('content')
   <div class="container">
-    <h1>Accepter la commande #{{ $id }}</h1>
-    @component('dashboard.components.alert', ['type' => 'warning'])
+    <div class="mb-3 d-flex">
+      <h1 class="mb-0">Accepter la commande <small class="text-muted">#{{ $id }}</small></h1>
+      <div class="ml-auto d-flex">
+        <a href="{{ $declineUrl }}" class="my-auto btn btn-sm btn-outline-danger">Refuser</a>
+      </div>
+    </div>
+    @component('components.dashboard.alert', ['type' => 'warning', 'closeable' => false])
       Vous êtes sur le point d'accepter la commande de {{ $customerFirstName }}.
     @endcomponent
-    @include('dashboard.partials.order')
+    @include('partials.dashboard.order')
     <h2>Mail</h2>
       @if ($errors->any())
         <div class="alert alert-danger">

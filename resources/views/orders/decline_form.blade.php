@@ -2,13 +2,18 @@
 
 @section('content')
     <div class="container">
-        <h1>Refuser la commande #{{ $id }}</h1>
-        @component('dashboard.components.alert', ['type' => 'warning'])
+        <div class="mb-3 d-flex">
+            <h1 class="mb-0">Refuser la commande <small class="text-muted">#{{ $id }}</small></h1>
+            <div class="ml-auto d-flex">
+                <a href="{{ $acceptUrl }}" class="my-auto btn btn-sm btn-outline-success">Accepter</a>
+            </div>
+        </div>
+        @component('components.dashboard.alert', ['type' => 'warning', 'closeable' => false])
           Vous êtes sur le point de refuser la commande de {{ $customerFirstName }}.
         @endcomponent
-        @include('dashboard.partials.order')
+        @include('partials.dashboard.order')
         <h2>Mail</h2>
-        @include('dashboard.partials.validation_errors')
+        @include('partials.dashboard.validation_errors')
         <form method="POST" action="{{ $postUrl }}" accept-charset="UTF-8">
             @csrf
             <div class="form-group">

@@ -18,7 +18,11 @@ class OfferController extends Controller
      */
     public function index()
     {
-        return view('offers.index')->with('offers', Offer::all());
+        return view('offers.index', [
+                'offers' => Offer::all(),
+                'createRoute' => 'dashboard.offers.create',
+                'editRoute' => 'dashboard.offers.edit',
+            ]);
     }
 
     /**
@@ -28,9 +32,12 @@ class OfferController extends Controller
      */
     public function create()
     {
-        return view('offers.create')
-            ->with('products', Product::all())
-            ->with('productTypes', Product::TYPES);
+        return view('offers.create', [
+                'products' => Product::all(),
+                'productTypes' => Product::TYPES,
+                'indexRoute' => 'dashboard.offers.index',
+                'storeRoute' => 'dashboard.offers.store',
+            ]);
     }
 
     /**
@@ -53,17 +60,6 @@ class OfferController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  \App\Offer  $offer
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Offer $offer)
-    {
-        //
-    }
-
-    /**
      * Show the form for editing the specified resource.
      *
      * @param  \App\Offer  $offer
@@ -71,16 +67,21 @@ class OfferController extends Controller
      */
     public function edit(Offer $offer)
     {
-        return view('offers.edit')
-            ->with('id', $offer->id)
-            ->with('name', $offer->name)
-            ->with('product', $offer->product_id)
-            ->with('begin_date', $offer->begin_at)
-            ->with('end_date', $offer->end_at)
-            ->with('enabled', $offer->enabled)
-            ->with('imageUrl', $offer->imageUrl)
-            ->with('products', Product::all())
-            ->with('productTypes', Product::TYPES);
+        return view('offers.edit', [
+            'id' => $offer->id,
+            'name' => $offer->name,
+            'product' => $offer->product_id,
+            'begin_date' => $offer->begin_at,
+            'end_date' => $offer->end_at,
+            'enabled' => $offer->enabled,
+            'imageUrl' => $offer->imageUrl,
+            'products' => Product::all(),
+            'productTypes' => Product::TYPES,
+            'indexRoute' => 'dashboard.offers.index',
+            'updateRoute' => 'dashboard.offers.update',
+            'destroyRoute' => 'dashboard.offers.destroy',
+            'routeParameter' => 'offer'
+        ]);
     }
 
     /**

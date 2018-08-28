@@ -1,8 +1,8 @@
 import { shallowMount } from '@vue/test-utils'
 import expect from 'expect'
 
-import OffersListItem from '../../../resources/assets/js/components/shop/OffersListItem'
-import InformationTooltip from '../../../resources/assets/js/components/InformationTooltip'
+import OffersListItem from '../../../resources/js/components/shop/OffersListItem'
+import InformationTooltip from '../../../resources/js/components/InformationTooltip'
 
 const factory = (props = {}) => {
   return shallowMount(OffersListItem, {
