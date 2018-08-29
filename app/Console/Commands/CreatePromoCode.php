@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use App\Discount;
 use App\PromoCode;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Log;
 
 class CreatePromoCode extends Command
 {
@@ -69,5 +70,6 @@ class CreatePromoCode extends Command
         $this->line('Starting date set to today.');
         $this->line('Expiring date set to +1 month.');
         $this->info("Promotional code {$codeName} created successfully!");
+        Log::notice("Promotional code {$codeName} created");
     }
 }

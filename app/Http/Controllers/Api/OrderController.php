@@ -8,6 +8,7 @@ use App\Product;
 use App\Customer;
 use App\PromoCode;
 use App\Http\Requests\StoreOrder;
+use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\OrderResource;
 
@@ -48,6 +49,7 @@ class OrderController extends Controller
             $promoCode = PromoCode::findByName($request->promoCode);
             $order->applyPromoCode($promoCode);
         }
+        Log::notice("New order (#{$order->id}) from {$request->email}");
         return new OrderResource($order);
     }
 }

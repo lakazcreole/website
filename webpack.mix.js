@@ -26,6 +26,6 @@ mix
    .sass('resources/sass/dashboard.scss', 'public/css')
    .options({
       processCssUrls: false, // necessary to enable tailwindcss because of unresolved issue in laravel-mix
-      purifyCss: true,
+      // purifyCss: true,
       postCss: [ tailwindcss('./tailwind.js') ],
     });
