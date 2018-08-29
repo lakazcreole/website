@@ -31,7 +31,6 @@ class OrderDeclined
     public function __construct(Order $order)
     {
         $this->order = $order;
-        Log::info("Declined order #{$this->order->id} from {$this->order->customer->email} (notify: " . ($this->order->notifyDecline ? 'true' : 'false') . ")");
     }
 
     /**

@@ -61,7 +61,7 @@ class OrderController extends Controller
     {
         $order->notifyAccept = $request->input('notify');
         $order->accept(nl2br($request->input('message')));
-        Log::notice("Order #{$order->id}) accepted");
+        Log::notice("Order #{$order->id}) accepted (notify: " . ($order->notifyAccept ? 'true' : 'false') . ")");
         return redirect()->route('dashboard.orders.index')
             ->with('success', "La commande #{$order->id} a été acceptée.");
     }
@@ -96,7 +96,7 @@ class OrderController extends Controller
     {
         $order->notifyDecline = $request->input('notify');
         $order->decline(nl2br($request->input('message')));
-        Log::notice("Order #{$order->id}) declined");
+        Log::notice("Order #{$order->id}) declined (notify: " . ($this->order->notifyDecline ? 'true' : 'false') . ")");
         return redirect()->route('dashboard.orders.index')
             ->with('success', "La commande #{$order->id} a été refusée.");
     }

@@ -31,7 +31,6 @@ class ContactCreated
     public function __construct(Contact $contact)
     {
         $this->contact = $contact;
-        Log::info('New contact created: ' . $this->contact->email);
     }
 
     /**

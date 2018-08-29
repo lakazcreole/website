@@ -31,7 +31,6 @@ class OrderCreated
     public function __construct(Order $order)
     {
         $this->order = $order;
-        Log::info('New order received from: ' . $this->order->customer->email);
     }
 
     /**
