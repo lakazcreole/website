@@ -16,7 +16,6 @@ Route::get('/', 'WebsiteController')->name('home');
 Route::get('/commande', 'OrderController@create')->name('order');
 
 // Authentication
-// Auth::routes();
 Route::get('/login', 'Auth\LoginController@showLoginForm')->name('login');
 Route::post('/login', 'Auth\LoginController@login');
 Route::post('/logout', 'Auth\LoginController@logout')->name('logout');
@@ -49,6 +48,8 @@ Route::prefix('/dashboard')->middleware('can:access-dashboard')->group(function 
         Route::resource('discounts', 'DiscountController')->except(['show']);
         // Subscriptions
         Route::get('/subscriptions', 'SubscriptionController@index')->name('subscriptions.index');
+        // Contacts
+        Route::get('/contacts', 'ContactController@index')->name('contacts.index');
     });
 });
 
