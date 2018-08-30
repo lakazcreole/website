@@ -7,6 +7,6 @@ $factory->define(App\Product::class, function (Faker $faker) {
         'name' => ucfirst($faker->unique()->word),
         'type' => $faker->randomElement(['starter', 'main', 'drink', 'side']),
         'pieces' => $faker->randomNumber(1),
-        'price' => faker->randomFloat(2, 1, 20),
+        'price' => $faker->randomFloat(2, 1, 20),
     ];
 });
