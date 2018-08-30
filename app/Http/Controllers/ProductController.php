@@ -49,7 +49,7 @@ class ProductController extends Controller
     public function store(StoreProduct $request)
     {
         $product = Product::create($request->only(['name', 'type', 'pieces', 'description', 'price', 'disabled']));
-        Log::notice("{$product->name} was added to the products list");
+        Log::notice("Product (#{$product->id}) created: {$product->name}");
         return redirect()->route('dashboard.products.index')
             ->with('success', "Le produit {$product->name} a été créé.");
     }
@@ -88,7 +88,7 @@ class ProductController extends Controller
     {
         $product->fill($request->only(['name', 'type', 'pieces', 'description', 'price', 'disabled']));
         $product->save();
-        Log::notice("Product #{$product->id} was updated");
+        Log::notice("Product #{$product->id} updated");
         return redirect()->route('dashboard.products.index')
             ->with('success', "Le produit {$product->name} a été modifié.");
     }

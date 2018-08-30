@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Product;
 use App\Discount;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use App\Http\Requests\StoreDiscount;
 use App\Http\Requests\UpdateDiscount;
 
@@ -54,6 +55,7 @@ class DiscountController extends Controller
         foreach ($request->products as $product) {
             $discount->addProduct($product['id'], $product['percent'], $product['max_items'],$product['required']);
         }
+        Log::notice("Discount (#{$discount->id}) created: {$request->name}");
         return redirect()->route('dashboard.discounts.index')
             ->with('success', "La réduction {$request->name} a été créée avec succès !");
     }
@@ -96,6 +98,7 @@ class DiscountController extends Controller
             $discount->addProduct($product['id'], $product['percent'], $product['max_items'],$product['required']);
         }
         $discount->save();
+        Log::notice("Discount #{$discount->id} updated");
         return redirect()->route('dashboard.discounts.index')
             ->with('success', "La réduction {$request->name} a été modifiée avec succès !");
     }
@@ -109,6 +112,7 @@ class DiscountController extends Controller
     public function destroy(Discount $discount)
     {
         $discount->delete();
+        Log::notice("Discount #{$discount->id} deleted");
         return redirect()->route('dashboard.discounts.index')
             ->with('success', "La réduction {$discount->name} a été supprimée avec succès !");
     }

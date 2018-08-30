@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use App\Http\Requests\StoreOffer;
 use App\Http\Requests\UpdateOffer;
+use Illuminate\Support\Facades\Log;
 
 class OfferController extends Controller
 {
@@ -55,6 +56,7 @@ class OfferController extends Controller
         $offer->end_at =  Carbon::createFromFormat('d/m/Y', $request->end_date)->startOfDay();
         $offer->enabled = $request->enabled;
         $offer->saveImage($request->file('image'));
+        Log::notice("Offer (#{$offer->id}) created: {$offer->name}");
         return redirect()->route('dashboard.offers.index')
             ->with('success', "L'offre {$request->name} a été créé avec succès !");
     }
@@ -103,6 +105,7 @@ class OfferController extends Controller
         } else {
             $offer->save();
         }
+        Log::notice("Offer #{$offer->id} updated");
         return redirect()->route('dashboard.offers.index')
             ->with('success', "L'offre {$request->name} a été modifiée avec succès !");
     }
@@ -116,6 +119,7 @@ class OfferController extends Controller
     public function destroy(Offer $offer)
     {
         $offer->delete();
+        Log::notice("Offer #{$offer->id} deleted");
         return redirect()->route('dashboard.offers.index')
             ->with('success', "L'offre {$offer->name} a été supprimée avec succès !");
     }

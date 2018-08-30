@@ -31,7 +31,6 @@ class SubscriptionCreated
     public function __construct(Subscription $subscription)
     {
         $this->subscription = $subscription;
-        Log::info('New subscription to newsletter: ' . $this->subscription->email);
     }
 
     /**
