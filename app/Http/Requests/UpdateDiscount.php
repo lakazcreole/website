@@ -24,12 +24,13 @@ class UpdateDiscount extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|unique:discounts,name' . $this->discount->id,
-            'products' => 'required|array',
-            'products.*.id' => 'exists:products,id',
-            'products.*.percent' => 'numeric|min:0|max:100',
-            'products.*.max_items' => 'numeric|min:1',
-            'products.*.required' => 'boolean',
+            'name' => 'required|unique:discounts,name,' . $this->discount->id,
+            'description' => 'required',
+            'items' => 'required|array',
+            'items.*.id' => 'exists:discount_items',
+            'items.*.percent' => 'numeric|min:0|max:100',
+            'items.*.required' => 'boolean',
+            'items.*.products' => 'exists:products,id',
         ];
     }
 }

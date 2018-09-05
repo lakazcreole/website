@@ -11,17 +11,12 @@
   <div class="form-group">
     <label for="description">Description</label>
     <input type="text" name="description" class="form-control" id="description" placeholder="Entrez la description" value="{{ old('description') ?? $description }}">
-    <small>La description sera affichée dans le panier de l'utilisateur (ex: "Une boisson gratuite sera ajoutée à votre commande").</small>
+    <small>La description sera affichée dans le panier de l'utilisateur (ex: "Entrée et plat offerts.").</small>
   </div>
-  <div class="form-group">
-    <div class="mb-2">Produits concernés</div>
-    @component('components.dashboard.alert', ['type' => 'warning', 'closeable' => false])
-      Cette fonctionnalité est en cours de développement. Pour l'instant, c'est à vous d'ajouter les éléments gratuits à la commande du client.
-    @endcomponent
-    <discount-products-list
-      :types="{{ json_encode($productTypes) }}"
-      :products="{{ json_encode($products) }}"
-      :initial-discount-products="{{ old('products') ? json_encode(old('products')) : json_encode($discountProducts)  }}">
-    </discount-products-list>
-  </div>
+  <discount-items-input
+    :product-types="{{ json_encode($productTypes) }}"
+    :products="{{ json_encode($products) }}"
+    :initial-items="{{ old('items') ? json_encode(old('items')) : json_encode($discountItems) }}"
+    class="form-group"
+  >
 @endsection

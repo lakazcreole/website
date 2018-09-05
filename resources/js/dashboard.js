@@ -17,14 +17,13 @@ window.Vue = require('vue')
  */
 
 import Datepicker from 'vuejs-datepicker'
-import DiscountProductsList from './components/dashboard/DiscountProductsList'
+import DiscountItemsInput from './components/dashboard/DiscountItemsInput'
 
 // eslint-disable-next-line no-unused-vars, no-undef
 const app = new Vue({
   el: '#app',
   components: {
     Datepicker,
-    DiscountProductsList
-    // 'product-editor': require('./components/ProductEditor.vue').default
+    DiscountItemsInput
   }
 })

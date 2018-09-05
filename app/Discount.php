@@ -5,6 +5,7 @@ namespace App;
 use App\Product;
 use App\PromoCode;
 use Illuminate\Data;
+use App\DiscountItem;
 use Illuminate\Database\Eloquent\Model;
 
 class Discount extends Model
@@ -21,37 +22,22 @@ class Discount extends Model
         return $this->hasMany(PromoCode::class);
     }
 
-    public function products()
+    public function items()
     {
-        return $this->belongsToMany(Product::class)
-            ->withPivot(['percent', 'max_items', 'required']);
+        return $this->hasMany(DiscountItem::class);
     }
 
-    public function addProduct($productId, $percentage, $maxItems, $required = true)
+    public function getRequiredItemsAttribute()
     {
-        $this->products()->attach($productId, [
-            'percent' => $percentage,
-            'max_items' => $maxItems,
-            'required' => $required
-        ]);
+        return $this->items->filter(function($item) {
+            return $item->required;
+        });
     }
 
-    public function addFreeProduct($productId, $required = true)
+    public function getOptionalItemsAttribute()
     {
-        $this->addProduct($productId, 100, 1, $required);
-    }
-
-    public function getValueAttribute()
-    {
-        return $this->products->reduce(function($acc, $product) {
-            return $acc + $product->price * $product->pivot->percent / 100;
-        }, 0);
-    }
-
-    public function getRequiredProductsAttribute()
-    {
-        return $this->products->filter(function($product) {
-            return $product->pivot->required;
+        return $this->items->filter(function($item) {
+            return !$item->required;
         });
     }
 }
