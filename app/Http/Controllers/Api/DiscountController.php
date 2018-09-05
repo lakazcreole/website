@@ -16,6 +16,6 @@ class DiscountController extends Controller
      */
     public function show(Discount $discount)
     {
-        return $discount->loadMissing('products')->toJson();
+        return $discount->loadMissing('items.products')->toJson();
     }
 }

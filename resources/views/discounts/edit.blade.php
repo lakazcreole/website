@@ -19,4 +19,6 @@
     :initial-items="{{ old('items') ? json_encode(old('items')) : json_encode($discountItems) }}"
     class="form-group"
   >
+  </discount-items-input>
 @endsection
+
