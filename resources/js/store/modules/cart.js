@@ -27,6 +27,22 @@ export default {
     },
     minimumReached (state, getters) {
       return getters.totalPrice + getters.deliveryPrice >= 8
+    },
+    hasDiscountRequiredProducts (state, getters, rootState) {
+      if (rootState.order.discount === null) return true
+
+      const productsIds = rootState.order.discount.items.reduce((acc, item) => {
+        return acc.concat(item.products)
+      }, []).map(product => {
+        return product.id
+      }).filter(function (value, index, self) {
+        return self.indexOf(value) === index
+      })
+
+      for (let i = 0; i < state.items.length; i++) {
+        if (productsIds.includes(state.items[i].id)) return true
+      }
+      return false
     }
   },
 

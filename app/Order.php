@@ -25,12 +25,38 @@ class Order extends Model
     ];
 
     /**
+     * The attributes that should be visible in arrays.
+     *
+     * @var array
+     */
+    protected $visible = [
+        'id',
+        'address',
+        'customer',
+        'date', 'time',
+        'information',
+        'lines',
+        'total_products_price', 'delivery_price', 'final_price',
+        'discount', 'discountApplies'
+    ];
+
+    /**
+     * The accessors to append to the model's array form.
+     *
+     * @var array
+     */
+    protected $appends = [
+        'address',
+        'total_products_price', 'delivery_price', 'final_price',
+        'discount',
+    ];
+
+    /**
      * The attributes that should be mutated to dates.
      *
      * @var array
      */
     protected $dates = [
-        'date',
         'created_at',
         'updated_at',
         'deleted_at',
@@ -43,6 +69,7 @@ class Order extends Model
      * @var array
      */
     protected $casts = [
+        'date' => 'date:Y-m-d',
         'notifyAccept' => 'boolean',
     ];
 
@@ -125,6 +152,17 @@ class Order extends Model
         return action('OrderController@getDeclineForm', ['order' => $this->id]);
     }
 
+    public function getAddressAttribute()
+    {
+        return [
+            'address1' => $this->address1,
+            'address2' => $this->address2,
+            'address3' => $this->address3,
+            'city' => $this->city,
+            'zip' => $this->zip,
+        ];
+    }
+
     public function getTotalProductsPriceAttribute()
     {
         if (!$this->relationLoaded('lines'))
@@ -161,6 +199,11 @@ class Order extends Model
             return $this->priceBeforeDiscount - $discountValue;
         }
         return $this->priceBeforeDiscount;
+    }
+
+    public function getDiscountAttribute()
+    {
+        return $this->promoCode ? $this->promoCode->discount->makeHidden('items') : null;
     }
 
     public function isAccepted()

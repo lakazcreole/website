@@ -36,15 +36,20 @@ class OrderController extends Controller
             'lastName' => $request->customer['lastName'],
             'phone' => $request->customer['phone'],
         ]);
+        $date = Carbon\Carbon::createFromFormat('d/m/Y', $request->date);
+        $date->hour = 0;
+        $date->minute = 0;
+        $date->second = 0;
         $order = Order::create([
             'address1' => $request->address['address1'],
             'address2' => $request->address['address2'],
             'address3' => $request->address['address3'],
             'city' => $request->address['city'],
             'zip' => $request->address['zip'],
-            'date' => Carbon\Carbon::createFromFormat('d/m/Y', $request->date),
+            'date' => $date,
             'time' => $request->time,
             'customer_id' => $customer->id,
+            'information' => $request->information,
         ]);
         foreach ($request->orderLines as $line) {
             $product = Product::find($line['id']);
@@ -60,6 +65,7 @@ class OrderController extends Controller
                                         ->join('products', 'order_lines.product_id', '=', 'products.id')
                                         ->orderBy('products.price', 'asc')
                                         ->first(); // cheapest product
+                if ($orderLine == null) continue;
                 // dd($orderLine);
                 DiscountApply::create([
                     'order_id' => $order->id,
@@ -69,7 +75,9 @@ class OrderController extends Controller
             }
         }
         Log::notice("New order (#{$order->id}) from {$request->email}");
-        return new PublicResource($order);
+        return new PublicResource($order->loadMissing(
+            'customer', 'lines', 'discountApplies', 'discountApplies.discountItem', 'discountApplies.product'
+        ));
     }
 
     protected function validateDiscount($request)

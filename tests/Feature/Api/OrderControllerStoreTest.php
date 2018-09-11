@@ -2,12 +2,14 @@
 
 namespace Tests\Feature\Api;
 
+use App\Order;
 use App\Product;
 use App\Discount;
 use App\PromoCode;
 use Tests\TestCase;
 use App\DiscountItem;
 use App\DiscountApply;
+use Illuminate\Support\Carbon;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -16,7 +18,7 @@ class OrderControllerStoreTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    public function it_stores_order_customer_and_order_lines()
+    public function store()
     {
         $product1 = factory(Product::class)->create();
         $product2 = factory(Product::class)->create();
@@ -35,20 +37,62 @@ class OrderControllerStoreTest extends TestCase
         ];
         $line1 = [ 'id' => $product1->id, 'quantity' => 2 ];
         $line2 = [ 'id' => $product2->id, 'quantity' => 3 ];
+        $date = Carbon::createFromTimestamp(strtotime('tomorrow'));
         $data = [
             'customer' => $customer,
             'address' => $address,
             'orderLines' => [ $line1, $line2 ],
-            'date' => date('d/m/Y', strtotime('tomorrow')),
+            'date' => $date->format('d/m/Y'),
             'time' => '13:00',
             'information' => 'allergic to everything'
         ];
         $response = $this->json('POST', '/api/orders', $data);
         $response->assertStatus(201);
-        $this->assertDatabaseHas('orders', $address);
+        $response->assertJson([
+            'data' => [
+                'lines' => [
+                    [
+                        'name' => $product1->name,
+                        'quantity' => $line1['quantity'],
+                        'unit_price' => $product1->price,
+                    ],
+                    [
+                        'name' => $product2->name,
+                        'quantity' => $line2['quantity'],
+                        'unit_price' => $product2->price,
+                    ]
+                ],
+                'customer' => $data['customer'],
+                'address' => $data['address'],
+                'date' => $date->format('Y-m-d'),
+                'time' => $data['time'],
+                'information' => $data['information'],
+                'total_products_price' => Order::find($response->json()['data']['id'])->totalProductsPrice,
+                'final_price' => Order::find($response->json()['data']['id'])->finalPrice,
+                'delivery_price' => Order::find($response->json()['data']['id'])->deliveryPrice,
+            ]
+        ]);
+
+        $this->assertDatabaseHas('orders', [
+            'id' =>  $response->json()['data']['id'],
+            'address1' => $address['address1'],
+            'address2' => $address['address2'],
+            'address3' => $address['address3'],
+            'city' => $address['city'],
+            'zip' => $address['zip'],
+            'date' => $date->toDateTimeString(),
+            'time' => $data['time'],
+            'information' => $data['information'],
+        ]);
         $this->assertDatabaseHas('customers', $customer);
-        $this->assertDatabaseHas('order_lines', array_merge([ 'product_id' => $product1->id, 'quantity' => 2 ], ['order_id' => $response->json()['data']['id']]));
-        $this->assertDatabaseHas('order_lines', array_merge([ 'product_id' => $product2->id, 'quantity' => 3 ], ['order_id' => $response->json()['data']['id']]));
+        $this->assertDatabaseHas('order_lines', array_merge([
+            'product_id' => $product1->id, 'quantity' => 2 ],
+            ['order_id' => $response->json()['data']['id']
+        ]));
+        $this->assertDatabaseHas('order_lines', array_merge([
+            'product_id' => $product2->id, 'quantity' => 3 ],
+            ['order_id' => $response->json()['data']['id']
+        ]));
     }
 
     /** @test */
@@ -174,7 +218,7 @@ class OrderControllerStoreTest extends TestCase
         $product = factory(Product::class)->create();
         $discount = factory(Discount::class)->create();
         $discountItem = factory(DiscountItem::class)->create(['discount_id' => $discount->id]);
-        $discountItem->products()->attach($product->id);
+        $discountItem->products()->attach([$product->id, factory(Product::class)->create()->id]);
         $promoCode = factory(PromoCode::class)->create([
             'name' => 'TESTCODE',
             'discount_id' => $discount->id
@@ -202,7 +246,26 @@ class OrderControllerStoreTest extends TestCase
             'information' => 'allergic to everything',
 
         ];
-        $response = $this->json('POST', '/api/orders', $data)->assertStatus(201);
+        $response = $this->json('POST', '/api/orders', $data)
+                        ->assertStatus(201)
+                        ->assertJson([
+                            'data' => [
+                                'discount' => [
+                                    'description' => $discount->description,
+                                ],
+                                'discount_applies' => [
+                                    [
+                                        'discount_item' => [
+                                            'percent' => $discountItem->percent,
+                                        ],
+                                        'product' => [
+                                            'name' => $product->name,
+                                            'price' => $product->price,
+                                        ]
+                                    ]
+                                ]
+                            ]
+                        ]);
         // Order is stored
         $this->assertDatabaseHas('orders', [
             'id' => $response->json()['data']['id'],

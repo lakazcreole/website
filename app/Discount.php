@@ -6,6 +6,7 @@ use App\Product;
 use App\PromoCode;
 use Illuminate\Data;
 use App\DiscountItem;
+use App\DiscountApply;
 use Illuminate\Database\Eloquent\Model;
 
 class Discount extends Model

@@ -47,16 +47,4 @@ class DiscountTest extends TestCase
         });
         $this->assertEquals($requiredItems, $discount->requiredItems);
     }
-
-    /** @test */
-    public function it_has_()
-    {
-        $discount = factory(Discount::class)->create();
-        factory(DiscountItem::class, 3)->create(['discount_id' => $discount->id, 'required' => false]);
-        factory(DiscountItem::class, 3)->create(['discount_id' => $discount->id, 'required' => true]);
-        $optionalItems = $discount->items->filter(function ($item) {
-            return !$item->required;
-        });
-        $this->assertEquals($optionalItems, $discount->optionalItems);
-    }
 }
