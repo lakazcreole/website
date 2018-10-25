@@ -28,8 +28,8 @@ class UpdatePromoCode extends FormRequest
             'name' => 'required|unique:promo_codes,name,'. $this->promo_code->id,
             'maxUses' => 'required|numeric|min:1',
             'discountId' => 'required|exists:discounts,id',
-            'beginAt' => 'required|date_format:d/m/Y|before:end_at',
-            'endAt' => 'required|date_format:d/m/Y',
+            'beginAt' => 'required|date_format:d/m/Y|before:endAt',
+            'endAt' => 'required|date_format:d/m/Y|after:beginAt',
         ];
     }
 }
