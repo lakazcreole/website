@@ -6,18 +6,21 @@
         Une erreur s'est produite, veuillez réessayer plus tard.
       </div>
       <div v-else>
-        <p class="font-semibold mb-5">
-          La Kaz Créole se trouve au festival interceltique de Lorient. Les commandes reprendront dès le 14 août 2018.
+        <p class="mb-5">
+          La Kaz Créole est en déplacement professionnel à La Réunion. Veuillez nous excuser pour la gêne occasionnée.
         </p>
         <div class="mb-5">
           <Alert v-if="sent" color="green">
             Merci ! Vous recevrez votre code promotionnel à l'adresse <span class="font-semibold">{{ email }}</span>.
           </Alert>
           <div v-else>
-            Entrez votre adresse e-mail ci-dessous pour bénéficier d'une promotion à notre retour !
+            Laissez-nous votre e-mail pour bénéficier d'une promotion à notre retour !
             <FormInput v-model="email" :errors="errors.email" :disabled="waiting" name="email" label="E-mail" type="email" placeholder="Entrez votre adresse e-mail" class="mt-3"/>
           </div>
         </div>
+        <p class="mb-5">
+          <span class="font-semibold">Les commandes reprendront dès le 6 novembre 2018.</span> À très vite !
+        </p>
       </div>
     </div>
     <div slot="footer" class="text-right">

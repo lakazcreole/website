@@ -13,7 +13,10 @@
 
 // Website
 Route::get('/', 'WebsiteController')->name('home');
-Route::get('/commande', 'OrderController@create')->name('order');
+Route::get('/commande', function() {
+    return redirect()->route('home');
+})->name('order');
+// Route::get('/commande', 'OrderController@create')->name('order');
 
 // Authentication
 Route::get('/login', 'Auth\LoginController@showLoginForm')->name('login');
