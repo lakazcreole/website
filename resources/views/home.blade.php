@@ -16,7 +16,7 @@
           <p class="text-grey-lightest text-lg md:text-xl leading-tight mx-3" style="text-shadow: 2px 2px 3px black">Gastronomie réunionnaise disponible en traiteur et livraison à Paris.</p>
         </div>
         <div class="flex flex-wrap justify-center items-baseline text-center">
-          <a class="mb-3 sm:mb-0 mx-4 px-3 py-3 w-50 rounded-full text-white border-2 border-orange hover:border-orange-light bg-orange hover:bg-orange-light no-underline" href="{{ route('order') }}">Commander</a>
+          <a class="mb-3 sm:mb-0 mx-4 px-3 py-3 w-50 rounded-full text-white border-2 border-orange hover:border-orange-light bg-orange hover:bg-orange-light no-underline" href="{{ route('order') }}" @click.prevent="showShopClosedModal">Commander</a>
           <a class="mx-4 px-3 py-3 w-50 rounded-full text-white border-2 border-orange hover:border-orange-light hover:bg-orange-light no-underline" href="{{ asset('pdf/LaKazCreole.pdf') }}" target="_blank">Télécharger la carte</a>
         </div>
       </div>
@@ -33,7 +33,7 @@
             <div class="font-title text-3xl text-orange mb-4">Le mot de la fondatrice</div>
             <blockquote class="text-orange-darker leading-normal">
               <p class="text-justify">
-                Je suis née à la Réunion et j'y ai grandi. Depuis 6 ans maintenant, je vis à Paris et la Réunion me manque. J'ai donc décidé il y a quelques mois d'amener un peu de l'Île Intense ici, à <strong>Paris</strong>. Je vous invite à découvrir ou redécouvrir une gastronomie authentique et savoureuse, faite maison. Les plats sont disponibles à la <strong>livraison pour vos déjeuners, dîners et apéros</strong>. Si vous voulez découvrir les samoussas, les bouchons, le cari poulet, le rougail saucisses et autres merveilles de l'<strong>Île de la Réunion</strong> vous êtes au bon endroit ! À bientôt.
+                Je suis née à La Réunion et j'y ai grandi. Depuis 6 ans maintenant, je vis à Paris et La Réunion me manque. J'ai donc décidé il y a quelques mois d'amener un peu de l'Île Intense ici, à <strong>Paris</strong>. Je vous invite à découvrir ou redécouvrir une gastronomie authentique et savoureuse, faite maison. Les plats sont disponibles à la <strong>livraison pour vos déjeuners, dîners et apéros</strong>. Si vous voulez découvrir les samoussas, les bouchons, le cari poulet, le rougail saucisses et autres merveilles de l'<strong>Île de La Réunion</strong> vous êtes au bon endroit ! À bientôt.
               </p>
               <footer class="text-right">&mdash; Laurane</footer>
             </blockquote>
