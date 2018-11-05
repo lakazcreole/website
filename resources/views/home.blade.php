@@ -16,7 +16,8 @@
           <p class="text-grey-lightest text-lg md:text-xl leading-tight mx-3" style="text-shadow: 2px 2px 3px black">Gastronomie réunionnaise disponible en traiteur et livraison à Paris.</p>
         </div>
         <div class="flex flex-wrap justify-center items-baseline text-center">
-          <a class="mb-3 sm:mb-0 mx-4 px-3 py-3 w-50 rounded-full text-white border-2 border-orange hover:border-orange-light bg-orange hover:bg-orange-light no-underline" href="{{ route('order') }}">Commander</a>
+          <button class="mb-3 sm:mb-0 mx-4 px-3 py-3 w-50 rounded-full text-white border-2 border-orange hover:border-orange-light bg-orange hover:bg-orange-light" @click="showShopClosedModal">Commander</button>
+          {{--<a class="mb-3 sm:mb-0 mx-4 px-3 py-3 w-50 rounded-full text-white border-2 border-orange hover:border-orange-light bg-orange hover:bg-orange-light no-underline" href="{{ route('order') }}">Commander</a>--}}
           <a class="mx-4 px-3 py-3 w-50 rounded-full text-white border-2 border-orange hover:border-orange-light hover:bg-orange-light no-underline" href="{{ asset('pdf/LaKazCreole.pdf') }}" target="_blank">Télécharger la carte</a>
         </div>
       </div>
