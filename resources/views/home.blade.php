@@ -33,7 +33,7 @@
             <div class="font-title text-3xl text-orange mb-4">Le mot de la fondatrice</div>
             <blockquote class="text-orange-darker leading-normal">
               <p class="text-justify">
-                Je suis née à la Réunion et j'y ai grandi. Depuis 6 ans maintenant, je vis à Paris et la Réunion me manque. J'ai donc décidé il y a quelques mois d'amener un peu de l'Île Intense ici, à <strong>Paris</strong>. Je vous invite à découvrir ou redécouvrir une gastronomie authentique et savoureuse, faite maison. Les plats sont disponibles à la <strong>livraison pour vos déjeuners, dîners et apéros</strong>. Si vous voulez découvrir les samoussas, les bouchons, le cari poulet, le rougail saucisses et autres merveilles de l'<strong>Île de la Réunion</strong> vous êtes au bon endroit ! À bientôt.
+                Je suis née à La Réunion et j'y ai grandi. Depuis 6 ans maintenant, je vis à Paris et La Réunion me manque. J'ai donc décidé il y a quelques mois d'amener un peu de l'Île Intense ici, à <strong>Paris</strong>. Je vous invite à découvrir ou redécouvrir une gastronomie authentique et savoureuse, faite maison. Les plats sont disponibles à la <strong>livraison pour vos déjeuners, dîners et apéros</strong>. Si vous voulez découvrir les samoussas, les bouchons, le cari poulet, le rougail saucisses et autres merveilles de l'<strong>Île de La Réunion</strong> vous êtes au bon endroit ! À bientôt.
               </p>
               <footer class="text-right">&mdash; Laurane</footer>
             </blockquote>

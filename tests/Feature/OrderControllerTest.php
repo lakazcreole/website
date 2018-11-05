@@ -22,6 +22,7 @@ class OrderControllerTest extends TestCase
     public function testCreate()
     {
         $this->get('/commande')
+            // ->assertRedirect(route('home'));
             ->assertViewIs('orders.create')
             ->assertStatus(200);
     }
