@@ -1,7 +1,6 @@
 <template>
   <div class="inline-flex">
-    <button class="inline-flex text-grey-lightest px-3 py-2 sm:px-5 sm:py-3 rounded-full border-2 border-orange hover:border-orange-light bg-orange hover:bg-orange-light" @click="showShopClosedModal">Commander</button>
-    <!-- <a :href="url" :class="`${linkClass} text-grey-lightest no-underline px-3 py-2 sm:px-5 sm:py-3 rounded-full border-2 border-orange hover:border-orange-light bg-orange hover:bg-orange-light`">Commander</a>
+    <a :href="url" :class="`${linkClass} text-grey-lightest no-underline px-3 py-2 sm:px-5 sm:py-3 rounded-full border-2 border-orange hover:border-orange-light bg-orange hover:bg-orange-light`">Commander</a>
     <button
       v-scroll-to="{ el: '#mobile-cart', offset: -100 }"
       v-if="order"
@@ -11,7 +10,7 @@
       <span v-show="!showMobileCart">{{ totalInFrench }} €</span>
       <span v-show="showMobileCart" class="text-grey-dark">Menu</span>
       <i class="material-icons text-orange ml-3">shopping_cart</i>
-    </button> -->
+    </button>
   </div>
 </template>
 
