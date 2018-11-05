@@ -6,6 +6,7 @@ use App\Customer;
 use App\OrderLine;
 use App\PromoCode;
 use Carbon\Carbon;
+use App\DiscountApply;
 use App\Events\OrderCreated;
 use App\Events\OrderAccepted;
 use App\Events\OrderDeclined;
@@ -24,12 +25,38 @@ class Order extends Model
     ];
 
     /**
+     * The attributes that should be visible in arrays.
+     *
+     * @var array
+     */
+    protected $visible = [
+        'id',
+        'address',
+        'customer',
+        'date', 'time',
+        'information',
+        'lines',
+        'total_products_price', 'delivery_price', 'final_price',
+        'discount', 'discountApplies'
+    ];
+
+    /**
+     * The accessors to append to the model's array form.
+     *
+     * @var array
+     */
+    protected $appends = [
+        'address',
+        'total_products_price', 'delivery_price', 'final_price',
+        'discount',
+    ];
+
+    /**
      * The attributes that should be mutated to dates.
      *
      * @var array
      */
     protected $dates = [
-        'date',
         'created_at',
         'updated_at',
         'deleted_at',
@@ -42,6 +69,7 @@ class Order extends Model
      * @var array
      */
     protected $casts = [
+        'date' => 'date:Y-m-d',
         'notifyAccept' => 'boolean',
     ];
 
@@ -64,6 +92,16 @@ class Order extends Model
         return $this->hasMany(OrderLine::class, 'order_id');
     }
 
+    public function promoCode()
+    {
+        return $this->belongsTo(PromoCode::class, 'promo_code_id');
+    }
+
+    public function discountApplies()
+    {
+        return $this->hasMany(DiscountApply::class);
+    }
+
     public function addProduct(Product $product, $quantity = 1)
     {
         $this->lines()->save(OrderLine::create([
@@ -74,6 +112,36 @@ class Order extends Model
         ]));
     }
 
+    public function usePromoCode(PromoCode $code)
+    {
+        $this->promoCode()->associate($code);
+        $this->save();
+        $code->uses++;
+        $code->save();
+    }
+
+    public function accept($message)
+    {
+        $this->accepted_at = Carbon::now();
+        $this->acceptMessage = $message;
+        $this->save();
+        event(new OrderAccepted($this));
+    }
+
+    public function decline($message)
+    {
+        $this->declined_at = Carbon::now();
+        $this->declineMessage = $message;
+        $this->save();
+        event(new OrderDeclined($this));
+    }
+
+    public function cancel()
+    {
+        $this->canceled_at = Carbon::now();
+        $this->save();
+    }
+
     public function getAcceptUrlAttribute()
     {
         return action('OrderController@getAcceptForm', ['order' => $this->id]);
@@ -82,6 +150,17 @@ class Order extends Model
     public function getDeclineUrlAttribute()
     {
         return action('OrderController@getDeclineForm', ['order' => $this->id]);
+    }
+
+    public function getAddressAttribute()
+    {
+        return [
+            'address1' => $this->address1,
+            'address2' => $this->address2,
+            'address3' => $this->address3,
+            'city' => $this->city,
+            'zip' => $this->zip,
+        ];
     }
 
     public function getTotalProductsPriceAttribute()
@@ -109,33 +188,22 @@ class Order extends Model
 
     public function getFinalPriceAttribute()
     {
-        if ($this->discount)
+        if ($this->promoCode)
         {
-            return $this->priceBeforeDiscount - $this->discount->value;
+            $applies = DiscountApply::with('product')->where('order_id', $this->id)->get();
+            $discountValue = 0;
+            foreach ($applies as $discountApply) {
+                $discountValue += $discountApply->product->price * $discountApply->discountItem->percent / 100;
+                Log::debug($discountValue);
+            }
+            return $this->priceBeforeDiscount - $discountValue;
         }
         return $this->priceBeforeDiscount;
     }
 
-    public function accept($message)
+    public function getDiscountAttribute()
     {
-        $this->accepted_at = Carbon::now();
-        $this->acceptMessage = $message;
-        $this->save();
-        event(new OrderAccepted($this));
-    }
-
-    public function decline($message)
-    {
-        $this->declined_at = Carbon::now();
-        $this->declineMessage = $message;
-        $this->save();
-        event(new OrderDeclined($this));
-    }
-
-    public function cancel()
-    {
-        $this->canceled_at = Carbon::now();
-        $this->save();
+        return $this->promoCode ? $this->promoCode->discount->makeHidden('items') : null;
     }
 
     public function isAccepted()
@@ -156,28 +224,5 @@ class Order extends Model
     public function isWaiting()
     {
         return $this->accepted_at === null && $this->declined_at === null && $this->canceled_at === null;
-    }
-
-    public function promoCode()
-    {
-        return $this->belongsTo(PromoCode::class, 'promoCode_id');
-    }
-
-    public function applyPromoCode(PromoCode $promoCode)
-    {
-        $this->promoCode()->associate($promoCode);
-        $this->save();
-        $promoCode->uses++;
-        $promoCode->save();
-    }
-
-    public function getDiscountAttribute()
-    {
-        return $this->promoCode ? $this->promoCode->discount : null;
-    }
-
-    public function getDiscountValueAttribute()
-    {
-        return $this->discount ? $this->discount->generateDiscount($this->lines, $this->deliveryPrice) : 0;
     }
 }

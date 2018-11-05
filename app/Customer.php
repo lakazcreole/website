@@ -15,6 +15,10 @@ class Customer extends Model
         'firstName', 'lastName', 'phone', 'email'
     ];
 
+    protected $visible = [
+        'firstName', 'lastName', 'phone', 'email'
+    ];
+
     public function getFirstNameAttribute($value)
     {
         return ucfirst($value);

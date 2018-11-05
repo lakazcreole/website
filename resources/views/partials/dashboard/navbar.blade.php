@@ -20,6 +20,9 @@
         <li class="nav-item {{ Route::currentRouteName() === 'dashboard.discounts.index' ? 'active' : '' }}">
           <a class="nav-link" href="{{ route('dashboard.discounts.index') }}">Réductions</a>
         </li>
+        <li class="nav-item {{ Route::currentRouteName() === 'dashboard.promo_codes.index' ? 'active' : '' }}">
+          <a class="nav-link" href="{{ route('dashboard.promo-codes.index') }}">Codes promo</a>
+        </li>
         <li class="nav-item {{ Route::currentRouteName() === 'dashboard.subscriptions.index' ? 'active' : '' }}">
           <a class="nav-link" href="{{ route('dashboard.subscriptions.index') }}">Newsletter</a>
         </li>

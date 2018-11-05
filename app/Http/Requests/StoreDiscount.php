@@ -25,11 +25,11 @@ class StoreDiscount extends FormRequest
     {
         return [
             'name' => 'required|unique:discounts,name',
-            'products' => 'required|array',
-            'products.*.id' => 'exists:products,id',
-            'products.*.percent' => 'numeric|min:0|max:100',
-            'products.*.max_items' => 'numeric|min:1',
-            'products.*.required' => 'boolean',
+            'description' => 'required',
+            'items' => 'required|array|min:1',
+            'items.*.percent' => 'required|numeric|min:0|max:100',
+            'items.*.required' => 'required|boolean',
+            'items.*.products' => 'required|array|min:1|exists:products,id',
         ];
     }
 }

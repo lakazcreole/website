@@ -50,8 +50,8 @@ class OrderController extends Controller
             'totalProductsPrice' => $order->totalProductsPrice,
             'deliveryPrice' => $order->deliveryPrice,
             'finalPrice' => $order->finalPrice,
-            'discountName' => $order->discount ? $order->discount->name : null,
-            'discountDescription' => $order->discount ? $order->discount->description : null,
+            'discountName' => $order->promoCode ? $order->promoCode->discount->name : null,
+            'discountDescription' => $order->promoCode ? $order->promoCode->discount->description : null,
             'postUrl' => action('OrderController@accept', [$order->id]),
             'declineUrl' => action('OrderController@decline', [$order->id]),
         ]);
@@ -87,8 +87,8 @@ class OrderController extends Controller
             'finalPrice' => $order->finalPrice,
             'postUrl' => action('OrderController@decline', [$order->id]),
             'acceptUrl' => action('OrderController@accept', [$order->id]),
-            'discountName' => $order->discount ? $order->discount->name : null,
-            'discountDescription' => $order->discount ? $order->discount->description : null,
+            'discountName' => $order->promoCode ? $order->promoCode->discount->name : null,
+            'discountDescription' => $order->promoCode ? $order->promoCode->discount->description : null,
         ]);
     }
 

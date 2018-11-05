@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Rules\DeliveryTime;
+use App\Rules\DiscountRequiredProduct;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreOrder extends FormRequest
@@ -35,12 +36,12 @@ class StoreOrder extends FormRequest
             'address.city' => 'required|max:255',
             'address.zip' => 'required|numeric',
             'date' => 'required|date_format:d/m/Y|after:today',
-            'time' => [ 'required', 'date_format:H:i', new DeliveryTime],
-            'orderLines' => 'required',
-            'orderLines.*.id' => 'required|exists:products,id',
+            'time' => ['required', 'date_format:H:i', new DeliveryTime],
+            'orderLines' => 'required|array',
+            'orderLines.*.id' => ['required', 'exists:products,id'],
             'orderLines.*.quantity' => 'required|numeric|min:1',
             'information' => 'max:255',
-            'promoCode' => 'exists:promo_codes,name'
+            'promoCode' => 'exists:promo_codes,name',
         ];
     }
 }

@@ -27,7 +27,7 @@ class StoreOffer extends FormRequest
             'name' => 'required|unique:offers,name',
             'product' => 'required|exists:products,id',
             'begin_date' => 'required|date_format:d/m/Y|before:end_date',
-            'end_date' => 'required|date_format:d/m/Y',
+            'end_date' => 'required|date_format:d/m/Y|after:begin_date',
             'enabled' => 'required|boolean',
             'image' => 'required|image'
         ];

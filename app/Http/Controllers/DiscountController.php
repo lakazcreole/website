@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Product;
 use App\Discount;
+use App\DiscountItem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use App\Http\Requests\StoreDiscount;
@@ -19,7 +20,7 @@ class DiscountController extends Controller
     public function index()
     {
         return view('discounts.index', [
-            'discounts' => Discount::all(),
+            'discounts' => Discount::with('items')->get(),
             'createRoute' => 'dashboard.discounts.create',
             'editRoute' => 'dashboard.discounts.edit',
         ]);
@@ -52,12 +53,19 @@ class DiscountController extends Controller
             'name' => $request->name,
             'description' => $request->description,
         ]);
-        foreach ($request->products as $product) {
-            $discount->addProduct($product['id'], $product['percent'], $product['max_items'],$product['required']);
+        foreach ($request->items as $item) {
+            $discountItem = DiscountItem::create([
+                'discount_id' => $discount->id,
+                'percent' => $item['percent'],
+                'required' => $item['required']
+            ]);
+            foreach ($item['products'] as $productId) {
+                $discountItem->products()->attach($productId);
+            }
         }
         Log::notice("Discount (#{$discount->id}) created: {$request->name}");
         return redirect()->route('dashboard.discounts.index')
-            ->with('success', "La réduction {$request->name} a été créée avec succès !");
+            ->with('success', "La réduction {$request->name} a été créée.");
     }
 
     /**
@@ -68,18 +76,19 @@ class DiscountController extends Controller
      */
     public function edit(Discount $discount)
     {
+        $discount->loadMissing('items.products');
         return view('discounts.edit', [
-            'id' => $discount->id,
-            'name' => $discount->name,
-            'description' => $discount->description,
-            'discountProducts' => $discount->products,
-            'products' => Product::all(),
-            'productTypes' => Product::TYPES,
-            'indexRoute' => 'dashboard.discounts.index',
-            'updateRoute' => 'dashboard.discounts.update',
-            'destroyRoute' => 'dashboard.discounts.destroy',
-            'routeParameter' => 'discount'
-        ]);
+                'id' => $discount->id,
+                'name' => $discount->name,
+                'description' => $discount->description,
+                'discountItems' => $discount->items,
+                'products' =>  Product::all(),
+                'productTypes' => Product::TYPES,
+                'indexRoute' => 'dashboard.discounts.index',
+                'updateRoute' => 'dashboard.discounts.update',
+                'destroyRoute' => 'dashboard.discounts.destroy',
+                'routeParameter' => 'discount'
+            ]);
     }
 
     /**
@@ -91,16 +100,27 @@ class DiscountController extends Controller
      */
     public function update(UpdateDiscount $request, Discount $discount)
     {
-        $discount->name = $request->name;
-        $discount->description = $request->description;
-        $discount->products()->detach();
-        foreach ($request->products as $product) {
-            $discount->addProduct($product['id'], $product['percent'], $product['max_items'],$product['required']);
+        $discount->update([
+            'name' => $request->name,
+            'description' => $request->description
+        ]);
+        foreach ($discount->items as $item) {
+            $item->products()->detach();
+            $item->delete();
         }
-        $discount->save();
-        Log::notice("Discount #{$discount->id} updated");
+        foreach ($request->items as $item) {
+            $discountItem = DiscountItem::create([
+                'discount_id' => $discount->id,
+                'percent' => $item['percent'],
+                'required' => $item['required']
+            ]);
+            foreach ($item['products'] as $productId) {
+                $discountItem->products()->attach($productId);
+            }
+        }
+        Log::notice("Discount (#{$discount->id}) updated: {$request->name}");
         return redirect()->route('dashboard.discounts.index')
-            ->with('success', "La réduction {$request->name} a été modifiée avec succès !");
+            ->with('success', "La réduction {$request->name} a été modifiée.");
     }
 
     /**
@@ -114,6 +134,6 @@ class DiscountController extends Controller
         $discount->delete();
         Log::notice("Discount #{$discount->id} deleted");
         return redirect()->route('dashboard.discounts.index')
-            ->with('success', "La réduction {$discount->name} a été supprimée avec succès !");
+            ->with('success', "La réduction {$discount->name} a été supprimée.");
     }
 }

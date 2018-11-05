@@ -5,6 +5,7 @@ namespace Tests\Feature\Api;
 use App\Product;
 use App\Discount;
 use Tests\TestCase;
+use App\DiscountItem;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -17,20 +18,22 @@ class DiscountControllerShowTest extends TestCase
     {
         $product = factory(Product::class)->create();
         $discount = factory(Discount::class)->create();
-        $discount->addProduct($product, 100, 12, true);
+        $discountItem = factory(DiscountItem::class)->create(['discount_id' => $discount->id]);
+        $discountItem->products()->attach($product->id);
         $this->json('GET', "api/discounts/{$discount->id}")
             ->assertStatus(200)
             ->assertJson([
                 'id' => $discount->id,
                 'description' => $discount->description,
-                'products' => [
+                'items' => [
                     [
-                        'id' => $product->id,
-                        'pivot' => [
-                            'product_id' => $product->id,
-                            'percent' => 100,
-                            'max_items' => 12,
-                            'required' => true
+                        'percent' => $discountItem->percent,
+                        'required' => $discountItem->required,
+                        'products' => [
+                            [
+                                'id' => $product->id,
+                                'name' => $product->name,
+                            ]
                         ]
                     ]
                 ]

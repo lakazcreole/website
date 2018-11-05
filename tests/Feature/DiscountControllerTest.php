@@ -6,6 +6,8 @@ use App\User;
 use App\Product;
 use App\Discount;
 use Tests\TestCase;
+use App\DiscountItem;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -29,7 +31,7 @@ class DiscountControllerTest extends TestCase
             ->assertStatus(200)
             ->assertViewIs('discounts.index')
             ->assertViewHasAll([
-                'discounts' => Discount::all(),
+                'discounts' => Discount::with('items.products')->get(),
                 'createRoute' => 'dashboard.discounts.create',
                 'editRoute' => 'dashboard.discounts.edit'
             ]);
@@ -57,43 +59,63 @@ class DiscountControllerTest extends TestCase
         $product2 = factory(Product::class)->create();
         $data = [
             'name' => 'FREE COKE',
-            'description' => 'Boisson gratuite offerte',
-            'products' => [
+            'description' => 'Boisson offerte',
+            'items' => [
                 [
-                    'id' => $product1->id,
                     'percent' => 100,
-                    'max_items' => 1,
-                    'required' => true
+                    'required' => true,
+                    'products' => [ $product1->id ]
                 ],
                 [
-                    'id' => $product2->id,
                     'percent' => 50,
-                    'max_items' => 2,
-                    'required' => false
+                    'required' => false,
+                    'products' => [ $product1->id, $product2->id ]
                 ]
-            ],
+            ]
         ];
         $this->actingAs($this->admin)
             ->post(route('dashboard.discounts.store'), $data)
             ->assertRedirect(route('dashboard.discounts.index'))
-            ->assertSessionHas('success', "La réduction {$data['name']} a été créée avec succès !");
+            ->assertSessionHas('success', "La réduction {$data['name']} a été créée.");
+        // Discount
         $this->assertDatabaseHas('discounts', [
             'name' => $data['name'],
             'description' => $data['description']
         ]);
-        $this->assertDatabaseHas('discount_product', [
-            'discount_id' => Discount::findByName($data['name'])->id,
-            'product_id' => $product1->id,
-            'percent' => 100,
-            'max_items' => 1,
-            'required' => true
+        // Discount items
+        $discount = Discount::latest()->first();
+        $this->assertDatabaseHas('discount_items', [
+            'discount_id' => $discount->id,
+            'percent' => $data['items'][0]['percent'],
+            'required' => $data['items'][0]['required']
         ]);
-        $this->assertDatabaseHas('discount_product', [
-            'discount_id' => Discount::findByName($data['name'])->id,
-            'product_id' => $product2->id,
-            'percent' => 50,
-            'max_items' => 2,
-            'required' => false
+        $this->assertDatabaseHas('discount_items', [
+            'discount_id' => $discount->id,
+            'percent' => $data['items'][1]['percent'],
+            'required' => $data['items'][1]['required']
+        ]);
+        // Discount item products
+        $discountItem1 = DiscountItem::where([
+                [ 'discount_id', $discount->id  ],
+                [ 'percent', $data['items'][0]['percent'] ],
+                [ 'required', $data['items'][0]['required'] ]
+            ])->first();
+        $discountItem2 = DiscountItem::where([
+                [ 'discount_id', $discount->id  ],
+                [ 'percent', $data['items'][1]['percent'] ],
+                [ 'required', $data['items'][1]['required'] ]
+            ])->first();
+        $this->assertDatabaseHas('discount_item_product', [
+            'discount_item_id' => $discountItem1->id,
+            'product_id' => $data['items'][0]['products'][0]
+        ]);
+        $this->assertDatabaseHas('discount_item_product', [
+            'discount_item_id' => $discountItem2->id,
+            'product_id' => $data['items'][1]['products'][0]
+        ]);
+        $this->assertDatabaseHas('discount_item_product', [
+            'discount_item_id' => $discountItem2->id,
+            'product_id' => $data['items'][1]['products'][1]
         ]);
     }
 
@@ -109,7 +131,7 @@ class DiscountControllerTest extends TestCase
                 'id' => $discount->id,
                 'name' => $discount->name,
                 'description' => $discount->description,
-                'discountProducts' => $discount->products,
+                'discountItems' => $discount->items,
                 'products' =>  Product::all(),
                 'productTypes' => Product::TYPES,
                 'indexRoute' => 'dashboard.discounts.index',
@@ -122,49 +144,50 @@ class DiscountControllerTest extends TestCase
     /** @test */
     public function update()
     {
-        $discount = factory(Discount::class)->create();
         $product1 = factory(Product::class)->create();
         $product2 = factory(Product::class)->create();
+        // Initial state
+        $discount = factory(Discount::class)->create();
+        $discountItems = factory(DiscountItem::class, 2)->create(['discount_id' => $discount->id]);
+        $discountItems->each(function($item) use ($product1) {
+            $item->products()->attach($product1->id);
+        });
+        // Updated state
         $data = [
             'name' => 'FREE COKE',
-            'description' => 'Boisson gratuite offerte',
-            'products' => [
+            'description' => 'Boisson offerte',
+            'items' => [
                 [
-                    'id' => $product1->id,
-                    'percent' => 100,
-                    'max_items' => 1,
-                    'required' => true
-                ],
-                [
-                    'id' => $product2->id,
-                    'percent' => 50,
-                    'max_items' => 2,
-                    'required' => false
+                    'percent' => 99,
+                    'required' => false,
+                    'products' => [ $product2->id ]
                 ]
-            ],
+            ]
         ];
         $this->actingAs($this->admin)
             ->put(route('dashboard.discounts.update', ['discount' => $discount]), $data)
             ->assertRedirect(route('dashboard.discounts.index'))
-            ->assertSessionHas('success', "La réduction {$data['name']} a été modifiée avec succès !");
+            ->assertSessionHas('success', "La réduction {$data['name']} a été modifiée.");
+        // Discount
         $this->assertDatabaseHas('discounts', [
             'name' => $data['name'],
             'description' => $data['description']
         ]);
-        $this->assertDatabaseHas('discount_product', [
-            'discount_id' => Discount::findByName($data['name'])->id,
-            'product_id' => $product1->id,
-            'percent' => 100,
-            'max_items' => 1,
-            'required' => true
+        // Discount items
+        $discount = Discount::latest()->first();
+        $this->assertDatabaseHas('discount_items', [
+            'discount_id' => $discount->id,
+            'percent' => $data['items'][0]['percent'],
+            'required' => $data['items'][0]['required']
         ]);
-        $this->assertDatabaseHas('discount_product', [
-            'discount_id' => Discount::findByName($data['name'])->id,
-            'product_id' => $product2->id,
-            'percent' => 50,
-            'max_items' => 2,
-            'required' => false
+        $this->assertEquals(1, DiscountItem::where('discount_id', $discount->id)->count());
+        // Discount item products
+        $discountItem1 = DiscountItem::where('discount_id', $discount->id)->first();
+        $this->assertDatabaseHas('discount_item_product', [
+            'discount_item_id' => $discountItem1->id,
+            'product_id' => $data['items'][0]['products'][0]
         ]);
+        $this->assertEquals(1, DB::table('discount_item_product')->count());
     }
 
     /** @test */
@@ -174,7 +197,7 @@ class DiscountControllerTest extends TestCase
         $this->actingAs($this->admin)
             ->delete(route('dashboard.discounts.destroy', ['discount' => $discount]))
             ->assertRedirect(route('dashboard.discounts.index'))
-            ->assertSessionHas('success', "La réduction {$discount->name} a été supprimée avec succès !");
+            ->assertSessionHas('success', "La réduction {$discount->name} a été supprimée.");
         $this->assertDatabaseMissing('discounts', ['id' => $discount->id]);
     }
 }

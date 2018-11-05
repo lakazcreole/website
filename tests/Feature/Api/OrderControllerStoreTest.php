@@ -2,10 +2,14 @@
 
 namespace Tests\Feature\Api;
 
+use App\Order;
 use App\Product;
 use App\Discount;
 use App\PromoCode;
 use Tests\TestCase;
+use App\DiscountItem;
+use App\DiscountApply;
+use Illuminate\Support\Carbon;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -14,7 +18,7 @@ class OrderControllerStoreTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    public function it_stores_order_customer_and_order_lines()
+    public function store()
     {
         $product1 = factory(Product::class)->create();
         $product2 = factory(Product::class)->create();
@@ -33,24 +37,66 @@ class OrderControllerStoreTest extends TestCase
         ];
         $line1 = [ 'id' => $product1->id, 'quantity' => 2 ];
         $line2 = [ 'id' => $product2->id, 'quantity' => 3 ];
+        $date = Carbon::createFromTimestamp(strtotime('tomorrow'));
         $data = [
             'customer' => $customer,
             'address' => $address,
             'orderLines' => [ $line1, $line2 ],
-            'date' => date('d/m/Y', strtotime('tomorrow')),
+            'date' => $date->format('d/m/Y'),
             'time' => '13:00',
             'information' => 'allergic to everything'
         ];
         $response = $this->json('POST', '/api/orders', $data);
         $response->assertStatus(201);
-        $this->assertDatabaseHas('orders', $address);
+        $response->assertJson([
+            'data' => [
+                'lines' => [
+                    [
+                        'name' => $product1->name,
+                        'quantity' => $line1['quantity'],
+                        'unit_price' => $product1->price,
+                    ],
+                    [
+                        'name' => $product2->name,
+                        'quantity' => $line2['quantity'],
+                        'unit_price' => $product2->price,
+                    ]
+                ],
+                'customer' => $data['customer'],
+                'address' => $data['address'],
+                'date' => $date->format('Y-m-d'),
+                'time' => $data['time'],
+                'information' => $data['information'],
+                'total_products_price' => Order::find($response->json()['data']['id'])->totalProductsPrice,
+                'final_price' => Order::find($response->json()['data']['id'])->finalPrice,
+                'delivery_price' => Order::find($response->json()['data']['id'])->deliveryPrice,
+            ]
+        ]);
+
+        $this->assertDatabaseHas('orders', [
+            'id' =>  $response->json()['data']['id'],
+            'address1' => $address['address1'],
+            'address2' => $address['address2'],
+            'address3' => $address['address3'],
+            'city' => $address['city'],
+            'zip' => $address['zip'],
+            'date' => $date->toDateTimeString(),
+            'time' => $data['time'],
+            'information' => $data['information'],
+        ]);
         $this->assertDatabaseHas('customers', $customer);
-        $this->assertDatabaseHas('order_lines', array_merge([ 'product_id' => $product1->id, 'quantity' => 2 ], ['order_id' => $response->json()['data']['id']]));
-        $this->assertDatabaseHas('order_lines', array_merge([ 'product_id' => $product2->id, 'quantity' => 3 ], ['order_id' => $response->json()['data']['id']]));
+        $this->assertDatabaseHas('order_lines', array_merge([
+            'product_id' => $product1->id, 'quantity' => 2 ],
+            ['order_id' => $response->json()['data']['id']
+        ]));
+        $this->assertDatabaseHas('order_lines', array_merge([
+            'product_id' => $product2->id, 'quantity' => 3 ],
+            ['order_id' => $response->json()['data']['id']
+        ]));
     }
 
     /** @test */
-    public function it_validates_ids()
+    public function it_validates_product_ids()
     {
         $data = [
             'customer' => [
@@ -167,11 +213,12 @@ class OrderControllerStoreTest extends TestCase
     }
 
     /** @test */
-    public function it_stores_orders_with_promo_code()
+    public function it_stores_orders_with_discount()
     {
         $product = factory(Product::class)->create();
         $discount = factory(Discount::class)->create();
-        $discount->addFreeProduct($product);
+        $discountItem = factory(DiscountItem::class)->create(['discount_id' => $discount->id]);
+        $discountItem->products()->attach([$product->id, factory(Product::class)->create()->id]);
         $promoCode = factory(PromoCode::class)->create([
             'name' => 'TESTCODE',
             'discount_id' => $discount->id
@@ -193,21 +240,188 @@ class OrderControllerStoreTest extends TestCase
             'orderLines' => [
                 ['id' => $product->id, 'quantity' => 2]
             ],
+            'promoCode' => $promoCode->name,
             'date' => date('d/m/Y', strtotime('tomorrow')),
             'time' => '12:00',
             'information' => 'allergic to everything',
-            'promoCode' => 'TESTCODE',
 
         ];
-        $response = $this->json('POST', '/api/orders', $data)->assertStatus(201);
+        $response = $this->json('POST', '/api/orders', $data)
+                        ->assertStatus(201)
+                        ->assertJson([
+                            'data' => [
+                                'discount' => [
+                                    'description' => $discount->description,
+                                ],
+                                'discount_applies' => [
+                                    [
+                                        'discount_item' => [
+                                            'percent' => $discountItem->percent,
+                                        ],
+                                        'product' => [
+                                            'name' => $product->name,
+                                            'price' => $product->price,
+                                        ]
+                                    ]
+                                ]
+                            ]
+                        ]);
+        // Order is stored
         $this->assertDatabaseHas('orders', [
             'id' => $response->json()['data']['id'],
-            'promoCode_id' => $promoCode->id,
+            'promo_code_id' => $promoCode->id,
         ]);
+        // Discount is applied
+        $this->assertDatabaseHas('discount_applies', [
+            'order_id' => $response->json()['data']['id'],
+            'discount_item_id' => $discountItem->id,
+            'product_id' => $product->id,
+        ]);
+        $this->assertEquals(1, DiscountApply::count());
+        // PromoCode is updated
         $this->assertDatabaseHas('promo_codes', [
             'id' => $promoCode->id,
             'uses' => 1,
         ]);
+    }
+
+    /** @test */
+    public function it_applies_discount_on_the_cheapest_product()
+    {
+        $product = factory(Product::class)->create(['price' => 15]);
+        $product2 = factory(Product::class)->create(['price' => 5]);
+        $discount = factory(Discount::class)->create();
+        $discountItem = factory(DiscountItem::class)->create(['discount_id' => $discount->id]);
+        $discountItem->products()->attach([$product->id, $product2->id]);
+        $promoCode = factory(PromoCode::class)->create([
+            'name' => 'TESTCODE',
+            'discount_id' => $discount->id
+        ]);
+        $data = [
+            'customer' => [
+                'firstName' => 'Sally',
+                'lastName' => 'Holman',
+                'email' => 'sally@email.com',
+                'phone' => '0123456789'
+            ],
+            'address' => [
+                'address1' => '3 rue de Paris',
+                'address2' => 'Bâtiment B, étage 4, appartement 21',
+                'address3' => 'Code 0000, interphone 21',
+                'city' => 'Paris',
+                'zip' => '75001'
+            ],
+            'orderLines' => [
+                ['id' => $product->id, 'quantity' => 2],
+                ['id' => $product2->id, 'quantity' => 2]
+            ],
+            'promoCode' => $promoCode->name,
+            'date' => date('d/m/Y', strtotime('tomorrow')),
+            'time' => '12:00',
+            'information' => 'allergic to everything',
+        ];
+        $response = $this->json('POST', '/api/orders', $data)->assertStatus(201);
+        // Discount is applied
+        $this->assertDatabaseHas('discount_applies', [
+            'order_id' => $response->json()['data']['id'],
+            'discount_item_id' => $discountItem->id,
+            'product_id' => $product2->id,
+        ]);
+        $this->assertEquals(1, DiscountApply::count());
+    }
+
+    /** @test */
+    public function single_item_discount_requires_product_to_be_applied()
+    {
+        $product = factory(Product::class)->create();
+        $product2 = factory(Product::class)->create();
+        $product3 = factory(Product::class)->create();
+        $discount = factory(Discount::class)->create();
+        $discountItem = factory(DiscountItem::class)->create(['discount_id' => $discount->id]);
+        $discountItem->products()->attach([$product->id, $product2->id]);
+        $promoCode = factory(PromoCode::class)->create([
+            'name' => 'TESTCODE',
+            'discount_id' => $discount->id
+        ]);
+        $data = [
+            'customer' => [
+                'firstName' => 'Sally',
+                'lastName' => 'Holman',
+                'email' => 'sally@email.com',
+                'phone' => '0123456789'
+            ],
+            'address' => [
+                'address1' => '3 rue de Paris',
+                'address2' => 'Bâtiment B, étage 4, appartement 21',
+                'address3' => 'Code 0000, interphone 21',
+                'city' => 'Paris',
+                'zip' => '75001'
+            ],
+            'orderLines' => [
+                ['id' => $product3->id, 'quantity' => 2]
+            ],
+            'promoCode' => $promoCode->name,
+            'date' => date('d/m/Y', strtotime('tomorrow')),
+            'time' => '12:00',
+            'information' => 'allergic to everything',
+        ];
+        $this->json('POST', '/api/orders', $data)
+            ->assertStatus(422)
+            ->assertJson([
+                'errors' => [
+                    'discount' => [
+                        'Cart should include products related to the given promotional code.'
+                    ]
+                ]
+            ]);
+    }
+
+    /** @test */
+    public function multiple_items_discount_requires_at_least_one_product_to_be_applied()
+    {
+        $product = factory(Product::class)->create();
+        $product2 = factory(Product::class)->create();
+        $product3 = factory(Product::class)->create();
+        $discount = factory(Discount::class)->create();
+        $discountItem = factory(DiscountItem::class)->create(['discount_id' => $discount->id]);
+        $discountItem->products()->attach([$product2->id, $product3->id]);
+        $discountItem2 = factory(DiscountItem::class)->create(['discount_id' => $discount->id]);
+        $discountItem2->products()->attach([$product2->id, $product3->id]);
+        $promoCode = factory(PromoCode::class)->create([
+            'name' => 'TESTCODE',
+            'discount_id' => $discount->id
+        ]);
+        $data = [
+            'customer' => [
+                'firstName' => 'Sally',
+                'lastName' => 'Holman',
+                'email' => 'sally@email.com',
+                'phone' => '0123456789'
+            ],
+            'address' => [
+                'address1' => '3 rue de Paris',
+                'address2' => 'Bâtiment B, étage 4, appartement 21',
+                'address3' => 'Code 0000, interphone 21',
+                'city' => 'Paris',
+                'zip' => '75001'
+            ],
+            'orderLines' => [
+                ['id' => $product->id, 'quantity' => 2]
+            ],
+            'promoCode' => $promoCode->name,
+            'date' => date('d/m/Y', strtotime('tomorrow')),
+            'time' => '12:00',
+            'information' => 'allergic to everything',
+        ];
+        $this->json('POST', '/api/orders', $data)
+            ->assertStatus(422)
+            ->assertJson([
+                'errors' => [
+                    'discount' => [
+                        'Cart should include products related to the given promotional code.'
+                    ]
+                ]
+            ]);
     }
 
     /** @test */
@@ -224,49 +438,4 @@ class OrderControllerStoreTest extends TestCase
                 ]
             ]);
     }
-
-    // /** @test */
-    // public function it_validates_promo_code_required_products()
-    // {
-    //     $product1 = factory(Product::class)->create();
-    //     $product2 = factory(Product::class)->create();
-    //     $discount = factory(Discount::class)->create();
-    //     $discount->addFreeProduct($product1);
-    //     $promoCode = factory(PromoCode::class)->create([
-    //         'name' => 'TESTCODE',
-    //         'discount_id' => $discount->id
-    //     ]);
-    //     $data = [
-    //         'customer' => [
-    //             'firstName' => 'Sally',
-    //             'lastName' => 'Holman',
-    //             'email' => 'sally@email.com',
-    //             'phone' => '0123456789'
-    //         ],
-    //         'address' => [
-    //             'address1' => '3 rue de Paris',
-    //             'address2' => 'Bâtiment B, étage 4, appartement 21',
-    //             'address3' => 'Code 0000, interphone 21',
-    //             'city' => 'Paris',
-    //             'zip' => '75001'
-    //         ],
-    //         'orderLines' => [
-    //             ['id' => $product2->id, 'quantity' => 2]
-    //         ],
-    //         'date' => date('d/m/Y', strtotime('tomorrow')),
-    //         'time' => '12:00',
-    //         'information' => 'allergic to everything',
-    //         'promoCode' => 'TESTCODE',
-
-    //     ];
-    //     $this->json('POST', '/api/orders', $data)->assertStatus(201)
-    //         ->assertStatus(422)
-    //         ->assertExactJson([
-    //             'errors' => [
-    //                 'promoCode' => [
-
-    //                 ]
-    //             ]
-    //         ]);
-    // }
 }

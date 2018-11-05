@@ -17,12 +17,13 @@ class OrderLineTest extends TestCase
 
     public function testHasProductRelationship()
     {
+        $product = factory(Product::class)->create();
         $orderLine = factory(OrderLine::class)->make([
             'order_id' => factory(Order::class)->create([
                 'customer_id' => factory(Customer::class)->create()->id,
             ])->id,
-            'product_id' => factory(Product::class)->create()->id
+            'product_id' => $product->id
         ]);
-        $this->assertNotNull($orderLine->product);
+        $this->assertEquals($product->id, $orderLine->product->id);
     }
 }
