@@ -46,6 +46,8 @@ Route::prefix('/dashboard')->middleware('can:access-dashboard')->group(function 
         Route::resource('offers', 'OfferController')->except(['show']);
         // Discounts
         Route::resource('discounts', 'DiscountController')->except(['show']);
+        // PromoCodes
+        Route::resource('promo-codes', 'PromoCodeController')->except(['show']);
         // Subscriptions
         Route::get('/subscriptions', 'SubscriptionController@index')->name('subscriptions.index');
         // Contacts

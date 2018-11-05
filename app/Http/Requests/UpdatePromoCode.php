@@ -2,9 +2,10 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Support\Facades\Log;
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateDiscount extends FormRequest
+class UpdatePromoCode extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,13 +25,11 @@ class UpdateDiscount extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|unique:discounts,name,' . $this->discount->id,
-            'description' => 'required',
-            'items' => 'required|array',
-            'items.*.id' => 'exists:discount_items',
-            'items.*.percent' => 'numeric|min:0|max:100',
-            'items.*.required' => 'boolean',
-            'items.*.products' => 'exists:products,id',
+            'name' => 'required|unique:promo_codes,name,'. $this->promo_code->id,
+            'maxUses' => 'required|numeric|min:1',
+            'discountId' => 'required|exists:discounts,id',
+            'beginAt' => 'required|date_format:d/m/Y|before:endAt',
+            'endAt' => 'required|date_format:d/m/Y|after:beginAt',
         ];
     }
 }

@@ -4,7 +4,7 @@
       <div v-if="completed">
         <div class="flex" style="background-image: url('/images/order_header.jpg'); background-size: cover; background-position: center">
           <div class="mx-auto w-full max-w-sm px-3 sm:px-0 my-20">
-            <OrderCompleted/>
+            <OrderCompleted :order="finalOrder"/>
           </div>
         </div>
       </div>
@@ -134,13 +134,21 @@ export default {
 
   computed: {
     ...mapState('order', [
-      'showMobileCart',
-      'completed'
+      'showMobileCart'
     ]),
     ...mapGetters({
       deliveryInputFilled: 'order/deliveryInputFilled',
       canOrder: 'cart/minimumReached'
     }),
+    completed () {
+      return this.finalOrder !== null
+    },
+    finalOrder () {
+      return this.$store.state.order.finalOrder
+    },
+    canOrder () {
+      return this.$store.getters['cart/minimumReached'] && this.$store.getters['cart/hasDiscountRequiredProducts']
+    },
     allergies: {
       get () {
         return this.$store.state.order.allergies
@@ -231,11 +239,13 @@ export default {
           zip: this.$store.state.order.address.postcode
         }
       }
-      console.log(order)
+      if (this.$store.state.order.promoCode) {
+        order.promoCode = this.$store.state.order.promoCode
+      }
       // console.log(order)
       axios.post('/api/orders', order)
-        .then(() => {
-          this.$store.commit('order/completed')
+        .then((response) => {
+          this.$store.commit('order/setFinalOrder', response.data.data)
         })
         .catch((error) => {
           if (error.response && error.response.status === 422) {

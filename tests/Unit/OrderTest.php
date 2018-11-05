@@ -9,6 +9,8 @@ use App\Discount;
 use App\OrderLine;
 use App\PromoCode;
 use Tests\TestCase;
+use App\DiscountItem;
+use App\DiscountApply;
 use App\Events\OrderCreated;
 use App\Events\OrderAccepted;
 use App\Events\OrderDeclined;
@@ -196,46 +198,17 @@ class OrderTest extends TestCase
     }
 
     /** @test */
-    public function it_can_be_applied_a_promo_code()
+    public function it_can_have_a_promo_code()
     {
         $order = factory(Order::class)->create([
             'customer_id' => factory(Customer::class)->create()->id
         ]);
-        $discount = factory(Discount::class)->create();
         $promoCode = factory(PromoCode::class)->create([
-            'discount_id' => $discount->id,
+            'discount_id' => factory(Discount::class)->create()->id
         ]);
-        $order->applyPromoCode($promoCode);
+        $order->promoCode()->associate($promoCode);
+        $order->save();
         $this->assertEquals($promoCode->id, $order->fresh()->promoCode->id);
-    }
-
-    // /** @test */
-    // public function it_does_not_apply_promo_code_if_required_products_are_missing()
-    // {
-    //     $product = factory(Product::class)->create();
-    //     $order = factory(Order::class)->create([
-    //         'customer_id' => factory(Customer::class)->create()->id
-    //     ]);
-    //     $discount = factory(Discount::class)->create();
-    //     $promoCode = factory(PromoCode::class)->create([
-    //         'discount_id' => $discount->id,
-    //     ]);
-    //     $order->applyPromoCode($promoCode);
-    // }
-
-    /** @test */
-    public function it_has_a_discount_attribute()
-    {
-        $order = factory(Order::class)->create([
-            'customer_id' => factory(Customer::class)->create()->id
-        ]);
-        $discount = factory(Discount::class)->create();
-        $promoCode = factory(PromoCode::class)->create([
-            'discount_id' => $discount->id,
-        ]);
-        $this->assertEquals(null, $order->discount);
-        $order->applyPromoCode($promoCode);
-        $this->assertEquals($promoCode->discount->id, $order->discount->id);
     }
 
     /** @test */
@@ -292,18 +265,65 @@ class OrderTest extends TestCase
     }
 
     /** @test */
+    public function it_can_use_promo_codes()
+    {
+        $code = factory(PromoCode::class)->create([
+            'discount_id' => factory(Discount::class)->create()->id
+        ]);
+        $order = factory(Order::class)->create([
+            'customer_id' => factory(Customer::class)->create()->id
+        ]);
+        $order->usePromoCode($code);
+        $this->assertDatabaseHas('promo_codes', [
+            'id' => $code->id,
+            'uses' => 1,
+        ]);
+        $this->assertDatabaseHas('orders', [
+            'id' => $order->id,
+            'promo_code_id' => $code->id,
+        ]);
+    }
+
+    /** @test */
+    public function it_has_discount_applies()
+    {
+        $product = factory(Product::class)->create();
+        $order = factory(Order::class)->create([
+            'customer_id' => factory(Customer::class)->create()->id
+        ]);
+        $order->addProduct($product, 3);
+        $discount = factory(Discount::class)->create();
+        $discountItems = factory(DiscountItem::class, 3)->create(['discount_id' => $discount->id]);
+        foreach ($discountItems as $item) {
+            factory(DiscountApply::class)->create([
+                'order_id' => $order->id,
+                'discount_item_id' => $item->id,
+                'product_id' => $product->id,
+            ]);
+        }
+        $this->assertEquals(3, $order->fresh()->discountApplies->count());
+    }
+
+    /** @test */
     public function it_has_a_price_before_discount_attribute()
     {
         $product = factory(Product::class)->create(['price' => 15]);
         $discount = factory(Discount::class)->create();
-        $discount->addFreeProduct($product);
+        $discountItem = factory(DiscountItem::class)->create([
+            'discount_id' => $discount->id,
+            'percent' => 100,
+            'required' => true,
+        ]);
+        $discountItem->products()->attach($product->id);
         $order = factory(Order::class)->create([
             'customer_id' => factory(Customer::class)->create()->id
         ]);
         $order->addProduct($product);
-        $order->applyPromoCode(factory(PromoCode::class)->create([
-            'discount_id' => $discount->id,
-        ]));
+        factory(DiscountApply::class)->create([
+            'order_id' => $order->id,
+            'discount_item_id' => $discountItem->id,
+            'product_id' => $product->id,
+        ]);
         $this->assertEquals(15, $order->priceBeforeDiscount);
     }
 
@@ -312,14 +332,23 @@ class OrderTest extends TestCase
     {
         $product = factory(Product::class)->create(['price' => 15]);
         $discount = factory(Discount::class)->create();
-        $discount->addFreeProduct($product);
+        $discountItem = factory(DiscountItem::class)->create([
+            'discount_id' => $discount->id,
+            'percent' => 100
+        ]);
+        $discountItem->products()->attach($product->id);
         $order = factory(Order::class)->create([
             'customer_id' => factory(Customer::class)->create()->id
         ]);
         $order->addProduct($product);
-        $order->applyPromoCode(factory(PromoCode::class)->create([
+        $order->usePromoCode(factory(PromoCode::class)->create([
             'discount_id' => $discount->id
         ]));
+        factory(DiscountApply::class)->create([
+            'order_id' => $order->id,
+            'discount_item_id' => $discountItem->id,
+            'product_id' => $product->id,
+        ]);
         $this->assertNotNull($order->finalPrice);
         $this->assertEquals(0, $order->finalPrice);
     }

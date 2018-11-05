@@ -13,9 +13,11 @@ export default {
     },
     allergies: '',
     information: '',
+    promoCode: '',
+    discount: null,
+    finalOrder: null,
     errors: {},
     serverError: false,
-    completed: false,
     deliveryDays: [],
     deliveryHours: {
       morning: ['11:30', '11:45', '12:00', '12:15', '12:30', '12:45', '13:00'],
@@ -66,14 +68,20 @@ export default {
     setInformation (state, information) {
       state.information = information
     },
+    setPromoCode (state, promoCode) {
+      state.promoCode = promoCode
+    },
+    setDiscount (state, discount) {
+      state.discount = discount
+    },
     setErrors (state, errors) {
       state.errors = errors
     },
     serverError (state) {
       state.serverError = true
     },
-    completed (state) {
-      state.completed = true
+    setFinalOrder (state, finalOrder) {
+      state.finalOrder = finalOrder
     },
     setDeliveryDays (state) {
       for (let i = 0; i < 7; i++) {

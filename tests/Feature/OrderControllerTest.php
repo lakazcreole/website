@@ -40,7 +40,7 @@ class OrderControllerTest extends TestCase
         $order = factory(Order::class)->create([
             'customer_id' => factory(Customer::class)->create()->id
         ]);
-        $order->applyPromoCode(factory(PromoCode::class)->create([
+        $order->usePromoCode(factory(PromoCode::class)->create([
             'discount_id' => factory(Discount::class)->create()->id
         ]));
         $admin = factory(User::class)->make(['admin' => true]);
@@ -61,7 +61,8 @@ class OrderControllerTest extends TestCase
                 'deliveryPrice' => $order->deliveryPrice,
                 'totalProductsPrice' => $order->totalProductsPrice,
                 'finalPrice' => $order->finalPrice,
-                'discountDescription' => $order->discount->description,
+                'discountName' => $order->promoCode->discount->name,
+                'discountDescription' => $order->promoCode->discount->description,
                 'postUrl' => action('OrderController@accept', [$order->id]),
                 'declineUrl' => action('OrderController@decline', [$order->id]),
             ]);
@@ -121,7 +122,7 @@ class OrderControllerTest extends TestCase
         $order = factory(Order::class)->create([
             'customer_id' => factory(Customer::class)->create()->id
         ]);
-        $order->applyPromoCode(factory(PromoCode::class)->create([
+        $order->usePromoCode(factory(PromoCode::class)->create([
             'discount_id' => factory(Discount::class)->create()->id
         ]));
         $admin = factory(User::class)->make(['admin' => true]);
@@ -142,7 +143,8 @@ class OrderControllerTest extends TestCase
                 'deliveryPrice' => $order->deliveryPrice,
                 'totalProductsPrice' => $order->totalProductsPrice,
                 'finalPrice' => $order->finalPrice,
-                'discountDescription' => $order->discount->description,
+                'discountName' => $order->promoCode->discount->name,
+                'discountDescription' => $order->promoCode->discount->description,
                 'postUrl' => action('OrderController@decline', [$order->id]),
                 'acceptUrl' => action('OrderController@accept', [$order->id]),
             ]);

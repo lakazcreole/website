@@ -16,8 +16,31 @@ class OrderLine extends Model
         'order_id', 'product_id', 'quantity', 'totalPrice'
     ];
 
+    protected $visible = [
+        'name', 'quantity', 'unit_price', 'totalPrice'
+    ];
+
+    protected $appends = [
+        'name', 'unit_price'
+    ];
+
+    protected $casts = [
+        'quantity' => 'integer',
+        'totalPrice' => 'integer'
+    ];
+
     public function product()
     {
         return $this->belongsTo(Product::class);
+    }
+
+    public function getNameAttribute()
+    {
+        return $this->product->name;
+    }
+
+    public function getUnitPriceAttribute()
+    {
+        return $this->product->price;
     }
 }
