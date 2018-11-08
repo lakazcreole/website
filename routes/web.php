@@ -78,12 +78,11 @@ if (App::environment('local')) {
             'information' => 'MI MANGE PAS PIMENT GARS'
         ]);
         $product = App\Product::find(1);
-        $order->applyPromoCode(factory(App\PromoCode::class)->create(['discount_id' => factory(App\Discount::class)->create()->id]));
         $order->lines()->save(App\OrderLine::create([
             'order_id' => $order->id,
             'product_id' => $product->id,
-            'quantity' => 2,
-            'totalPrice' => 2 * $product->price,
+            'quantity' => 1,
+            'totalPrice' => $product->price,
         ]));
         return new App\Mail\OrderAccepted($order);
     });
