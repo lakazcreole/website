@@ -26,7 +26,7 @@ class OrderLine extends Model
 
     protected $casts = [
         'quantity' => 'integer',
-        'totalPrice' => 'integer'
+        'totalPrice' => 'float(8,2)'
     ];
 
     public function product()
